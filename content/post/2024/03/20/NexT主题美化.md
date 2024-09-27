@@ -322,20 +322,20 @@ npm install hexo-wordcount --save
 
 ```powershell
 <div>
-    {% if not is_index %}
+    { % if not is_index % }
         <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
-    {% endif %}
+    { % endif % }
 </div>
 ```
 
 接着打开 `/themes/next/layout/_macro/post.swig` 文件，在 `post-footer` 前， `END POST BODY` 之后添加下列代码
 
 ```powershell
- {% if not is_index and theme.passage_end_tag.enabled %}
+ { % if not is_index and theme.passage_end_tag.enabled % }
    <div>
-     {% include 'passage-end-tag.swig' %}
+     { % include 'passage-end-tag.swig' % }
    </div>
- {% endif %}
+ { % endif % }
 ```
 
 在主题配置文件的末尾添加
@@ -364,7 +364,7 @@ busuanzi_count:
 打开 `/themes/next/layout/_partials/footer.swig` ，在文件最后添加下列代码
 
 ```powershell
-{% if theme.busuanzi_count.enable %}
+{ % if theme.busuanzi_count.enable % }
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
@@ -393,7 +393,7 @@ $(document).ready(function() {
        	
 });
 </script> 
-{% endif %}
+{ % endif % }
 ```
 
 ### **本地搜索**
