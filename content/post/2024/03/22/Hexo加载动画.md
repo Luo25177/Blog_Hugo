@@ -21,7 +21,7 @@ hexo 默认是没有加载动画的，偶然在做博客时看到了这个教程
 ```JS
 <% if (theme.preloader.enable) { %>
 <div id='loader'>
-    <% if(theme.preloader.layout == 'gear' ) {%>
+    <% if(theme.preloader.layout == 'gear' ) { %>
     <div class="outer_box">
     <div class='loader_overlay'></div>
     <div class='loader_cogs'>
