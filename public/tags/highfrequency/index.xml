@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HighFrequency on My New Hugo Site</title>
+    <link>http://localhost:1313/tags/highfrequency/</link>
+    <description>Recent content in HighFrequency on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
+    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 17:27:53 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/highfrequency/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HighGain and HighFrequency</title>
+      <link>http://localhost:1313/post/2024/03/18/highgain-and-highfrequency/</link>
+      <pubDate>Mon, 18 Mar 2024 17:27:53 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/18/highgain-and-highfrequency/</guid>
+      <description>高增益反馈和高频率反馈控制器设计</description>
+    </item>
+    
+  </channel>
+</rss>

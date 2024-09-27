@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JavaScript on My New Hugo Site</title>
+    <link>http://localhost:1313/tags/javascript/</link>
+    <description>Recent content in JavaScript on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
+    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
+    <lastBuildDate>Thu, 11 Apr 2024 11:33:06 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>js基础</title>
+      <link>http://localhost:1313/post/2024/04/11/js%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Thu, 11 Apr 2024 11:33:06 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/04/11/js%E5%9F%BA%E7%A1%80/</guid>
+      <description>js基础知识</description>
+    </item>
+    
+  </channel>
+</rss>

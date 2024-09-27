@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>爬虫 on My New Hugo Site</title>
+    <link>http://localhost:1313/categories/%E7%88%AC%E8%99%AB/</link>
+    <description>Recent content in 爬虫 on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
+    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
+    <lastBuildDate>Tue, 19 Mar 2024 09:56:56 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/%E7%88%AC%E8%99%AB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>request-python学习记录</title>
+      <link>http://localhost:1313/post/2024/03/19/request-python%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Tue, 19 Mar 2024 09:56:56 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/19/request-python%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
+      <description>python爬虫的学习记录和使用</description>
+    </item>
+    
+  </channel>
+</rss>

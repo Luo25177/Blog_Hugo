@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="Pavel Sapezhka">
+
+  
+  
+  <meta name="description" content="DOB扰动观测器原理与设计">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/post/2024/03/30/dob%E6%89%B0%E5%8A%A8%E8%A7%82%E6%B5%8B%E5%99%A8/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="DOB扰动观测器">
+  <meta property="og:description" content="DOB扰动观测器原理与设计">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-03-30T16:41:39+00:00">
+    <meta property="article:modified_time" content="2024-03-30T16:41:39+00:00">
+    <meta property="article:tag" content="DOB">
+    <meta property="og:image" content="http://localhost:1313/images/logo.jpg">
+
+
+  
+  <link rel="canonical" href="http://localhost:1313/post/2024/03/30/dob%E6%89%B0%E5%8A%A8%E8%A7%82%E6%B5%8B%E5%99%A8/">
+
+  
+  
+  
+  <meta itemprop="name" content="DOB扰动观测器">
+  <meta itemprop="description" content="DOB扰动观测器原理与设计">
+  <meta itemprop="datePublished" content="2024-03-30T16:41:39+00:00">
+  <meta itemprop="dateModified" content="2024-03-30T16:41:39+00:00">
+  <meta itemprop="wordCount" content="2024">
+  <meta itemprop="image" content="http://localhost:1313/images/logo.jpg">
+  <meta itemprop="keywords" content="DOB">
+
+  
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/common.css'>
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/content.css'>
+
+  
+  
+  <title>DOB扰动观测器 - My New Hugo Site</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/logo.jpg">
+  <meta name="twitter:title" content="DOB扰动观测器">
+  <meta name="twitter:description" content="DOB扰动观测器原理与设计">
+
+
+  
+<link rel="stylesheet" href='http://localhost:1313/css/single.css'>
+<link rel="stylesheet" href='http://localhost:1313/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="http://localhost:1313/">TeXify2</a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="localhost:1313">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>DOB扰动观测器</h1>
+  
+  <div>
+    
+    <a class="link" href='http://localhost:1313/tags/dob'>#DOB</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#前言一些用到的概念">前言——一些用到的概念</a></li>
+        <li><a href="#基本原理">基本原理</a></li>
+        <li><a href="#具体公式">具体公式</a></li>
+        <li><a href="#存在问题">存在问题</a></li>
+        <li><a href="#解决方法">解决方法</a></li>
+        <li><a href="#鲁棒性分析">鲁棒性分析</a></li>
+        <li><a href="#基于干扰观测器的闭环控制系统分析">基于干扰观测器的闭环控制系统分析</a></li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <p><a href="https://github.com/Luo25177/modelControl">GitHub - Luo25177/modelControl</a></p>
+<h3 id="前言一些用到的概念">前言——一些用到的概念</h3>
+<ul>
+<li>
+<p>最小相位系统：对于FIR系统（没有极点），如果系统函数的所有零点都位于单位圆内，则称该系统为最小相位系统。如果系统函数的所有零点都位于单位圆外，则称该系统为最大相位系统。如果一部分零点位于单位圆内，一部分零点位于单位圆外，则称该系统为混合相位系统或非最小相位系统。对于IIR系统（存在极点），如果系统函数的所有零点和极点都在单位圆内，则称该系统为最小相位系统。也就是相频特性 $\varphi(w)$ 在 $w=0$ 和 $w=\pi$ 之间经历的净相位变化为零</p>
+</li>
+<li>
+<p>最小相位系统主要特性</p>
+<ul>
+<li>最小相位系统是因果且稳定的</li>
+<li>其逆系统也是因果且稳定的</li>
+<li>在所有具有相同幅频响应的零-极点系统中，最小相位系统的群时延最小</li>
+</ul>
+</li>
+</ul>
+<h3 id="基本原理">基本原理</h3>
+<p>基本思想就是将外部扰动以及模型参数变化造成的实际模型与理想模型输出的差异统统等效为控制输入，即观测出等效干扰，在控制中引入等量的补偿，实现对干扰完全抑制。干扰观测器的基本思想，系统实际控制输入与计算输入（由系统标称模型计算得到）的差值，来得到扰动和不确定性的估计</p>
+<h3 id="具体公式">具体公式</h3>
+<p><img src="./20200701105527227.png" alt="20200701105527227.png"></p>
+<p>图中的 $G_p(s)$ 为对象的传递函数， $\hat{d}$ 为等效干扰， $d$ 为观测干扰， $u$ 为控制输入。在图中可知，等效干扰的估计值为</p>
+$$
+\hat{d}=(\varepsilon+d)G_p(s)G_p^{-1}(s)-\varepsilon=d
+$$<p>上述公式可以实现对干扰的准确估计和补偿，但是对于实际的物理系统，上述公式还存在着问题</p>
+<h3 id="存在问题">存在问题</h3>
+<ol>
+<li>通常情况下， $G_p(s)$ 的相对阶不为 0，物理上的逆不可实现</li>
+<li>控制系统的传递函数的精确模型无法得到</li>
+<li>考虑测量灶神给的影响，上述方法的控制性能将下降</li>
+</ol>
+<h3 id="解决方法">解决方法</h3>
+<p>对于上述问题的一个解决办法是在 $\hat{d}$ 之后串联一个低通滤波器，并且使用系统的理想模型的逆 $G_n^{-1}(s)$ 来替代 $G_p^{-1}$ ，得到下图控制系统，其中 $\xi$ 为观测噪声</p>
+<p><img src="./20200701150803836.png" alt="20200701150803836.png"></p>
+<p>从图中可知</p>
+$$
+\hat{d}=(\varepsilon+d)G_p(s)G_n^{-1}(s)Q(s)-\varepsilon Q(s)=d\\=\varepsilon(G_n^{-1}(s)Q(s)G_p(s)-Q(s))+d(G_n^{-1}Q(s)G_p(s)
+$$<p>则从 $u$ 到 $y$ 的传递函数为</p>
+$$
+G_{uy}(s)=\frac{G_p(s)}{1-[Q(s)-G^{-1}_n(s)Q(s)G_p(s)]}=\frac{\frac{G_p(s)}{1-Q(s)}}{1+\frac{Q(s)}{G_n(s)}\frac{G_p(s)}{1-Q(s)}}
+$$<p>上述框图可等价为</p>
+<p><img src="./20200701155401429.png" alt="20200701155401429.png"></p>
+<p>根据上图可以得到干扰观测器输入输出关系为</p>
+$$
+y=G_{uy}u+G_{dy}d+G_{\xi y}\xi
+$$<p>其中</p>
+$$
+G_{uy}(s)=\frac{G_p(s)G_n(s)}{G_n(s)-G_n(s)Q(s)+Q(s)G_p(s)}\\G_{dy}(s)=\frac{G_p(s)G_n(s)-Q(s)G_p(s)G_n(s)}{G_n(s)-G_n(s)Q(s)+Q(s)G_p(s)}\\G_{\xi y}(s)=\frac{G_p(s)Q(s)}{G_n(s)-G_n(s)Q(s)+Q(s)G_p(s)}
+$$<p>其中对 $Q(s)$ 需要很高的要求</p>
+<ol>
+<li>为使得 $Q(s)G_n^{-1}$ 正则， $Q(s)$ 的相对阶应不小于 $G_n(s)$ 的相对阶</li>
+<li>$Q(s)$ 带宽的设计是在干扰观测器的鲁棒稳定性和干扰抑制能力之间的折中</li>
+<li>在低频段 $Q(s)=1$ ，在高频段 $Q(s)=0$</li>
+</ol>
+<p>一般来说，实际系统的外部干扰和跟踪参考输入主要是低频信号，而测量噪声主要是在高频段，因此理想的 $Q(s)$ 是在低频时接近于 1，以保证 $G_{dy}(s)\rightarrow0$ ，从而抑制对象输入端干扰。同时 $Q(s)$ 在高频段应该接近于 0，以保证 $G_{\xi y}\rightarrow 0$ ，从而能够抑制对象输出端高频噪声，所以需要 $Q(s)$ 为一个低通滤波器</p>
+<p>根据上述条件下，在低频段， $Q(s)\rightarrow 1$</p>
+$$
+G_{uy}(s)=G_n(s)\\G_{dy}(s)=0\\G_{\xi y}(s)=1
+$$<p>也就是在低频段，干扰观测器仍使得实际对象的响应与名义模型的响应一致，可以实现对低频段的有效补偿，从而保证有良好的鲁棒性。上述中的 $G_{dy}=0$ 说明感染观测器对于 $Q(s)$ 频带内的低频干扰有完全的抑制能力。但是 $G_{\xi y}=1$ 说明干扰观测器对于低频测量噪声十分敏感，所以在使用中需要尽量减少观测中的低频噪声</p>
+<p>在高频段， $Q(s)=0$</p>
+$$
+G_{uy}(s)=G_p(s)\\G_{dy}(s)=G_p(s)\\G_{\xi y}(s)=0
+$$<p>上式说明在高频段中 $G_{\xi y}(s)=0$ 说明干扰观测器对测量噪声不敏感，可以实现对高频噪声的有效滤除，但对于对象参数的变动和外部干扰没有任何抑制作用，通过上述分析可见，采用地通滤波器 $Q(s)$ 设计可以实现对低频干扰信号的有效补偿和高频噪声的有效滤除</p>
+<h3 id="鲁棒性分析">鲁棒性分析</h3>
+<p>通常来说被控对象的名义模型可以选择为二阶模型，而低通滤波器可以选择为如下形式</p>
+$$
+Q(s)=\frac{3\tau s+1}{\tau^3 s^3+3\tau^2s^2+3\tau s+1}
+$$<p>其中 $\tau$ 为时间常数，则该低通滤波器的相对阶数为 2。上式中的滤波器的截止频率为 $w_c=\frac{1}{\tau}$</p>
+<p>低频下 $|Q(s)|\rightarrow 1$ ，高频下 $|Q(s)|\rightarrow 0$ ，因此干扰观测器的作用频率将正比于 $w_c$ ，但是不能任意减小 $\tau$ 以提高观测器的作用频率，是因为整个系统的鲁棒稳定性也将取决于 $\tau$ 。如果真实的被控对象的不确定性用乘性摄动来表示，也就是</p>
+$$
+G_p(s)=G_n(s)(1+\Delta (s))
+$$<p>其中 $\Delta(s)$ 表示系统稳定性的乘性不确定性。根据小增益定理，干扰观测器的鲁棒稳定性条件为</p>
+$$
+\lVert\Delta(s)Q(s)\rVert_\infty<1
+$$<p>通常系统的乘性不确定性在高频段增益较大，所以低通滤波器在高频段需要有较大的衰减，且带宽不能过大。所以<strong class=chinese>低通滤波器的带宽需要在干扰观测器的抑制干扰能力与鲁棒稳定性之间进行折中</strong></p>
+<h3 id="基于干扰观测器的闭环控制系统分析">基于干扰观测器的闭环控制系统分析</h3>
+<p><img src="./v2-6d5f03f339e911df480c854f529985ed_720w.webp" alt="v2-6d5f03f339e911df480c854f529985ed_720w.webp"></p>
+<p>通过采用干扰观测器，从控制输入 $u$ 到系统输出 $y$ 的传递函数可以近似为名义模型 $G_n(s)$ ，因此名义模型 $G_n(s)$ 可以设计外环控制器 $C(s)$ 以实现的控制性能</p>
+$$
+G_{ry}(s)=\frac{C(s)G_p(s)G_n(s)}{G_n(s)(1+C(s)G_p(s))+(G_p(s)-G_n(s))Q(s)}\\G_{dy}(s)=\frac{G_p(s)G_n(s)-Q(s)G_p(s)G_n(s)}{G_n(s)(1+C(s)G_p(s))+(G_p(s)-G_n(s))Q(s)}\\G_{\xi y}(s)=\frac{G_p(s)(C(s)G_n(s)+Q(s))}{G_n(s)(1+C(s)G_p(s))+(G_p(s)-G_n(s))Q(s)}
+$$<p>则整个闭环系统的特征方程为</p>
+$$
+G_n(s)(1+C(s)G_p(s))+(G_p(s)-G_n(s))Q(s)=0
+$$<p>当名义模型 $G_n(s)$ 与真实模型 $G_p(s)$ 之间不存在任何误差时，则上述中的特征方程为</p>
+$$
+1+C(s)G_p(s)=0
+$$<p>与系统中不含干扰观测器内环时的特征方程一致，所以在名义模型与真实模型之间没有误差时，只要外环控制器 $C(s)$ 能够使系统稳定， 整个基于干扰观测器的闭环控制系统仍是稳定的，即干扰观测器内环不影响系统稳定性。</p>
+<p>分析系统的鲁棒稳定性条件。假设真实被控对象具有乘性不确定性形式。若系统名义模型 $G_n(s)$ 为非最小相位系统， 且外环控制器 $C(s)$ 可以镇定 $G_n(s)$ ，则基于干扰观测器的整个闭环控制系统保持鲁棒稳定的充分条件是</p>
+$$
+|\Delta(s)|<|\frac{1+C(s)G_n(s)}{Q(s)+C(s)G_n(s)}|
+$$<p>从上述条件可知，在低频段 $Q(s)\approx1$ ，应该满足 $|\Delta(s)|<1$ ，要求低频段名义模型的建模误差不应过大，同时由于名义模型通常在高频段会有较大的不确定性，所以高频段 $Q(s)$ 的增益应尽量小</p>
+<h3 id="参考">参考</h3>
+<p><a href="https://zhuanlan.zhihu.com/p/504256899">聊聊控制领域的干扰观测器(DOB) - 知乎 (zhihu.com)</a></p>
+<p><a href="https://blog.csdn.net/xiaohejiaoyiya/article/details/104077561">【控制理论】干扰观测控制读书笔记（Disturbance Observer-Based on control)_干扰观测器里能带控制量吗-CSDN博客</a></p>
+<p><a href="https://blog.csdn.net/jinpeng_cumt/article/details/107058723">非线性控制5——扰动观测器-CSDN博客</a></p>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=DOB%e6%89%b0%e5%8a%a8%e8%a7%82%e6%b5%8b%e5%99%a8&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=DOB%e6%89%b0%e5%8a%a8%e8%a7%82%e6%b5%8b%e5%99%a8&amp;body=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f&amp;resubmit=true&amp;title=DOB%e6%89%b0%e5%8a%a8%e8%a7%82%e6%b5%8b%e5%99%a8" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f&amp;t=DOB%e6%89%b0%e5%8a%a8%e8%a7%82%e6%b5%8b%e5%99%a8" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=DOB%e6%89%b0%e5%8a%a8%e8%a7%82%e6%b5%8b%e5%99%a8&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f30%2fdob%25E6%2589%25B0%25E5%258A%25A8%25E8%25A7%2582%25E6%25B5%258B%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="http://localhost:1313/post/2024/03/29/imu%E6%BB%A4%E6%B3%A2/">← prev</a>
+    
+    
+    <a class="link" href="http://localhost:1313/post/2024/04/02/makefile%E7%BC%96%E5%86%99/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2023</span> - <span>2024</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/weastur target=_blank rel=noopener>GitHub</a>,
+<a class=link href=https://www.linkedin.com/in/weastur/ target=_blank rel=noopener>LinkedIn</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

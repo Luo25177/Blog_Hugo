@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on My New Hugo Site</title>
+    <link>http://localhost:1313/tags/git/</link>
+    <description>Recent content in Git on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
+    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 16:02:26 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git使用</title>
+      <link>http://localhost:1313/post/2024/03/18/git/</link>
+      <pubDate>Mon, 18 Mar 2024 16:02:26 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/18/git/</guid>
+      <description>git的一些使用方法</description>
+    </item>
+    
+  </channel>
+</rss>

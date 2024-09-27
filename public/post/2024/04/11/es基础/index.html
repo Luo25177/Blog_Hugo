@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="Pavel Sapezhka">
+
+  
+  
+  <meta name="description" content="es6的一些基础知识">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/post/2024/04/11/es%E5%9F%BA%E7%A1%80/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="es基础">
+  <meta property="og:description" content="es6的一些基础知识">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-04-11T11:33:47+00:00">
+    <meta property="article:modified_time" content="2024-04-11T11:33:47+00:00">
+    <meta property="article:tag" content="Es6">
+    <meta property="og:image" content="http://localhost:1313/images/logo.jpg">
+
+
+  
+  <link rel="canonical" href="http://localhost:1313/post/2024/04/11/es%E5%9F%BA%E7%A1%80/">
+
+  
+  
+  
+  <meta itemprop="name" content="es基础">
+  <meta itemprop="description" content="es6的一些基础知识">
+  <meta itemprop="datePublished" content="2024-04-11T11:33:47+00:00">
+  <meta itemprop="dateModified" content="2024-04-11T11:33:47+00:00">
+  <meta itemprop="wordCount" content="4504">
+  <meta itemprop="image" content="http://localhost:1313/images/logo.jpg">
+  <meta itemprop="keywords" content="Es6">
+
+  
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/common.css'>
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/content.css'>
+
+  
+  
+  <title>es基础 - My New Hugo Site</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/logo.jpg">
+  <meta name="twitter:title" content="es基础">
+  <meta name="twitter:description" content="es6的一些基础知识">
+
+
+  
+<link rel="stylesheet" href='http://localhost:1313/css/single.css'>
+<link rel="stylesheet" href='http://localhost:1313/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="http://localhost:1313/">TeXify2</a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="localhost:1313">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>es基础</h1>
+  
+  <div>
+    
+    <a class="link" href='http://localhost:1313/tags/es6'>#es6</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#环境配置">环境配置</a>
+      <ul>
+        <li><a href="#nodejs">nodejs</a></li>
+        <li><a href="#npm">npm</a></li>
+      </ul>
+    </li>
+    <li><a href="#语法">语法</a>
+      <ul>
+        <li><a href="#let关键字">let关键字</a></li>
+        <li><a href="#const关键字">const关键字</a></li>
+        <li><a href="#变量解构赋值">变量解构赋值</a></li>
+        <li><a href="#字符串扩展">字符串扩展</a></li>
+        <li><a href="#数组扩展">数组扩展</a></li>
+        <li><a href="#对象扩展">对象扩展</a></li>
+        <li><a href="#函数扩展">函数扩展</a></li>
+        <li><a href="#set">Set</a></li>
+        <li><a href="#promise">promise</a></li>
+        <li><a href="#async函数">Async函数</a></li>
+        <li><a href="#类的使用">类的使用</a></li>
+        <li><a href="#module语法">module语法</a></li>
+        <li><a href="#generator函数">Generator函数</a></li>
+        <li><a href="#reflext与proxy">Reflext与Proxy</a></li>
+        <li><a href="#proxy">Proxy</a></li>
+        <li><a href="#reflect">Reflect</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <p><a href="https://github.com/Luo25177/Web.git">代码</a></p>
+<h2 id="简介">简介</h2>
+<p>es 与 js 的关系就是，前者是后者的规范，后者是前者的一种实现</p>
+<h2 id="环境配置">环境配置</h2>
+<h3 id="nodejs">nodejs</h3>
+<p>nodejs 的下载安装与一般的软件无异，从官网找到并且下载安装就好</p>
+<h3 id="npm">npm</h3>
+<p>需要使用镜像下载： <a href="https://npmmirror.com/">镜像地址</a></p>
+<p>直接在终端执行下列命令就可完成安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">npm install -g cnpm --registry<span class="o">=</span>https://npmmirror.com/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="语法">语法</h2>
+<h3 id="let关键字">let关键字</h3>
+<p>特点</p>
+<ul>
+<li>声明的变量只在当前的代码块中有效</li>
+<li>不满足变量提升，也就是必须在声明之后使用变量，不然会报错</li>
+<li>不允许重复声明同一个变量</li>
+</ul>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">{
+  let a = 0;
+}
+a = 1; // 报错
+</code></pre><h3 id="const关键字">const关键字</h3>
+<p>特点</p>
+<ul>
+<li>声明之后变量不可改变</li>
+<li>声明时必须初始化</li>
+<li>不满足变量提升，也就是必须在声明之后使用变量，不然会报错</li>
+<li>只在当前的代码块中有效</li>
+<li>不允许重复声明同一个变量</li>
+</ul>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">const a = 1;
+a = 2; // 报错
+</code></pre><h3 id="变量解构赋值">变量解构赋值</h3>
+<p>解构可以用于对象，也可以很方便的将现有的对象的方法赋值到某个变量，对象的顺序没有要求，但是必须与属性同名才能得到正确的值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">{</span><span class="nx">age</span><span class="p">,</span> <span class="nx">name</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s2">&#34;1&#34;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span><span class="mi">10</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="字符串扩展">字符串扩展</h3>
+<ul>
+<li>在 es6 中增加了字符串对 <code>unicode</code> 字符码的支持，可以在代码中使用 <code>\uxxx</code> 来表示一个字符
+<ul>
+<li><code>unicode</code> 码即统一码，是计算机科学领域里的一项业界标准，包括字符集，编码方案等， <code>unicode</code> 是为了解决传统的字符编码方案的局限而产生的，为每种语言的每个字符都设定了统一并且唯一的二进制编码</li>
+</ul>
+</li>
+<li>利用 <code>for...of</code> 语句实现字符串的遍历</li>
+<li>模板字符串，是增强版的字符串，使用反引号 ` 标记，可以当作普通字符串使用，也可用来定义多行字符串，或者在字符串中嵌入变量</li>
+<li><code>include()</code> 表示字符串中是否包含参数字符串，返回布尔值，支持第二个参数，表示开始搜索的位置，默认为0</li>
+<li><code>srartsWith()</code> 返回布尔值，表示字符串是否以参数字符串开头，同上</li>
+<li><code>endsWith()</code> 返回布尔值，表示字符串是否以参数字符串结尾，同上</li>
+<li><code>repeat()</code> 返回一个由源字符串重复 <code>n</code> 次的字符串</li>
+<li><code>padStart()</code> 如果不够指定长度，在头部补全</li>
+<li><code>padEnd()</code> 如果不够指定长度，在尾部补全</li>
+<li><code>trimStart()</code> 消除字符串头部的空格，返回新字符串，不改变源字符串</li>
+<li><code>trimEnd()</code> 消除字符串头部的空格，同上</li>
+<li><code>at()</code> 返回指定位置的字符，支持负索引</li>
+</ul>
+<h3 id="数组扩展">数组扩展</h3>
+<ul>
+<li>扩展运算符，三个点，将一个数组转为用逗号分割的参数序列
+<ul>
+<li>将数组转为函数的参数，不需要再使用 <code>apply</code> 方法了</li>
+<li>作为合并数组的新写法</li>
+</ul>
+</li>
+<li><code>Array.from()</code> 用于将类数组转为真正的数组，常见类数组有三种
+<ul>
+<li>arguments</li>
+<li>元素集合</li>
+<li>类似数组的对象，但是书写要求较高，有严格的标准</li>
+</ul>
+</li>
+<li><code>Array.of()</code> 将一组数值转为数组</li>
+</ul>
+<h3 id="对象扩展">对象扩展</h3>
+<ul>
+<li>es6 允许再大括号内，直接写入变量和函数，作为对象的属性和方法，用于函数的返回值</li>
+<li>属性名表达式，允许字面量定义对象，用表达式作为对象的属性名，就是把标达式放在括号内</li>
+<li>对象的扩展运算符，三个点，相当于将对象展开</li>
+</ul>
+<h3 id="函数扩展">函数扩展</h3>
+<ul>
+<li>箭头函数，es6 允许使用箭头 <code>=&gt;</code> 定义函数
+<ul>
+<li>箭头函数如果不需要参数或者需要多个参数，就使用一个圆括号代表参数部分</li>
+<li>如果箭头函数的代码块部分多于一条语句，就使用大括号将它们括起来，使用 <code>return</code> 返回</li>
+<li>箭头函数的作用就是简化回调函数</li>
+<li>对于普通函数，内部的 <code>this</code> 指向函数运行时所在的对象，但是对于箭头函数，内部的 <code>this</code> 就是定义时上层作用域中的 <code>this</code> ，箭头函数没有自己的 <code>this</code> 只能调用上层的 <code>this</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="set">Set</h3>
+<ul>
+<li>es6 提供了新的数据结构 <code>Set</code> ，类似于数组，但是成员的数值是唯一的，没有重复的值</li>
+<li><code>Set</code> 本身是一个构造函数，用来生成 <code>Set</code> 数据结构</li>
+<li>通过 <code>add</code> 方法加入成员，而且 <code>Set</code> 不会添加重复的值</li>
+<li>可以接收一个数组作为参数</li>
+<li>可以用作数组去除重复项的方法</li>
+<li>字符串去除重复字符</li>
+<li>加入值时，数据类型不会发生转换，所以字符和数字是会分别的</li>
+<li><code>size</code> 返回实例的成员总数</li>
+<li><code>add()</code> 添加元素</li>
+<li><code>delete()</code> 删除某个值，返回一个布尔值，表示删除操作是否成功</li>
+<li><code>has()</code> 是否有某个元素</li>
+<li><code>clear()</code> 清除所有元素</li>
+</ul>
+<h3 id="promise">promise</h3>
+<p>是异步编程的一种解决办法， <code>Promise</code> 是一个对象，从它可以获取异步操作的消息</p>
+<p>有三种 <code>promise</code> 状态，除了异步操作的结果，任何其他操作都无法改变这个状态，只有从 <code>pending</code> 变为 <code>fulfilled</code> 和从 <code>pending</code> 变为 <code>rejected</code> 的状态改变。只要处于 <code>fulfilled</code> 和 <code>rejected</code> ，状态就不会再变了即 <code>resolved</code></p>
+<ul>
+<li><code>pending</code> 进行中</li>
+<li><code>fulfilled</code> 已成功</li>
+<li><code>rejected</code> 已失败</li>
+</ul>
+<p><strong class=chinese>缺点</strong></p>
+<ul>
+<li>无法取消 <code>Promise</code> ，一旦新建它就会立即执行，无法中途取消</li>
+<li>如果不设置回调函数， <code>Promise</code> 内部抛出的错误，不会反应到外部</li>
+<li>当处于 <code>pending</code> 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）</li>
+</ul>
+<p><strong>then方法</strong></p>
+<ul>
+<li>接收两个函数作为参数，第一个参数是 <code>Promise</code> 执行成功时的回调，第二个参数是 <code>Promise</code> 执行失败时的回调，两个函数只会有一个被调用</li>
+<li>当事件队列的当前运行完成之前，回调函数永不会被调用，</li>
+<li><code>then</code> 方法可以返回值作为下一个链式反应的值</li>
+<li>当忘记返回值时，对应链条被打破，导致之后的链式反应与当前链式反应同时进行</li>
+<li>大多数浏览器中不能终止的 <code>Promise</code> 链里的 <code>rejection</code> ，建议后面都跟上 <code>.catch(error =&gt; console.log(error));</code></li>
+</ul>
+<h3 id="async函数">Async函数</h3>
+<p>使得异步操作更方便，可以把异步操作变为同步操作，但是需要使用 <code>await</code> 关键字来等待异步操作完成，以此来实现同步</p>
+<h3 id="类的使用">类的使用</h3>
+<p><code>js</code> 中，生成实例对象的传统方法是通过构造函数来实现，在 <code>es6</code> 中引入了 <code>class</code> ，通过这个关键字可以定义类</p>
+<ul>
+<li>实例化需要使用 <code>new</code> 来实现</li>
+<li>类不存在提升，也就是只能在声明之后使用</li>
+</ul>
+<p><strong class=chinese>实例的属性</strong></p>
+<p>是指类的对象实例可以调用的属性，一般就是在构造函数中所声明并且定义的属性</p>
+<p><strong class=chinese>静态方法</strong></p>
+<p>所有在类中定义的方法都会被实例继承，但是对于 <code>static</code> 方法不会被实例继承，但是可以直接调用，而实例中却没有此方法，如果静态方法中包含 <code>this</code> 那这个就是指这个类，而不是实例</p>
+<p><strong class=chinese>静态属性</strong></p>
+<p>就是 <code>class</code> 本身的属性，也就是 <code>Class.propname</code> ，这个可以在类之外定义，但是不会被实例继承</p>
+<h3 id="module语法">module语法</h3>
+<p><code>js</code> 没有将一个大的程序拆分成一些相互有依赖关系的小文件，再用简单的方式拼接起来，但是在 <code>es6</code> 中引入了 <code>module</code> 方法来实现此功能</p>
+<p>先通过 <code>export</code> 指令显示指定来自外部的代码，再通过 <code>import</code> 命令输入</p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">export var hello = &#34;hello&#34;;
+import{hello} form &#34;./hello.js&#34;;
+</code></pre><p>测试需要采用 <code>Nodejs</code> 的方式测试 <code>module</code> 语法</p>
+<h3 id="generator函数">Generator函数</h3>
+<p><code>Generator</code> 函数有两个区分于普通函数的部分</p>
+<ul>
+<li>在 <code>function</code> 之后，函数名之前有个 <code>*</code></li>
+<li>函数内部有 <code>yield</code> 表达式，用 <code>yield</code> 来定义函数内部的状态</li>
+</ul>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">function *func() {
+  console.log(&#34;one&#34;);
+  yield &#39;1&#39;;
+  console.log(&#34;two&#34;);
+  return &#39;2&#39;;
+}
+</code></pre><p><strong class=chinese>执行机制</strong></p>
+<p>调用 <code>Generator</code> 函数和调用普通函数一样，在函数名后加上 <code>()</code> 即可，但是该函数不会像普通函数一样立即执行，而是返回一个指向内部状态的指针，所以要调用遍历器对象 <code>iterator</code> 的 <code>next</code> 方法，指针就会从函数头部或者上一次停下来的地方开始执行，类似于 <code>python</code> 中的生成器函数，每调用一次都会执行到下一个 <code>yield</code> 或者 <code>return</code></p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">func.next(); // &#39;one&#39; value=&#39;1&#39;
+func.next(); // &#39;two&#39; value=&#39;2&#39;
+func.next(); // value=undefined
+</code></pre><p>需要注意的是，如果获取 <code>yield</code> 的值，那每一步 <code>yield</code> 之后，执行下一次这个参数会变成 <code>undefined</code> ，但是如果使用 <code>next</code> 传参的话，这个数据就会被附上值，总之有点复杂，可以直接看运行结果</p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">function *func() {
+  console.log(&#34;one&#34;);
+  var x = yield &#39;1&#39;;
+  console.log(&#34;x = &#34; + x);
+  console.log(&#34;two&#34;);
+  return &#39;2&#39;;
+}
+var f = func();
+console.log(f.next()); 
+console.log(f.next());// x = undefined
+console.log(f.next());
+
+var f1 = func();
+console.log(f1.next(10)); 
+console.log(f1.next(20)); // x = 20
+</code></pre><p>除了使用 <code>next</code> 遍历该函数，还可以使用 <code>for...of</code> 来实现遍历</p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">var f3 = func();
+for (var item of f3) {
+  item;
+}
+</code></pre><p><strong>return方法</strong></p>
+<p>返回给定值，并且结束遍历 <code>Generator</code> 函数</p>
+<p>提供参数时返回该参数，不提供参数时，返回 <code>undefined</code></p>
+<p><strong class=chinese>错误处理</strong></p>
+<p>对于下列 <code>Generator</code> 函数</p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">var func2 = function* () {
+  try {
+    yield;
+  } catch (e) {
+    console.log(&#39;catch inner&#39;, e);
+  }
+};
+var f2 = func2();
+f2.next;
+try {
+  f2.throw(&#39;a&#39;);
+  f2.throw(&#39;b&#39;);
+} catch (e) {
+  console.log(&#39;catch outside&#39;, e);
+}
+</code></pre><p>遍历器对象会抛出两个错误，第一个被 <code>Generator</code> 函数内部捕获，另一个因为函数体内部的 <code>catch</code> 函数已经执行过了，不会再捕获这个错误，所以这个错误就抛出 <code>Generator</code> 函数体，被函数体外的 <code>catch</code> 捕获</p>
+<p><strong>yield*表达式</strong></p>
+<p><code>yield*</code> 表达式表示 <code>yield</code> 返回一个遍历器对象，用于在 <code>Generator</code> 函数内部，调用另一个 <code>Generator</code> 函数</p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">function* callee() {
+  console.log(&#39;callee: &#39; + (yield));
+}
+function* caller() {
+  while (true) {
+    yield* callee();
+  }
+}
+</code></pre><h3 id="reflext与proxy">Reflext与Proxy</h3>
+<ul>
+<li><code>Proxy</code> 可以对目标对象的读取、函数调用等操作进行拦截，然后进行操作处理。它不直接操作对象，而是像代理模式，通过对象的代理对象进行操作，在进行这些操作时，可以添加一些需要的额外操作。</li>
+<li><code>Reflect</code> 可以用于获取目标对象的行为，它与 <code>Object</code> 类似，但是更易读，为操作对象提供了一种更优雅的方式。它的方法与 <code>Proxy</code> 是对应的</li>
+<li><code>Reflect</code> 对象的方法与 <code>Proxy</code> 对象的方法是一一对应的。所以 <code>Proxy</code> 对象的方法可以通过调用 <code>Reflect</code> 对象的方法获取默认行为，然后进行额外操作</li>
+</ul>
+<h3 id="proxy">Proxy</h3>
+<p>一个 <code>Proxy</code> 对象由两个部分组成： <code>target</code> 和 <code>handler</code> 。在通过 <code>Proxy</code> 构造函数生成实例对象时，需要提供这两个参数。 <code>target</code> 即目标对象， <code>handler</code> 是一个对象，声明了代理 <code>target</code> 的指定行为</p>
+<pre tabindex="0"><code class="language-es6" data-lang="es6">let target = {
+  name: &#39;Tom&#39;,
+  age: 24
+}
+let handler = {
+  get: function(target, key) {
+    console.log(&#39;getting &#39;+key);
+    return target[key]; // 不是target.key
+  },
+  set: function(target, key, value) {
+    console.log(&#39;setting &#39;+key);
+    target[key] = value;
+  }
+}
+let proxy = new Proxy(target, handler)
+proxy.name
+proxy.age = 25 
+proxy.sex = &#34;man&#34;
+</code></pre><ul>
+<li><code>target</code> 可以为空对象</li>
+<li><code>handler</code> 对象也可以为空，相当于不设置拦截操作，直接访问目标对象</li>
+<li>通过构造函数新建实例时其实是对目标对象进行了浅拷贝，因此目标对象与代理对象会互相影响</li>
+</ul>
+<p><strong class=chinese>实例方法</strong></p>
+<ul>
+<li><code>get(target, propKey, receiver)</code> 用于 <code>target</code> 对象上的 <code>propKey</code> 的读取操作，而且 <code>get</code> 方法可以继承</li>
+<li><code>set(target, propKey, value, receiver)</code> 用于拦截 <code>target</code> 对象上的 <code>propKey</code> 的赋值操作，如果目标对象自身的某个属性不可写且不可配置，那 <code>set</code> 方法将不起作用，第四个参数 <code>receiver</code> 表示原始操作行为所在对象，一般是 <code>Proxy</code> 实例本身，严格模式下， <code>set</code> 代理如果没有返回 <code>true</code> ，就会报错</li>
+<li><code>apply(target, ctx, args)</code> 用于拦截函数的调用， <code>call</code> 和 <code>reply</code> 操作，而 <code>target</code> 表示目标对象， <code>ctx</code> 表示目标对象上下文， <code>args</code> 表示目标对象的参数数组</li>
+<li><code>has(target, propKey)</code> 用于拦截 <code>HasProperty</code> 操作，即在判断 <code>target</code> 对象是否存在 <code>propKey</code> 属性时，会被这个方法拦截。此方法不判断一个属性是对象自身的属性，还是继承的属性，此方法不拦截 <code>for...in</code> 循环</li>
+<li><code>construct(target, args)</code> 此方法用于拦截 <code>new</code> 指令，返回值必须为对象</li>
+<li><code>deleteProperty(target, propKey)</code> 用于拦截 <code>delete</code> 操作，如果这个方法抛出错误或者返回 <code>false</code> ， <code>propKey</code> 属性就无法被 <code>delete</code> 命令删除</li>
+<li><code>defineProperty(target, propKey, propDesc)</code> 用于拦截 <code>Object.definePro</code> 若目标对象不可扩展，增加目标对象上不存在的属性会报错；若属性不可写或不可配置，则不能改变这些属性</li>
+<li><code>getOwnPropertyDescriptor(target, propKey)</code> 用于拦截 <code>Object.getOwnPropertyD()</code> 返回值为属性描述对象或者 <code>undefined</code></li>
+<li><code>getPrototypeOf(target)</code> 主要用于拦截获取对象原型的操作，返回值必须是对象或者 <code>null</code> ，否则报错。另外，如果目标对象不可扩展（non-extensible）， <code>getPrototypeOf</code> 方法必须返回目标对象的原型对象，主要包括
+<ul>
+<li><code>Object.prototype._proto_</code></li>
+<li><code>Object.prototype.isPrototypeOf()</code></li>
+<li><code>Object.getPrototypeOf()</code></li>
+<li><code>Reflect.getPrototypeOf()</code></li>
+<li><code>instanceof</code></li>
+</ul>
+</li>
+<li><code>isExtensible(target)</code> 用于拦截 <code>Object.isExtensible</code> 操作，该方法只能返回布尔值，否则返回值会被自动转为布尔值，它的返回值必须与目标对象的isExtensible属性保持一致，否则会抛出错误</li>
+<li><code>ownKeys(target)</code> 用于拦截对象自身属性的读取操作，方法返回的数组成员，只能是字符串或 Symbol 值，否则会报错。若目标对象中含有不可配置的属性，则必须将这些属性在结果中返回，否则就会报错。若目标对象不可扩展，则必须全部返回且只能返回目标对象包含的所有属性，不能包含不存在的属性，否则也会报错。主要包括
+<ul>
+<li><code>Object.getOwnPropertyNames()</code></li>
+<li><code>Object.getOwnPropertySymbols()</code></li>
+<li><code>Object.keys()</code></li>
+<li><code>or...in</code></li>
+</ul>
+</li>
+<li><code>preventExtensions(target)</code> 拦截 <code>Object.preventExtensions</code> 操作。该方法必须返回一个布尔值，否则会自动转为布尔值</li>
+<li><code>setPrototypeOf()</code> 主要用来拦截 <code>Object.setPrototypeOf</code> 方法。返回值必须为布尔值，否则会被自动转为布尔值。若目标对象不可扩展， <code>setPrototypeOf</code> 方法不得改变目标对象的原型</li>
+<li><code>Proxy.revocable()</code> 用于返回一个可取消的 <code>Proxy</code> 实例</li>
+</ul>
+<h3 id="reflect">Reflect</h3>
+<p>es6 中将 <code>Object</code> 的一些明显属于语言内部的方法移植到了 <code>Reflect</code> 对象上（当前某些方法会同时存在于 <code>Object</code> 和 <code>Reflect</code> 对象上），未来的新方法会只部署在 <code>Reflect</code> 对象上。 <code>Reflect</code> 对象对某些方法的返回结果进行了修改，使其更合理。 <code>Reflect</code> 对象使用函数的方式实现了 <code>Object</code> 的命令式操作</p>
+<p><strong class=chinese>静态方法</strong></p>
+<ul>
+<li><code>Reflect.get(target, name, receiver)</code> 查找并返回 <code>target</code> 对象的 <code>name</code> 属性</li>
+<li><code>Reflect.set(target, name, value, receiver)</code> 将 <code>target</code> 的 <code>name</code> 属性设置为 <code>value</code> 。返回值为布尔值， <code>true</code> 表示修改成功，<code>false</code> 表示失败。当 <code>target</code> 为不存在的对象时，会报错</li>
+<li><code>Reflect.has(obj, name)</code> 是 <code>name in obj</code> 指令的函数化，用于查找 <code>name</code> 属性在 <code>obj</code> 对象中是否存在。返回值为布尔值。如果 <code>obj</code> 不是对象则会报错 <code>TypeError</code></li>
+<li><code>Reflect.deleteProperty(obj, property)</code> 是 <code>delete obj[property]</code> 的函数化，用于删除 <code>obj</code> 对象的 <code>property</code> 属性，返回值为布尔值。如果 <code>obj</code> 不是对象则会报错 <code>TypeError</code></li>
+<li><code>Reflect.construct(obj, args)</code> 等同于 <code>new target(...args)</code></li>
+<li><code>Reflect.getPrototypeOf(obj)</code> 用于读取 <code>obj</code> 的 <code>_proto_</code> 属性。在 <code>obj</code> 不是对象时不会像 <code>Object</code> 一样把 <code>obj</code> 转为对象，而是会报错</li>
+<li><code>Reflect.setPrototypeOf(obj, newProto)</code> 用于设置目标对象的 <code>prototype</code></li>
+<li><code>Reflect.apply(func, thisArg, args)</code> 等同于 <code>Function.prototype.apply.call(func, thisArg, args)</code> 。 <code>func</code> 表示目标函数， <code>thisArg</code> 表示目标函数绑定的 <code>this</code> 对象， <code>args</code> 表示目标函数调用时传入的参数列表，可以是数组或类似数组的对象。若目标函数无法调用，会抛出 <code>TypeError</code></li>
+<li><code>Reflect.defineProperty(target, propertyKey, attributes)</code> 用于为目标对象定义属性。如果 <code>target</code> 不是对象，会抛出错误。</li>
+<li><code>Reflect.getOwnPropertyDescriptor(target, propertyKey)</code> 用于得到 <code>target</code> 对象的 <code>propertyKey</code> 属性的描述对象。在 <code>target</code> 不是对象时，会抛出错误表示参数非法，不会将非对象转换为对象</li>
+<li><code>Reflect.isExtensible(target)</code> 用于判断 <code>target</code> 对象是否可扩展。返回值为布尔值。如果 <code>target</code> 参数不是对象，会抛出错误</li>
+<li><code>Reflect.preventExtensions(target)</code> 用于让 <code>target</code> 对象变为不可扩展。如果 <code>target</code> 参数不是对象，会抛出错误</li>
+<li><code>Reflect.ownKeys(target)</code> 用于返回 <code>target</code> 对象的所有属性，等同于 <code>Object.getOwnPropertyNames</code> 与 <code>Object.getOwnPropertySymbols</code> 之和</li>
+</ul>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=es%e5%9f%ba%e7%a1%80&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=es%e5%9f%ba%e7%a1%80&amp;body=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f&amp;resubmit=true&amp;title=es%e5%9f%ba%e7%a1%80" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f&amp;t=es%e5%9f%ba%e7%a1%80" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=es%e5%9f%ba%e7%a1%80&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f11%2fes%25E5%259F%25BA%25E7%25A1%2580%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="http://localhost:1313/post/2024/04/11/js%E5%9F%BA%E7%A1%80/">← prev</a>
+    
+    
+    <a class="link" href="http://localhost:1313/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2023</span> - <span>2024</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/weastur target=_blank rel=noopener>GitHub</a>,
+<a class=link href=https://www.linkedin.com/in/weastur/ target=_blank rel=noopener>LinkedIn</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

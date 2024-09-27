@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="Pavel Sapezhka">
+
+  
+  
+  <meta name="description" content="verilog 一种硬件语言的基础语法">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="verilog基础语法">
+  <meta property="og:description" content="verilog 一种硬件语言的基础语法">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-04-16T10:24:26+00:00">
+    <meta property="article:modified_time" content="2024-04-16T10:24:26+00:00">
+    <meta property="article:tag" content="Verilog">
+    <meta property="article:tag" content="计算机">
+    <meta property="og:image" content="http://localhost:1313/images/logo.jpg">
+
+
+  
+  <link rel="canonical" href="http://localhost:1313/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+
+  
+  
+  
+  <meta itemprop="name" content="verilog基础语法">
+  <meta itemprop="description" content="verilog 一种硬件语言的基础语法">
+  <meta itemprop="datePublished" content="2024-04-16T10:24:26+00:00">
+  <meta itemprop="dateModified" content="2024-04-16T10:24:26+00:00">
+  <meta itemprop="wordCount" content="5747">
+  <meta itemprop="image" content="http://localhost:1313/images/logo.jpg">
+  <meta itemprop="keywords" content="Verilog,计算机">
+
+  
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/common.css'>
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/content.css'>
+
+  
+  
+  <title>verilog基础语法 - My New Hugo Site</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/logo.jpg">
+  <meta name="twitter:title" content="verilog基础语法">
+  <meta name="twitter:description" content="verilog 一种硬件语言的基础语法">
+
+
+  
+<link rel="stylesheet" href='http://localhost:1313/css/single.css'>
+<link rel="stylesheet" href='http://localhost:1313/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="http://localhost:1313/">TeXify2</a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="localhost:1313">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>verilog基础语法</h1>
+  
+  <div>
+    
+    <a class="link" href='http://localhost:1313/tags/verilog'>#verilog</a>
+    
+    <a class="link" href='http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA'>#计算机</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#verilog-环境搭配">Verilog 环境搭配</a></li>
+        <li><a href="#配置-vscode">配置 vscode</a></li>
+        <li><a href="#编译运行">编译运行</a></li>
+      </ul>
+    </li>
+    <li><a href="#设计方法">设计方法</a></li>
+    <li><a href="#预编译指令">预编译指令</a></li>
+    <li><a href="#数据类型">数据类型</a>
+      <ul>
+        <li><a href="#线网wire">线网wire</a></li>
+        <li><a href="#寄存器reg">寄存器reg</a></li>
+        <li><a href="#向量">向量</a></li>
+        <li><a href="#整数">整数</a></li>
+        <li><a href="#整数数值格式">整数数值格式</a></li>
+        <li><a href="#实数">实数</a></li>
+        <li><a href="#时间">时间</a></li>
+        <li><a href="#数组">数组</a></li>
+        <li><a href="#存储器">存储器</a></li>
+        <li><a href="#参数">参数</a></li>
+        <li><a href="#字符串">字符串</a></li>
+        <li><a href="#数值">数值</a></li>
+        <li><a href="#逻辑值">逻辑值</a></li>
+      </ul>
+    </li>
+    <li><a href="#基础语法">基础语法</a>
+      <ul>
+        <li><a href="#注释">注释</a></li>
+        <li><a href="#标识符与关键字">标识符与关键字</a></li>
+        <li><a href="#if语句">if语句</a></li>
+        <li><a href="#case语句">case语句</a></li>
+        <li><a href="#描述方式">描述方式</a></li>
+        <li><a href="#打印输出">打印输出</a></li>
+        <li><a href="#时延">时延</a></li>
+      </ul>
+    </li>
+    <li><a href="#表达式">表达式</a>
+      <ul>
+        <li><a href="#等价运算符">等价运算符</a></li>
+        <li><a href="#移位运算">移位运算</a></li>
+        <li><a href="#按位运算符">按位运算符</a></li>
+        <li><a href="#缩减运算符">缩减运算符</a></li>
+        <li><a href="#拼接运算符">拼接运算符</a></li>
+        <li><a href="#拼接复制运算符">拼接复制运算符</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块">模块</a>
+      <ul>
+        <li><a href="#声明">声明</a></li>
+        <li><a href="#assign语句">assign语句</a></li>
+        <li><a href="#always语句块">always语句块</a></li>
+        <li><a href="#assign与always的区别">assign与always的区别</a></li>
+        <li><a href="#initial语句">initial语句</a></li>
+        <li><a href="#底层模块的调用">底层模块的调用</a></li>
+        <li><a href="#门原语调用">门原语调用</a></li>
+      </ul>
+    </li>
+    <li><a href="#阻塞赋值和非阻塞赋值">阻塞赋值和非阻塞赋值</a>
+      <ul>
+        <li><a href="#阻塞赋值">阻塞赋值</a></li>
+        <li><a href="#非阻塞赋值">非阻塞赋值</a></li>
+        <li><a href="#应用">应用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <h2 id="前言">前言</h2>
+<p>这是一种计算机硬件语言，是可以模拟计算机的一种仿真语言，语法上与 C 语言相似。本文主要是笔者为了学习《计算机组成原理》而去了解的一种语言</p>
+<h3 id="介绍">介绍</h3>
+<p><code>Verilog</code> 是一种硬件描述语言，用于数字电路的系统设计。可对算法级、门级、开关级等多种抽象设计层次进行建模</p>
+<p>继承了C语言的多种操作符和结构，与另一种硬件描述语言 VHDL 相比，语法不是很严格，代码更加简洁，更容易上手</p>
+<p><code>Verilog</code> 不仅定义了语法，还对语法结构都定义了清晰的仿真语义。因此， <code>Verilog</code> 编写的数字模型就能够使用 <code>Verilog</code> 仿真器进行验证</p>
+<h3 id="verilog-环境搭配">Verilog 环境搭配</h3>
+<p>在终端使用指令来安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install iverilog
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="配置-vscode">配置 vscode</h3>
+<p>安装插件</p>
+<ul>
+<li><code>waveTrace</code> 插件</li>
+<li><code>verilog-HDL</code> 插件</li>
+<li><code>Verilog Format</code> 插件</li>
+</ul>
+<p>配置</p>
+<ol>
+<li>在 <code>linux</code> 上安装 <code>ctags</code></li>
+<li>找到 <code>ctags</code> 的安装路径，将其添加到 <code>vscode</code> 的设置 <code>Verilog&gt;ctags:Path</code> 中</li>
+<li>将 <code>vscode</code> 中设置的 <code>Verilog&gt;linting:Liner</code> 设置为 <code>iverilog</code></li>
+<li>在 <code>vscode</code> 的设置 <code>verilog&gt;linting&gt;iverilog:Arguments</code> 中填入 <code>-i</code> ，然后就配置完成了</li>
+</ol>
+<h3 id="编译运行">编译运行</h3>
+<p>对于 <code>verilog</code> 语言，文件的后缀是 <code>.v</code> ，并且需要专有的编译器来进行编译</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iverilog xxx.v
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编译结束之后，会生成 <code>a.out</code> 文件，可以使用指令来指定输出的文件名称的。然后在终端输入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./a.out
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>来运行</p>
+<h2 id="设计方法">设计方法</h2>
+<p><code>Verilog</code> 采取从上到下的设计方法。需要先定义顶层模块功能，进而分析要构成顶层模块的必要子模块，然后进一步对各个模块进行分解设计，直到到达无法进一步分解的底层功能块。可以把一个较大的系统，细化为多个小系统</p>
+<p><img src="./vlg-design-method-1.png" alt="vlg-design-method-1.png"></p>
+<h2 id="预编译指令">预编译指令</h2>
+<p>与 C 语言不同的是， <code>verilog</code> 使用 <code>`</code>（反引号）来代替了 C 语言中的 <code>#</code></p>
+<ul>
+<li>
+<p><code> `define</code> 定义</p>
+</li>
+<li>
+<p><code> `undef</code> 取消定义</p>
+</li>
+<li>
+<p><code> `ifdef</code> 判断是否定义</p>
+</li>
+<li>
+<p><code> `ifndef</code> 判断是否未定义</p>
+</li>
+<li>
+<p><code> `include</code> 包含某个模块/文件</p>
+</li>
+<li>
+<p><code> `timescale</code> 将时间单位与实际时间相关联。该指令用于定义时延、仿真的单位和精度，格式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="no">`timescale</span> <span class="n">time_unit</span> <span class="o">/</span> <span class="n">time_precision</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中</p>
+<ul>
+<li><code>time_unit</code> 表示时间的单位，由数字以及单位组成（s, ms, us, ns, ps, fs）。但是时间精度大小不能超过时间单位大小</li>
+<li><code>time_precision</code> 表示时间的精度</li>
+</ul>
+</li>
+<li>
+<p>``default_nettype` 该指令用于为隐式的线网变量指定为线网类型，即将没有被声明的连线定义为线网类型，用法如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="no">`default_nettype</span> <span class="kt">wand</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>resetall` 该编译器指令将所有的编译指令重新设置为缺省值，可以使得缺省连线类型为线网类型。加到模块最后时，可以将当前的 **</code>**timescale<code>取消防止进一步传递，只保证当前的 ``timescale</code> 在局部有效，避免 ``timescale` 的错误继承。</p>
+</li>
+<li>
+<p>``celldefine` 将模块标记为单元模块，他们包含模块的定义</p>
+</li>
+<li>
+<p>``endcelldefine` 结束单元模块</p>
+</li>
+<li>
+<p>``unconnected_drive, **<code>**nounconnected_drive</code> 出现在这两个编译指令间的任何未连接的输入端口，为正偏电路状态或者为反偏电路状态</p>
+</li>
+</ul>
+<h2 id="数据类型">数据类型</h2>
+<p>数据类型总的上分两类</p>
+<ul>
+<li>线网类 <code>net</code> 类
+<ul>
+<li><code>wire</code> 线型——最常用</li>
+<li><code>wand</code> 线与</li>
+<li><code>wor</code> 线或</li>
+<li><code>tri</code> 三态</li>
+<li><code>triand</code> 三态与</li>
+<li><code>trior</code> 三态或</li>
+<li><code>tri0</code> 下拉电阻</li>
+<li><code>tri1</code> 上拉电阻</li>
+<li><code>trireg</code> 电容性电网</li>
+<li><code>supply0</code> 地</li>
+<li><code>supply1</code> 电源</li>
+</ul>
+</li>
+<li>变量类 <code>variable</code> 类
+<ul>
+<li><code>reg</code> 寄存器类型——最常用</li>
+<li><code>integer</code> 整型</li>
+<li><code>real</code> 实型</li>
+<li><code>time</code> 时间型</li>
+<li><code>realtime</code> 实时时间型</li>
+</ul>
+</li>
+</ul>
+<p>因为连续赋值语句和过程赋值语句的激活特点不同，故而赋值目标特点也不同。前者不需要保存，后者需要保存，因此规定两种数据类型。 <code>net</code> 类用于连续赋值目标或者门原语的输出，且仿真时不需分配内存空间， <code>variable</code> 类用于过程赋值语句，且仿真时需要分配内存空间</p>
+<p>将一个信号定义为 <code>net</code> 类型还是 <code>varibke</code> 类型，由以下两个方面决定</p>
+<p><img src="./1713198541998.png" alt="1713198541998.png"></p>
+<ol>
+<li>对于端口信号来说， <code>input</code> 信号和 <code>inout</code> 信号必须定义为 <code>net</code> 类型的，而 <code>output</code> 信号可以是 <code>net</code> 类型也可以是 <code>varible</code> 类型，取决于如何赋值</li>
+<li>使用何种赋值语句对该信号进行赋值。如果是连续赋值或者门原语句赋值或例化语句赋值，则定义为 <code>net</code> 型，如果是过程赋值则定义成 <code>varible</code> 型</li>
+</ol>
+<h3 id="线网wire">线网wire</h3>
+<p>表示硬件单元之间的物理连线，由其连接的器件输出端连续驱动，如果没有驱动元件连接到线网类型，缺省一般为 <code>z</code></p>
+<p>线网型还有其他数据类型，包括 <code>wand</code> ， <code>wor</code> ， <code>wri</code> ， <code>triand</code> ， <code>trior</code> ， <code>trireg</code> 等。这些数据类型用的频率不是很高</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">wire</span> <span class="n">interput</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="寄存器reg">寄存器reg</h3>
+<p>用来表示存储单元，会保持数据原有的值，直到被改写</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">ref</span> <span class="n">rax</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 <code>always</code> 块中，寄存器可能被综合成边沿触发器，在组合逻辑中可能被综合成 <code>wire</code> 型变量。寄存器不需要驱动源，也不一定需要时钟信号。在仿真时，寄存器的值可在任意时刻通过赋值操作进行改写。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">reg</span> <span class="n">rstn</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">initial</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl">  <span class="n">rstn</span> <span class="o">=</span> <span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">#</span><span class="mh">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">rstn</span> <span class="o">=</span> <span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="向量">向量</h3>
+<p>当位款大于 1 时， <code>wire</code> 或者 <code>reg</code> 可以声明为向量的形式，声明的形式为 <code>type[end:begin]</code> 其中是包含 <code>end</code> 和 <code>begin</code> 位的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">reg</span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">num</span><span class="p">;</span>    <span class="c1">//声明 8 位宽的寄存器 num
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于上面的向量，我们可以指定某一位或若干相邻位，作为其他逻辑使用，使用的形式为 <code>data[begin:end]</code> 其中是包含 <code>end</code> 和 <code>begin</code> 位的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">wire</span> <span class="p">[</span><span class="mh">9</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">data_low</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mh">0</span><span class="o">:</span><span class="mh">9</span><span class="p">]</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr_temp</span><span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">addr</span><span class="p">[</span><span class="mh">8</span><span class="o">:</span><span class="mh">7</span><span class="p">]</span> <span class="o">+</span> <span class="mh">1</span><span class="mb">&#39;b1</span> <span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>verilog</code> 支持指定位之后固定位宽的向量域选择访问</p>
+<ul>
+<li><code>[bit+:width]</code> 从起始 <code>bit</code> 位开始递增，位宽为 <code>width</code></li>
+<li><code>[bit-:width]</code> 从起始 <code>bit</code> 开始递减，位宽为 <code>width</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="mh">31</span><span class="o">-:</span> <span class="mh">8</span><span class="p">]</span> <span class="c1">// == data1[31, 24]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">a</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="mh">24</span><span class="o">+:</span> <span class="mh">8</span><span class="p">]</span> <span class="c1">// == data1[31, 24]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>信号可以重新组合成新的向量，需要使用大括号</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">wire</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span> <span class="mh">0</span><span class="p">]</span> <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">assign</span> <span class="n">data1</span> <span class="o">=</span> <span class="p">{</span><span class="n">byte1</span><span class="p">[</span><span class="mh">0</span><span class="p">][</span><span class="mh">7</span><span class="o">:</span> <span class="mh">0</span><span class="p">],</span> <span class="n">data1</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span> <span class="mh">8</span><span class="p">]};</span> <span class="c1">// 数据拼接
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">assign</span> <span class="n">data2</span> <span class="o">=</span> <span class="p">{</span><span class="mh">32</span><span class="p">{</span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">}};</span> <span class="c1">// 赋值
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="整数">整数</h3>
+<p>使用 <code>integer</code> 表示。声明时不用指明位宽，位宽和编译器有关，一般为 <code>32bit</code>。 与 <code>reg</code> 的区别在于： <code>reg</code> 型变量为无符号数，而 <code>integer</code> 型变量为有符号数</p>
+<p><code>integer</code> 可用来作为辅助信号</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">integer</span> <span class="n">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="mh">3</span><span class="p">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mh">1</span><span class="p">)</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="整数数值格式">整数数值格式</h3>
+<p>合法的数值格式有 4 种，包括十进制（d或D），十六进制（h或H），二进制（b或B），八进制（o或O），默认为十进制数据。数值可指明位宽，也可不指明</p>
+<ul>
+<li>
+<p>无符号数表示格式为</p>
+<blockquote>
+<p>&lt;位宽&gt;’&lt;进制&gt;&lt;数字&gt;</p>
+</blockquote>
+</li>
+<li>
+<p>有符号数表示格式为，是用补码格式来表示的</p>
+<blockquote>
+<p>&lt;位宽&gt;’s&lt;进制&gt;&lt;数字&gt;</p>
+</blockquote>
+</li>
+</ul>
+<p>在数字的进制格式之前添加 <code>n'</code> 来指明是 <code>n</code> 位的数据，其中可以在每八位中间添加下划线，以此来增强代码可读性</p>
+<p>如果不指明位宽，一般会根据编译器自动分频位宽，常见的为 <code>32bit</code> ，通常在数值前加符号表示负号</p>
+<p>可以使用实数表示，也就是用小数表示，可以使用科学计数法。</p>
+<h3 id="实数">实数</h3>
+<p>使用 <code>real</code> 来声明，可用十进制或者科学计数法表示，实数声明不能带有范围，默认位 0 ，如果实数数据赋值给整数，会将数据截断</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">real</span> <span class="n">data1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">integer</span> <span class="n">data2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="mf">1e3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="mf">12.13</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">=</span> <span class="n">data1</span><span class="p">;</span> <span class="c1">// 12
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="时间">时间</h3>
+<p><code>verilog</code> 使用特殊的时间寄存器 <code>time</code> 型变量，对仿真时间进行保存。宽度一般为 64 位，通过条用系统函数 <code>$time</code> 获取当前仿真时间</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">time</span> <span class="n">current</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">current</span> <span class="o">=</span> <span class="nb">$time</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="数组">数组</h3>
+<p>在 <code>Verilog</code> 中允许声明 <code>reg</code> <code>wire</code> <code>integer</code> <code>time</code> <code>real</code> 及其向量类型的数组，数组中的每个元素都可以作为一个标量或者向量，以用样的方式来使用</p>
+<p>声明的形式为 <code>data[end:begin]</code> 其中是包含 <code>end</code> 和 <code>begin</code> 的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">integer</span> <span class="n">num</span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">num</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="存储器">存储器</h3>
+<p>存储器变量就是一种寄存器数组，可用来描述 <code>RAM</code> 或 <code>ROM</code> 的行为，使用 <code>reg</code> 变量来声明</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">reg</span> <span class="n">membit</span><span class="p">[</span><span class="mh">0</span><span class="o">:</span> <span class="mh">255</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">reg</span><span class="p">[</span><span class="mh">7</span><span class="o">:</span> <span class="mh">0</span><span class="p">]</span> <span class="n">mem</span><span class="p">[</span><span class="mh">0</span><span class="o">:</span> <span class="mh">1023</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">mem</span><span class="p">[</span><span class="mh">511</span><span class="p">]</span> <span class="o">=</span> <span class="mh">8</span><span class="mb">&#39;b0</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="参数">参数</h3>
+<p>参数用来表示常量，用关键字 <code>parameter</code> 声明，只能赋值一次</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">parameter</span> <span class="n">data</span> <span class="o">=</span> <span class="mh">32</span><span class="err">‘</span><span class="mh">8</span><span class="n">bbb_bbbb</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当参数只在某个模块内调用，需要使用 <code>localparameter</code> 来声明</p>
+<h3 id="字符串">字符串</h3>
+<p>字符串保存在 <code>reg</code> 类型中，每个字符占一个字节，所以寄存器变量的宽度应该足够大以不至于溢出</p>
+<p>字符串是使用双引号包起来的字符队列，字符串不能多行书写，也不能包含回车符。实际上是把字符串作为字符的队列</p>
+<h3 id="数值">数值</h3>
+<p>有四种基本的值来表示硬件电路中的电平逻辑</p>
+<ul>
+<li>0：逻辑 0 或者假</li>
+<li>1：逻辑 1 或者真</li>
+<li>x 或 X：未知，意味着信号数值不确定，即在实际电路里，信号可能为 1，也可能为 0</li>
+<li>z 或 Z：高阻，意味着信号处于高阻状态，常见于信号（input, reg）没有驱动时的逻辑结果。例如一个 <code>pad</code> 的 <code>input</code> 呈现高阻状态时，其逻辑值和上下拉的状态有关系。上拉则逻辑值为 1，下拉则为 0</li>
+</ul>
+<h3 id="逻辑值">逻辑值</h3>
+<ul>
+<li><code>1</code> 逻辑 1，高电平，数字 1</li>
+<li><code>0</code> 逻辑 0，低电平，数字 0</li>
+<li><code>x</code> 不确定</li>
+<li><code>z</code> 高阻态</li>
+</ul>
+<h2 id="基础语法">基础语法</h2>
+<h3 id="注释">注释</h3>
+<p>使用 <code>//</code> 进行单行注释，使用 <code>/**/</code> 进行多行注释</p>
+<h3 id="标识符与关键字">标识符与关键字</h3>
+<p>标识符（identifier）可以是任意一组字母，数字， <strong><code>$</code></strong> 符号和 <strong><code>_</code></strong> (下划线)符号的组合，但标识符的第一个字符必须是字母或者下划线，不能以数字或者 <code>$</code> 符开始。标识符是大小写敏感的。</p>
+<p>关键字是 <code>verilog</code> 中预留的一些特殊标识符，关键字全部为小写</p>
+<h3 id="if语句">if语句</h3>
+<ul>
+<li><code>if(condition)...</code></li>
+<li><code>if(condition)...else...</code></li>
+<li><code>if(condition1)...else if(condition2)...</code></li>
+<li><code>if(condition1)...else if(condition2)...else...</code></li>
+</ul>
+<p>需要注意的是，在使用 <code>if</code> 语句设计组合电路时，如果条件不完整，会综合出寄存器，有两种使条件完整的方法</p>
+<ol>
+<li>加 <code>else</code></li>
+<li>设定初始值</li>
+</ol>
+<p>计算表达式 <code>condition</code> 可以是任意形式的表达式，条件表达式的结果只有 0 或 1，如果计算表达式的结果为 0，则条件表达式的值为 0，否则为 1</p>
+<h3 id="case语句">case语句</h3>
+<p>格式为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">case</span> <span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="mh">1</span><span class="o">:</span> <span class="p">...;</span>
+</span></span><span class="line"><span class="cl"><span class="mh">2</span><span class="o">:</span> <span class="p">...;</span>
+</span></span><span class="line"><span class="cl"><span class="k">default</span><span class="o">:</span><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">endcase</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>与 C 语言类似，同时也可以没有 <code>default</code> 语句</p>
+<h3 id="描述方式">描述方式</h3>
+<ul>
+<li>结构化描述，全部用门原语和底层模块调用</li>
+<li>数据流级描述，全部使用 <code>assign</code> 语句</li>
+<li>行为级描述，全部使用 <code>always</code> 语句配合 <code>if</code> 和 <code>case</code> 语句</li>
+<li>RTL 级别描述方式，数据流级+行为级，可综合</li>
+</ul>
+<p>而实际的描述是三种混合的</p>
+<h3 id="打印输出">打印输出</h3>
+<ul>
+<li>
+<p><code>$display</code> 使用方法和 C 语言中的 printf 函数非常类似，可以直接打印字符串，也可以在字符串中指定变量的格式对相关变量进行打印。如果没有指定变量的显示格式，变量值会根据在字符串的位置显示出来，相当于参与了字符串连接。</p>
+<p>如果没有指定格式，$display 默认显示是十进制。$displayb, $displayo, $displayh 显示格式分别为二进制、八进制、十六进制。同理也有 $writeb, $writeo, $writeh, $strobeb 等。</p>
+<p>下表是常用的格式说明</p>
+</li>
+<li>
+<p><code>$write</code></p>
+</li>
+<li>
+<p><code>$strobe</code></p>
+</li>
+<li>
+<p><code>$monitor</code></p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="nb">$display</span><span class="p">(</span><span class="s">&#34;This is a test.&#34;</span><span class="p">);</span>   <span class="c1">//直接打印字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nb">$display</span><span class="p">(</span><span class="s">&#34;This is a test number: %b.&#34;</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span> <span class="c1">//打印变量 num 为二进制格式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nb">$display</span><span class="p">(</span><span class="s">&#34;This is a test number: &#34;</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="s">&#34;!!!&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="时延">时延</h3>
+<p>连续赋值延时语句中的延时，用于控制任意操作数发生变化到语句左端赋予新值之间的时间延时，时延一般是不可综合的，寄存器的时延也是可以控制的，连续赋值时延分为三种</p>
+<ul>
+<li>
+<p>普通赋值时延</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">wire</span> <span class="n">Z</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">assign</span> <span class="p">#</span><span class="mh">10</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>隐式时延</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">wire</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">wire</span> <span class="p">#</span><span class="mh">10</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>声明时延</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="kt">wire</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">wire</span> <span class="p">#</span><span class="mh">10</span> <span class="n">Z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">assign</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p><strong class=chinese>惯性时延</strong></p>
+<p>对于上述的代码，当在延时的过程中， <code>A</code> 和 <code>B</code> 的值又发生了一次变化，那么计算的新值 <code>Z</code> 会取最新的 <code>A</code> 和 <code>B</code> 进行计算</p>
+<h2 id="表达式">表达式</h2>
+<p>表达式由操作数和操作符构成，目的是根据操作符的意义得到一个计算结果，表达式可以在出现数值的任何地方使用，由于很多语法是与 C 语言几乎一致的，所以这里就只介绍一些没见过的</p>
+<p>需要注意的是， <code>verilog</code> 中的逻辑值有三个状态 <code>0</code> 和 <code>1</code> ， <code>x</code> 。其中 <code>x</code> 就是不确定值</p>
+<h3 id="等价运算符">等价运算符</h3>
+<ul>
+<li><code>=</code></li>
+<li><code>!=</code></li>
+<li><code>===</code></li>
+<li><code>!==</code></li>
+</ul>
+<p>对于后两个，它在对操作数进行比较时对某些位的不定值 <code>x</code> 和高阻值 <code>z</code> 也进行比较，两个操作数必需完全一致，其结果才是1，否则为0</p>
+<p>算符常用于 <code>case</code> 表达式的判别,所以又称为&quot;case等式运算符&quot;</p>
+<p>这四个等式运算符的优先级别是相同的</p>
+<h3 id="移位运算">移位运算</h3>
+<ul>
+<li><code>&gt;&gt;</code> 左移</li>
+<li><code>&lt;&lt;</code> 右移</li>
+<li><code>&gt;&gt;&gt;</code> 算术左移</li>
+<li><code>&lt;&lt;&lt;</code> 算术右移</li>
+</ul>
+<p><strong class=chinese>注意</strong></p>
+<ul>
+<li>移位运算的操作数是一位或者多位二进制数</li>
+<li>向左或者向右移动 <code>n</code> 位</li>
+<li>只有对有符号数的算数右移自动补符号位，其它均补 0</li>
+</ul>
+<h3 id="按位运算符">按位运算符</h3>
+<ul>
+<li><code>~</code> 按位取反</li>
+<li><code>&amp;</code> 按位与</li>
+<li><code>|</code>  或</li>
+<li><code>^</code> 异或</li>
+<li><code>^~</code> 或者 <code>~^</code> 同或</li>
+</ul>
+<p><strong class=chinese>注意</strong></p>
+<ol>
+<li>按位运算的操作数是 1 位或者多位二进制数</li>
+<li>如果操作数的位宽不同，位宽小的会自动在左端补 0</li>
+<li>结果与操作数的位宽相同</li>
+</ol>
+<h3 id="缩减运算符">缩减运算符</h3>
+<ul>
+<li><code>&amp;</code> 与</li>
+<li><code>~&amp;</code> 与非</li>
+<li><code>|</code>  或</li>
+<li><code>~|</code> 或非</li>
+<li><code>^</code> 异或</li>
+<li><code>^~</code> 或者 <code>~^</code> 同或</li>
+</ul>
+<p><strong class=chinese>注意</strong></p>
+<ol>
+<li>缩减运算符的操作数是 1 位或者多位二进制数</li>
+<li>缩减运算符的操作数只有一个，将该数的各位自左至右进行逻辑运算，结果只有一位</li>
+</ol>
+<h3 id="拼接运算符">拼接运算符</h3>
+<p>使用 <code>{}</code> 进行运算符的拼接，可以将两个信号接在一起</p>
+<h3 id="拼接复制运算符">拼接复制运算符</h3>
+<p>使用 <code>{n{}}</code> 运算符实现</p>
+<p>可以将第二个括号内的操作数复制 <code>n</code> 次然后拼接</p>
+<p>与上述拼接运算符可以组合使用，例如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="n">A</span> <span class="o">=</span> <span class="p">{</span><span class="mh">2</span><span class="p">{</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">},</span> <span class="n">E</span><span class="p">,</span> <span class="n">F</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="模块">模块</h2>
+<h3 id="声明">声明</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">module</span> <span class="n">module_name</span><span class="p">(</span><span class="err">端口列表</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="err">端口信号声明</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="err">参数声明</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="err">内部信号声明\底层模块或门源语调用\</span><span class="n">assign语句</span><span class="err">\</span><span class="n">always语句</span>
+</span></span><span class="line"><span class="cl"><span class="k">endmodule</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中</p>
+<ul>
+<li>端口列表是指电路的输入，输出信号的名称列表，信号名由用户指定，中间用逗号隔开</li>
+<li>端口信号声明是要说明端口信号的输入输出属性，信号的数据类型，以及信号的位宽。输入输出属性有 <code>input</code> ， <code>output</code> ， <code>inout</code> 三种，信号的数据类型通常用 <code>wire</code> 和 <code>reg</code> 两种，信号的位宽用 <code>[begin:end]</code> 表示。同一类信号之间用逗号隔开</li>
+<li>参数声明需要说明参数的名称和初值</li>
+<li>参数声明中，如果位宽不做说明，默认是 1 位</li>
+<li>数据类型不做声明，默认是 <code>wire</code> 类型</li>
+</ul>
+<h3 id="assign语句">assign语句</h3>
+<p><code>assign</code> 语句称作连续赋值语句，基本格式为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">assign</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">src</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之所是是连续赋值语句，就是因为其总是处于激活状态，一旦 <code>src</code> 表达式中的操作数有更改，就会立即进行计算和赋值</p>
+<p>赋值目标 <code>dst</code> 必须是 <code>wire</code> 类型的，表示电路之间的连线</p>
+<h3 id="always语句块">always语句块</h3>
+<p><code>always</code> 称为过程块，基本格式为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">always</span> <span class="p">@(</span><span class="err">敏感信号条件表</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="err">各类顺序语句</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong class=chinese>特点</strong></p>
+<ul>
+<li><code>always</code> 语句本身不是单一的有意义的一条语句，而是和下面的语句一起构成一个语句块，所以叫做过程块。过程块中的赋值语句就叫做过程赋值语句</li>
+<li>该语句块不是总处于激活的状态的，当满足激活条件才会执行，否则被挂起，挂起时该语句块不执行</li>
+<li>赋值目标必须是 <code>reg</code> 类型的</li>
+<li>激活条件由敏感信号条件表决定的，当敏感条件满足时，过程块激活。其中敏感条件有两种
+<ul>
+<li>边沿敏感：
+<ul>
+<li><code>posedge signalName</code> 信号上升沿到来</li>
+<li><code>negedge signalName</code> 信号下降沿到来</li>
+</ul>
+</li>
+<li>电平敏感
+<ul>
+<li><code>(signalNameList)</code> 信号列表中任意一个信号有电平变化就会执行代码块，其中信号名之间用逗号或者 <code>or</code> 来隔开</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在 <code>always</code> 中还可以使用 <code>if</code> ， <code>else</code> ， <code>for</code> 循环等语句</li>
+</ul>
+<h3 id="assign与always的区别">assign与always的区别</h3>
+<ul>
+<li>连续赋值语句总是处于激活状态，只要有操作数变化就马上进行计算和赋值</li>
+<li>过程赋值语句只有当激活该过程时，才会进行计算和赋值，如果该过程不被激活，即使操作数发生变化也不会计算和赋值</li>
+<li><code>verilog</code> 规定 <code>assign</code> 中的赋值目标必须是 <code>wire</code> 类型，而且 <code>always</code> 语句中的赋值目标必须是 <code>reg</code> 类型的</li>
+<li><code>always</code> 中还可以使用 <code>if</code> ， <code>else</code> ， <code>for</code> 循环等语句，但是 <code>assign</code> 不能使用</li>
+<li><code>always</code> 中如果有多条语句必须使用 <code>begin</code> 和 <code>end</code> 包括起来，但是 <code>assign</code> 中没有</li>
+</ul>
+<h3 id="initial语句">initial语句</h3>
+<p>从 0 时刻开始执行，只执行一次，多个 <code>initial</code> 块之间是相互独立的，如果有多条语句，就需要使用 <code>begin</code> 和 <code>end</code> 包括起来。</p>
+<p>理论上讲是不可综合的，多用于初始化和信号检测等， <code>initial</code> 中的语句是顺序执行的</p>
+<h3 id="底层模块的调用">底层模块的调用</h3>
+<p>调用底层模块需要使用 ``include &ldquo;xx.v&rdquo;` 语句来调用，需要将对应的模块实例化，并且调用时实例化名称不能省略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="n">xx</span> <span class="n">a</span><span class="p">(</span><span class="n">ports</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用底层模块时，需要把对应的端口的输入输出填写，所以就需要端口映射，有两种方法</p>
+<ul>
+<li>端口名关联法（命名法）
+<ul>
+<li><code>(.底层端口名1(外接信号名1), .底层端口名2(外接信号名2), ...)</code></li>
+<li>不需要按照底层模块信号列表顺序书写</li>
+</ul>
+</li>
+<li>位置关联法（顺序法）
+<ul>
+<li><code>(外接口信号1, 外接口信号2)</code></li>
+<li>必须严格按照底层模块端口信号列表顺序书写</li>
+</ul>
+</li>
+</ul>
+<h3 id="门原语调用">门原语调用</h3>
+<p><code>verilog</code> 中提供了已经设计好的门，称为门原语，一共有 12 个。</p>
+<ol>
+<li>这些门可以直接调用</li>
+<li>与底层模块不一样的地方在于，调用时，实例名可以省略</li>
+<li>端口连接只能采取顺序法，输出在前，输入在后。</li>
+</ol>
+<p><strong class=chinese>普通门</strong></p>
+<ul>
+<li><code>and</code> 与</li>
+<li><code>or</code> 或</li>
+<li><code>xor</code> 异或</li>
+<li><code>nand</code> 与非</li>
+<li><code>nor</code> 或非</li>
+<li><code>xnor</code> 同或</li>
+</ul>
+<p>使用方式为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">and</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">in1</span><span class="p">,</span> <span class="n">in2</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一个是输出，其余是输入，系统输入数量不限</p>
+<p><strong class=chinese>非门和缓冲门</strong></p>
+<ul>
+<li><code>not</code> 非门</li>
+<li><code>buf</code> 缓冲门</li>
+</ul>
+<p>其中使用方式为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">not</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="n">in</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>前面是输出，最后一个是输入，其中输出的数量不限制</p>
+<p><strong class=chinese>三态门</strong></p>
+<ul>
+<li><code>bufif1</code> 控制端 1 有效缓冲器</li>
+<li><code>bufif0</code> 控制端 0 有效缓冲器</li>
+<li><code>notif1</code> 控制端 1 有效非门</li>
+<li><code>notif1</code> 控制端 0 有效非门</li>
+</ul>
+<p>使用方式都为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="n">bufif</span> <span class="n">b1</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">in</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>端口列表中，前面是输出，中间是输入，最后是使能端口，输出个数不限</p>
+<h2 id="阻塞赋值和非阻塞赋值">阻塞赋值和非阻塞赋值</h2>
+<h3 id="阻塞赋值">阻塞赋值</h3>
+<p>使用 <code>=</code> 来表示阻塞赋值运算符，如下的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">data1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data3</span> <span class="o">=</span> <span class="n">data1</span> <span class="o">|</span> <span class="n">data2</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中的运行顺序就是</p>
+<ol>
+<li>先计算 <code>a</code> 直接赋值给 <code>data1</code></li>
+<li>计算 <code>a &amp; data1</code> 直接赋值给 <code>data2</code></li>
+<li>计算 <code>data1 | data2</code> 直接赋值给 <code>data3</code></li>
+</ol>
+<h3 id="非阻塞赋值">非阻塞赋值</h3>
+<p>使用 <code>&lt;=</code> 来表示非阻塞运算符，对于上述的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data2</span> <span class="o">&lt;=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">data1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data3</span> <span class="o">&lt;=</span> <span class="n">data1</span> <span class="o">|</span> <span class="n">data2</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中运行顺序是</p>
+<ol>
+<li>先计算 <code>a</code> 不赋值</li>
+<li>计算 <code>a &amp; data1</code> 不赋值</li>
+<li>计算 <code>data1 | data2</code> 不赋值</li>
+</ol>
+<p>过程结束，然后进行赋值操作</p>
+<ol>
+<li>赋值给 <code>data1</code></li>
+<li>赋值给 <code>data2</code></li>
+<li>赋值给 <code>data3</code></li>
+</ol>
+<h3 id="应用">应用</h3>
+<ul>
+<li>设计组合电路时，常使用阻塞赋值</li>
+<li>设计时序电路时，常使用非阻塞赋值</li>
+<li>但是并不绝对</li>
+<li>不建议在 <code>always</code> 中混合使用阻塞赋值和非阻塞赋值</li>
+</ul>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=verilog%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=verilog%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95&amp;body=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f&amp;resubmit=true&amp;title=verilog%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f&amp;t=verilog%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=verilog%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f04%2f16%2fverilog%25E5%259F%25BA%25E7%25A1%2580%25E8%25AF%25AD%25E6%25B3%2595%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="http://localhost:1313/post/2024/04/11/es%E5%9F%BA%E7%A1%80/">← prev</a>
+    
+    
+    <a class="link" href="http://localhost:1313/post/2024/04/17/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2023</span> - <span>2024</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/weastur target=_blank rel=noopener>GitHub</a>,
+<a class=link href=https://www.linkedin.com/in/weastur/ target=_blank rel=noopener>LinkedIn</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

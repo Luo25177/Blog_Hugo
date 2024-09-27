@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>滤波 on My New Hugo Site</title>
+    <link>http://localhost:1313/tags/%E6%BB%A4%E6%B3%A2/</link>
+    <description>Recent content in 滤波 on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
+    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
+    <lastBuildDate>Thu, 13 Jun 2024 10:40:20 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%BB%A4%E6%B3%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>IIR滤波器设计</title>
+      <link>http://localhost:1313/post/2024/06/13/iir%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Thu, 13 Jun 2024 10:40:20 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/06/13/iir%E6%BB%A4%E6%B3%A2%E5%99%A8%E8%AE%BE%E8%AE%A1/</guid>
+      <description>IIR 数字滤波器设计</description>
+    </item>
+    
+    <item>
+      <title>IMU融合滤波</title>
+      <link>http://localhost:1313/post/2024/03/29/imu%E6%BB%A4%E6%B3%A2/</link>
+      <pubDate>Fri, 29 Mar 2024 16:29:01 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/29/imu%E6%BB%A4%E6%B3%A2/</guid>
+      <description>imu 的融合滤波算法，Mahony 和 Madgwick 方法</description>
+    </item>
+    
+    <item>
+      <title>PF粒子滤波器</title>
+      <link>http://localhost:1313/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</link>
+      <pubDate>Tue, 19 Mar 2024 00:16:19 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</guid>
+      <description>PF 粒子滤波器的原理</description>
+    </item>
+    
+    <item>
+      <title>数字滤波器</title>
+      <link>http://localhost:1313/post/2024/03/19/%E6%95%B0%E5%AD%97%E6%BB%A4%E6%B3%A2%E5%99%A8/</link>
+      <pubDate>Tue, 19 Mar 2024 00:14:42 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/19/%E6%95%B0%E5%AD%97%E6%BB%A4%E6%B3%A2%E5%99%A8/</guid>
+      <description>数字滤波器，用于对信号的处理</description>
+    </item>
+    
+    <item>
+      <title>贝叶斯滤波</title>
+      <link>http://localhost:1313/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/</link>
+      <pubDate>Tue, 19 Mar 2024 00:09:46 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/</guid>
+      <description>贝叶斯滤波器原理</description>
+    </item>
+    
+    <item>
+      <title>卡尔曼滤波</title>
+      <link>http://localhost:1313/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
+      <pubDate>Tue, 19 Mar 2024 00:06:36 +0000</pubDate>
+      <author>me@weastur.com (Pavel Sapezhka)</author>
+      <guid>http://localhost:1313/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
+      <description>卡尔曼滤波器理论与实现</description>
+    </item>
+    
+  </channel>
+</rss>

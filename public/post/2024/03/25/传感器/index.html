@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="Pavel Sapezhka">
+
+  
+  
+  <meta name="description" content="传感器的学习记录">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/post/2024/03/25/%E4%BC%A0%E6%84%9F%E5%99%A8/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="传感器">
+  <meta property="og:description" content="传感器的学习记录">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-03-25T11:06:13+00:00">
+    <meta property="article:modified_time" content="2024-03-25T11:06:13+00:00">
+    <meta property="article:tag" content="传感">
+    <meta property="og:image" content="http://localhost:1313/images/logo.jpg">
+
+
+  
+  <link rel="canonical" href="http://localhost:1313/post/2024/03/25/%E4%BC%A0%E6%84%9F%E5%99%A8/">
+
+  
+  
+  
+  <meta itemprop="name" content="传感器">
+  <meta itemprop="description" content="传感器的学习记录">
+  <meta itemprop="datePublished" content="2024-03-25T11:06:13+00:00">
+  <meta itemprop="dateModified" content="2024-03-25T11:06:13+00:00">
+  <meta itemprop="wordCount" content="8233">
+  <meta itemprop="image" content="http://localhost:1313/images/logo.jpg">
+  <meta itemprop="keywords" content="传感">
+
+  
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/common.css'>
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/content.css'>
+
+  
+  
+  <title>传感器 - My New Hugo Site</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/logo.jpg">
+  <meta name="twitter:title" content="传感器">
+  <meta name="twitter:description" content="传感器的学习记录">
+
+
+  
+<link rel="stylesheet" href='http://localhost:1313/css/single.css'>
+<link rel="stylesheet" href='http://localhost:1313/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="http://localhost:1313/">TeXify2</a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="localhost:1313">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>传感器</h1>
+  
+  <div>
+    
+    <a class="link" href='http://localhost:1313/tags/%E4%BC%A0%E6%84%9F'>#传感</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#dt35">DT35</a></li>
+    <li><a href="#dt50">DT50</a></li>
+    <li><a href="#gg-c1200-p">GG-C1200-P</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#陀螺仪的标定">陀螺仪的标定</a>
+      <ul>
+        <li><a href="#原理">原理</a></li>
+      </ul>
+    </li>
+    <li><a href="#工作原理">工作原理</a>
+      <ul>
+        <li><a href="#机械陀螺仪">机械陀螺仪</a></li>
+        <li><a href="#光纤陀螺仪">光纤陀螺仪</a></li>
+        <li><a href="#激光陀螺仪">激光陀螺仪</a></li>
+      </ul>
+    </li>
+    <li><a href="#一些参数">一些参数</a>
+      <ul>
+        <li><a href="#零偏和零漂">零偏和零漂</a></li>
+        <li><a href="#标度因数">标度因数</a></li>
+        <li><a href="#随机游走系数">随机游走系数</a></li>
+        <li><a href="#阈值和分辨率">阈值和分辨率</a></li>
+        <li><a href="#最大输入角速度">最大输入角速度</a></li>
+        <li><a href="#阈值">阈值</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#卡尔曼滤波">卡尔曼滤波</a></li>
+    <li><a href="#带通滤波">带通滤波</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#量化噪声">量化噪声</a></li>
+    <li><a href="#产生原因">产生原因</a></li>
+    <li><a href="#角度随机游走-可忽略">角度随机游走 (可忽略)</a></li>
+    <li><a href="#宽带角速率白噪声">宽带角速率白噪声</a></li>
+    <li><a href="#产生原因-1">产生原因</a></li>
+    <li><a href="#角速率随机游走">角速率随机游走</a></li>
+    <li><a href="#零偏不稳定性噪声">零偏不稳定性噪声</a></li>
+    <li><a href="#零偏">零偏</a></li>
+    <li><a href="#零偏不稳定性">零偏不稳定性</a></li>
+    <li><a href="#速率斜坡">速率斜坡</a></li>
+    <li><a href="#零偏重复性">零偏重复性</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#yesense简介">Yesense简介</a></li>
+    <li><a href="#euler角">EULER角</a></li>
+    <li><a href="#方向余弦">方向余弦</a></li>
+    <li><a href="#四元数">四元数</a></li>
+    <li><a href="#yesense测量原理">yesense测量原理</a></li>
+    <li><a href="#加速滤波及其转化">加速滤波及其转化</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#加速度计工作原理">加速度计工作原理</a></li>
+    <li><a href="#imu误差模型">IMU误差模型</a></li>
+    <li><a href="#imu性能指标">IMU性能指标</a></li>
+    <li><a href="#加速度计影响">加速度计影响</a></li>
+    <li><a href="#陀螺仪影响">陀螺仪影响</a></li>
+    <li><a href="#温度影响">温度影响</a></li>
+    <li><a href="#imu产品化影响">IMU产品化影响</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#轮径系数"><strong>轮径系数</strong></a></li>
+    <li><a href="#编码器">编码器</a></li>
+    <li><a href="#绝对式编码器">绝对式编码器</a></li>
+    <li><a href="#增量编码器">增量编码器</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#描述位姿">描述位姿</a></li>
+    <li><a href="#位置变换">位置变换</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#累计误差">累计误差</a></li>
+    <li><a href="#重定位的意义">重定位的意义</a></li>
+    <li><a href="#陀螺仪的相关误差">陀螺仪的相关误差</a></li>
+    <li><a href="#标度因数的非线性误差">标度因数的非线性误差</a></li>
+    <li><a href="#标度因数的温漂">标度因数的温漂</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#特点">特点</a></li>
+    <li><a href="#端口">端口</a></li>
+    <li><a href="#传输模式">传输模式</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <h1 id="激光测距仪">激光测距仪</h1>
+<p>原理：距离大致是光速和往返时间的乘积的一半，就是测距仪和被测物体之间的距离
+测量方法：实际是测量光传播的时间，用于远距离测量</p>
+<h2 id="dt35">DT35</h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测量范围</td>
+<td>50~12000mm</td>
+</tr>
+<tr>
+<td>分辨率</td>
+<td>0.1mm</td>
+</tr>
+<tr>
+<td>光源</td>
+<td>红外线光源</td>
+</tr>
+<tr>
+<td>激光等级</td>
+<td>1</td>
+</tr>
+<tr>
+<td>接口</td>
+<td>IO-Link</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>过程数据，参数设置，诊断</td>
+</tr>
+<tr>
+<td>模拟输出端分辨率</td>
+<td>12 bit</td>
+</tr>
+<tr>
+<td>开关量输出</td>
+<td>1x/2x反向脉冲：PNP/NPN(100mA)</td>
+</tr>
+<tr>
+<td>温宽</td>
+<td>-30～55</td>
+</tr>
+<tr>
+<td>电压</td>
+<td>12V～30V</td>
+</tr>
+<tr>
+<td>多功能输入</td>
+<td>1x4</td>
+</tr>
+<tr>
+<td>滞后</td>
+<td>0～11950mm</td>
+</tr>
+<tr>
+<td>响应时间</td>
+<td>2.5/6.5/12.5/24.5/96.5 ms</td>
+</tr>
+<tr>
+<td>开关频率</td>
+<td>333/100/50/25/6 Hz</td>
+</tr>
+<tr>
+<td>输出时间</td>
+<td>1/2/4/8/32 ms</td>
+</tr>
+<tr>
+<td>纹波</td>
+<td>≤5 Vpp</td>
+</tr>
+<tr>
+<td>功耗</td>
+<td>≤1.7 W</td>
+</tr>
+<tr>
+<td>初始化时间</td>
+<td>≤500 ms</td>
+</tr>
+<tr>
+<td>预热时间</td>
+<td>≤20分钟</td>
+</tr>
+<tr>
+<td>重量</td>
+<td>55g</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dt50">DT50</h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测量范围</td>
+<td>15～10000mm</td>
+</tr>
+<tr>
+<td>工作电压</td>
+<td>0～10V</td>
+</tr>
+<tr>
+<td>工作温度</td>
+<td>-30～65</td>
+</tr>
+<tr>
+<td>分辨率</td>
+<td>1mm</td>
+</tr>
+<tr>
+<td>响应时间</td>
+<td>20/30 ms</td>
+</tr>
+<tr>
+<td>输出比率</td>
+<td>4 ms</td>
+</tr>
+<tr>
+<td>激光大小</td>
+<td>15x15(10m)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="gg-c1200-p">GG-C1200-P</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测量中心距离</td>
+<td>200mm</td>
+</tr>
+<tr>
+<td>测量范围</td>
+<td>+/-80mm</td>
+</tr>
+<tr>
+<td>重复精度</td>
+<td>200um</td>
+</tr>
+<tr>
+<td>直线性</td>
+<td>+/-0.2% F.S</td>
+</tr>
+<tr>
+<td>温度特性</td>
+<td>0.03% F.S.</td>
+</tr>
+<tr>
+<td>电源电压</td>
+<td>12～24V</td>
+</tr>
+<tr>
+<td>最大流入电流</td>
+<td>50 mA</td>
+</tr>
+<tr>
+<td>控制输出</td>
+<td></td>
+</tr>
+<tr>
+<td>模拟量电压输出</td>
+<td>0～5V</td>
+</tr>
+<tr>
+<td>阻抗</td>
+<td>100</td>
+</tr>
+<tr>
+<td>模拟电流输出</td>
+<td>4～20mA</td>
+</tr>
+<tr>
+<td>阻抗</td>
+<td>300</td>
+</tr>
+<tr>
+<td>响应时间</td>
+<td>1.5/5/10ms</td>
+</tr>
+</tbody>
+</table>
+<h1 id="陀螺仪">陀螺仪</h1>
+<h2 id="陀螺仪的标定">陀螺仪的标定</h2>
+<h3 id="原理">原理</h3>
+<p>就是对大量数据进行处理来得到一个最合理的积分系数，而且，在正转和反转时积分系数也不同</p>
+<p>主要就是在多次测量下得到及分析数与输入角速度的拟合曲线</p>
+<h2 id="工作原理">工作原理</h2>
+<p>一个旋转物体的旋转轴所指的方向在不受外力影响时，是不会改变的。陀螺仪基本上就是运用物体在高速旋转时，角动量会很大，旋转轴会一直稳定指向一个方向的性质为依据，用它来保持一定的方向,人们根据这个道理，用它来保持方向。然后用多种方法读取轴所指示的方向，并自动将数据信号传给控制系统。</p>
+<h3 id="机械陀螺仪">机械陀螺仪</h3>
+<p><img src="./060828381f30e924b899542e495c79061d950a7b592d.webp" alt="060828381f30e924b899542e495c79061d950a7b592d.webp"></p>
+<p>以经典理学为基础，具有高速转动的转子或振动的部件。常见的机械陀螺仪有刚体转动陀螺仪、振动陀螺仪和半球谐振陀螺仪</p>
+<p><strong class=chinese>作用</strong></p>
+<p>刚体转动陀螺仪是把高速旋转的刚体转子支承起来，使之获得转动自由度的一种装置，它可用来测量角位移或角速度；振动陀螺仪是利用振动叉旋转时的哥氏角加速度效应做成的测量角速度的装置；半球谐振陀螺仪则利用振动杯旋转时的哥氏加速度效应做成的测量角位移的装置。</p>
+<h3 id="光纤陀螺仪">光纤陀螺仪</h3>
+<p>一种能够精确地确定运动物体方位的仪器，包括干涉式陀螺仪和谐振式陀螺仪两种
+光纤陀螺仪与传统的机械陀螺仪相比，优点是全固态，没有旋转部件和摩擦部件，寿命长，动态范围大，瞬时启动，结构简单，尺寸小，重量轻。与激光陀螺仪相比，光纤陀螺仪没有闭锁问题，也不用在石英块精密加工出光路，成本相对较低。</p>
+<p><strong class=chinese>工作原理</strong></p>
+<p><a href="https://www.bilibili.com/video/BV1Z3411h77k?spm_id_from=333.337.search-card.all.click&amp;t=1.5">工作原理视频</a><a href="https://www.vfe.ac.cn/Storage/uploads/201601/20160103155429_5732.jpg">工作原理图</a><a href="https://www.vfe.ac.cn/Storage/uploads/201601/20160103155456_4570.jpg">赛格尼克理论</a>
+依据赛格尼克理论：当光束在一个环形的通道中行进时，若环形通道本身具有一个转动速度，那么光线沿着通道转动方向行进所需要的时间要比沿着这个通道转动相反的方向行进所需要的时间要多。也就是说当光学环路转动时，在不同的行进方向上，光学环路的光程相对于环路在静止时的光程都会产生变化。利用光程的这种变化，检测出两条光路的相位差或干涉条纹的变化，就可以测出光路旋转角速度，这便是光纤陀螺仪的工作原理。</p>
+<h3 id="激光陀螺仪">激光陀螺仪</h3>
+<p><strong class=chinese>原理</strong></p>
+<p><img src="./8d5494eef01f3a294f95d29d9b25bc315c607c07.webp" alt="8d5494eef01f3a294f95d29d9b25bc315c607c07.webp"></p>
+<p>激光陀螺仪的原理是利用光程差来测量旋转角速度（Sagnac
+效应）。在闭合光路中，由同一光源发出的沿顺时针方向和反时针方向传输的两束光和光干涉，利用检测相位差或干涉条纹的变化，就可以测出闭合光路旋转角速度。激光陀螺仪的基本元件是环形激光器，环形激光器由三角形或正方形的石英制成的闭合光路组成，内有一个或几个装有混合气体（氦氖气体）的管子，两个不透明的反射镜和一个半透明镜。用高频电源或直流电源激发混合气体，产生单色激光。为维持回路谐振，回路的周长应为光波波长的整数倍。用半透明镜将激光导出回路，经反射镜使两束相反传输的激光干涉，通过光电探测器和电路输入与输出角度成比例的数字信号</p>
+<p><strong class=chinese>特点</strong></p>
+<p>激光陀螺仪没有旋转的转子部件，没有角动量，也不需要方向环框架，框架伺服机构，旋转轴承，导电环及力矩器和角度传感器等活动部件，结构简单，工作寿命长，维修方便，可靠性高，激光陀螺仪的平均无故障工作时间已达到九万小时以上
+动态范围很宽，测得速率为±1500度每秒，最小敏感角速度小于±0.001度每小时一下，分辨率为/弧度秒数量级</p>
+<p><strong>VG103PT与VG910</strong></p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>VG103PT</th>
+<th>VG910</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测量范围</td>
+<td>350/s</td>
+<td>150/s</td>
+</tr>
+<tr>
+<td>零偏稳定性</td>
+<td>1度/h</td>
+<td>2度/h</td>
+</tr>
+<tr>
+<td>随机角度偏差</td>
+<td>0.02 deg /√h</td>
+<td>0.02 deg /√h</td>
+</tr>
+<tr>
+<td>带宽</td>
+<td>0～1kHZ</td>
+<td>0～1kHZ</td>
+</tr>
+<tr>
+<td>比例系数稳定(%)</td>
+<td>0.02～0.04</td>
+<td>0.02～0.04</td>
+</tr>
+<tr>
+<td>比例系数</td>
+<td>6 mV/deg/s</td>
+<td>47 mV/deg/s</td>
+</tr>
+<tr>
+<td>开启时间</td>
+<td>0.02</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>功率</td>
+<td>0.5</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>尺寸</td>
+<td>63x63x21.8</td>
+<td>82.3x82.3x19.5</td>
+</tr>
+<tr>
+<td>重量</td>
+<td>55</td>
+<td>110</td>
+</tr>
+<tr>
+<td>体积</td>
+<td>7cl</td>
+<td>10cl</td>
+</tr>
+<tr>
+<td>工作温度</td>
+<td>-40～70</td>
+<td>-40~70</td>
+</tr>
+<tr>
+<td>工作温度与输出电压</td>
+<td>V(TS) = 0.5 + t°C/100</td>
+<td>V(TS) = 0.5 + t°C/100</td>
+</tr>
+<tr>
+<td>输出方式</td>
+<td>模拟电压</td>
+<td>模拟电压</td>
+</tr>
+</tbody>
+</table>
+<h2 id="一些参数">一些参数</h2>
+<h3 id="零偏和零漂">零偏和零漂</h3>
+<p>零偏是输入角速度为零(即陀螺静止)时陀螺仪的输出量，用规定时间内测得的输出量平均值对应的等效输入角速度表示，理想情况下为地球自转角速度的分量。零漂即为零偏稳定性，表示当输入角速率为零时，陀螺仪输出量围绕其零偏均值的离散程度，用规定时间内输出量的标准偏差对应的等效输入角速率表示。零漂是衡量FOG(光纤陀螺)精度的最重要、最基本的指标。产生零漂的主要因素是沿光纤分布的环境温度变化在光纤线圈内引入的非互易性相移误差。通常为了稳定零漂，常需要对IFOG进行温度控制或者温度补偿。另外偏振也会对零漂产生一定的影响，在IFOG中常采用偏振滤波和保偏光纤的方法消除偏振对零漂的影响。</p>
+<h3 id="标度因数">标度因数</h3>
+<p>标度因数是陀螺仪输出量与输入角速率的比值，在坐标轴上可以用某一特定直线斜率表示，它是反映陀螺灵敏度的指标，其稳定性和精确性是陀螺仪的一项重要指标，综合反映了光纤陀螺的测试和拟合精度。标度因数的稳定性无量纲，通常用百万分比(ppm)表示。标度因数的误差主要来源于温度变化和光纤偏振态的不稳定性。</p>
+<h3 id="随机游走系数">随机游走系数</h3>
+<p>表征光纤陀螺仪中角速度输出白噪声大小的一项技术指标，它反映的是光纤陀螺仪输出的角速度积分随时间积累的不确定性，因此也可称为角随机游走。随机游走系数反应了陀螺仪的研制水平，也反映了陀螺仪最小可检测的角速率。该误差主要来源于光子的随机自发辐射、光电探测器和数字电路引入的噪声和机械抖动。</p>
+<h3 id="阈值和分辨率">阈值和分辨率</h3>
+<p>阈值表示光纤陀螺能感应的最小输入速率。分辨率表示陀螺仪在规定输入角速率下能感应的最小输入速率增量。阈值和分辨率都表征光纤陀螺仪的灵敏度。</p>
+<h3 id="最大输入角速度">最大输入角速度</h3>
+<p>表示陀螺正、反方向输入速率的最大值，表征陀螺的动态范围，即光纤陀螺可感应的速率范围</p>
+<h3 id="阈值">阈值</h3>
+<p>陀螺仪可以识别的最小的AD值</p>
+<hr>
+<h1 id="滤波">滤波</h1>
+<h2 id="卡尔曼滤波">卡尔曼滤波</h2>
+<p>根据已有的数据来预测之后状态
+根据上一个位置信息来预测下一时刻的位置，并且最后通过传感器传入数据对预测信息做修正来得到这一时刻的位置信息，用于预测下一时刻的位置信息</p>
+<h2 id="带通滤波">带通滤波</h2>
+<p>高频和低频都不能通过，只让一个频率范围内的波通过
+带通滤波器中，进行两次声电转换，让在一定频率范围内的电波信号通过</p>
+<h1 id="信号误差组成">信号误差组成</h1>
+<h2 id="量化噪声">量化噪声</h2>
+<p>一切量化操作所固有的噪声，是数字传感器必然出现的噪声；</p>
+<h2 id="产生原因">产生原因</h2>
+<p>通过AD采集把连续时间信号采集成离散信号的过程中，精度会损失，精度损失的大小和AD转换的
+步长有关，步长越小，量化噪声越小。 解决：减少AD转化的步长</p>
+<h2 id="角度随机游走-可忽略">角度随机游走 (可忽略)</h2>
+<h2 id="宽带角速率白噪声">宽带角速率白噪声</h2>
+<p>陀螺输出角速率是含噪声的，该噪声中的白噪声成分；</p>
+<h2 id="产生原因-1">产生原因</h2>
+<p>计算姿态的本质是对角速率做积分，这必然会对噪声也做了积分。白噪声的积分并不是白噪声，而是一个马尔可夫过程，即当前时刻的误差是在上一时刻误差的基础上累加一个随机白噪声得到的。
+角度误差中所含的马尔可夫性质的误差，称为角度随机游走</p>
+<h2 id="角速率随机游走">角速率随机游走</h2>
+<p>与角度随机游走类似，角速率误差中所含的马尔可夫性质的误差，称为角速率随机游走。而这个马尔可夫性质的误差是由宽带角加速率白噪声累积的结果。</p>
+<h2 id="零偏不稳定性噪声">零偏不稳定性噪声</h2>
+<h2 id="零偏">零偏</h2>
+<p>即常说的bias，一般不是一个固定参数，而是在一定范围内缓慢随机飘移。
+解决：零点偏移量，即陀螺仪或加速度计输出中的常值偏移，其值并不是固定不变的，但我们可认为它在短时间内稳定。因此我们可以在陀螺仪板子每次上电时，获取陀螺仪输出作为零偏，并在这段时间内保证小车静止，以消除零偏带来的影响</p>
+<h2 id="零偏不稳定性">零偏不稳定性</h2>
+<p>零偏随时间缓慢变化，其变化值无法预估，需要假定一个概率区间描述它有多大的可能性落在这个区间内。时间越长，区间越大。
+零偏在较短时间内的比赛中几乎可以忽略不计。</p>
+<h2 id="速率斜坡">速率斜坡</h2>
+<p>该误差是趋势性误差，而不是随机误差。
+随机误差，是指你无法用确定性模型去拟合并消除它，最多只能用概率模型去描述它，这样得到的预测结果也
+是概率性质的。
+趋势性误差，是可以直接拟合消除的，在陀螺里产生这种误差最常见的原因是温度引起零位变化，可以通过温补来消除。
+在机器人比赛3分钟时间内基本可以忽略，但是我认为应该直接在拟合时消除</p>
+<h2 id="零偏重复性">零偏重复性</h2>
+<p>多次启动时，零偏不相等，因此会有一个重复性误差。在实际使用中，需要每次上电都重新估计一次。
+Allan方差分析时，不包含对零偏重复性的分析。 在短时间内认为是固定的</p>
+<hr>
+<h1 id="yesense">yesense</h1>
+<h2 id="yesense简介">Yesense简介</h2>
+<p>Yesense是一款小巧的九轴陀螺仪，九轴实际上是指三轴陀螺仪、三轴加速度计和三轴磁偏角，目前yesense只用于精度不高的场合或者提供辅助数据，如给安装在四足上提供偏航角和俯仰角信息，或者给主控提供加速度信息</p>
+<h2 id="euler角">EULER角</h2>
+<p>欧拉角是用来唯一地确定定点转动刚体位置的三个一组独立角参量，由章动角 $\theta$，进动角 $\psi$ 和自转角 $\varphi$ 组成。做出固定坐标系 OXYZ ，以及与刚体固连的坐标系 Oxyz ，在刚体产生转动时， Oxyz 与 OXYZ 会有一定的夹角， XOY 与 xOy 两个平面的交线ON。Ox 与 ON 的夹角为φ，OX 与 ON 的夹角为ψ，OZ 与 Oz 的夹角为θ。三个角的方向与位置如图所示：</p>
+<p><img src="./962bd40735fae6cdfc54c75b0cb30f2442a70f23.webp" alt="962bd40735fae6cdfc54c75b0cb30f2442a70f23.webp"></p>
+<p>若令 $Ox'y'z'$ 的原始位置重合于 Oxyz ，经过相继绕 Oz、ON 和 Oz’ 的三次转动 $Z(\psi),N(\theta),Z'(\varphi)$ 后，刚体将转到图示的任意位置（见刚体定点转动）。变换关系可写为：</p>
+$$
+R(\psi,\theta,\varphi)=Z(\psi)N(\theta)Z'(\varphi)
+$$<p>式中 $R,Z',N,Z$ 是转动算子，并可用矩阵表示如下：</p>
+<p><img src="./5366d0160924ab181a879a8a31fae6cd7a890bfd.webp" alt="5366d0160924ab181a879a8a31fae6cd7a890bfd.webp"></p>
+<p>刚体上任一点Q在两个坐标系中的坐标x、y、z和x’、y’、z’都可以通过矢径的模和方向余弦来表出。两组坐标之间有如下变换关系</p>
+<p><img src="./fc1f4134970a304e41a0db47d5c8a786c8175c88.webp" alt="fc1f4134970a304e41a0db47d5c8a786c8175c88.webp"></p>
+<h2 id="方向余弦">方向余弦</h2>
+<p>在解析几何里，一个向量的三个方向余弦分别是这向量与三个坐标轴之间的角度的余弦。
+在机器人中，方向余弦可以是固定在机械上的Oxyz坐标轴的Ox，Oy，Oz，分别与规定的世界坐标轴OXYZ中的OX，OY,OZ之间的夹角的余弦值</p>
+<h2 id="四元数">四元数</h2>
+<p>四元数是简单的超复数。 复数是由实数加上虚数单位 $i$ 组成，其中 $i^2=-1$
+相似地，四元数都是由实数加上三个虚数单位 i、j和k
+组成，而且它们有如下的关系：</p>
+$$
+i^2=j^2=k^2= -1\\i^0=j^0=k^0=1
+$$<p>每个四元数都是 1、i、j 和 k 的线性组合，即是四元数一般可表示为 $a+bi+cj+dk$ ，其中a、b、c 、d是实数。</p>
+<h2 id="yesense测量原理">yesense测量原理</h2>
+<h2 id="加速滤波及其转化">加速滤波及其转化</h2>
+<h1 id="imu">IMU</h1>
+<p>IMU为惯性测量单元，惯性测量单元是测量物体三轴姿态角（或角速率）以及加速度的装置。一般的6轴IMU，一个IMU包含了三个单轴的加速度计和三个单轴的陀螺，还有 9 轴的IMU，就是在6轴的基础上加上三轴磁传感器。加速度计检测物体在载体坐标系统独立三轴的加速度信号，而陀螺检测载体相对于导航坐标系的角速度信号，测量物体在三维空间中的角速度和加速度，磁力计用卡尔曼或者互补滤波等算法为用户提供拥有绝对参考的俯仰角、横滚角和航向角，并以此解算出物体的姿态。</p>
+<h2 id="加速度计工作原理">加速度计工作原理</h2>
+<p>加速度计的本质是检测力而非加速度，即加速度计的检测装置捕获的是引起加速度的惯性力，随后可利用牛顿第二定律获得加速度值。测量原理可以用一个简单的质量块、弹簧和指示计来表示。
+种类：压电式，压阻式，电容式，伺服式</p>
+<h2 id="imu误差模型">IMU误差模型</h2>
+<p>加速度计和陀螺仪的误差可以分为：确定性误差，随机误差。确定性误差可以事先标定确定，包括：bias，scale等。随机误差通常假设噪声服从高斯分布，包括：高斯白噪声，bias随机游走等</p>
+<h2 id="imu性能指标">IMU性能指标</h2>
+<p><a href="https://static.sensorexpert.com.cn/upload/file/20200819/1597821869941193.jpg">影响IMU性能的主要因素</a></p>
+<h2 id="加速度计影响">加速度计影响</h2>
+<p>主要是加速度计的精度和稳定性</p>
+<h2 id="陀螺仪影响">陀螺仪影响</h2>
+<p>陀螺仪对IMU影响主要在精确度上</p>
+<h2 id="温度影响">温度影响</h2>
+<p>惯性器件在温度发生变化时，精度会产生较大的差异</p>
+<h2 id="imu产品化影响">IMU产品化影响</h2>
+<p>信噪比降低和漂移大</p>
+<hr>
+<h1 id="码盘">码盘</h1>
+<p>就是一个增量编码器，<a href="https://baike.baidu.com/item/%E7%A0%81%E7%9B%98">码盘介绍</a>，码盘使用来检测运动的距离。编码器在码盘转动时会计录传出的脉冲数，根据接收到的脉冲数和每圈的脉冲数就可以算出转动的圈数，最后算出距离。</p>
+<h2 id="轮径系数"><strong class=chinese>轮径系数</strong></h2>
+<p>轮径系数就是全向轮走过的距离 / 编码器值的增量
+其实就是编码器增量为1时走过的距离</p>
+<h2 id="编码器">编码器</h2>
+<p>简单来说是输出脉冲的计数器</p>
+<h2 id="绝对式编码器">绝对式编码器</h2>
+<p>能直接给出与角位置相对应的数字码 <a href="https://bkimg.cdn.bcebos.com/pic/b7003af33a87e9501ce3ec781b385343fbf2b429?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto">绝对式码盘</a></p>
+<p><strong class=chinese>接触编码器</strong></p>
+<p>它由编码盘、电刷和电路组成。图1是一个6位二进制编码器。编码盘按二进制码制成，与旋转轴固定在一起。码盘上有6条码道，每条码道上有许多扇形导电区（黑区）和不导电区（白区），全部导电区连在一起接到一个公共电源上。6个电刷沿一个固定的径向安装，分别与6条码道接触。每个电刷与一单根导线相连，输出6个电信号,其电平由码盘的位置控制。当电刷与导电区接触时，输出为“1”电平；与不导电区接触时，输出为“0”电平。码道越多精确度越高。</p>
+<p><strong class=chinese>光学编码器</strong></p>
+<p>是依照光学和光电原理制成的器件。它由光源、码盘、光学系统及电路4部分组成。码盘是在不透明的基底上按二进制码制成明暗相间的码道，相当于接触编码器的导电区和不导电区。光线通过码盘由光电元件转换成相应的电信号。光学编码器的精度高于1/108，径向分度线的精度为
+0.067弧秒。</p>
+<h2 id="增量编码器">增量编码器</h2>
+<p>利用计算机系统将旋转码盘产生的脉冲增量针对某个技术进行加减，增量型编码器是直接利用光电转换原理输出三组方波脉冲A、B和Z相；AB两组脉冲相位相差90°，从而可以方便的判断出旋转方向，而Z相每转一个脉冲，用于基准点定位。</p>
+<ol>
+<li>增量型旋转编码器有分辨率的差异，使用每圈产生的脉冲数来计量，数目从6到5400或更高，脉冲数越多，分辨率越高；这是选型的重要依据之一。</li>
+<li>增量型编码器通常有三路信号输出（差分有六路信号）：A,B和Z，一般采用TTL电平，A脉冲在前，B脉冲在后，A,B脉冲相差90度，每圈发出一个Z脉冲，可作为参考机械零位。一般利用A超前B或B超前A进行判向，我公司增量型编码器定义为轴端看编码器顺时针旋转为正转，A超前B为90°，反之逆时针旋转为反转B超前A为90°。也有不相同的，要看产品说明。</li>
+<li>使用PLC采集数据，可选用高速计数模块；使用工控机采集数据，可选用高速计数板卡；使用单片机采集数据，建议选用带光电耦合器的输入端口。</li>
+<li>建议B脉冲做顺向（前向）脉冲，A脉冲做逆向（后向）脉冲，Z原点零位脉冲。</li>
+<li>在电子装置中设立计数栈。</li>
+</ol>
+<h1 id="stm32-正交编码模式">stm32 正交编码模式</h1>
+<p><a href="https://www.pianshen.com/source/905069031842339/">stm32正交编码模式</a></p>
+<p>其实就是在输出脉冲时，输出两个相位差为 90 度的脉冲。A，B，当A比B领先90度时，此时记录为向上计数，当B比A领先90度时，记录为向下计数，还有一个脉冲Z，在每次0位发出，作为参考机械零位</p>
+<h1 id="激光雷达tim561">激光雷达tim561</h1>
+<p>5表示雷达为测量型，6表示检测距离10米，1表示应用环境室外型。激光发射器发出激光脉冲，当激光碰到物体后，部分机光反射回激光接收器，通过计算发射和接收之间的时间差，可以计算出距离值。激光扫描器连续不断的发射激光脉冲，由旋转的光学构件将激光脉冲按照一定的角度间隔(角度分辨率)发射至扫描角度内的各个方向而形成一个二维的扫描面</p>
+<p><img src="./L3Byb3h5L2h0dHBzL2ltYWdlczIwMTguY25ibG9ncy5jb20vYmxvZy84OTA5NjYvMjAxNzEyLzg5MDk2Ni0yMDE3MTIwMzEwNDMxMzQ0NC0xNDAxMDU5NTc3LnBuZw.png" alt="L3Byb3h5L2h0dHBzL2ltYWdlczIwMTguY25ibG9ncy5jb20vYmxvZy84OTA5NjYvMjAxNzEyLzg5MDk2Ni0yMDE3MTIwMzEwNDMxMzQ0NC0xNDAxMDU5NTc3LnBuZw==.png"></p>
+<p><strong class=chinese>参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>激光雷达tim561</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>扫描距离范围</td>
+<td>0.05～10 m  通常在10%缓解时8米</td>
+</tr>
+<tr>
+<td>扫描误差</td>
+<td>静态：20mm 系统：+/-60mm 温度漂移0.5mm/度</td>
+</tr>
+<tr>
+<td>角度范围</td>
+<td>径向，孔径角270°，1°步进</td>
+</tr>
+<tr>
+<td>精确度</td>
+<td>0.33</td>
+</tr>
+<tr>
+<td>扫描频率</td>
+<td>15 Hz</td>
+</tr>
+<tr>
+<td>回应时间</td>
+<td>67 ms</td>
+</tr>
+<tr>
+<td>频带宽度(扫描场平面度)</td>
+<td>+/-3 度</td>
+</tr>
+<tr>
+<td>最大功率</td>
+<td>1.5W</td>
+</tr>
+<tr>
+<td>工作温度</td>
+<td>-25～50度</td>
+</tr>
+<tr>
+<td>工作电压</td>
+<td>9～28V</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="齐次变换矩阵">齐次变换矩阵</h1>
+<p>空间中的位置是由一个矩阵描述， 描述姿态有9个参数，旋转矩阵3x3：旋转矩阵的逆和它的矩阵相等，旋转矩阵的模为1，单位正交阵，三个列向量都是单位向量，且两两垂直。三个列向量相当于是目标x,y,z轴上的单位向量在原来x,y,z坐标系中的向量表示。</p>
+<p><img src="./%25E6%2597%258B%25E8%25BD%25AC%25E7%259F%25A9%25E9%2598%25B5.png" alt="旋转矩阵.png"></p>
+<table>
+<thead>
+<tr>
+<th>旋转矩阵绕X轴转A度</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>x</td>
+</tr>
+<tr>
+<td>0</td>
+<td>cosA</td>
+<td>-sinA</td>
+<td>y</td>
+</tr>
+<tr>
+<td>0</td>
+<td>sinA</td>
+<td>cosA</td>
+<td>z</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>旋转矩阵绕Y轴转B度</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cosB</td>
+<td>0</td>
+<td>sinB</td>
+<td>x</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>y</td>
+</tr>
+<tr>
+<td>-sinB</td>
+<td>0</td>
+<td>cosB</td>
+<td>z</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>旋转矩阵绕Z轴转C度</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cosC</td>
+<td>-sinC</td>
+<td>0</td>
+<td>x</td>
+</tr>
+<tr>
+<td>sinC</td>
+<td>cosC</td>
+<td>0</td>
+<td>y</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>z</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>A:绕x轴旋转的角度 x:B坐标原点相对于原坐标轴的x坐标</p>
+<p>B:绕y轴旋转的角度 y:B坐标原点相对于原坐标轴的y坐标</p>
+<p>C:绕z轴旋转的角度 z:B坐标原点相对于原坐标轴的z坐标</p>
+<p>描述位置有3个参数 $\begin{bmatrix}x&y&z\end{bmatrix}$</p>
+<h2 id="描述位姿">描述位姿</h2>
+<p>齐次变换矩阵 4x4 :前三列相当于是旋转矩阵，第四列是目标坐标系的原点相对于原来坐标系的坐标，第四行的元素是[0,0,0,1]</p>
+<p>齐次坐标： $\begin{bmatrix}x&y&z\end{bmatrix}^T$</p>
+<p>是用4X1的向量来表示三维坐标，方便运算。</p>
+<h2 id="位置变换">位置变换</h2>
+<p><strong class=chinese>平移坐标变换</strong></p>
+<p>$P_A = P_B+ P_A^B$</p>
+<p>相对A的位置等于相对于B的位置加上B相对于A的位置</p>
+<p><strong class=chinese>旋转坐标变换</strong></p>
+<p>$P_A= P_B*Rot$</p>
+<p>相对于 A 的姿态矩阵等于相对于 B 的姿态 s 矩阵乘以旋转矩阵</p>
+<h1 id="惯性导航">惯性导航</h1>
+<p>惯性导航(inertialnavigation)通过测量飞行器的加速度，并自动进行积分运算，获得飞行器瞬时速度和瞬时位置数据的技术。利用惯性元件（加速度计）来测量运载体本身的加速度，经过积分和运算得到速度和位置，从而达到对运载体导航定位的目的。组成惯性导航系统的设备都安装在运载体内，工作时不依赖外界信息，也不向外界辐射能量，不易受到干扰，是一种自主式导航系统。惯性导航系统通常由惯性测量装置、计算机、控制显示器等组成。惯性测量装置包括加速度计和陀螺仪，又称惯性测量单元。3个自由度陀螺仪用来测量运载体的3个转动运动；3个加速度计用来测量运载体的3个平移运动的加速度。计算机根据测得的加速度信号计算出运载体的速度和位置数据。</p>
+<h2 id="累计误差">累计误差</h2>
+<p>因为在测量时如果产生了误差，那么在积分和时间累积之后，就会形成一个很大的偏差</p>
+<h2 id="重定位的意义">重定位的意义</h2>
+<p>重定位就是在机器人运动一段时间后，再通过除惯性元件以外的测量元件来测定位置
+DT照挡板，基座：就是用激光测距仪测定小车和固定的挡板或者固定的底座与小车之间的距离，来再次确定小车的位置
+色标传感器照白线：场地中的白线都是画在确定的位置，可以大致确定小车的位置</p>
+<h2 id="陀螺仪的相关误差">陀螺仪的相关误差</h2>
+<p>陀螺仪输出的是AD值，对AD值进行转换才能得到当前的角速度，进而积分得到角度，由于AD值与角速度成正比，只需要除以一个定值就可以，这个定值就是积分系数/标度因数</p>
+<h2 id="标度因数的非线性误差">标度因数的非线性误差</h2>
+<p>陀螺仪的输出与输入的角度并不完全成正比，主要是因为标度因数的温漂，在计算角速度时一味的除以一个定值得到的数据是不准确的。</p>
+<h2 id="标度因数的温漂">标度因数的温漂</h2>
+<p>相同的角速度下，陀螺仪的输出会随着温度的变化而降低，由于陀螺仪上电后内部温度会逐渐升高，所以相同输入下输出会升高。但是在比赛中，时间很短，温漂可以忽略</p>
+<h1 id="spi总线">spi总线</h1>
+<p>SPI（serial peripheralinterface，串行外围设备接口）总线技术是Motorola公司推出的一种同步串行接口。它用于CPU与各种外围器件进行全双工、同步串行通讯。它只需四条线就可以完成MCU与各种外围器件的通讯</p>
+<ul>
+<li>串行时钟线(SCLK)</li>
+<li>主机输入/从机输出数据线(MISO)</li>
+<li>主机输出/从机输入数据线(MOSI)</li>
+<li>低电平有效从机选择线(CS)</li>
+</ul>
+<p>当SPI工作时，在移位寄存器中的数据逐位从输出引脚（MOSI）输出（高位在前），同时从输入引脚（MISO）接收的数据逐位移到移位寄存器（高位在前）。发送一个字节后，从另一个外围器件接收的字节数据进入移位寄存器中。即完成一个字节数据传输的实质是两个器件寄存器内容的交换。主SPI的时钟信号（SCK）使传输同步。</p>
+<h2 id="特点">特点</h2>
+<ul>
+<li>全双工；</li>
+<li>采用主从模式的控制方式</li>
+<li>数据传输时高位在前，低位在后</li>
+<li>可以当作主机或从机工作；</li>
+<li>提供频率可编程时钟；</li>
+<li>发送结束中断标志；</li>
+<li>写冲突保护；</li>
+<li>总线竞争保护等</li>
+<li>缺点：没有指定的流控制，没有应答机制确认是否接收到数据</li>
+</ul>
+<h2 id="端口">端口</h2>
+<ul>
+<li>SDO: 主设备数据输出，从设备数据输入</li>
+<li>SDI：主设备数据输入，从设备数据输出</li>
+<li>SCLK：时钟信号，由主设备产生</li>
+<li>CS：从设备使能信号，由主设备控制SPI的主从结构其中CS是控制芯片是否被选中的，也就是说只有片选信号为预先规定的使能信号时</li>
+</ul>
+<h2 id="传输模式">传输模式</h2>
+<p><img src="./20210710111649406.png" alt="20210710111649406.png"></p>
+<ul>
+<li>CPOL = 0， CPHA = 0
+SCK串行时钟线空闲是为低电平，数据在SCK时钟的上升沿被采样，数据在SCK时钟的下降沿切换</li>
+<li>CPOL = 0， CPHA = 1
+SCK串行时钟线空闲是为低电平，数据在SCK时钟的下降沿被采样，数据在SCK时钟的上升沿切换</li>
+<li>CPOL = 1， CPHA = 0
+SCK串行时钟线空闲是为高电平，数据在SCK时钟的下降沿被采样，数据在SCK时钟的上升沿切换</li>
+<li>CPOL = 1， CPHA = 1
+SCK串行时钟线空闲是为高电平，数据在SCK时钟的上升沿被采样，数据在SCK时钟的下降沿切换</li>
+</ul>
+<p>这4种模式分别由时钟极性(CPOL，Clock Polarity)和时钟相位(CPHA，ClockPhase)来定义，其中CPOL参数规定了SCK时钟信号空闲状态的电平，CPHA规定了数据是在SCK时钟的上升沿被采样还是下降沿被采样CPOL 规定初始相位 CPHA 规定采样时是向下还是向上</p>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%e4%bc%a0%e6%84%9f%e5%99%a8&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=%e4%bc%a0%e6%84%9f%e5%99%a8&amp;body=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f&amp;resubmit=true&amp;title=%e4%bc%a0%e6%84%9f%e5%99%a8" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f&amp;t=%e4%bc%a0%e6%84%9f%e5%99%a8" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%e4%bc%a0%e6%84%9f%e5%99%a8&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f25%2f%25E4%25BC%25A0%25E6%2584%259F%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="http://localhost:1313/post/2024/03/24/ros%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">← prev</a>
+    
+    
+    <a class="link" href="http://localhost:1313/post/2024/03/26/%E8%BD%AE%E5%BC%8F%E5%BA%95%E7%9B%98%E8%A7%A3%E7%AE%97/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2023</span> - <span>2024</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/weastur target=_blank rel=noopener>GitHub</a>,
+<a class=link href=https://www.linkedin.com/in/weastur/ target=_blank rel=noopener>LinkedIn</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

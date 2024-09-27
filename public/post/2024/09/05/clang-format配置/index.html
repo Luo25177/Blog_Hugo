@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="Pavel Sapezhka">
+
+  
+  
+  <meta name="description" content="clang-format 基础配置，用于自动格式化代码，设置自己喜欢的格式">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/post/2024/09/05/clang-format%E9%85%8D%E7%BD%AE/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="clang-format配置">
+  <meta property="og:description" content="clang-format 基础配置，用于自动格式化代码，设置自己喜欢的格式">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-09-05T20:51:34+00:00">
+    <meta property="article:modified_time" content="2024-09-05T20:51:34+00:00">
+    <meta property="article:tag" content="Clang-Format">
+    <meta property="article:tag" content="Clang">
+    <meta property="og:image" content="http://localhost:1313/images/logo.jpg">
+
+
+  
+  <link rel="canonical" href="http://localhost:1313/post/2024/09/05/clang-format%E9%85%8D%E7%BD%AE/">
+
+  
+  
+  
+  <meta itemprop="name" content="clang-format配置">
+  <meta itemprop="description" content="clang-format 基础配置，用于自动格式化代码，设置自己喜欢的格式">
+  <meta itemprop="datePublished" content="2024-09-05T20:51:34+00:00">
+  <meta itemprop="dateModified" content="2024-09-05T20:51:34+00:00">
+  <meta itemprop="wordCount" content="7346">
+  <meta itemprop="image" content="http://localhost:1313/images/logo.jpg">
+  <meta itemprop="keywords" content="Clang-Format,Clang">
+
+  
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/common.css'>
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/content.css'>
+
+  
+  
+  <title>clang-format配置 - My New Hugo Site</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/logo.jpg">
+  <meta name="twitter:title" content="clang-format配置">
+  <meta name="twitter:description" content="clang-format 基础配置，用于自动格式化代码，设置自己喜欢的格式">
+
+
+  
+<link rel="stylesheet" href='http://localhost:1313/css/single.css'>
+<link rel="stylesheet" href='http://localhost:1313/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="http://localhost:1313/">TeXify2</a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="localhost:1313">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>clang-format配置</h1>
+  
+  <div>
+    
+    <a class="link" href='http://localhost:1313/tags/clang-format'>#clang-format</a>
+    
+    <a class="link" href='http://localhost:1313/tags/clang'>#clang</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#原文地址">原文地址</a></li>
+      </ul>
+    </li>
+    <li><a href="#原理">原理</a></li>
+    <li><a href="#vscode-配置-clang-format">vscode 配置 Clang-format</a></li>
+    <li><a href="#命令行语法">命令行语法</a></li>
+    <li><a href="#配置文件语法">配置文件语法</a>
+      <ul>
+        <li><a href="#编写规则">编写规则</a></li>
+        <li><a href="#配置字段解释">配置字段解释</a></li>
+        <li><a href="#一个可供参考的版本">一个可供参考的版本</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <h2 id="前言">前言</h2>
+<h3 id="简介">简介</h3>
+<p>Clang-format 是一种代码格式化的工具，可以用来格式化各种代码，支持的语言如下</p>
+<ul>
+<li>C/C++</li>
+<li>Java</li>
+<li>JavaScript</li>
+<li>Objective-C</li>
+<li>Protobuf</li>
+<li>C#</li>
+</ul>
+<p>Clang-format 的配置文件可以取名为 <code>.clang-format</code> 或者 <code>_clang-format</code> ，该文件被放在项目的根目录下，一般来说 Clang-format 会自己去寻找配置文件的</p>
+<h3 id="安装">安装</h3>
+<p><strong>windows</strong></p>
+<p><a href="https://releases.llvm.org/">Download LLVM releases</a></p>
+<p>直接从上述网站上找到一个对应的发行版安装即可</p>
+<p>然后在命令行中输入如下指令来查看是否安装完成，一般来说安装完成之后需要重新启动一下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">clang-format -version
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>ubuntu</strong></p>
+<p><a href="https://apt.llvm.org/">LLVM</a></p>
+<p>根据该文章的内容来安装</p>
+<p>安装最新版 LLVM，需要注意，该指令只能在 <code>bash</code> 中使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo bash -c <span class="s2">&#34;</span><span class="k">$(</span>wget -O - https://apt.llvm.org/llvm.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装 Clang-format</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> apt-get install clang-18 clang-tools-18 clang-18-doc libclang-common-18-dev libclang-18-dev libclang1-18 clang-format-18 python3-clang-18 clangd-18 clang-tidy-18 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后可以验证</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">llvm-config-18 --version
+</span></span><span class="line"><span class="cl">clang-format-18 --version
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="原文地址">原文地址</h3>
+<p><a href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html">Clang-Format Style Options — Clang 20.0.0git documentation (llvm.org)</a></p>
+<h2 id="原理">原理</h2>
+<p>Clang-format 的底层原理是基于 Clang 编译器的前端技术，包括一下几个步骤</p>
+<ul>
+<li>词法分析：Clang-format 使用 Clange 的词法分析器，将源代码分解成标记，这些标记是代码的基本构建块，如关键词，标识符，运算符和分隔符</li>
+<li>语法分析：Clang-format 解析代码的语法结构，生成抽象语法树，抽象语法树是代码结构的树形表示形式，用于进一步分析和转换</li>
+<li>格式化规则应用：Clang-format 根据用户定义的格式化规则，对 AST 进行遍历和调整。规则涵盖了代码缩进，空格，换行和代码块布局等各个方面</li>
+<li>代码生成：Clang-format 将调整之后的 AST 转换回源代码文本，并且输出格式化之后的代码</li>
+</ul>
+<h2 id="vscode-配置-clang-format">vscode 配置 Clang-format</h2>
+<p>需要下载插件 C/C++，但是需要注意的是，下载的插件的版本必须是 1.17.4 以及之前的版本（后面更新的新版本好像用不了）</p>
+<p>然后在设置里找到 <code>format-enbale</code> 并且将其打开即可</p>
+<p>然后可以在项目的根目录下添加 <code>.clang-format</code> 文件，里面就可以写配置了，然后在格式化时 C/C++ 插件会自动寻找 <code>.clang-format</code> 文件的，一般来说会在该项目的根目录中寻找</p>
+<h2 id="命令行语法">命令行语法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">clang</span><span class="o">-</span><span class="n">format</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">[</span><span class="n">filename</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>常用的选项如下</p>
+<ul>
+<li><code>-i</code> 直接修改文件而不是输出到标准输出</li>
+<li><code>-style</code> 指定格式化风格，如下几种预定风格
+<ul>
+<li><a href="https://llvm.org/docs/CodingStandards.html">LLVM</a></li>
+<li><a href="https://google.github.io/styleguide/cppguide.html">Google</a></li>
+<li><a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/styleguide/styleguide.md">Chromium</a></li>
+<li><a href="https://firefox-source-docs.mozilla.org/code-quality/coding-style/index.html">Mozilla</a></li>
+<li><a href="https://www.webkit.org/coding/coding-style.html">WebKit</a></li>
+<li><a href="https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference">Microsoft</a></li>
+<li><a href="https://www.gnu.org/prep/standards/standards.html">GNU</a></li>
+</ul>
+</li>
+<li><code>-assume-filename</code> 指定文件类型，以便应用相应的格式化规则</li>
+</ul>
+<h2 id="配置文件语法">配置文件语法</h2>
+<p>在进行配置时，可以一次使用多个语言配置，如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l">Cpp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">DerivePointerAlignment</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l">JavaScript</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ColumnLimit</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l">Proto</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">DisableFormat</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l">CSharp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ColumnLimit</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以在源代码中进行如下注释，表示这一段代码不需要被格式化</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// clang-format off
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">unformat_code</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// clang-format on
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="编写规则">编写规则</h3>
+<ul>
+<li>配置文件名必须为 <code>.clang-format</code></li>
+<li>该文件必须位于项目的根目录或者编译目录下</li>
+<li>文件采用 <code>YAML</code> 语法</li>
+</ul>
+<h3 id="配置字段解释">配置字段解释</h3>
+<ul>
+<li>
+<p><code>Language</code> 语言，可以指定当前配置文件为那些文件配置的</p>
+<ul>
+<li>Cpp</li>
+<li>Java</li>
+<li>JavaScript</li>
+<li>ObjC</li>
+<li>Proto</li>
+<li>TableGen</li>
+<li>TextPorto</li>
+<li>CSharp</li>
+</ul>
+</li>
+<li>
+<p><code>BaseOnStyle</code> 基础风格，指定基本的风格样式</p>
+<ul>
+<li>LLVM</li>
+<li>Google</li>
+<li>Chromium</li>
+<li>Mozilla</li>
+<li>WebKit</li>
+<li>Microsoft</li>
+<li>GNU</li>
+</ul>
+</li>
+<li>
+<p><code>AccessModifierOffset</code> 访问性修饰符偏移，这个偏移量是相对于原来已有的缩进而言的，需要在原来就有的偏移基础上进行的偏移</p>
+</li>
+<li>
+<p><code>AlignAfterOpenBracket</code> 开括号之后的对齐</p>
+<ul>
+<li><code>Align</code> 开阔号之后对齐变量</li>
+<li><code>DontAlign</code> 不对齐，换行后使用缩进</li>
+<li><code>AlwaysBreak</code> 一行放不下时，总是在一个开括号之后换行</li>
+<li><code>BlockIndext</code> 一行放不下时，总是在一个开括号之后换行，并且在新行关闭尾括号，但是仅限于圆括号</li>
+</ul>
+</li>
+<li>
+<p><code>AlignArrayOfStructures</code> 对齐结构体数组，当数组列数相等时，会对齐每行的文本</p>
+<ul>
+<li><code>Left</code> 向左对齐</li>
+<li><code>Right</code> 向右对齐</li>
+<li><code>None</code> 不对齐</li>
+</ul>
+</li>
+<li>
+<p><code>AlignConsecutiveAssignments</code> 连续赋值对齐，连续几行的赋值语句中，等号对齐。其中有几个变量来控制</p>
+<ul>
+<li><code>bool Enabled</code> 是否使能对齐</li>
+<li><code>bool AcrossEmptyLines</code> 可以跨越空白行进行对齐</li>
+<li><code>bool AcrossComments</code> 可以跨越注释行进行对齐</li>
+<li><code>bool AlignCompound</code> 对于混合运算 <code>+=</code> 会对齐于 <code>=</code></li>
+<li><code>bool PadOperators</code>  混合运算符填补对齐到所有左值的最右边界，仅限于连续赋值</li>
+</ul>
+</li>
+<li>
+<p><code>AlignConsecutiveBitFields</code> 位段对齐，主要用于结构体位阈段的对齐。由如下几个变量控制</p>
+<ul>
+<li><code>Enabled</code> 使能对齐</li>
+<li><code>AcrossEmptyLines</code> 可以跨越空行进行对齐</li>
+<li><code>AcrossComments</code> 可以跨越注释进行对齐</li>
+</ul>
+</li>
+<li>
+<p><code>AlignConsecutiveDeclarations</code> 连续对齐声明，可以对齐变量等连续声明的语句。需要注意的是，这个对齐尽量不要跨越空白行，容易把函数定义也对齐了。由如下几个变量控制</p>
+<ul>
+<li><code>Enabled</code> 使能对齐</li>
+<li><code>AcrossEmptyLines</code> 可以跨越空行进行对齐</li>
+<li><code>AcrossComments</code> 可以跨越注释进行对齐</li>
+</ul>
+</li>
+<li>
+<p><code>AlignEscapedNewlines</code> 对齐分割语法行的斜杠</p>
+<ul>
+<li><code>DontAlign</code> 不对齐</li>
+<li><code>Left</code> 左对齐，尽可能向左对齐</li>
+<li><code>Right</code> 右对齐，对齐到列的最右边</li>
+</ul>
+</li>
+<li>
+<p><code>AlignOperands</code> 竖直对齐表达式的操作数，竖直对齐二元或三元表达式的操作数</p>
+<ul>
+<li><code>DontAlign</code> 不对齐</li>
+<li><code>Align</code> 对齐</li>
+<li><code>AlignAfterOperators</code>  在操作符之后对齐，也就是是否对齐操作数</li>
+<li>外部属性 <code>BreakBeforeBinaryOperators</code> 在二元操作符之前打断，如果配置文件中设置了这个属性，操作符也会换行</li>
+</ul>
+</li>
+<li>
+<p><code>AlignTrailingComments</code> 对齐尾部注释</p>
+<ul>
+<li><code>Kind</code>
+<ul>
+<li><code>Leave</code> 不做格式化</li>
+<li><code>Always</code> 对齐尾部注释</li>
+<li><code>Never</code> 不对齐，但是进行缩进之类的操作</li>
+</ul>
+</li>
+<li><code>OverEmptyLines</code> 跨越空白行的行数，超过这个行数的注释不会对齐</li>
+</ul>
+</li>
+<li>
+<p><code>AllowAllArgumentsOnNextLine</code> 允许参数在下一行上，如果函数调用或者带括号的函数初始化列表不在一行中，允许所有参数放到下一行</p>
+</li>
+<li>
+<p><code>AllowAllParametersOfDeclarationOnNextLine</code> 允许声明的参数在下一行上，函数声明无法放在一行中，允许将所有变量放在下一行上</p>
+</li>
+<li>
+<p>****<code>AllowShortBlocksOnASingleLine</code> 允许短语法块在单行上</p>
+<ul>
+<li><code>Never</code> 从不合并到单行上</li>
+<li><code>Always</code> 只合并空的块到单行上</li>
+<li><code>Empty</code> 总是合并短块到单行上</li>
+</ul>
+</li>
+<li>
+<p><code>AllowShortEnumsOnASingleLine</code> 允许短的枚举类到单行上</p>
+</li>
+<li>
+<p><code>AllowShortFunctionsOnASingleLine</code> 允许短函数在单行上</p>
+<ul>
+<li><code>None</code> 从不合并</li>
+<li><code>InlineOnly</code> 仅合并被定义在类里面的短函数</li>
+<li><code>Empty</code> 只合并空函数</li>
+<li><code>inline</code> 合并在类里面的短函数和外部的空函数</li>
+<li><code>ALL</code> 合并所有合适的短函数在单行上</li>
+</ul>
+</li>
+<li>
+<p><code>AllowShortIfStatementsOnASingleLine</code> 允许 <code>if</code> 块在单行上</p>
+<ul>
+<li><code>Never</code> 从不把 <code>if</code> 放在单行上</li>
+<li><code>WithoutElse</code> 没有 <code>else</code> 时放在单行上</li>
+<li><code>OnlyFirstIf</code> 只把第一个 <code>if</code> 语句放在单行上，后面的 <code>else if</code> 和 <code>else</code> 都不放在单行上</li>
+<li><code>AllIfsAndElse</code> 短语句放在单行上</li>
+</ul>
+</li>
+<li>
+<p><code>AllowShortLambdasOnASingleLine</code> 允许短匿名函数 <code>lambda</code> 放在单行上</p>
+<ul>
+<li><code>None</code> 从不合并</li>
+<li><code>Empty</code> 只合并空的匿名函数</li>
+<li><code>Inline</code> 当匿名函数作为实参时，合并在单行上</li>
+<li><code>All</code> 合并所有短的匿名函数</li>
+</ul>
+</li>
+<li>
+<p><code>AllowShortLoopsOnASingleLine</code> 允许合并短循环到单行上</p>
+</li>
+<li>
+<p><code>AlwaysBreakAfterReturnType</code> 函数声明返回类型的换行风格</p>
+<ul>
+<li><code>None</code> 从不在返回类型之后自动换行</li>
+<li><code>All</code> 总是在返回类型之后自动换行</li>
+<li><code>TopLevel</code> 在顶级函数顶级返回类型处换行</li>
+<li><code>AllDefinitions</code> 在函数定义的返回类型处换行</li>
+<li><code>TopLevelDefinitions</code> 在顶级函数定义的返回类型处换行</li>
+</ul>
+</li>
+<li>
+<p><code>AlwaysBreakBeforeMultilineStrings</code> 多行字符串换行，在多行字符串字面量之前换行</p>
+</li>
+<li>
+<p><code>AlwaysBreakTemplateDeclarations</code> 模板声明换行</p>
+<ul>
+<li><code>No</code> 不会强制在模板声明处换行</li>
+<li><code>MultiLine</code> 仅在接下来的函数/类声明参数需要跨行时才会在模板处换行</li>
+<li><code>Yes</code> 总是在模板声明之后换行</li>
+</ul>
+</li>
+<li>
+<p><code>AttributeMacros</code> 属性宏，这个对于语言扩展或静态分析器注释非常有用</p>
+</li>
+<li>
+<p><code>BinPackArguments</code> 装箱变量</p>
+<ul>
+<li><code>false</code> 变量要么都在同一行，要么每个变量单独一行</li>
+<li><code>true</code> 会把变量合理打包放在一行上，更紧凑一点</li>
+</ul>
+</li>
+<li>
+<p><code>BitFieldColonSpacing</code> 位阈冒号的空格风格</p>
+<ul>
+<li><code>Both</code> 在冒号每边都增加一个空格</li>
+<li><code>None</code> 不添加任何空格</li>
+<li><code>Before</code> 在冒号之前添加空格</li>
+<li><code>After</code> 在冒号之后添加空格</li>
+</ul>
+</li>
+<li>
+<p><code>BraceWrapping</code> 大括号换行风格。必须将 <code>BreakBeforeBraces</code> 设置为 <code>Custom</code> 时才有效，否则被忽略。由以下几个参数来定义</p>
+<ul>
+<li><code>bool AfterCaseLabel</code> 在 <code>case</code> 之后的大括号换行</li>
+<li><code>bool AfterClass</code> 类定义之后换行</li>
+<li><code>AfterControlStatement</code> 控制语句之后换行
+<ul>
+<li><code>Never</code> 从不换行</li>
+<li><code>MultiLine</code> 只在一个多行控制语句之后换行</li>
+<li><code>Always</code> 总是换行</li>
+</ul>
+</li>
+<li><code>bool AfterEnum</code> 在枚举类之后换行</li>
+<li><code>bool AfterFunction</code> 在函数定义之后大括号换行</li>
+<li><code>bool AfterNamespace</code> 命名空间之后换行</li>
+<li><code>bool AfterStruct</code> 在结构体之后换行</li>
+<li><code>bool AfterUnion</code> 在联合定义之后换行</li>
+<li><code>bool AfterExternBlock</code> 在 <code>extern</code> 声明之后换行</li>
+<li><code>bool BeforeCatch</code> 在 <code>catch</code> 之前换行</li>
+<li><code>bool BeforeElse</code> 在 <code>else</code> 之前换行</li>
+<li><code>bool BeforeLambdaBody</code> 在匿名函数表达式块之前换行</li>
+<li><code>bool BeforeWhile</code> 在 <code>while</code> 之前换行</li>
+<li><code>bool IndentBraces</code> 对换行的大括号缩进</li>
+<li><code>bool SplitEmptyFunction</code> 如果为 <code>false</code> ，空函数体可以放在单行上。此选项仅在函数的左大括号已经被换行的情况下使用，即设置了 <code>AfterFunction</code> 大括号换行模式，并且函数不应该放在单行上</li>
+<li><code>bool SplitEmptyRecord</code> 如果为 <code>false</code> ，空的类，结构体和联合体的主体可以放在单行上。此选项仅在记录的开始大括号已经被换行的情况下使用，即设置了<code>AfterClass</code> （用于类）大括号换行模式</li>
+<li><code>bool SplitEmptyNamespace</code> 如果为 <code>false</code> ，空的 <code>namespace</code> 主体可以放在单行上。此选项仅在命名空间的开始大括号已经被换行的情况下使用，即设置了 <code>AfterNamespace</code> 大括号换行模式</li>
+<li><code>bool AfterObjCDeclaration</code> 在 ObjC 定义之后换行</li>
+</ul>
+</li>
+<li>
+<p><code>BreakAfterJavaFieldAnnotations</code> 在修饰器之后换行，适用于 Java</p>
+</li>
+<li>
+<p><code>BreakArrays</code> 仅用于支持 Json 数组换行</p>
+</li>
+<li>
+<p><code>BreakBeforeBinaryOperators</code> 二元操作符换行</p>
+<ul>
+<li><code>None</code> 在操作符之后换行</li>
+<li><code>NonAssignment</code> 只在非赋值操作之前换行</li>
+<li><code>All</code> 在操作符之前换行</li>
+</ul>
+</li>
+<li>
+<p><code>BreakBeforeBraces</code> 大括号换行格式</p>
+<ul>
+<li><code>Attach</code> 总是将大括号附加到周围上下文</li>
+<li><code>Linux</code> 与上述类似，但是会在函数，命名空间和类定义处换行</li>
+<li><code>Mozilla</code> 与 <code>Attach</code> 类似，但是会在枚举和函数定义处换行</li>
+<li><code>Stroustrup</code> 与 <code>Attach</code> 类似，但是会在函数定义， <code>catch</code> ， <code>else</code> 处换行</li>
+<li><code>Allman</code>总是会在大括号处换行</li>
+<li><code>Whitesmiths</code> 与 <code>Allman</code> 类似，但是始终要缩进大括号并使用大括号排列代码</li>
+<li><code>GNU</code> 总是在大括号之前换行，并在控制语句的大括号中增加额外的缩进级别，而在类、函数或其他定义的大括号中不会缩进大括号</li>
+<li><code>WebKit</code> 与 <code>Attach</code> 类似，但是会在函数定义处换行</li>
+<li><code>Custom</code> 客制化配置每个大括号情况</li>
+</ul>
+</li>
+<li>
+<p><code>BreakBeforeConceptDeclarations</code> 概念声明换行风格</p>
+<ul>
+<li><code>Never</code> 保持模板声明行和 <code>concept</code> 在一行</li>
+<li><code>Allowed</code> 允许模板声明和 <code>concept</code> 之间换行，实际的表现取决于上下文和换行规则</li>
+<li><code>Always</code> 永远在 <code>concept</code> 之前换行，并且将改行放在模板声明之前</li>
+</ul>
+</li>
+<li>
+<p><code>BreakBeforeTernaryOperators</code> 三元操作符换行规则</p>
+<ul>
+<li><code>true</code> 在三元操作符之前换行</li>
+<li><code>false</code> 在三元操作符之后换行</li>
+</ul>
+</li>
+<li>
+<p><code>BreakConstructorInitializers</code> 构造函数换行风格</p>
+<ul>
+<li><code>BeforeColon</code> 冒号前和逗号之后换行</li>
+<li><code>BeforeComma</code> 逗号和冒号之前换行，并且对齐</li>
+<li><code>AfterColon</code> 在冒号和逗号之后换行</li>
+<li><code>AfterComma</code>仅在逗号之后进行换行</li>
+</ul>
+</li>
+<li>
+<p><code>BreakInheritanceList</code> 继承换行风格</p>
+<ul>
+<li><code>BeforeColon</code> 冒号前和逗号之后换行</li>
+<li><code>BeforeComma</code> 逗号和冒号之前换行，并且对齐</li>
+<li><code>AfterColon</code> 在冒号和逗号之后换行</li>
+<li><code>AfterComma</code>仅在逗号之后进行换行</li>
+</ul>
+</li>
+<li>
+<p><code>BreakStringLiterals</code> 字符串常量换行，允许对字符串字面量进行断行</p>
+</li>
+<li>
+<p><code>ColumnLimit</code> 列数限制，设置为 0 表示没有限制，不会在一行太长的语句中换行</p>
+</li>
+<li>
+<p><code>CommentPragmas</code> 注释表示。值为字符串，含有正则表达式，其描述具有特殊含义的注释，这些注释不应被分割成行或以其他方式更改</p>
+</li>
+<li>
+<p><code>CompactNamespaces</code> 紧凑命名空间</p>
+<ul>
+<li><code>true</code> 将连续的命名空间声明在一行中</li>
+<li><code>false</code> 每个命名空间在新行中声明</li>
+</ul>
+</li>
+<li>
+<p><code>ConstructorInitializerIndentWidth</code> 构造初始化缩进宽度，用于构造函数初始化列表和继承列表缩进的字符数，无符号整数</p>
+</li>
+<li>
+<p><code>ContinuationIndentWidth</code> 延续下一行缩进宽度，原来一行放不下时，换行后，新行缩进的字符数</p>
+</li>
+<li>
+<p><code>Cpp11BracedListStyle</code> 大括号列表风格，其中大括号列表中没有空格</p>
+<ul>
+<li><code>false</code> 就是大括号内有空格与变量分隔</li>
+</ul>
+</li>
+<li>
+<p><code>DeriveLineEnding</code> 提取行结尾</p>
+</li>
+<li>
+<p><code>DerivePointerAlignment</code> 提取指针对齐</p>
+<ul>
+<li><code>true</code> 分析格式化文件中的 <code>&amp;</code> 和 <code>*</code> 最常见的对齐方式，然后指针和引用对齐将根据在文件中找到的对齐样式进行更新</li>
+</ul>
+</li>
+<li>
+<p><code>DisableFormat</code> 禁用格式化</p>
+</li>
+<li>
+<p><code>EmptyLineAfterAccessModifier</code> 定义何时在访问修饰符之后放置空行</p>
+<ul>
+<li><code>Never</code> 移除访问修饰符之后所有的空行</li>
+<li><code>Leave</code> 在访问修饰符之后保持现有的空行</li>
+<li><code>Always</code> 如果访问修饰符之后没有空行，总是在后面添加空行</li>
+</ul>
+</li>
+<li>
+<p><code>EmptyLineBeforeAccessModifier</code> 访问修饰符前空行</p>
+<ul>
+<li><code>Never</code> 移除访问修饰符之前所有的空行</li>
+<li><code>Leave</code> 在访问修饰符之前保持现有的空行</li>
+<li><code>Always</code> 如果访问修饰符之前没有空行，总是在后面添加空行，除非访问修饰符位于结构或类定义的开头</li>
+<li><code>LogicalBlock</code> 有当访问修饰符开始一个新的逻辑块时才添加空行。逻辑块是由一个或多个成员字段或函数组成的一组</li>
+</ul>
+</li>
+<li>
+<p><code>ExperimentalAutoDetectBinPacking</code> 实验性的功能，不要在配置文件中使用，使用风险自负</p>
+</li>
+<li>
+<p><code>FixNamespaceComments</code> 修复命名空间描述</p>
+<ul>
+<li><code>true</code> Clang-format 将为短命名空间添加丢失的命名空间结束注释，并且修复无效的现有注释</li>
+</ul>
+</li>
+<li>
+<p><code>ForEachMacros</code> 迭代循环宏，被解释为 <code>foreach</code> 循环而不是函数调用的宏向量</p>
+</li>
+<li>
+<p><code>IfMacros</code> 条件判断宏，被解释为条件语句而不是函数调用的宏向量</p>
+</li>
+<li>
+<p><code>IncludeBlocks</code> <code>include</code> 块风格</p>
+<ul>
+<li><code>Preserve</code> 每个 <code>include</code> 块单独排序</li>
+<li><code>Merge</code> 合并多个 <code>include</code> 块，并且整体排序</li>
+<li><code>Regroup</code> 合并多个 <code>include</code> 块，并且整体排序，根据类别优先级分组，可参考 <code>IncludeCategories</code></li>
+</ul>
+</li>
+<li>
+<p><code>IncludeCategories</code> <code>include</code> 种类，正则表达式表示不同的 <code>include</code> 类别，然后进行排序。支持 POSIX 扩展正则表达式，每个分类都包含如下四个参数，下面是一个示例</p>
+<ul>
+<li><code>Regex</code> 正则表达式</li>
+<li><code>Priority</code> 优先级</li>
+<li><code>SortPriority</code> 默认优先级</li>
+<li><code>CaseSensitive</code> 是否区分大小写</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">IncludeCategories</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;^&#34;(llvm|llvm-c|clang|clang-c)/&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">SortPriority</span><span class="p">:</span><span class="w">    </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">CaseSensitive</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="w"> </span><span class="c"># 字段标记为区分大小写，默认情况下不区分大小写</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;^((&lt;|&#34;)(gtest|gmock|isl|json)/)&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;&lt;[[:alnum:].]+&gt;&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;.*&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">SortPriority</span><span class="p">:</span><span class="w">    </span><span class="m">0</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>IncludeIsMainRegex</code> 指定一个正则表达式，其表明了文件到主包含映射中被允许的后缀名</p>
+</li>
+<li>
+<p><code>IncludeIsMainSourceRegex</code> 判断源文件的正则表达式。为被格式化的文件指定正则表达式，匹配正则表达式的这些文件允许在文件到 <code>main-include</code> 映射中被视为 <code>main</code></p>
+</li>
+<li>
+<p><code>IndentAccessModifiers</code> 访问修饰符缩进，用于指定访问修饰符是否应该有自己的缩进级别</p>
+<ul>
+<li><code>false</code> 访问修饰符相对于成员缩进（或向外缩进），根据 <code>AccessModifierOffset</code> 。记录成员的缩进位置比记录低一级</li>
+<li><code>true</code> 访问修饰符获得自己的缩进级别，而且成员的缩进是在此基础上的</li>
+</ul>
+</li>
+<li>
+<p><code>IndentCaseBlocks</code> <code>case</code> 块的缩进</p>
+<ul>
+<li><code>false</code> <code>case</code> 标签之后的块与 <code>case</code> 有着相同的缩进级别</li>
+<li><code>true</code> <code>case</code> 标签之后的缩进为作用域块，相对于 <code>case</code> 还有一级缩进</li>
+</ul>
+</li>
+<li>
+<p><code>IndentCaseLabels</code> <code>case label</code> 标签缩进</p>
+<ul>
+<li><code>false</code> <code>case</code> 标签与 <code>switch</code> 标签有着相同的缩进等级</li>
+<li><code>true</code> <code>case</code> 标签在 <code>switch</code> 基础上有一级缩进</li>
+</ul>
+</li>
+<li>
+<p><code>IndentExternBlock</code> <code>Extern</code> 扩展块缩进</p>
+<ul>
+<li><code>NoIndent</code> 不缩进</li>
+<li><code>Indent</code> 缩进</li>
+</ul>
+</li>
+<li>
+<p><code>IndentGotoLabels</code> 缩进 <code>goto</code> 跳转符号</p>
+</li>
+<li>
+<p><code>IndentPPDirectives</code> 预处理指令缩进</p>
+<ul>
+<li><code>None</code> 不缩进任何预处理指令</li>
+<li><code>AfterHash</code> 缩进 <code>#</code> 之后的内容</li>
+<li><code>BeforeHash</code> 缩进时包括 <code>#</code></li>
+</ul>
+</li>
+<li>
+<p><code>IndentRequiresClause</code> 是否缩进模板中的 <code>require</code> 子句。这只适用于 <code>RequiresClausePosition</code> 为 <code>OwnLine</code> 或 <code>WithFollowing</code> 时</p>
+</li>
+<li>
+<p><code>IndentWidth</code> 缩进宽度，用于缩进的列数</p>
+</li>
+<li>
+<p><code>IndentWrappedFunctionNames</code> 如果函数定义或声明在类型之后换行，则函数名缩进</p>
+</li>
+<li>
+<p><code>InsertBraces</code> 插入括号。在控制语句之后插入大括号，除非控制语句位于宏定义中，或者大括号包含预处理指令。但是需要注意的是，设置之后有可能会导致错误的代码格式，需要小心使用</p>
+</li>
+<li>
+<p><code>InsertTrailingCommas</code> 插入尾部冒号</p>
+<ul>
+<li><code>Wrapped</code> 会在跨多行换行的容器字面量（数组和对象）中插入尾随逗号。但是使用之后将禁用 <code>BinPackArguments</code></li>
+<li><code>None</code> 不插入</li>
+</ul>
+</li>
+<li>
+<p><code>JavaImportGroups</code> 为 Java 导入按照所需组排序的前缀向量</p>
+</li>
+<li>
+<p><code>JavaScriptQuotes</code> Java 的引号风格</p>
+<ul>
+<li><code>Leave</code> 保持原样</li>
+<li><code>Single</code> 总是使用单引号</li>
+<li><code>Double</code> 总是使用双引号</li>
+</ul>
+</li>
+<li>
+<p><code>JavaScriptWrapImports</code> Java 中 <code>import/export</code> 语句换行</p>
+</li>
+<li>
+<p><code>KeepEmptyLinesAtTheStartOfBlocks</code> 在一个语法块的开始刘空行</p>
+</li>
+<li>
+<p><code>LambdaBodyIndentation</code> 匿名函数表达式主体缩进样式</p>
+<ul>
+<li><code>Signature</code> 将匿名函数主体相对于 该匿名函数签名对齐</li>
+<li><code>OuterScope</code> 相对于匿名函数签名所在的外部作用域的缩进级别对齐匿名函数主体</li>
+</ul>
+</li>
+<li>
+<p><code>MacroBlockBegin</code> 开始块的宏，匹配启动块的宏的正则表达式</p>
+</li>
+<li>
+<p><code>MacroBlockEnd</code> 结束块的宏</p>
+</li>
+<li>
+<p><code>MaxEmptyLinesToKeep</code> 最大持续空行，就是保留的最大空行数</p>
+</li>
+<li>
+<p><code>NamespaceIndentation</code> 命名空间内部是否缩进</p>
+<ul>
+<li><code>None</code> 不缩进</li>
+<li><code>Inner</code> 只缩进嵌套的命名空间（最外层命名空间内部不缩进）</li>
+<li><code>All</code> 所有命名空间都缩进</li>
+</ul>
+</li>
+<li>
+<p><code>NamespaceMacro</code> 命名空间宏，用于打开名称空间块的宏向量</p>
+</li>
+<li>
+<p><code>ObjCBinPackProtocolList</code> ObjC 的打包风格</p>
+<ul>
+<li><code>Never/Auto(BinPackParameters=false)</code> 则在超出 <code>ColumnLimit</code> 时将 <code>Objective-C</code> 协议一致性列表项布局到单独的行上</li>
+<li><code>Always/Auto(BinPackParameters=true)</code> 当代码长度超过 <code>ColumnLimit</code> 时，就会将 <code>Objective-C</code> 协议一致性列表项打包成尽可能少的行</li>
+</ul>
+</li>
+<li>
+<p><code>ObjCBlockIndentWidth</code> 用于 ObjC 块缩进的字符数</p>
+</li>
+<li>
+<p><code>ObjCBreakBeforeNestedBlockParam</code> 当函数调用中有嵌套的块参数时，将参数列表分解成行</p>
+</li>
+<li>
+<p><code>ObjCSpaceAfterProperty</code> 在 ObjC 的属性之后添加一个空格</p>
+</li>
+<li>
+<p><code>ObjCSpaceBeforeProtocolList</code> 在 ObjC 协议列表前面添加一个空格</p>
+</li>
+<li>
+<p><code>PPIndentWidth</code> 用于预处理器语句缩进的列数</p>
+</li>
+<li>
+<p><code>PackConstructorInitializers</code> 打包构造函数初始化列表</p>
+<ul>
+<li><code>Never</code> 总是将每个构造函数初始化列表放在一个单独的行中</li>
+<li><code>BinPack</code> 打包构造函数初始化列表</li>
+<li><code>CurrentLine</code> 如果合适，将所有构造函数初始化式放在当前行中，否则将每一个放在单独的一行上</li>
+<li><code>NextLine</code> 与上述相似，如果所有的构造函数初始化式都不适合当前行，则尝试将它们适合下一行</li>
+</ul>
+</li>
+<li>
+<p><code>PenaltyXxxx</code> 各类情况惩罚</p>
+</li>
+<li>
+<p><code>PointerAlignment</code> 指针对齐风格</p>
+<ul>
+<li><code>Left</code> 向左对齐</li>
+<li><code>Right</code> 向右对齐</li>
+<li><code>Middle</code> 中间对齐</li>
+</ul>
+</li>
+<li>
+<p><code>QualifierAlignment</code> 限定符对齐，不同的排列说明符和限定符的方法，主要是针对 <code>const</code> 和 <code>volatile</code></p>
+<ul>
+<li><code>Leave</code> 保持原状，不强制</li>
+<li><code>Left</code> 左对齐说明符或者限定符</li>
+<li><code>Right</code> 右对齐说明符或者限定符</li>
+<li><code>Custom</code> 将说明符/限定符更改为基于 <code>QualifierOrder</code> 对齐</li>
+</ul>
+</li>
+<li>
+<p><code>QualifierOrder</code> 说明符和限定符的顺序，限定符出现的顺序</p>
+<ul>
+<li>包括 <code>const, inline, static, constexpr, volatile, restrict, type</code></li>
+<li>必须包含 <code>type</code> 。在 <code>type</code> 左边的项目将被放置在类型的左边，并按提供的顺序排列。 <code>type</code> 右侧的项目将被放置在类型的右侧，并按提供的顺序排列</li>
+<li>例子 <code>QualifierOrder: ['inline', 'static', 'const', 'volatile', 'type']</code></li>
+</ul>
+</li>
+<li>
+<p><code>RawStringFormats</code> 原始字符串格式</p>
+</li>
+<li>
+<p><code>ReferenceAlignment</code> 引用格式对齐</p>
+<ul>
+<li><code>Left</code> 向左对齐</li>
+<li><code>Right</code> 向右对齐</li>
+<li><code>Middle</code> 中间对齐</li>
+</ul>
+</li>
+<li>
+<p><code>ReflowComments</code> 是否重新排版注释</p>
+</li>
+<li>
+<p><code>RemoveBracesLLVM</code> 移除括号，用来移除部分可以去掉的括号(大括号)，即 <code>if/else/for/while</code> 等语句。通过 LLVM 风格实现。可能导致未知错误，小心使用</p>
+</li>
+<li>
+<p><code>RemoveSemicolon</code> 移除分号，移除非空函数的分号。有可能带来未知风险</p>
+</li>
+<li>
+<p><code>RequiresClausePosition</code> <code>require</code> 子句位置</p>
+<ul>
+<li><code>OwnLine</code> 总是把要求子句放在单独一行上</li>
+<li><code>WithPreceding</code> 试着把从句和声明的前面部分放在一起</li>
+<li><code>WithFollowing</code> 尝试把 <code>requires</code> 子句和函数声明放在一起</li>
+<li><code>SingleLine</code> 如果可能的话，尽量把所有内容放在同一行。否则正常的断行规则就会被取代</li>
+</ul>
+</li>
+<li>
+<p><code>RequiresExpressionIndentation</code> <code>require</code> 表达式缩进</p>
+<ul>
+<li><code>OuterScope</code> 相对于 <code>require</code> 表达式所在的外部范围的缩进级别</li>
+<li><code>Keyword</code> 相对于 <code>require</code> 关键字的缩进</li>
+</ul>
+</li>
+<li>
+<p><code>SeparateDefinitionBlocks</code> 分离定义语句块，指定使用空行分隔定义块，包括类、结构、枚举和函数</p>
+<ul>
+<li><code>Leave</code> 保持原样</li>
+<li><code>Always</code> 在定义块之间插入空行</li>
+<li><code>Never</code> 在定义块之间移除空行</li>
+</ul>
+</li>
+<li>
+<p><code>ShortNamespaceLines</code> 短命名空间行数，这通过计算未换行行(即既不包含开始名称空间也不包含结束名称空间大括号)来确定短名称空间的最大长度，并使 <code>FixNamespaceComments</code> 忽略为这些名称空间添加结束注释</p>
+</li>
+<li>
+<p><code>SortIncludes</code> 对 <code>include</code> 排序</p>
+<ul>
+<li><code>Never</code> 不进行排序</li>
+<li><code>CaseSensitive</code> 区分大小写，按照 ascii 排序</li>
+<li><code>CaseInsensitive</code> 不区分大小写，按照字母顺序排序</li>
+</ul>
+</li>
+<li>
+<p><code>SortJavaStaticImport</code> 排序 Java 静态导入</p>
+<ul>
+<li><code>Before</code> 静态导入被放在非静态导入前面</li>
+<li><code>After</code> 静态导入被放在非静态导入前面</li>
+</ul>
+</li>
+<li>
+<p><code>SortUsingDeclarations</code> 对 <code>using</code> 声明进行排序，按照字母顺序排序</p>
+</li>
+<li>
+<p><code>SpaceAfterCStyleCast</code> C 风格类型转换，是否在 C 风格的类型转换之后插入空白符</p>
+</li>
+<li>
+<p><code>SpaceAfterLogicalNot</code> 是否在逻辑非操作符之后插入空格</p>
+</li>
+<li>
+<p><code>SpaceAfterTemplateKeyword</code> 是否在模板关键字之后插入空格</p>
+</li>
+<li>
+<p><code>SpaceAroundPointerQualifiers</code> 定义在什么情况下在指针限定符之前或之后放置空格</p>
+<ul>
+<li><code>Default</code> 不用确保指针限定符周围的空格，而是使用 <code>PointerAlignment</code> 代替</li>
+<li><code>Before</code> 确保在指针限定符之前有一个空格</li>
+<li><code>After</code> 确保在指针限定符之后有一个空格</li>
+<li><code>Both</code> 确保在指针限定符之后和之前都有一个空格</li>
+</ul>
+</li>
+<li>
+<p><code>SpaceBeforeAssignmentOperators</code> 赋值操作符控空格，赋值操作符之前是否插入空格</p>
+</li>
+<li>
+<p><code>SpaceBeforeCaseColon</code> <code>case</code> 之后的冒号前是否插入空格</p>
+</li>
+<li>
+<p><code>SpaceBeforeCpp11BracedList</code> 大括号列表空格，是否在大括号列表之前插入空格</p>
+</li>
+<li>
+<p><code>SpaceBeforeCtorInitializerColon</code> 构造函数初始化中的冒号前是否插入空格</p>
+</li>
+<li>
+<p><code>SpaceBeforeInheritanceColon</code> 继承冒号前是否插入空格</p>
+</li>
+<li>
+<p><code>SpaceBeforeParens</code> 圆括号空格，圆括号前是否插入空格</p>
+<ul>
+<li><code>Never</code> 从不在一个开圆括号之前放一个空格</li>
+<li><code>ControlStatement</code> 只在控制语句关键字之后的开括号前加空格</li>
+<li><code>ControlStatementsExceptControlMacros</code>  与上一个类似，但是排除宏定义</li>
+<li><code>NonEmptyParentheses</code> 只有当圆括号非空时</li>
+<li><code>Always</code> 总是在开括号之前放一个空格</li>
+<li><code>Custom</code> 自定义</li>
+</ul>
+</li>
+<li>
+<p><code>SpaceBeforeParensOptions</code> 圆括号前空格控制，控制括号前的个别空格，必须在 <code>SpaceBeforeParens</code> 设置为 <code>Custom</code> 时才有效</p>
+<ul>
+<li><code>bool AfterControlStatements</code> 在控制语句关键字和圆括号之间插入空格</li>
+<li><code>bool AfterForeachMacros</code> 在 <code>foreach</code> 宏和圆括号之间插入空格</li>
+<li><code>bool AfterFunctionDeclarationName</code> 在函数声明和开圆括号之前放置空格</li>
+<li><code>bool AfterFunctionDefinitionName</code> 在函数定义名称和开圆括号之间用空格隔开</li>
+<li><code>bool AfterIfMacros</code> 在 <code>if</code> 宏和开圆括号之间放空格</li>
+<li><code>bool AfterOverloadedOperator</code> 在操作符重载和开括号之间放一个空格</li>
+<li><code>bool AfterRequiresInClause</code> 在 <code>required</code> 子句中的 <code>required</code> 关键字和开括号（如果有的话）之间放空格</li>
+<li><code>bool AfterRequiresInExpression</code> 在 <code>required</code> 表达式中的 <code>required</code> 关键字和开括号之间放空格</li>
+<li><code>bool BeforeNonEmptyParentheses</code> 只有当圆括号不是空的时候，才在圆括号前放空格</li>
+</ul>
+</li>
+<li>
+<p><code>SpaceBeforeRangeBasedForLoopColon</code> 是否在循环范围里的冒号前插入空格</p>
+</li>
+<li>
+<p><code>SpaceBeforeSquareBrackets</code> 方括号前插入空格，匿名函数不受影响，只有第一个方括号才会收到影响（如果有多个的话）</p>
+</li>
+<li>
+<p><code>SpaceInEmptyBlock</code> 空块中是否插入空格</p>
+</li>
+<li>
+<p><code>SpaceInEmptyParentheses</code> 空圆括号之间是否插入空格</p>
+</li>
+<li>
+<p><code>SpacesBeforeTrailingComments</code> 尾部注释前的空格数，不影响块注释</p>
+</li>
+<li>
+<p><code>SpacesInAngles</code> 角括号是否插入空格</p>
+<ul>
+<li><code>Never</code> 不插入</li>
+<li><code>Always</code> 在角括号之间插入空格</li>
+<li><code>Leave</code> 如果有空格，则在 <code>&lt;</code> 之后和 <code>&gt;</code> 之前保留且只保留一个空格</li>
+</ul>
+</li>
+<li>
+<p><code>SpacesInCStyleCastParentheses</code> 是否向 C 类型转换中插入空格</p>
+</li>
+<li>
+<p><code>SpacesInConditionalStatement</code> 条件表达式中的空格</p>
+</li>
+<li>
+<p><code>SpacesInContainerLiterals</code> 容器中的空格，在容器中插入空格（方括号和花括号中初始化数组之类的）</p>
+</li>
+<li>
+<p><code>SpacesInLineCommentPrefix</code> 行注释的开头允许有多少空格，要禁用最大值，请将其设置为 <code>-1</code> ，除此之外，最大值优先于最小值。在行注释区中，后面的行保持相对缩进。有两个参数</p>
+<ul>
+<li><code>Minimum</code> 最小值</li>
+<li><code>Maximum</code> 最大值</li>
+</ul>
+</li>
+<li>
+<p><code>SpacesInParentheses</code> 在圆括号里的空格</p>
+</li>
+<li>
+<p><code>SpacesInSquareBrackets</code> 方括号中的空格</p>
+</li>
+<li>
+<p><code>Standard</code> C++ 标准，可以为</p>
+<ul>
+<li><code>c++03</code> 解析格式化为 <code>c++03</code></li>
+<li><code>c++11</code></li>
+<li><code>c++14</code></li>
+<li><code>c++17</code></li>
+<li><code>c++20</code></li>
+<li><code>Latest</code> 解析和格式化为最新的支持版本</li>
+<li><code>Auto</code> 根据输入和输出自动检测语言</li>
+</ul>
+</li>
+<li>
+<p><code>StatementAttributeLikeMacros</code> 在语句前被忽略的宏，就像它们是一个属性一样。这样它们就不会被解析为标识符</p>
+</li>
+<li>
+<p><code>StatementMacros</code> 完整语句的宏向量</p>
+</li>
+<li>
+<p><code>TabWidth</code> Tab 的宽度</p>
+</li>
+<li>
+<p><code>TypenameMacros</code> 类型名宏定义，类型声明而不是函数调用的宏向量</p>
+</li>
+<li>
+<p><code>UseCRLF</code> 换行时使用 <code>\r\n</code> 而不是 <code>\n</code> 。如果 <code>DeriveLineEnding</code> 为真，也可用作回退</p>
+</li>
+<li>
+<p><code>UseTab</code> 在文件中使用制表符的情况</p>
+<ul>
+<li><code>Never</code> 从不使用</li>
+<li><code>ForIndentation</code> 仅用于缩进</li>
+<li><code>ForContinuationAndIndentation</code> 用制表符填充所有前导空白，并使用空格对齐出现在一行内</li>
+<li><code>AlignWithSpaces</code> 使用制表符进行行继续和缩进，使用空格进行对齐</li>
+<li><code>Always</code> 每当需要填充至少跨越一个制表位到下一个制表位的空白时，就使用制表符</li>
+</ul>
+</li>
+<li>
+<p><code>WhitespaceSensitiveMacros</code> 对空白敏感且不应被触及的宏向量</p>
+</li>
+</ul>
+<h3 id="一个可供参考的版本">一个可供参考的版本</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Language</span><span class="p">:</span><span class="w"> </span><span class="l">Cpp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">DisableFormat</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BaseOnStyle</span><span class="p">:</span><span class="w"> </span><span class="l">LLVM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AccessAccessModifierOffset</span><span class="p">:</span><span class="w"> </span>-<span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignAfterOpenBracket</span><span class="p">:</span><span class="w"> </span><span class="l">Align</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignArrayOfStructures</span><span class="p">:</span><span class="w"> </span><span class="l">Right</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignConsecutiveAssignments</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AcrossEmptyLines</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AcrossComments</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AlignCompound</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">PadOperators</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignConsecutiveBitFields</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AcrossEmptyLines</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AcrossComments</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignConsecutiveDeclarations</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AcrossEmptyLines</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AcrossComments</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignEscapedNewlines</span><span class="p">:</span><span class="w"> </span><span class="l">Left</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignOperands</span><span class="p">:</span><span class="w"> </span><span class="l">DontAlign</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlignTrailingComments</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Kind</span><span class="p">:</span><span class="w"> </span><span class="l">Always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">OverEmptyLines</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowAllArgumentsOnNextLine</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowAllParametersOfDeclarationOnNextLine</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowShortBlocksOnASingleLine</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowShortEnumsOnASingleLine</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowShortFunctionsOnASingleLine</span><span class="p">:</span><span class="w"> </span><span class="l">InlineOnly</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowShortIfStatementsOnASingleLine</span><span class="p">:</span><span class="w"> </span><span class="l">AllIfsAndElse</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowShortLambdasOnASingleLine</span><span class="p">:</span><span class="w"> </span><span class="l">All</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AllowShortLoopsOnASingleLine</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlwaysBreakAfterReturnType</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlwaysBreakBeforeMultilineStrings</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">AlwaysBreakTemplateDeclarations</span><span class="p">:</span><span class="w"> </span><span class="kc">Yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BinPackArguments</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BitFieldColonSpacing</span><span class="p">:</span><span class="w"> </span><span class="l">Both</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakBeforeBraces</span><span class="p">:</span><span class="w"> </span><span class="l">Custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BraceWrapping</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterCaseLabel</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterClass</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterControlStatement</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterEnum</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterFunction</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterNamespace</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterStruct</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterUnion</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterExternBlock</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">BeforeCatch</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">BeforeElse</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">BeforeLambdaBody</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">BeforeWhile</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">IndentBraces</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">SplitEmptyFunction</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">SplitEmptyRecord</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">SplitEmptyNamespace</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterObjCDeclaration</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakAfterJavaFieldAnnotations</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakArrays</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakBeforeBinaryOperators</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakBeforeConceptDeclarations</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakBeforeTernaryOperators</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakConstructorInitializers</span><span class="p">:</span><span class="w"> </span><span class="l">AfterColon</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakInheritanceList</span><span class="p">:</span><span class="w"> </span><span class="l">AfterComma</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">BreakStringLiterals</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ColumnLimit</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">CompactNamespaces</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ConstructorInitializerIndentWidth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ContinuationIndentWidth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Cpp11BracedListStyle</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">DerivePointerAlignment</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">DeriveLineEnding</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">EmptyLineAfterAccessModifier</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">EmptyLineBeforeAccessModifier</span><span class="p">:</span><span class="w"> </span><span class="l">Always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">FixNamespaceComments</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ForEachMacros</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;RANGES_FOR&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;FOREACH&#39;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IfMacros</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;IF&#39;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IncludeBlocks</span><span class="p">:</span><span class="w"> </span><span class="l">Regroup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IncludeCategories</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;^&#34;(llvm|llvm-c|clang|clang-c)/&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">SortPriority</span><span class="p">:</span><span class="w">    </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">CaseSensitive</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="w"> </span><span class="c"># 字段标记为区分大小写，默认情况下不区分大小写</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;^((&lt;|&#34;)(gtest|gmock|isl|json)/)&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;&lt;[[:alnum:].]+&gt;&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">Regex</span><span class="p">:</span><span class="w">           </span><span class="s1">&#39;.*&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Priority</span><span class="p">:</span><span class="w">        </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">SortPriority</span><span class="p">:</span><span class="w">    </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentAccessModifiers</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentCaseBlocks</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentCaseLabels</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentExternBlock</span><span class="p">:</span><span class="w"> </span><span class="l">NoIndent</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentGotoLabels</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentPPDirectives</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentRequiresClause</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentWidth</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">IndentWrappedFunctionNames</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">InsertBraces</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">InsertTrailingCommas</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">JavaScriptQuotes</span><span class="p">:</span><span class="w"> </span><span class="l">Double</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">JavaScriptWrapImports</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">KeepEmptyLinesAtTheStartOfBlocks</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">LambdaBodyIndentation</span><span class="p">:</span><span class="w"> </span><span class="l">Signature</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">MaxEmptyLinesToKeep</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">NamespaceIndentation</span><span class="p">:</span><span class="w"> </span><span class="l">All</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ObjCBinPackProtocolList</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ObjCBlockIndentWidth</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ObjCBreakBeforeNestedBlockParam</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ObjCSpaceAfterProperty</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">PPIndentWidth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">PackConstructorInitializers</span><span class="p">:</span><span class="w"> </span><span class="l">NextLine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">PointerAlignment</span><span class="p">:</span><span class="w"> </span><span class="l">Left</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">QualifierAlignment</span><span class="p">:</span><span class="w"> </span><span class="l">Left</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ReferenceAlignment</span><span class="p">:</span><span class="w"> </span><span class="l">Right</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ReflowComments</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">RequiresClausePosition</span><span class="p">:</span><span class="w"> </span><span class="l">OwnLine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">RequiresExpressionIndentation</span><span class="p">:</span><span class="w"> </span><span class="l">Keyword</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SeparateDefinitionBlocks</span><span class="p">:</span><span class="w"> </span><span class="l">Always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ShortNamespaceLines</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SortIncludes</span><span class="p">:</span><span class="w"> </span><span class="l">CaseSensitive</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SortJavaStaticImport</span><span class="p">:</span><span class="w"> </span><span class="l">Before</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SortUsingDeclarations</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceAfterCStyleCast</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceAfterLogicalNot</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceAfterTemplateKeyword</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceAroundPointerQualifiers</span><span class="p">:</span><span class="w"> </span><span class="l">Default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeAssignmentOperators</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeCaseColon</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeCpp11BracedList</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeCtorInitializerColon</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeInheritanceColon</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeParens</span><span class="p">:</span><span class="w"> </span><span class="l">Custom</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeParensOptions</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterControlStatements</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterForeachMacros</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterFunctionDeclarationName</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterFunctionDefinitionName</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterIfMacros</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterOverloadedOperator</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterRequiresInClause</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AfterRequiresInExpression</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">BeforeNonEmptyParentheses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeRangeBasedForLoopColon</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceBeforeSquareBrackets</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceInEmptyBlock</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpaceInEmptyParentheses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesBeforeTrailingComments</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInAngles</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInCStyleCastParentheses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInConditionalStatement</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInContainerLiterals</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInLineCommentPrefix</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Minimum</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Maximum</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInParentheses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">SpacesInSquareBrackets</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Standard</span><span class="p">:</span><span class="w"> </span><span class="l">Auto</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">TabWidth</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">UseTab</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=clang-format%e9%85%8d%e7%bd%ae&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=clang-format%e9%85%8d%e7%bd%ae&amp;body=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f&amp;resubmit=true&amp;title=clang-format%e9%85%8d%e7%bd%ae" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f&amp;t=clang-format%e9%85%8d%e7%bd%ae" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=clang-format%e9%85%8d%e7%bd%ae&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f09%2f05%2fclang-format%25E9%2585%258D%25E7%25BD%25AE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="http://localhost:1313/post/2024/08/16/stm32cubemx%E5%85%A5%E9%97%A8/">← prev</a>
+    
+    
+    <a class="link" href="http://localhost:1313/post/2024/09/05/clang-tidy%E9%85%8D%E7%BD%AE/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2023</span> - <span>2024</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/weastur target=_blank rel=noopener>GitHub</a>,
+<a class=link href=https://www.linkedin.com/in/weastur/ target=_blank rel=noopener>LinkedIn</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

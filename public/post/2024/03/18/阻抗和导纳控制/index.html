@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="Pavel Sapezhka">
+
+  
+  
+  <meta name="description" content="阻抗控制和导纳控制基本原理">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/post/2024/03/18/%E9%98%BB%E6%8A%97%E5%92%8C%E5%AF%BC%E7%BA%B3%E6%8E%A7%E5%88%B6/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="阻抗和导纳控制">
+  <meta property="og:description" content="阻抗控制和导纳控制基本原理">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-03-18T17:34:45+00:00">
+    <meta property="article:modified_time" content="2024-03-18T17:34:45+00:00">
+    <meta property="article:tag" content="阻抗控制">
+    <meta property="article:tag" content="导纳控制">
+    <meta property="og:image" content="http://localhost:1313/images/logo.jpg">
+
+
+  
+  <link rel="canonical" href="http://localhost:1313/post/2024/03/18/%E9%98%BB%E6%8A%97%E5%92%8C%E5%AF%BC%E7%BA%B3%E6%8E%A7%E5%88%B6/">
+
+  
+  
+  
+  <meta itemprop="name" content="阻抗和导纳控制">
+  <meta itemprop="description" content="阻抗控制和导纳控制基本原理">
+  <meta itemprop="datePublished" content="2024-03-18T17:34:45+00:00">
+  <meta itemprop="dateModified" content="2024-03-18T17:34:45+00:00">
+  <meta itemprop="wordCount" content="2796">
+  <meta itemprop="image" content="http://localhost:1313/images/logo.jpg">
+  <meta itemprop="keywords" content="阻抗控制,导纳控制">
+
+  
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/common.css'>
+  <link media="screen" rel="stylesheet" href='http://localhost:1313/css/content.css'>
+
+  
+  
+  <title>阻抗和导纳控制 - My New Hugo Site</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/logo.jpg">
+  <meta name="twitter:title" content="阻抗和导纳控制">
+  <meta name="twitter:description" content="阻抗控制和导纳控制基本原理">
+
+
+  
+<link rel="stylesheet" href='http://localhost:1313/css/single.css'>
+<link rel="stylesheet" href='http://localhost:1313/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="http://localhost:1313/">TeXify2</a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="localhost:1313">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>阻抗和导纳控制</h1>
+  
+  <div>
+    
+    <a class="link" href='http://localhost:1313/tags/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6'>#阻抗控制</a>
+    
+    <a class="link" href='http://localhost:1313/tags/%E5%AF%BC%E7%BA%B3%E6%8E%A7%E5%88%B6'>#导纳控制</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#机器人交互控制">机器人交互控制</a></li>
+    <li><a href="#阻抗控制">阻抗控制</a>
+      <ul>
+        <li><a href="#关节空间内的阻抗控制">关节空间内的阻抗控制</a></li>
+        <li><a href="#笛卡尔空间内的阻抗控制">笛卡尔空间内的阻抗控制</a></li>
+      </ul>
+    </li>
+    <li><a href="#导纳控制">导纳控制</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <h2 id="机器人交互控制">机器人交互控制</h2>
+<ol>
+<li>
+<p>直接力控 直接对完成任务所需要的力做一个设定，利用力或者转矩的传感器实时对力进行反馈，从而达到控制</p>
+<p>存在的一些问题：使用的一些力的传感器一般会比较贵，也会出现精度和噪声的情况，其次就是不容易对力进行设定</p>
+</li>
+<li>
+<p>间接力控</p>
+<ol>
+<li>柔顺控制
+<ol>
+<li>被动柔顺  使用一些机械的设备，例如弹簧之类的设备使机器人在与外界交互中出现一些柔顺性</li>
+<li>主动柔顺  通过软件使机器人对外界的环境做出一些柔顺性</li>
+</ol>
+</li>
+<li>阻抗/导纳控制  让机器人在与外界交互的过程中，包含有质量，弹簧，阻尼这样一个二阶阻抗系统的性质
+<ol>
+<li>关节空间</li>
+<li>笛卡尔空间 也就是三维空间坐标系</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>力位混合控制</p>
+<p>机器人在某个方向上做力的控制，在正交的方向上做位移的控制</p>
+</li>
+</ol>
+<h2 id="阻抗控制">阻抗控制</h2>
+<h3 id="关节空间内的阻抗控制">关节空间内的阻抗控制</h3>
+<p>目标：让机器人的每一个关节能体现出由弹簧-阻尼-质量组成的二阶系统的动态特性，其中 $q_d$ 是对关节角度的设定值， $q$ 是实际测量值，那么 $\overline{q}$ 就是一个控制误差，左边就是对这个控制的动态误差的描述，M, D, K 就是三个矩阵，表示质量，阻尼和弹性系数，这个q矩阵的大小是和关节数自由度量有关的，一般会设计为对角阵，也就是每个关节独立，三个矩阵必须正定才能保证整个二阶系统的稳定性，右侧就是关节受到的外力产生的力矩</p>
+<p>$M_d\overset{..}{\overline{q}}+D_d\overset{.}{\overline{q}}+K_d\overline{q} = \tau_{ext}$       $\overline{q} = q_d-q$</p>
+<p><strong class=chinese>实现机器人的动态特性</strong></p>
+<p>机器人动力学方程：</p>
+<p>$M(q)\overset{..}{q}+C(\overset{.}{q}, q)\overset{.}{q} + g(q) = \tau-\tau_{ext}$</p>
+<p>其中 $q,\overset{.}{q},\overset{..}{q}$ 分别代表机器人的关节角度，角速度，角加速度，M，C，g分贝代表了惯性矩阵，[科里奥利效应](<a href="https://baike.baidu.com/item/%E7%A7%91%E9%87%8C%E5%A5%A5%E5%88%A9%E6%95%88%E5%BA%94/599761?fr=ge_ala">科里奥利效应 (baidu.com)</a>)，重力效应，这里的M矩阵是与机器人的机械结构和运动有关的，是一个转动惯量矩阵，是一个不能随意定义的矩阵，这三个矩阵都是和机器人的运动状态有关的，运动状态改变，三个矩阵的数值也会发生改变，需要实时的计算这三个矩阵。</p>
+<p>$\tau$ 是输入力矩，是驱动电机产生的力矩， $\tau_{test}$ 是外界产生的力矩也就是阻力矩。两个力矩之和控制了机器人的运动状态</p>
+<ul>
+<li>
+<p>一个小栗子：</p>
+<p>假设机器人的控制任务是跟随一条轨迹运动，即 $q_d,\overset{.}{q_d},\overset{..}{q_d}$ 就可以定义如下关节转矩控制的输入，也就是电机的转矩大小</p>
+$$
+    \tau = M(q)\overset{..}{q_d} + C(\overset{.}{q},q) + g(q) + M(q)M_d^{-1}(D_d\overset{.}{\overline{q}} + K_d\overline{q}) + (I-M(q)M_d^{-q})\tau_{ext}
+    $$<p>第一个式子是和机器人动力学方程是一样的，唯一区别是其中的角加速度为设定值，第二个式子与之前定义的二阶系统的参数有关，同时还包含着控制误差的反馈，括号外面的是一个转动惯量矩阵，最后一个式子，是机器人受到外力力矩的反馈再乘以一个系数。</p>
+<p><img src="./uTools_1693271711198.png" alt="uTools_1693271711198.png"></p>
+<p>把阻抗控制分为3部分</p>
+<ol>
+<li>回授线性化，为了让机器人对外体现出一种线性化的特征，并且如此我们可以使用一个线性控制器来控制它</li>
+<li>线性控制器，此时控制设定值为线性角度，线性角速度，线性角加速度，同时这些值也可以乘以不同的增益，这些增益就是之前的二阶系统的质量，阻尼系数和弹性系数，对关节角加速度实行的是前馈控制，关节角加速度和角度实行负反馈控制，三部分之和就是线性控制系统的输出</li>
+<li>转矩反馈，根据反馈的转矩来乘以一个系数，合并到输入中，作为力矩的输入</li>
+</ol>
+<p>总结</p>
+<ol>
+<li>阻抗控制是通过控制机器人运动实现间接力控的方法</li>
+<li>最终目的不是直接控制机器人的运动，也不直接控制机器人与外界的接触力，而是控制两者之间的动态关系。</li>
+<li>要想实现理想的阻抗控制的条件
+<ol>
+<li>机器人动态模型和相关参数已知</li>
+<li>机器人关节角，角速度实时反馈</li>
+<li>机器人关节力矩实时反馈</li>
+<li>机器人的转矩控制</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p>一些变化：</p>
+<ol>
+<li>
+<p>不能提供关节力矩的实时反馈：</p>
+<ul>
+<li>删除与关节力矩相关的部分</li>
+</ul>
+$$
+    \tau = M(q)\overset{..}{q_d} + C(\overset{.}{q},q) + g(q) + M(q)M_d^{-1}(D_d\overset{.}{\overline{q}} + K_d\overline{q})
+    $$<p>带入机器人动力学方程中</p>
+$$
+    M_d\overset{..}{\overline{q}}+D_d\overset{.}{\overline{q}}+K_d\overline{q} = M_dM^{-1}(q)\tau_{ext}
+    $$<p>这种情况下各个关节会存在耦合的情况，M, D, K 是对角矩阵，但是右侧存在M(q)矩阵，所以不可能是对角阵，所以各个关节之间会存在耦合</p>
+<ul>
+<li>还可以设计 $M_d = M(q)$</li>
+</ul>
+$$
+    \tau = M(q)\overset{..}{q_d} + C(\overset{.}{q},q) + g(q) + M(q)M_d^{-1}(D_d\overset{.}{\overline{q}} + K_d\overline{q}) + (I-M(q)M_d^{-q})\tau_{ext}
+    $$<p>这种情况下，关于 $\tau_{ext}$ 的一项就会为0，</p>
+<p>代入运动学方程中为</p>
+$$
+    M(q)\overset{..}{\overline{q}}+D_d\overset{.}{\overline{q}}+K_d\overline{q} = \tau_{ext}
+    $$<p>结果是，机器人仍然能体现出阻抗性，但是与质量相关的项存在耦合关系</p>
+<p>优点：由于关节加速度很小，所以对系统影响很小，耦合作用相对较弱。</p>
+</li>
+<li>
+<p>简化</p>
+<p>令 $\overset{..}{q_d},\overset{.}{q_d}$ 为0，同时忽略 $M_d,M(q)$</p>
+<p>此时 $\tau = C(\overset{.}{q},q)\overset{.}{q}+g(q)-D_d\overset{.}{q}+K_d\overline{q}$ 这种控制被称为KD+控制， $K_d$为p控制器， $D_d$为d控制器，同时加上了非线性补偿 $C(\overset{.}{q},q)\overset{.}{q}$ 。</p>
+<p>带入动力学方程：</p>
+<p>$-M(q)\overset{..}{q}-D_d\overset{.}{q}+K_d\overline{q} = \tau_{ext}$</p>
+<p>其中 $M(q)\overset{..}{q}$ 几乎为0，机器人仍然体现出一些阻抗特性，但是这种阻抗特性是由 D和K提供的，但是会与之前设定的标准值相差较大。当关节加速度较小时，几乎可以看作为一阶系统，有时候被定义为关节柔顺控制。</p>
+</li>
+</ol>
+<h3 id="笛卡尔空间内的阻抗控制">笛卡尔空间内的阻抗控制</h3>
+<p>目标：让机器末端执行器在笛卡尔空间内的每个方向上都体现出由弹簧-阻尼-质量组成的二阶系统的动态特性，但是要注意，目标方向数量应该小于等于自由度的数量，最多可以定义六个方向上的运动</p>
+<p>$M_d\overset{..}{\overline{x}}+D_d\overset{.}{\overline{x}}+K_d\overline{x} = F_{ext}$       $\overline{x} = x_d-x$</p>
+<p>假定控制任务是跟随一条轨迹</p>
+$$
+\tau = M(q)J^{-1}(q)M_d^{-1}(M_d\overset{..}{x_d}+K\overset{.}{\overline{x}} + D\overline{x}-M_dJ^{'}(\overset{.}{q},{q})\overset{.}{q})+(J^T(q)-M(q)J^{-1}(q)M_d^{-1})F_{ext}+g(q)+C(q,\overset{.}{q})\overset{.}{q}
+$$<p>公式分为3个部分：</p>
+<ul>
+<li>
+<p>第一个部分与之前的几乎一样，但是加上了雅各比矩阵来进行笛卡尔空间到关节空间之间的转换，后面出现雅各比矩阵的导数是由于速度和加速度的求解，物理层面上就是为了抵消一部分由加速度产生的惯性力的作用 $M_dJ^{'}(\overset{.}{q},{q})\overset{.}{q}$</p>
+<p>$\overset{.}{x} = J(q)\overset{.}{q}$     ⇒      $\overset{..}{x} = J(q)\overset{..}{q}+J^{'}(\overset{.}{q},{q})\overset{.}{q}$</p>
+</li>
+<li>
+<p>第二部分就是把外界的力通过笛卡尔空间转化为关节空间的力</p>
+</li>
+<li>
+<p>第三部分是机器人自身运动过程中来源于自身的一些非线性的力</p>
+</li>
+</ul>
+<p>将关节控制输入表达式带入到机器人动力学方程中可以得到所期望的二阶系统动态方程，理想状态下，可以体现出完全解耦的阻抗特性</p>
+<p>实际操作中需要：</p>
+<ul>
+<li>求解雅各比矩阵的逆矩阵和导数矩阵</li>
+<li>精确测量机器人执行器末端的受到的外力</li>
+<li>精确的机器人运动学以及动力学模型</li>
+<li>机器人关节位置和转速的测量</li>
+<li>机器人关节转矩控制</li>
+<li>不要过度接近机器人的奇异点，会导致雅各比矩阵的求解误差教大，机器人运动受限</li>
+</ul>
+<p>笛卡尔空间的控制结构</p>
+<p><img src="./uTools_1693279517478.png" alt="uTools_1693279517478.png"></p>
+<p>阻抗控制器： $K_p,K_d,M_d$ 是控制器的增益，尽量减小设定值与机器人在空间运动的实际值的误差，之后产生一个虚拟的控制输入y</p>
+<p>通过运动学逆解得到在实际空间中所需要产生的力矩</p>
+<p>一些变化</p>
+<ul>
+<li>
+<p>不能提供末端外力的实时反馈</p>
+<ul>
+<li>
+<p>直接删去与外力相关的部分</p>
+$$
+        \tau = M(q)J^{-1}(q)M_d^{-1}(M_d\overset{..}{x_d}+K\overset{.}{\overline{x}} + D\overline{x}-M_dJ^{'}(\overset{.}{q},{q})\overset{.}{q})+g(q)+C(q,\overset{.}{q})\overset{.}{q}
+        $$</li>
+<li>
+<p>带入机器人动力学方程中</p>
+$$
+        M_d\overset{..}{\overline{x}}+D_d\overset{.}{\overline{x}}+K_d\overline{x} =M_dJ(q)M^{-1}(q)J^T(q) F_{ext}
+        $$</li>
+<li>
+<p>结果是机器人仍然体现阻抗特性，但是各个方向之间存在耦合关系</p>
+</li>
+</ul>
+</li>
+<li>
+<p>PD+控制</p>
+$$\tau = J^T(q)(K\overline{x}+D\overset{.}{\overline{x}})+g(q)+C(q,\overset{.}{q})\overset{.}{q}$$<p>就是一个简单的PD控制器乘以一个雅各比矩阵的转置，然后再加上机器人运动中产生的非线性的力</p>
+$$-J^{-T}M(q)\overset{..}{q}+D_d\overset{.}{\overline{x}}+K_d\overline{x} = F_{ext}$$<p>结果：机器人依旧能体现一定的阻抗特性，但是与设定值的误差较大</p>
+<p>还需要考虑如何设计阻尼系数 $D_d$ 从而减小部分耦合作用</p>
+<p>阅读(<a href="https://link.springer.com/book/10.1007/978-3-540-69255-3">Cartesian Impedance Control of Redundant and Flexible-Joint Robots | SpringerLink</a>)</p>
+</li>
+</ul>
+<h2 id="导纳控制">导纳控制</h2>
+<p>目的与阻抗控制一样，都是让机器人对外体现出弹簧-阻尼-质量组成的二阶系统的动态特性</p>
+<p>区别：</p>
+<ol>
+<li>
+<p>物理意义</p>
+</li>
+<li>
+<p>控制方法</p>
+<p><img src="./uTools_1693292365375.png" alt="uTools_1693292365375.png"></p>
+<p>阻抗控制，可以把控制器认为是一种阻抗，会有机器人的位置信息，根据位置信息和事先定义好的阻抗行为计算一个力的设定值，机器人运行这个力的设定值的时候会产生一定的运动，对于控制器来说，输入位置，输出是力，而对于机器人就是输入是力输出是位置</p>
+<p>导纳控制，控制器接收到的是外界的力，控制器根据定义好的阻抗特性计算机器人该产生什么样的位移，机器人执行这个位置的过程中会对外界产生一定的力</p>
+</li>
+</ol>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%e9%98%bb%e6%8a%97%e5%92%8c%e5%af%bc%e7%ba%b3%e6%8e%a7%e5%88%b6&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=%e9%98%bb%e6%8a%97%e5%92%8c%e5%af%bc%e7%ba%b3%e6%8e%a7%e5%88%b6&amp;body=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f&amp;resubmit=true&amp;title=%e9%98%bb%e6%8a%97%e5%92%8c%e5%af%bc%e7%ba%b3%e6%8e%a7%e5%88%b6" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f&amp;t=%e9%98%bb%e6%8a%97%e5%92%8c%e5%af%bc%e7%ba%b3%e6%8e%a7%e5%88%b6" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%e9%98%bb%e6%8a%97%e5%92%8c%e5%af%bc%e7%ba%b3%e6%8e%a7%e5%88%b6&amp;url=http%3a%2f%2flocalhost%3a1313%2fpost%2f2024%2f03%2f18%2f%25E9%2598%25BB%25E6%258A%2597%25E5%2592%258C%25E5%25AF%25BC%25E7%25BA%25B3%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="http://localhost:1313/post/2024/03/18/vmc%E8%99%9A%E6%8B%9F%E6%A8%A1%E5%9E%8B%E6%8E%A7%E5%88%B6/">← prev</a>
+    
+    
+    <a class="link" href="http://localhost:1313/post/2024/03/18/foc%E7%A3%81%E5%9C%BA%E5%AE%9A%E5%90%91%E6%8E%A7%E5%88%B6/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2023</span> - <span>2024</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/weastur target=_blank rel=noopener>GitHub</a>,
+<a class=link href=https://www.linkedin.com/in/weastur/ target=_blank rel=noopener>LinkedIn</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>
