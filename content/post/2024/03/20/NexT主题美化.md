@@ -312,7 +312,7 @@ npm install hexo-wordcount --save
 ```powershell
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共{{ totalcount(site) }}字</span>
+  <span class="post-count">博客全站共{ { totalcount(site) } }字</span>
 </div>
 ```
 
@@ -511,7 +511,7 @@ code {
            }
        });
      </script>
-     <script src="{{ theme.math.mathjax.cdn }}"></script>
+     <script src="{ { theme.math.mathjax.cdn } }"></script>
      
      <style>
     .has-jax {
