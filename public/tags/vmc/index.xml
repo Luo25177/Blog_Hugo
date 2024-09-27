@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>VMC on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/vmc/</link>
-    <description>Recent content in VMC on My New Hugo Site</description>
+    <title>VMC on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/vmc/</link>
+    <description>Recent content in VMC on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Mon, 18 Mar 2024 17:32:31 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/vmc/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 17:32:31 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/vmc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>VMC虚拟模型控制</title>
-      <link>http://localhost:1313/post/2024/03/18/vmc%E8%99%9A%E6%8B%9F%E6%A8%A1%E5%9E%8B%E6%8E%A7%E5%88%B6/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/vmc%E8%99%9A%E6%8B%9F%E6%A8%A1%E5%9E%8B%E6%8E%A7%E5%88%B6/</link>
       <pubDate>Mon, 18 Mar 2024 17:32:31 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/18/vmc%E8%99%9A%E6%8B%9F%E6%A8%A1%E5%9E%8B%E6%8E%A7%E5%88%B6/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/vmc%E8%99%9A%E6%8B%9F%E6%A8%A1%E5%9E%8B%E6%8E%A7%E5%88%B6/</guid>
       <description>VMC 虚拟模型控制，主要是基于五连杆进行的分析</description>
     </item>
     

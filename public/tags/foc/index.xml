@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FOC on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/foc/</link>
-    <description>Recent content in FOC on My New Hugo Site</description>
+    <title>FOC on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/foc/</link>
+    <description>Recent content in FOC on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Mon, 18 Mar 2024 17:37:15 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/foc/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 17:37:15 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/foc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FOC磁场定向控制</title>
-      <link>http://localhost:1313/post/2024/03/18/foc%E7%A3%81%E5%9C%BA%E5%AE%9A%E5%90%91%E6%8E%A7%E5%88%B6/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/foc%E7%A3%81%E5%9C%BA%E5%AE%9A%E5%90%91%E6%8E%A7%E5%88%B6/</link>
       <pubDate>Mon, 18 Mar 2024 17:37:15 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/18/foc%E7%A3%81%E5%9C%BA%E5%AE%9A%E5%90%91%E6%8E%A7%E5%88%B6/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/foc%E7%A3%81%E5%9C%BA%E5%AE%9A%E5%90%91%E6%8E%A7%E5%88%B6/</guid>
       <description>电机的FOC磁场定向控制理论</description>
     </item>
     

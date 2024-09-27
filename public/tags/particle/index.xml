@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Particle on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/particle/</link>
-    <description>Recent content in Particle on My New Hugo Site</description>
+    <title>Particle on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/particle/</link>
+    <description>Recent content in Particle on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Tue, 19 Mar 2024 00:16:19 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/particle/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Tue, 19 Mar 2024 00:16:19 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/particle/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PF粒子滤波器</title>
-      <link>http://localhost:1313/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:16:19 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</guid>
       <description>PF 粒子滤波器的原理</description>
     </item>
     

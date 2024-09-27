@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ctags on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/ctags/</link>
-    <description>Recent content in Ctags on My New Hugo Site</description>
+    <title>Ctags on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/ctags/</link>
+    <description>Recent content in Ctags on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Sat, 23 Mar 2024 09:57:57 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/ctags/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Sat, 23 Mar 2024 09:57:57 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/ctags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ctags使用</title>
-      <link>http://localhost:1313/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Sat, 23 Mar 2024 09:57:57 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</guid>
       <description>用于在vim下方便阅读代码的工具</description>
     </item>
     

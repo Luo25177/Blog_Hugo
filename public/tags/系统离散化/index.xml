@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>系统离散化 on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/</link>
-    <description>Recent content in 系统离散化 on My New Hugo Site</description>
+    <title>系统离散化 on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/</link>
+    <description>Recent content in 系统离散化 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Mon, 18 Mar 2024 16:25:10 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 16:25:10 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>系统离散化</title>
-      <link>http://localhost:1313/post/2024/03/18/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/</link>
       <pubDate>Mon, 18 Mar 2024 16:25:10 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/18/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/%E7%B3%BB%E7%BB%9F%E7%A6%BB%E6%95%A3%E5%8C%96/</guid>
       <description>线性系统离散化</description>
     </item>
     

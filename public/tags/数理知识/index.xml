@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>数理知识 on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/%E6%95%B0%E7%90%86%E7%9F%A5%E8%AF%86/</link>
-    <description>Recent content in 数理知识 on My New Hugo Site</description>
+    <title>数理知识 on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/%E6%95%B0%E7%90%86%E7%9F%A5%E8%AF%86/</link>
+    <description>Recent content in 数理知识 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Mon, 18 Mar 2024 16:35:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%95%B0%E7%90%86%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 16:35:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/%E6%95%B0%E7%90%86%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hamilton Matrix and Equation</title>
-      <link>http://localhost:1313/post/2024/03/18/hamilton-matrix-and-equation/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/hamilton-matrix-and-equation/</link>
       <pubDate>Mon, 18 Mar 2024 16:35:40 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/18/hamilton-matrix-and-equation/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/hamilton-matrix-and-equation/</guid>
       <description>哈密尔顿矩阵和哈密尔顿方程定义和原理推导</description>
     </item>
     
     <item>
       <title>Riccati方程</title>
-      <link>http://localhost:1313/post/2024/03/18/riccati%E6%96%B9%E7%A8%8B/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/riccati%E6%96%B9%E7%A8%8B/</link>
       <pubDate>Mon, 18 Mar 2024 16:34:16 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/18/riccati%E6%96%B9%E7%A8%8B/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/riccati%E6%96%B9%E7%A8%8B/</guid>
       <description>Riccati方程求解</description>
     </item>
     
     <item>
       <title>矩阵求导和迹运算</title>
-      <link>http://localhost:1313/post/2024/03/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E5%92%8C%E8%BF%B9%E8%BF%90%E7%AE%97/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E5%92%8C%E8%BF%B9%E8%BF%90%E7%AE%97/</link>
       <pubDate>Mon, 18 Mar 2024 16:26:22 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E5%92%8C%E8%BF%B9%E8%BF%90%E7%AE%97/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E5%92%8C%E8%BF%B9%E8%BF%90%E7%AE%97/</guid>
       <description>矩阵求导和迹运算</description>
     </item>
     

@@ -1,12 +1,11 @@
-baseURL = 'https://seashore.top/Blog_Hugo'
+baseURL = 'https://seashore.top/Blog_Hugo/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = "Luo's Blog"
 theme = "texify2"
 enableRobotsTXT = true
 hasCJKLanguage = true
 paginate = 5
 rssLimit = 10
-
 
 [markup]
 defaultMarkdownHandler = "goldmark"
@@ -104,10 +103,11 @@ code = """
 code = """
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 """
-title="TeXify2"
-description = "TeXify2 - a minimal, latex-style hugo theme for personal blogging"
-images = ['images/logo.jpg']
+title="Luo's Blog"
+images = ['images/logo3.png']
 footnote = """
+<img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
+<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
 Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a>,
 <a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
 """
@@ -136,6 +136,6 @@ hackernews = true
 telegram = true
 
 [author]
-email = "me@weastur.com"
-name = "Pavel Sapezhka"
+email = "beloved25177@126.com"
+name = "落"
 

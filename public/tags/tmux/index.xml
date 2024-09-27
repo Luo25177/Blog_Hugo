@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tmux on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/tmux/</link>
-    <description>Recent content in Tmux on My New Hugo Site</description>
+    <title>Tmux on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/tmux/</link>
+    <description>Recent content in Tmux on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Tue, 19 Mar 2024 00:39:35 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/tmux/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Tue, 19 Mar 2024 00:39:35 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/tmux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>tmux使用</title>
-      <link>http://localhost:1313/post/2024/03/19/tmux%E4%BD%BF%E7%94%A8/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/tmux%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:39:35 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/19/tmux%E4%BD%BF%E7%94%A8/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/tmux%E4%BD%BF%E7%94%A8/</guid>
       <description>tmux安装配置与使用</description>
     </item>
     

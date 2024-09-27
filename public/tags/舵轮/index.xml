@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>舵轮 on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/%E8%88%B5%E8%BD%AE/</link>
-    <description>Recent content in 舵轮 on My New Hugo Site</description>
+    <title>舵轮 on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/%E8%88%B5%E8%BD%AE/</link>
+    <description>Recent content in 舵轮 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Tue, 26 Mar 2024 10:11:31 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%88%B5%E8%BD%AE/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Tue, 26 Mar 2024 10:11:31 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/%E8%88%B5%E8%BD%AE/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>轮式底盘解算</title>
-      <link>http://localhost:1313/post/2024/03/26/%E8%BD%AE%E5%BC%8F%E5%BA%95%E7%9B%98%E8%A7%A3%E7%AE%97/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/26/%E8%BD%AE%E5%BC%8F%E5%BA%95%E7%9B%98%E8%A7%A3%E7%AE%97/</link>
       <pubDate>Tue, 26 Mar 2024 10:11:31 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/26/%E8%BD%AE%E5%BC%8F%E5%BA%95%E7%9B%98%E8%A7%A3%E7%AE%97/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/26/%E8%BD%AE%E5%BC%8F%E5%BA%95%E7%9B%98%E8%A7%A3%E7%AE%97/</guid>
       <description>几个常用的轮式底盘（舵轮，全向轮，麦克纳母轮）控制解算</description>
     </item>
     

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kalman on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/kalman/</link>
-    <description>Recent content in Kalman on My New Hugo Site</description>
+    <title>Kalman on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/kalman/</link>
+    <description>Recent content in Kalman on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Tue, 19 Mar 2024 00:06:36 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/kalman/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Tue, 19 Mar 2024 00:06:36 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/kalman/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>卡尔曼滤波</title>
-      <link>http://localhost:1313/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
       <pubDate>Tue, 19 Mar 2024 00:06:36 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
       <description>卡尔曼滤波器理论与实现</description>
     </item>
     

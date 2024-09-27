@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/java/</link>
-    <description>Recent content in Java on My New Hugo Site</description>
+    <title>Java on Luo&#39;s Blog</title>
+    <link>http://localhost:1313/Blog_Hugo/tags/java/</link>
+    <description>Recent content in Java on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>me@weastur.com (Pavel Sapezhka)</managingEditor>
-    <webMaster>me@weastur.com (Pavel Sapezhka)</webMaster>
-    <lastBuildDate>Tue, 19 Mar 2024 00:58:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Tue, 19 Mar 2024 00:58:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>设计模式</title>
-      <link>http://localhost:1313/post/2024/03/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
       <pubDate>Tue, 19 Mar 2024 00:58:40 +0000</pubDate>
-      <author>me@weastur.com (Pavel Sapezhka)</author>
-      <guid>http://localhost:1313/post/2024/03/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <author>beloved25177@126.com (落)</author>
+      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
       <description>设计模式——面向对象</description>
     </item>
     

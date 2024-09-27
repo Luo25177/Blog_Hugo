@@ -2,6 +2,9 @@
   <div>
     <span>© {{ .Site.Params.since }}</span> - <span>{{ now.Format "2006"}}</span>
   </div>
+  <div>
+    <span>{{ .Site.Params.copyright | safeHTML }}</span>
+  </div>
 
   <div>
     <span>Powered by </span>
