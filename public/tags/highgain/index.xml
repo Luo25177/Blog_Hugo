@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HighGain on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/highgain/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/highgain/</link>
     <description>Recent content in HighGain on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Mon, 18 Mar 2024 17:27:53 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/highgain/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Mar 2024 17:27:53 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/highgain/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HighGain and HighFrequency</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/highgain-and-highfrequency/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/18/highgain-and-highfrequency/</link>
       <pubDate>Mon, 18 Mar 2024 17:27:53 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/highgain-and-highfrequency/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/18/highgain-and-highfrequency/</guid>
       <description>高增益反馈和高频率反馈控制器设计</description>
     </item>
     

@@ -2,100 +2,100 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>小工具 on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/categories/%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
+    <link>https://seashore.top/Blog_Hugo/categories/%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
     <description>Recent content in 小工具 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Mon, 23 Sep 2024 21:09:46 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/categories/%E5%B0%8F%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 23 Sep 2024 21:09:46 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/categories/%E5%B0%8F%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux系统配置clash</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/09/23/linux%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEclash/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/09/23/linux%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEclash/</link>
       <pubDate>Mon, 23 Sep 2024 21:09:46 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/09/23/linux%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEclash/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/09/23/linux%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEclash/</guid>
       <description>Linux配置clash，上网查资料必备</description>
     </item>
     
     <item>
       <title>gcc内置原子操作</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</link>
       <pubDate>Mon, 27 May 2024 20:34:52 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</guid>
       <description>gcc 内置的原子操作</description>
     </item>
     
     <item>
       <title>GTest使用</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/04/02/gtest%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/04/02/gtest%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 02 Apr 2024 21:33:16 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/04/02/gtest%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/04/02/gtest%E4%BD%BF%E7%94%A8/</guid>
       <description>google—test使用，一种测试代码运行正确性的库</description>
     </item>
     
     <item>
       <title>CMakeLists编写</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/04/02/cmakelists%E7%BC%96%E5%86%99/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/04/02/cmakelists%E7%BC%96%E5%86%99/</link>
       <pubDate>Tue, 02 Apr 2024 21:31:09 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/04/02/cmakelists%E7%BC%96%E5%86%99/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/04/02/cmakelists%E7%BC%96%E5%86%99/</guid>
       <description>CMakeLists编写基础语法</description>
     </item>
     
     <item>
       <title>makefile编写</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/04/02/makefile%E7%BC%96%E5%86%99/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/04/02/makefile%E7%BC%96%E5%86%99/</link>
       <pubDate>Tue, 02 Apr 2024 21:28:03 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/04/02/makefile%E7%BC%96%E5%86%99/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/04/02/makefile%E7%BC%96%E5%86%99/</guid>
       <description>makefile编写规则</description>
     </item>
     
     <item>
       <title>ctags使用</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Sat, 23 Mar 2024 09:57:57 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/23/ctags%E4%BD%BF%E7%94%A8/</guid>
       <description>用于在vim下方便阅读代码的工具</description>
     </item>
     
     <item>
       <title>ubuntu指令</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/ubuntu%E6%8C%87%E4%BB%A4/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/ubuntu%E6%8C%87%E4%BB%A4/</link>
       <pubDate>Tue, 19 Mar 2024 00:48:52 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/ubuntu%E6%8C%87%E4%BB%A4/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/ubuntu%E6%8C%87%E4%BB%A4/</guid>
       <description>ubuntu一些常用的总结的指令</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:46:31 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</guid>
       <description>这个实际上不能说是一个小工具，应当说是一种Linux系统的美化，Linux终端美化</description>
     </item>
     
     <item>
       <title>vim使用</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:43:47 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/</guid>
       <description>我愿称之为神中之神，心目中的最强文本编辑器</description>
     </item>
     
     <item>
       <title>fish使用</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/fish%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/fish%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:41:39 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/fish%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/fish%E4%BD%BF%E7%94%A8/</guid>
       <description>Linux 中一个可以在终端提示指令代码的简约的小工具</description>
     </item>
     

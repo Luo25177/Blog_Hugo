@@ -2,46 +2,46 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>计算机 on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link>
     <description>Recent content in 计算机 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Tue, 16 Apr 2024 10:24:26 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Apr 2024 10:24:26 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>verilog基础语法</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</link>
       <pubDate>Tue, 16 Apr 2024 10:24:26 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/04/16/verilog%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</guid>
       <description>verilog 一种硬件语言的基础语法</description>
     </item>
     
     <item>
       <title>编译原理</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</link>
       <pubDate>Tue, 19 Mar 2024 01:01:24 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</guid>
       <description>编译原理学习笔记</description>
     </item>
     
     <item>
       <title>操作系统</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Tue, 19 Mar 2024 00:52:37 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>操作系统-jyy，说实话，笔记写的有点烂，但是是跟着课程走的，而且主要是中间遇到不会的东西会去查，然后记录下来，再加上当时比较菜，所以显得比较乱</description>
     </item>
     
     <item>
       <title>深入理解计算机系统</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Mon, 18 Mar 2024 16:08:05 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</guid>
       <description>深入理解计算机系统</description>
     </item>
     

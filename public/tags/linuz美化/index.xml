@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linuz美化 on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/linuz%E7%BE%8E%E5%8C%96/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/linuz%E7%BE%8E%E5%8C%96/</link>
     <description>Recent content in Linuz美化 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Tue, 19 Mar 2024 00:46:31 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/linuz%E7%BE%8E%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Mar 2024 00:46:31 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/linuz%E7%BE%8E%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:46:31 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/</guid>
       <description>这个实际上不能说是一个小工具，应当说是一种Linux系统的美化，Linux终端美化</description>
     </item>
     

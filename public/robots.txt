@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: http://localhost:1313/Blog_Hugo/sitemap.xml
+Sitemap: https://seashore.top/Blog_Hugo/sitemap.xml

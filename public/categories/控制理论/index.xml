@@ -2,100 +2,100 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>控制理论 on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/categories/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/</link>
+    <link>https://seashore.top/Blog_Hugo/categories/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/</link>
     <description>Recent content in 控制理论 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Sat, 30 Mar 2024 16:41:39 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/categories/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Mar 2024 16:41:39 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/categories/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DOB扰动观测器</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/30/dob%E6%89%B0%E5%8A%A8%E8%A7%82%E6%B5%8B%E5%99%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/30/dob%E6%89%B0%E5%8A%A8%E8%A7%82%E6%B5%8B%E5%99%A8/</link>
       <pubDate>Sat, 30 Mar 2024 16:41:39 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/30/dob%E6%89%B0%E5%8A%A8%E8%A7%82%E6%B5%8B%E5%99%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/30/dob%E6%89%B0%E5%8A%A8%E8%A7%82%E6%B5%8B%E5%99%A8/</guid>
       <description>DOB扰动观测器原理与设计</description>
     </item>
     
     <item>
       <title>PF粒子滤波器</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:16:19 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/pf%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%99%A8/</guid>
       <description>PF 粒子滤波器的原理</description>
     </item>
     
     <item>
       <title>QP二次规划</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
       <pubDate>Tue, 19 Mar 2024 00:11:46 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</guid>
       <description>QP二次规划，用于解决一些二次规划的问题(LQR)</description>
     </item>
     
     <item>
       <title>贝叶斯滤波</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/</link>
       <pubDate>Tue, 19 Mar 2024 00:09:46 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/</guid>
       <description>贝叶斯滤波器原理</description>
     </item>
     
     <item>
       <title>PR比例谐振控制器</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/pr%E6%AF%94%E4%BE%8B%E8%B0%90%E6%8C%AF%E6%8E%A7%E5%88%B6%E5%99%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/pr%E6%AF%94%E4%BE%8B%E8%B0%90%E6%8C%AF%E6%8E%A7%E5%88%B6%E5%99%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:08:18 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/pr%E6%AF%94%E4%BE%8B%E8%B0%90%E6%8C%AF%E6%8E%A7%E5%88%B6%E5%99%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/pr%E6%AF%94%E4%BE%8B%E8%B0%90%E6%8C%AF%E6%8E%A7%E5%88%B6%E5%99%A8/</guid>
       <description>PR比例谐振控制器</description>
     </item>
     
     <item>
       <title>卡尔曼滤波</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</link>
       <pubDate>Tue, 19 Mar 2024 00:06:36 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</guid>
       <description>卡尔曼滤波器理论与实现</description>
     </item>
     
     <item>
       <title>最优控制</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/</link>
       <pubDate>Tue, 19 Mar 2024 00:02:37 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/</guid>
       <description>最优控制理论</description>
     </item>
     
     <item>
       <title>ADRC自抗扰控制器</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:00:58 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/</guid>
       <description>ADRC自抗扰控制器设计与实现</description>
     </item>
     
     <item>
       <title>LQG线性二次高斯</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</link>
       <pubDate>Mon, 18 Mar 2024 17:46:34 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</guid>
       <description>LQG线性二次高斯控制器设计</description>
     </item>
     
     <item>
       <title>WBC全身控制器</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/wbc%E5%85%A8%E8%BA%AB%E6%8E%A7%E5%88%B6%E5%99%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/18/wbc%E5%85%A8%E8%BA%AB%E6%8E%A7%E5%88%B6%E5%99%A8/</link>
       <pubDate>Mon, 18 Mar 2024 17:45:28 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/wbc%E5%85%A8%E8%BA%AB%E6%8E%A7%E5%88%B6%E5%99%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/18/wbc%E5%85%A8%E8%BA%AB%E6%8E%A7%E5%88%B6%E5%99%A8/</guid>
       <description>WBC全身控制器一些理论知识</description>
     </item>
     

@@ -2,28 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>二次规划 on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
     <description>Recent content in 二次规划 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Mon, 23 Sep 2024 21:12:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 23 Sep 2024 21:12:40 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux上配置ipopt和casadi求解二次规划</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/09/23/linux%E4%B8%8A%E9%85%8D%E7%BD%AEipopt%E5%92%8Ccasadi%E6%B1%82%E8%A7%A3%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/09/23/linux%E4%B8%8A%E9%85%8D%E7%BD%AEipopt%E5%92%8Ccasadi%E6%B1%82%E8%A7%A3%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
       <pubDate>Mon, 23 Sep 2024 21:12:40 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/09/23/linux%E4%B8%8A%E9%85%8D%E7%BD%AEipopt%E5%92%8Ccasadi%E6%B1%82%E8%A7%A3%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/09/23/linux%E4%B8%8A%E9%85%8D%E7%BD%AEipopt%E5%92%8Ccasadi%E6%B1%82%E8%A7%A3%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</guid>
       <description>Linux 配置 ipopt 和 casadi 以求解二次规划问题</description>
     </item>
     
     <item>
       <title>QP二次规划</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</link>
       <pubDate>Tue, 19 Mar 2024 00:11:46 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/</guid>
       <description>QP二次规划，用于解决一些二次规划的问题(LQR)</description>
     </item>
     

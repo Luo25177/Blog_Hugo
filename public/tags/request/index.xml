@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Request on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/request/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/request/</link>
     <description>Recent content in Request on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Tue, 19 Mar 2024 09:56:56 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/request/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Mar 2024 09:56:56 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/request/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>request-python学习记录</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/request-python%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/request-python%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Tue, 19 Mar 2024 09:56:56 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/request-python%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/request-python%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
       <description>python爬虫的学习记录和使用</description>
     </item>
     

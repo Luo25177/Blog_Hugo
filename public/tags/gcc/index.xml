@@ -2,28 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gcc on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/gcc/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/gcc/</link>
     <description>Recent content in Gcc on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Mon, 27 May 2024 20:34:52 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 May 2024 20:34:52 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gcc内置原子操作</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</link>
       <pubDate>Mon, 27 May 2024 20:34:52 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</guid>
       <description>gcc 内置的原子操作</description>
     </item>
     
     <item>
       <title>gcc使用</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/gcc%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/gcc%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 00:32:34 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/gcc%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/gcc%E4%BD%BF%E7%94%A8/</guid>
       <description>gcc编译器的使用，g++与其语法基本一致</description>
     </item>
     

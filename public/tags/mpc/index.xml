@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MPC on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/tags/mpc/</link>
+    <link>https://seashore.top/Blog_Hugo/tags/mpc/</link>
     <description>Recent content in MPC on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Mon, 18 Mar 2024 15:42:26 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/tags/mpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Mar 2024 15:42:26 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/mpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MPC模型预测控制</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/</link>
       <pubDate>Mon, 18 Mar 2024 15:42:26 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/</guid>
       <description>MPC模型预测控制器设计</description>
     </item>
     

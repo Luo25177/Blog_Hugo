@@ -2,46 +2,46 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>单片机 on Luo&#39;s Blog</title>
-    <link>http://localhost:1313/Blog_Hugo/categories/%E5%8D%95%E7%89%87%E6%9C%BA/</link>
+    <link>https://seashore.top/Blog_Hugo/categories/%E5%8D%95%E7%89%87%E6%9C%BA/</link>
     <description>Recent content in 单片机 on Luo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>beloved25177@126.com (落)</managingEditor>
     <webMaster>beloved25177@126.com (落)</webMaster>
-    <lastBuildDate>Fri, 16 Aug 2024 22:46:34 +0000</lastBuildDate><atom:link href="http://localhost:1313/Blog_Hugo/categories/%E5%8D%95%E7%89%87%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Aug 2024 22:46:34 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/categories/%E5%8D%95%E7%89%87%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>STM32CubeMX入门</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/08/16/stm32cubemx%E5%85%A5%E9%97%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/08/16/stm32cubemx%E5%85%A5%E9%97%A8/</link>
       <pubDate>Fri, 16 Aug 2024 22:46:34 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/08/16/stm32cubemx%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/08/16/stm32cubemx%E5%85%A5%E9%97%A8/</guid>
       <description>stm32芯片的一些知识</description>
     </item>
     
     <item>
       <title>GPIO八种工作模式</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/08/16/gpio%E5%85%AB%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/08/16/gpio%E5%85%AB%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F/</link>
       <pubDate>Fri, 16 Aug 2024 22:46:03 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/08/16/gpio%E5%85%AB%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/08/16/gpio%E5%85%AB%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F/</guid>
       <description>GPIO 八种工作模式</description>
     </item>
     
     <item>
       <title>stm32学习</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/26/stm32%E5%AD%A6%E4%B9%A0/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/26/stm32%E5%AD%A6%E4%B9%A0/</link>
       <pubDate>Tue, 26 Mar 2024 10:32:57 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/26/stm32%E5%AD%A6%E4%B9%A0/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/26/stm32%E5%AD%A6%E4%B9%A0/</guid>
       <description>stm32芯片的一些知识</description>
     </item>
     
     <item>
       <title>stm32-ucos使用</title>
-      <link>http://localhost:1313/Blog_Hugo/post/2024/03/19/stm32-ucos%E4%BD%BF%E7%94%A8/</link>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/19/stm32-ucos%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 19 Mar 2024 09:55:32 +0000</pubDate>
       <author>beloved25177@126.com (落)</author>
-      <guid>http://localhost:1313/Blog_Hugo/post/2024/03/19/stm32-ucos%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/19/stm32-ucos%E4%BD%BF%E7%94%A8/</guid>
       <description>基于stm32系列的操作系统ucosii的一些基本使用</description>
     </item>
     
