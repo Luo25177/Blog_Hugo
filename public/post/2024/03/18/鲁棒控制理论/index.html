@@ -1,578 +1,177 @@
-<!DOCTYPE html>
-<html lang="en-us" style="font-size: 120%">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  
-  <meta name="author" content="落">
-
-  
-  
-  <meta name="description" content="鲁棒控制器的介绍和设计">
-  
-
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
-
-  
-  
-  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
-  
-
-  
-  
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
-
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
-  onload="renderMathInElement(document.body);"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false }
-      ]
-    });
-  });
-</script>
-
-  
-
-  
-  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-
-
-  
-  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/18/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/">
-  <meta property="og:site_name" content="Luo&#39;s Blog">
-  <meta property="og:title" content="鲁棒控制理论">
-  <meta property="og:description" content="鲁棒控制器的介绍和设计">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2024-03-18T17:43:15+00:00">
-    <meta property="article:modified_time" content="2024-03-18T17:43:15+00:00">
-    <meta property="article:tag" content="鲁棒控制">
-    <meta property="article:tag" content="H无穷">
-    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-
-
-  
-  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/18/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/">
-
-  
-  
-  
-  <meta itemprop="name" content="鲁棒控制理论">
-  <meta itemprop="description" content="鲁棒控制器的介绍和设计">
-  <meta itemprop="datePublished" content="2024-03-18T17:43:15+00:00">
-  <meta itemprop="dateModified" content="2024-03-18T17:43:15+00:00">
-  <meta itemprop="wordCount" content="4523">
-  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta itemprop="keywords" content="鲁棒控制,H无穷">
-
-  
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
-
-  
-  
-  <title>鲁棒控制理论 - Luo&#39;s Blog</title>
-  
-
-  
-  
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta name="twitter:title" content="鲁棒控制理论">
-  <meta name="twitter:description" content="鲁棒控制器的介绍和设计">
-
-
-  
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
-
-</head>
-
-<body>
-  <div id="wrapper">
-    
-
-
-<header id="header">
-  <h1>
-    <a href="https://seashore.top/Blog_Hugo/">Luo&#39;s Blog</a>
-  </h1>
-
-  <nav>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="../">Guid</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/">Home</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/post/">Posts</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/about/">About</a>
-    </span>
-    
-  </nav>
-  
-  <div id="searchbox">
-    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
-      <input type="hidden" name="sites" value="seashore.top">
-      <input type="text" name="q" placeholder="Search...">
-    </form>
-  </div>
-  
-</header>
-
-    
-<main id="main" class="post">
-  
-  <h1>鲁棒控制理论</h1>
-  
-  <div>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6'>#鲁棒控制</a>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/h%E6%97%A0%E7%A9%B7'>#H无穷</a>
-    
-  </div>
-  
-  
-  
-  <details>
-    <summary>
-      <b>Table of Contents</b>
-    </summary>
-    <div class="toc numbered-subtitles"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#一些定义">一些定义</a></li>
-        <li><a href="#系统的一些性能指标">系统的一些性能指标</a></li>
-      </ul>
-    </li>
-    <li><a href="#lmi矩阵不等式">LMI矩阵不等式</a>
-      <ul>
-        <li><a href="#不确定系统描述">不确定系统描述</a></li>
-        <li><a href="#schur-补性质">Schur 补性质</a></li>
-        <li><a href="#系统范数">系统范数</a></li>
-        <li><a href="#状态反馈-h_infty-控制">状态反馈  控制</a></li>
-        <li><a href="#输出反馈-h_infty-控制">输出反馈  控制</a></li>
-      </ul>
-    </li>
-    <li><a href="#控制器设计">控制器设计</a></li>
-    <li><a href="#例子">例子</a>
-      <ul>
-        <li><a href="#状态反馈控制">状态反馈控制</a></li>
-        <li><a href="#参考文章">参考文章</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-  </details>
-  
-  
-  <article class="content numbered-subtitles">
-    
-    <p>一种典型的不确定系统模型的基本形式是</p>
-$$
+<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="鲁棒控制器的介绍和设计"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/18/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="鲁棒控制理论"><meta property="og:description" content="鲁棒控制器的介绍和设计"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-18T17:43:15+00:00"><meta property="article:modified_time" content="2024-03-18T17:43:15+00:00"><meta property="article:tag" content="鲁棒控制"><meta property="article:tag" content="H无穷"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/18/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/><meta itemprop=name content="鲁棒控制理论"><meta itemprop=description content="鲁棒控制器的介绍和设计"><meta itemprop=datePublished content="2024-03-18T17:43:15+00:00"><meta itemprop=dateModified content="2024-03-18T17:43:15+00:00"><meta itemprop=wordCount content="4523"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="鲁棒控制,H无穷"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>鲁棒控制理论 - Luo's Blog</title>
+<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="鲁棒控制理论"><meta name=twitter:description content="鲁棒控制器的介绍和设计"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
+<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>鲁棒控制理论</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6>#鲁棒控制</a>
+<a class=link href=https://seashore.top/Blog_Hugo/tags/h%E6%97%A0%E7%A9%B7>#H无穷</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><ul><li><a href=#一些定义>一些定义</a></li><li><a href=#系统的一些性能指标>系统的一些性能指标</a></li></ul></li><li><a href=#lmi矩阵不等式>LMI矩阵不等式</a><ul><li><a href=#不确定系统描述>不确定系统描述</a></li><li><a href=#schur-补性质>Schur 补性质</a></li><li><a href=#系统范数>系统范数</a></li><li><a href=#状态反馈-h_infty-控制>状态反馈 控制</a></li><li><a href=#输出反馈-h_infty-控制>输出反馈 控制</a></li></ul></li><li><a href=#控制器设计>控制器设计</a></li><li><a href=#例子>例子</a><ul><li><a href=#状态反馈控制>状态反馈控制</a></li><li><a href=#参考文章>参考文章</a></li></ul></li></ul></nav></div></details><article class="content numbered-subtitles"><p>一种典型的不确定系统模型的基本形式是</p>$$
 y=(P+\Delta)u+n
-$$<p>其中，y 是系统输出，u 是系统输入，P 是标称对象的传递函数，模型的不确定性以两种形式展现：n 是未知噪声或者干扰， $\Delta$ 是位置的对象摄动（未建模动态）</p>
-<p>一般地说，鲁棒性概念是指反馈控制系统的某项性能对于某集合中的每一个对象都是成立的。具体地说，我们有如下鲁棒性定义。</p>
-<ul>
-<li>**鲁棒稳定性：**设计一个控制器，使对每一个摄动后的对象，都能保证闭环系统的稳定性。</li>
-<li>**鲁棒性能：**设计一个控制器，使对每一个摄动后的对象，闭环系统都满足稳定性和某种特定的系统性能。</li>
-</ul>
-<p>上述鲁棒性的概念是指定给定一个控制器，如果某集合中的每一个对象都能保持某种特性成立，则称控制器对此特性是鲁棒的。因此鲁棒性必须包含一个控制器，有一个对象的集合和某些系统的特性</p>
-<h1 id="h_infty-控制器">$H_\infty$ 控制器</h1>
-<h3 id="一些定义">一些定义</h3>
-<p>首先说明一些定义</p>
-<p>$sup$：一个集合最小的上界，不小于它最大值的值，都是它的上界</p>
-<p>$inf$：一个集合最大的下界，不大于它最小值的值，都是它的下界</p>
-<p>$max$：最大值</p>
-<p>$min$：最小值</p>
-<p>$Im~f$：相当于 f 的值域</p>
-<p>$Ker~f$：相当于 f 的零空间，也就是 $f(x)=0$ 中所有点对应的原像，这个原像不唯一，所构成的集合就是 $Ker~f$</p>
-<h3 id="系统的一些性能指标">系统的一些性能指标</h3>
-<ul>
-<li>
-<p><strong>IE 增益</strong></p>
-$$
-    \Gamma_{ie}=\underset{w(t)=w_0\delta(t),||w_0||\leq1}{sup}||z||_2
-    $$<p>对于原线性时不变连续时间系统，如果该系统是严格真的（D=0）和渐进稳定（矩阵A特征值均具有负实部）的，那么系统的 <strong>IE 增益</strong>是有限的，并且 $\Gamma_{ie}=\sqrt{||B^TYB||}$，其中矩阵的范数取为谱范数，即矩阵的最大奇异值，例如 A 的谱范数为 $\sqrt{\max(eig(A^TA))}$，其中 $eig$ 表示为取特征值的函数，矩阵 $Y$ 就是以下李雅普诺夫方程的解</p>
-$$
-    YA+A^TY+C^TC=0
-    $$<p>该定理可以转化为以下的优化问题</p>
-$$
-    min~\gamma
-    $$<p>其中满足</p>
-$$
-    \exists P:PD\\\\
-    PA+A^TP+C^TC<0\\\\
-    B^TPB\leq\gamma I\\\\
-    P>0
-    $$<p>该优化问题有一个最优值 $\gamma^\star$，则 $\Gamma_{ie}=\sqrt{\gamma^\star}$。该优化问题是一个具有线性不等式约束和线性目标函数的凸优化问题，以应用 <strong>LMI 工具箱中的求解器 mincx</strong> 来求解</p>
-</li>
-<li>
-<p><strong>EP 增益</strong></p>
-$$
-    \Gamma_{ep}=\underset{||w||_2\leq1}{sup}||z||_\infty
-    $$<p>对于原线性时不变连续时间系统，如果该系统是严格真的（D=0）和渐进稳定（矩阵A特征值均具有负实部）的，那么系统的 <strong>EP 增益</strong>是有限的，并且 $\Gamma_{ep}=\sqrt{||CXC^T||}$，其中矩阵的范数取为谱范数，即矩阵的最大奇异值，例如 A 的谱范数为 $\sqrt{\max(eig(A^TA))}$，其中 $eig$ 表示为取特征值的函数，矩阵 $X$ 就是以下李雅普诺夫方程的解</p>
-$$
-    AX+XA^T+B^TB=0
-    $$<p>该定理可以转化为以下的优化问题</p>
-$$
-    min~\gamma
-    $$<p>其中满足</p>
-$$
-    \exists Q:PD\\\\
-    AQ+QA^T+BB^T<0\\\\
-    CQC^T\leq\gamma I\\\\
-    Q>0
-    $$<p>该优化问题有一个最优值 $\gamma^\star$，则 $\Gamma_{ep}=\sqrt{\gamma^\star}$。该优化问题是一个具有线性不等式约束和线性目标函数的凸优化问题，以应用 <strong>LMI 工具箱中的求解器 mincx</strong> 来求解</p>
-</li>
-<li>
-<p><strong>EE 增益</strong></p>
-$$
-    \Gamma_{ee}=\underset{||w||_2\leq1}{sup}||z||_2
-    $$<p>定理：对于原线性时不变连续时间系统，设 $\gamma$ 是一个给定的常数，则下列条件是等价的：</p>
-<ol>
-<li>
-<p>系统渐进稳定，且 $\Gamma_{ee}<\gamma$</p>
-</li>
-<li>
-<p>存在一个对阵阵 $P>0$，使得</p>
-$$
-        \begin{bmatrix}A^TP+PA&PB&C^T\\B^TP&-\gamma I&D^T\\C&D&-\gamma I\end{bmatrix}<0
-        $$</li>
-</ol>
-<p>由于条件 2 是一个线性矩阵不等式，因此可以应用 <strong>LMI 工具箱中的求解器 feasp</strong> 来判断系统增益 $\Gamma_{ee}$ 是否满足给定的约束条件。</p>
-</li>
-<li>
-<p><strong>PP 增益</strong></p>
-$$
-    \Gamma_{pp}=\underset{||w||_\infty\leq1}{sup}||z||_\infty
-    $$<p>定理：对于原线性时不变连续时间系统，设 $\gamma$ 是一个给定的标量，如果存在对称矩阵 $R>0$，标量 $\gamma>0$ 和 $\mu>0$，使得：</p>
-$$
-    \begin{bmatrix}A^TR+RA+\gamma R&RB\\B^TR&-\mu I\end{bmatrix}<0\\\begin{bmatrix}\gamma R&0&C^T\\0&(\gamma-\mu)I&D^T\\C&D&\gamma^I\end{bmatrix}>0
-    $$<p>那么满足 $\Gamma_{pp}<\gamma$，上述线性矩阵不等式，因此可以应用 <strong>LMI 工具箱中的求解器 feasp</strong> 来判断系统增益 $\Gamma_{ee}$ 是否满足给定的约束条件。</p>
-</li>
-</ul>
-<h2 id="lmi矩阵不等式">LMI矩阵不等式</h2>
-<h3 id="不确定系统描述">不确定系统描述</h3>
-<p><img src="./20210306152914283.png" alt="20210306152914283.png"></p>
-<p>其中有</p>
-$$
+$$<p>其中，y 是系统输出，u 是系统输入，P 是标称对象的传递函数，模型的不确定性以两种形式展现：n 是未知噪声或者干扰， $\Delta$ 是位置的对象摄动（未建模动态）</p><p>一般地说，鲁棒性概念是指反馈控制系统的某项性能对于某集合中的每一个对象都是成立的。具体地说，我们有如下鲁棒性定义。</p><ul><li>**鲁棒稳定性：**设计一个控制器，使对每一个摄动后的对象，都能保证闭环系统的稳定性。</li><li>**鲁棒性能：**设计一个控制器，使对每一个摄动后的对象，闭环系统都满足稳定性和某种特定的系统性能。</li></ul><p>上述鲁棒性的概念是指定给定一个控制器，如果某集合中的每一个对象都能保持某种特性成立，则称控制器对此特性是鲁棒的。因此鲁棒性必须包含一个控制器，有一个对象的集合和某些系统的特性</p><h1 id=h_infty-控制器>$H_\infty$ 控制器</h1><h3 id=一些定义>一些定义</h3><p>首先说明一些定义</p><p>$sup$：一个集合最小的上界，不小于它最大值的值，都是它的上界</p><p>$inf$：一个集合最大的下界，不大于它最小值的值，都是它的下界</p><p>$max$：最大值</p><p>$min$：最小值</p><p>$Im~f$：相当于 f 的值域</p><p>$Ker~f$：相当于 f 的零空间，也就是 $f(x)=0$ 中所有点对应的原像，这个原像不唯一，所构成的集合就是 $Ker~f$</p><h3 id=系统的一些性能指标>系统的一些性能指标</h3><ul><li><p><strong>IE 增益</strong></p>$$
+\Gamma_{ie}=\underset{w(t)=w_0\delta(t),||w_0||\leq1}{sup}||z||_2
+$$<p>对于原线性时不变连续时间系统，如果该系统是严格真的（D=0）和渐进稳定（矩阵A特征值均具有负实部）的，那么系统的 <strong>IE 增益</strong>是有限的，并且 $\Gamma_{ie}=\sqrt{||B^TYB||}$，其中矩阵的范数取为谱范数，即矩阵的最大奇异值，例如 A 的谱范数为 $\sqrt{\max(eig(A^TA))}$，其中 $eig$ 表示为取特征值的函数，矩阵 $Y$ 就是以下李雅普诺夫方程的解</p>$$
+YA+A^TY+C^TC=0
+$$<p>该定理可以转化为以下的优化问题</p>$$
+min~\gamma
+$$<p>其中满足</p>$$
+\exists P:PD\\\\
+PA+A^TP+C^TC<0\\\\
+B^TPB\leq\gamma I\\\\
+P>0
+$$<p>该优化问题有一个最优值 $\gamma^\star$，则 $\Gamma_{ie}=\sqrt{\gamma^\star}$。该优化问题是一个具有线性不等式约束和线性目标函数的凸优化问题，以应用 <strong>LMI 工具箱中的求解器 mincx</strong> 来求解</p></li><li><p><strong>EP 增益</strong></p>$$
+\Gamma_{ep}=\underset{||w||_2\leq1}{sup}||z||_\infty
+$$<p>对于原线性时不变连续时间系统，如果该系统是严格真的（D=0）和渐进稳定（矩阵A特征值均具有负实部）的，那么系统的 <strong>EP 增益</strong>是有限的，并且 $\Gamma_{ep}=\sqrt{||CXC^T||}$，其中矩阵的范数取为谱范数，即矩阵的最大奇异值，例如 A 的谱范数为 $\sqrt{\max(eig(A^TA))}$，其中 $eig$ 表示为取特征值的函数，矩阵 $X$ 就是以下李雅普诺夫方程的解</p>$$
+AX+XA^T+B^TB=0
+$$<p>该定理可以转化为以下的优化问题</p>$$
+min~\gamma
+$$<p>其中满足</p>$$
+\exists Q:PD\\\\
+AQ+QA^T+BB^T<0\\\\
+CQC^T\leq\gamma I\\\\
+Q>0
+$$<p>该优化问题有一个最优值 $\gamma^\star$，则 $\Gamma_{ep}=\sqrt{\gamma^\star}$。该优化问题是一个具有线性不等式约束和线性目标函数的凸优化问题，以应用 <strong>LMI 工具箱中的求解器 mincx</strong> 来求解</p></li><li><p><strong>EE 增益</strong></p>$$
+\Gamma_{ee}=\underset{||w||_2\leq1}{sup}||z||_2
+$$<p>定理：对于原线性时不变连续时间系统，设 $\gamma$ 是一个给定的常数，则下列条件是等价的：</p><ol><li><p>系统渐进稳定，且 $\Gamma_{ee}<\gamma$</p></li><li><p>存在一个对阵阵 $P>0$，使得</p>$$
+\begin{bmatrix}A^TP+PA&PB&C^T\\B^TP&-\gamma I&D^T\\C&D&-\gamma I\end{bmatrix}<0
+$$</li></ol><p>由于条件 2 是一个线性矩阵不等式，因此可以应用 <strong>LMI 工具箱中的求解器 feasp</strong> 来判断系统增益 $\Gamma_{ee}$ 是否满足给定的约束条件。</p></li><li><p><strong>PP 增益</strong></p>$$
+\Gamma_{pp}=\underset{||w||_\infty\leq1}{sup}||z||_\infty
+$$<p>定理：对于原线性时不变连续时间系统，设 $\gamma$ 是一个给定的标量，如果存在对称矩阵 $R>0$，标量 $\gamma>0$ 和 $\mu>0$，使得：</p>$$
+\begin{bmatrix}A^TR+RA+\gamma R&RB\\B^TR&-\mu I\end{bmatrix}<0\\\begin{bmatrix}\gamma R&0&C^T\\0&(\gamma-\mu)I&D^T\\C&D&\gamma^I\end{bmatrix}>0
+$$<p>那么满足 $\Gamma_{pp}<\gamma$，上述线性矩阵不等式，因此可以应用 <strong>LMI 工具箱中的求解器 feasp</strong> 来判断系统增益 $\Gamma_{ee}$ 是否满足给定的约束条件。</p></li></ul><h2 id=lmi矩阵不等式>LMI矩阵不等式</h2><h3 id=不确定系统描述>不确定系统描述</h3><p><img src=./20210306152914283.png alt=20210306152914283.png></p><p>其中有</p>$$
 \left\{\begin{aligned}&\dot{x} = Ax+B_1w+B_2u\\&z = C_1x +D_{11}w+D_{12}u\\&y=C_2x+D_{21}w+D_{22}u\end{aligned}\right.
-$$<p>其中 $C_1, D_{11}, D_{12}, D_{21}, D_{22}$ 是适当维数的矩阵，没有选择标准，要根据实际情况，大量实验选取。</p>
-<p>$P$ 为增广控制对象。</p>
-<p>$K$ 是控制器</p>
-<p>$u$ 控制输入</p>
-<p>$y$ 系统被测量的输出</p>
-<p>$w$ 是外部输入或参考的输入，噪声扰动之类的</p>
-<p>$z$ 是被控制量的输出，是系统的现时状态</p>
-<p>则传递函数为：</p>
-$$
+$$<p>其中 $C_1, D_{11}, D_{12}, D_{21}, D_{22}$ 是适当维数的矩阵，没有选择标准，要根据实际情况，大量实验选取。</p><p>$P$ 为增广控制对象。</p><p>$K$ 是控制器</p><p>$u$ 控制输入</p><p>$y$ 系统被测量的输出</p><p>$w$ 是外部输入或参考的输入，噪声扰动之类的</p><p>$z$ 是被控制量的输出，是系统的现时状态</p><p>则传递函数为：</p>$$
 U=KY\\\\
 Y=G_{21}W+G_{22}U=G_{21}W+G_{22}KY\\\\
 Y=(1-G_{22}K)^{-1}G_{21}W\\\\
 T_{WZ} = \frac{Z}{W}=G_{11}+G_{12}K(1-G_{22}K)^{-1}G_{21}=F_l(G, K)
-$$<p>则有</p>
-<ol>
-<li>
-<p>$H_{\infty}$ 最优控制问题</p>
-<p>对于标准鲁棒控制器理论控制框图，寻找一个真实有理的控制器 K，使闭环控制系统稳定，而且最小化闭环传递函数矩阵 $T_{ZW}$ 的 $H_{\infty}$ 范数，即</p>
-$$
-    \underset {K镇定G}{min}||T_{WZ}(G, K)||_{\infty}
-    $$</li>
-<li>
-<p>$H_{\infty}$ 次最优控制问题</p>
-<p>对于标准鲁棒控制器理论控制框图，寻找一个真实有理的控制器 K，使闭环控制系统稳定，而且使闭环传递函数矩阵 $T_{ZW}$ 的 $H_{\infty}$ 范数小于一个给定的常数 $\gamma$ ，即</p>
-$$
-    ||T_{WZ}(G, K)||_{\infty} < \gamma
-    $$</li>
-</ol>
-<h3 id="schur-补性质">Schur 补性质</h3>
-<p>给定的对称矩阵</p>
-$$
+$$<p>则有</p><ol><li><p>$H_{\infty}$ 最优控制问题</p><p>对于标准鲁棒控制器理论控制框图，寻找一个真实有理的控制器 K，使闭环控制系统稳定，而且最小化闭环传递函数矩阵 $T_{ZW}$ 的 $H_{\infty}$ 范数，即</p>$$
+\underset {K镇定G}{min}||T_{WZ}(G, K)||_{\infty}
+$$</li><li><p>$H_{\infty}$ 次最优控制问题</p><p>对于标准鲁棒控制器理论控制框图，寻找一个真实有理的控制器 K，使闭环控制系统稳定，而且使闭环传递函数矩阵 $T_{ZW}$ 的 $H_{\infty}$ 范数小于一个给定的常数 $\gamma$ ，即</p>$$
+||T_{WZ}(G, K)||_{\infty} < \gamma
+$$</li></ol><h3 id=schur-补性质>Schur 补性质</h3><p>给定的对称矩阵</p>$$
 S=\begin{bmatrix}S_{11}&S_{12}\\S_{21}&S_{22}\end{bmatrix}
-$$<p>其中 $S_{11}$ 是 $r\times r$ 维矩阵，所以以下三个条件是等价的</p>
-<ul>
-<li>S &lt; 0，负定</li>
-<li>$S_{11} <0,S_{22}-S_{12}^TS_{11}^{-1}S_{12}<0$</li>
-<li>$S_{22} <0,S_{11}-S_{12}S_{11}^{-1}S_{12}^T<0$</li>
-</ul>
-<h3 id="系统范数">系统范数</h3>
-<ul>
-<li>
-<p>1-范数，信号的时间累计量有界</p>
-$$
-    \|u\|_1=\int_{-\infty}^{+\infty}|u|dt
-    $$</li>
-<li>
-<p>2-范数，信号的能量有界，平放是对信号能量的一种度量</p>
-$$
-    \|u\|_2=\sqrt{\int_{-\infty}^{+\infty}|u|^2dt}
-    $$</li>
-<li>
-<p>$\infty$-范数，信号的最大幅值有界，真确上界，即连续函数的上界， $\infty$-范数是对信号幅值的度量</p>
-$$
-    \|u\|_{\infty}=\underset{t\in(-\infty,+\infty)}{ess~sup}|u|<\infty
-    $$<p>sup 表示上确界，ess sup 表示真上确界</p>
-</li>
-<li>
-<p>系统的 $H_\infty$ 范数对应 Bode 图中幅值曲线的峰值 $|G(jw)|$，Bode图增益最大值，离原点最大的距离</p>
-</li>
-<li>
-<p>系统的 $H_2$ 范数对应 Bode 图中幅值曲线下方的面积。</p>
-</li>
-<li>
-<p>Bode 图横坐标： $w=10^t, L(w)=20lg|G(jw)|$</p>
-</li>
-</ul>
-<h3 id="状态反馈-h_infty-控制">状态反馈 $H_\infty$ 控制</h3>
-<p><strong class=chinese>控制问题的基本框图</strong></p>
-<p><img src="./Untitled.png" alt="Untitled"></p>
-<ol>
-<li>
-<p><strong class=chinese>闭环传递函数确定</strong></p>
-<p>考虑线性不变的连续时间系统，存在扰动 $w$</p>
-$$
-    state:\dot{x}=Ax+B_1w+B_2u\\\\
-    z=C_1x+D_{11}w+D_{12}u\\\\
-    y=C_2x+D_{21}w+D_{22}u
-    $$<p>寻找一个控制器 $u=Kx$，使系统保持稳定，将其带入系统中得到</p>
-$$
-    \dot{x}=Ax+B_1w+B_2u=(A+B_2K)x+B_1w\\\\
-    z=C_1x+D_{11}w+D_{12}u=(C_1+D_{12}K)x+D_{11}w
-    $$<p>对于系统 $w→z$ 来说，从上式中的到闭环系统传递函数为</p>
-$$
-    G(s)=C(sI-A)^{-1}B+D\\\\
-    T_{WZ}(s)=(C_1+D_{12}K)[sI-(A+B_2K)]^{-1}]B_1+D_{11}
-    $$</li>
-<li>
-<p><strong class=chinese>状态反馈</strong> $H_\infty$ <strong class=chinese>控制器</strong></p>
-<p>由于 EE 增益定理，可以得到，给定常数 $\gamma=1$，当且仅当存在一个对称正定矩阵 P，使得</p>
-$$
-    \begin{bmatrix}(A+B_2K)^TP+P(A+B_2K)&PB_1&(C_1+D_{12}K)^T\\B_1^TP&-I&D_{11}^T\\C_1+D_{12}K&D_{11}&-I\end{bmatrix}<0
-    $$<p>为了求得未知矩阵 $K$ 和 $P$，使用变量替换法，将其转化为一个等价的关于新变量的线性矩阵不等式</p>
-<p>首先，分别对其左乘和右乘一个对角阵 $diag\{P^{-1},I,I\}$，则得到</p>
-$$
-    \begin{bmatrix}P^-1\\&I\\&&I\end{bmatrix}\begin{bmatrix}(A+B_2K)^TP+P(A+B_2K)&PB_1&(C_1+D_{12}K)^T\\B_1^TP&-I&D_{11}^T\\C_1+D_{12}K&D_{11}&-I\end{bmatrix}\begin{bmatrix}P^-1\\&I\\&&I\end{bmatrix}<0\\\\\Downarrow\\\\\begin{bmatrix}(AP^{-1}+B_2KP^{-1})^T+(AP^{-1}+B_2KP^{-1})&B_1&(C_1P^{-1}+D_{12}KP^{-1})^T\\B_1^T&-I&D_{11}^T\\C_1P^{-1}+D_{12}KP^{-1}&D_{11}&-I\end{bmatrix}<0
-    $$<p>定义 $X=P^{-1}$ 和 $W=KX$，得到</p>
-$$
-    \begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\C_1X+D_{12}W&D_{11}&-I\end{bmatrix}<0
-    $$<p>对于原线性定常系统，存在一个状态反馈 $H_\infty$ 控制器，当且仅当存在一个对称正定矩阵 X 和矩阵 W ( W 不对称正定)，使得上式和 $X>0$ 成立，并且可行解 $X^\star$和 $W^\star$ 组成的 $u=W^\star(X^\star)^{-1}x$ 是系统的的一个状态反馈 $H_\infty$ 控制器。该矩阵的不等式是 $X$ 和 $W$ 的一个线性矩阵不等式，可以利用 <strong>LMI 工具箱的求解器 feasp</strong> 来求解</p>
-</li>
-<li>
-<p><strong>状态反馈 $\gamma-$次优 $H_\infty$ 控制器</strong></p>
-<p>对于一个给定的标量 $\gamma >0$，为了求系统的状态反馈 $\gamma-$次优 $H_\infty$ 控制器，由于</p>
-$$
-    ||T_wz(s)||_\infty<\gamma
-    $$<p>可以得到</p>
-$$
-    ||\gamma^{-1}T_{wz}(s)||_\infty<1
-    $$<p>也就是</p>
-$$
-    ||\gamma^{-1}(C_1+D_{12}K)[sI-(A+B_2K)]^{-1}]B_1+D_{11}||_\infty<1
-    $$<p>所以可以通过使用 $\gamma^{-1}C_1,\gamma^{-1}D_{12},\gamma^{-1}D_{11}$来替换先前的 $C_1,D_{12},D_{11}$，解算方法与上述一致。可以得到</p>
-$$
-    \begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&\gamma^{-1}(C_1X+D_{12}W)^T\\B_1^T&-I&\gamma^{-1}D_{11}^T\\\gamma^{-1}(C_1X+D_{12}W)&\gamma^{-1}D_{11}&-I\end{bmatrix}<0
-    $$<p>将上式分别左乘和右乘一个对角矩阵 $diag\{I,I,\gamma I\}$，得到</p>
-$$
-    \begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\(C_1X+D_{12}W)&D_{11}&-\gamma^{2}I\end{bmatrix}<0
-    $$<p>存在一个状态反馈 $\gamma-$次优 $H_\infty$ 控制器，当且仅当存在一个对称正定矩阵 X 和矩阵 W ( W 不对称正定)，使得上式和 $X>0$ 成立，并且可行解 $X^\star$和 $W^\star$ 组成的 $u=W^\star(X^\star)^{-1}x$ 是系统的的一个状态反馈 $H_\infty$ 控制器。该矩阵的不等式是 $X$ 和 $W$ 的一个线性矩阵不等式，可以利用 <strong>LMI 工具箱的求解器 feasp</strong> 来求解</p>
-</li>
-<li>
-<p>状态反馈最优 $H_\infty$ 控制器</p>
-<p>基于状态反馈 $\gamma-$次优 $H_\infty$ 控制器的存在条件，建立一个优化问题</p>
-$$
-    \min\rho\\\begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\(C_1X+D_{12}W)&D_{11}&-\rho I\end{bmatrix}<0\\X>0
-    $$<p>该问题是一个具有线性矩阵不等式约束和线性目标函数的凸优化问题，可以应用LMI工具箱的求解mincx来求解。如果该问题有解，就可以得到系统的状态反馈最优 $H_\infty$ 控制器。</p>
-</li>
-</ol>
-<h3 id="输出反馈-h_infty-控制">输出反馈 $H_\infty$ 控制</h3>
-<ol>
-<li>
-<p><strong class=chinese>设计思路</strong></p>
-<p>当<strong class=chinese>系统状态难以测量</strong>时，可以选择输出反馈的控制方式，所以就是设计出一个输出反馈控制器 $u=Ky$ 使得原线性定常系统渐进稳定且闭环传递函数 $||T_{WZ}(s)||_\infty<1$。</p>
-<p>首先需要假定 $(A,B_2,C_2)$ 是能稳能检测的， $D_{22}=0$，将 $u=Ky$ 写成状态空间方程的形式</p>
-$$
-    \dot{\hat x}=A_K\hat{x}+B_Ky\\\\
-    u=C_K\hat{x}+D_Ky
-    $$<p>其中 $\hat{x}$ 是控制器的状态，而 $A_K,B_K,C_K,D_K$ 是<strong class=chinese>待确定的控制器参数矩阵</strong>，将其带入原系统得到新的广义闭环系统</p>
-$$
-    \begin{bmatrix}\dot{x}\\\dot{\hat x}\end{bmatrix}=\begin{bmatrix}A+B_2D_KC_2&B_2C_K\\B_KC_2&A_K\end{bmatrix}\begin{bmatrix}x\\\hat{x}\end{bmatrix}+\begin{bmatrix}B_1+B_2D_KD_{21}\\B_KD_{21}\end{bmatrix}w\\\\
-    z=\begin{bmatrix}C_1+D_{12}D_KC_2&D_{12}C_K\end{bmatrix}\begin{bmatrix}x\\\hat{x}\end{bmatrix}+(D_{11}+D_{12}D_KD_{21})w
-    $$<p>简化为</p>
-$$
-    \dot{x}_a=A_cx_a+B_cw\\\\
-    z=C_cx_a+D_cw
-    $$<p>由于 EE 增益定理，可以得到，给定常数 $\gamma=1$，当且仅当存在一个对称正定矩阵 $X_c$，使得</p>
-$$
-    \begin{bmatrix}A_c^TX_c+X_cA_c&X_cB_c&C_c\\B_c^TX_c&-I&D_c^T\\C_c&D_c&-I\end{bmatrix}<0
-    $$<p>但是可以看到，由于 $A_c,B_c,C_c,D_c$ 等的存在，使得上述 LMI 为非线性，MATLAB计算非常困难，所以需要转化成线性矩阵，主要有两种方法：<strong class=chinese>消去法</strong>和<strong class=chinese>变量替代法</strong>。</p>
-</li>
-<li>
-<p><strong class=chinese>消元法设计输出反馈</strong> $H_\infty$ <strong class=chinese>控制器</strong></p>
-<p>定义一个矩阵，这个矩阵将控制器中的待定的参数矩阵集中在一起，这也是输出反馈 $H_\infty$ 控制器设计问题中最终要确定的矩阵</p>
-<p>设计所需要的输出反馈 $H_\infty$ 控制器</p>
-<ul>
-<li>求解满足下面定理的矩阵 X 和 Y</li>
-<li>求解满足 $X-Y^{-1}=X_2X_2^T$ 的矩阵 $X_2\in R^{n\times n_K}$，其中 $n_K$ 可以是矩阵 $X-Y^{-1}$ 的秩</li>
-<li>用 $X$ 和 $X_2$ 构造 $X_{c}=\begin{bmatrix}X&X_2^T\\X_2&I\end{bmatrix}$</li>
-<li>将矩阵 $X_c$ 带入到矩阵不等式 $H_{X_c}+P_{X_c}^TKQ+Q^TK^TP_{X_c}<0$ 中，求解将矩阵变量 K</li>
-</ul>
-<p>其中</p>
-$$
-    A_0=\begin{bmatrix}A&0\\0&0\end{bmatrix},B_0=\begin{bmatrix}B_1\\0\end{bmatrix},C_0=\begin{bmatrix}C_1&0\end{bmatrix}\\\overline{B}=\begin{bmatrix}0&B_2\\I&0\end{bmatrix},\overline{C}=\begin{bmatrix}0&I\\C_2&0\end{bmatrix},\overline{D}_{12}=\begin{bmatrix}0&D_{12}\end{bmatrix},\overline{D}_{21}=\begin{bmatrix}0\\D_{21}\end{bmatrix}\\H_{X_c}=\begin{bmatrix}A_0^TX_{c}+X_cA_0&X_cB_0&C_0^T\\B_0^TX_c&-I&D_{11}^T\\C_0&D_{11}&-I\end{bmatrix}\\P_{X_c}=\begin{bmatrix}\overline{B}^TX_c&0&\overline{D}_{12}^T\end{bmatrix}\\Q=\begin{bmatrix}\overline{C}&\overline{D}_{21}^T&0\end{bmatrix}
-    $$<p><strong class=chinese>定理</strong>：原线性定常系统存在一个输出反馈 $H_\infty$控制器，当且仅当存在两个对称正定矩阵 X，Y ，使得</p>
-$$
-    1.~\begin{bmatrix}N_0&0\\0&I\end{bmatrix}^T\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-I&D_{11}^T\\C_1&D_{11}&-I\end{bmatrix}\begin{bmatrix}N_0&0\\0&I\end{bmatrix}<0
+$$<p>其中 $S_{11}$ 是 $r\times r$ 维矩阵，所以以下三个条件是等价的</p><ul><li>S &lt; 0，负定</li><li>$S_{11} <0,S_{22}-S_{12}^TS_{11}^{-1}S_{12}<0$</li><li>$S_{22} <0,S_{11}-S_{12}S_{11}^{-1}S_{12}^T<0$</li></ul><h3 id=系统范数>系统范数</h3><ul><li><p>1-范数，信号的时间累计量有界</p>$$
+\|u\|_1=\int_{-\infty}^{+\infty}|u|dt
+$$</li><li><p>2-范数，信号的能量有界，平放是对信号能量的一种度量</p>$$
+\|u\|_2=\sqrt{\int_{-\infty}^{+\infty}|u|^2dt}
+$$</li><li><p>$\infty$-范数，信号的最大幅值有界，真确上界，即连续函数的上界， $\infty$-范数是对信号幅值的度量</p>$$
+\|u\|_{\infty}=\underset{t\in(-\infty,+\infty)}{ess~sup}|u|<\infty
+$$<p>sup 表示上确界，ess sup 表示真上确界</p></li><li><p>系统的 $H_\infty$ 范数对应 Bode 图中幅值曲线的峰值 $|G(jw)|$，Bode图增益最大值，离原点最大的距离</p></li><li><p>系统的 $H_2$ 范数对应 Bode 图中幅值曲线下方的面积。</p></li><li><p>Bode 图横坐标： $w=10^t, L(w)=20lg|G(jw)|$</p></li></ul><h3 id=状态反馈-h_infty-控制>状态反馈 $H_\infty$ 控制</h3><p><strong class=chinese>控制问题的基本框图</strong></p><p><img src=./Untitled.png alt=Untitled></p><ol><li><p><strong class=chinese>闭环传递函数确定</strong></p><p>考虑线性不变的连续时间系统，存在扰动 $w$</p>$$
+state:\dot{x}=Ax+B_1w+B_2u\\\\
+z=C_1x+D_{11}w+D_{12}u\\\\
+y=C_2x+D_{21}w+D_{22}u
+$$<p>寻找一个控制器 $u=Kx$，使系统保持稳定，将其带入系统中得到</p>$$
+\dot{x}=Ax+B_1w+B_2u=(A+B_2K)x+B_1w\\\\
+z=C_1x+D_{11}w+D_{12}u=(C_1+D_{12}K)x+D_{11}w
+$$<p>对于系统 $w→z$ 来说，从上式中的到闭环系统传递函数为</p>$$
+G(s)=C(sI-A)^{-1}B+D\\\\
+T_{WZ}(s)=(C_1+D_{12}K)[sI-(A+B_2K)]^{-1}]B_1+D_{11}
+$$</li><li><p><strong class=chinese>状态反馈</strong> $H_\infty$ <strong class=chinese>控制器</strong></p><p>由于 EE 增益定理，可以得到，给定常数 $\gamma=1$，当且仅当存在一个对称正定矩阵 P，使得</p>$$
+\begin{bmatrix}(A+B_2K)^TP+P(A+B_2K)&PB_1&(C_1+D_{12}K)^T\\B_1^TP&-I&D_{11}^T\\C_1+D_{12}K&D_{11}&-I\end{bmatrix}<0
+    $$<p>为了求得未知矩阵 $K$ 和 $P$，使用变量替换法，将其转化为一个等价的关于新变量的线性矩阵不等式</p><p>首先，分别对其左乘和右乘一个对角阵 $diag\{P^{-1},I,I\}$，则得到</p>$$
+\begin{bmatrix}P^-1\\&I\\&&I\end{bmatrix}\begin{bmatrix}(A+B_2K)^TP+P(A+B_2K)&PB_1&(C_1+D_{12}K)^T\\B_1^TP&-I&D_{11}^T\\C_1+D_{12}K&D_{11}&-I\end{bmatrix}\begin{bmatrix}P^-1\\&I\\&&I\end{bmatrix}<0\\\\\Downarrow\\\\\begin{bmatrix}(AP^{-1}+B_2KP^{-1})^T+(AP^{-1}+B_2KP^{-1})&B_1&(C_1P^{-1}+D_{12}KP^{-1})^T\\B_1^T&-I&D_{11}^T\\C_1P^{-1}+D_{12}KP^{-1}&D_{11}&-I\end{bmatrix}<0
+    $$<p>定义 $X=P^{-1}$ 和 $W=KX$，得到</p>$$
+\begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\C_1X+D_{12}W&D_{11}&-I\end{bmatrix}<0
+    $$<p>对于原线性定常系统，存在一个状态反馈 $H_\infty$ 控制器，当且仅当存在一个对称正定矩阵 X 和矩阵 W ( W 不对称正定)，使得上式和 $X>0$ 成立，并且可行解 $X^\star$和 $W^\star$ 组成的 $u=W^\star(X^\star)^{-1}x$ 是系统的的一个状态反馈 $H_\infty$ 控制器。该矩阵的不等式是 $X$ 和 $W$ 的一个线性矩阵不等式，可以利用 <strong>LMI 工具箱的求解器 feasp</strong> 来求解</p></li><li><p><strong>状态反馈 $\gamma-$次优 $H_\infty$ 控制器</strong></p><p>对于一个给定的标量 $\gamma >0$，为了求系统的状态反馈 $\gamma-$次优 $H_\infty$ 控制器，由于</p>$$
+||T_wz(s)||_\infty<\gamma
+$$<p>可以得到</p>$$
+||\gamma^{-1}T_{wz}(s)||_\infty<1
+$$<p>也就是</p>$$
+||\gamma^{-1}(C_1+D_{12}K)[sI-(A+B_2K)]^{-1}]B_1+D_{11}||_\infty<1
+$$<p>所以可以通过使用 $\gamma^{-1}C_1,\gamma^{-1}D_{12},\gamma^{-1}D_{11}$来替换先前的 $C_1,D_{12},D_{11}$，解算方法与上述一致。可以得到</p>$$
+\begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&\gamma^{-1}(C_1X+D_{12}W)^T\\B_1^T&-I&\gamma^{-1}D_{11}^T\\\gamma^{-1}(C_1X+D_{12}W)&\gamma^{-1}D_{11}&-I\end{bmatrix}<0
+$$<p>将上式分别左乘和右乘一个对角矩阵 $diag\{I,I,\gamma I\}$，得到</p>$$
+\begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\(C_1X+D_{12}W)&D_{11}&-\gamma^{2}I\end{bmatrix}<0
+$$<p>存在一个状态反馈 $\gamma-$次优 $H_\infty$ 控制器，当且仅当存在一个对称正定矩阵 X 和矩阵 W ( W 不对称正定)，使得上式和 $X>0$ 成立，并且可行解 $X^\star$和 $W^\star$ 组成的 $u=W^\star(X^\star)^{-1}x$ 是系统的的一个状态反馈 $H_\infty$ 控制器。该矩阵的不等式是 $X$ 和 $W$ 的一个线性矩阵不等式，可以利用 <strong>LMI 工具箱的求解器 feasp</strong> 来求解</p></li><li><p>状态反馈最优 $H_\infty$ 控制器</p><p>基于状态反馈 $\gamma-$次优 $H_\infty$ 控制器的存在条件，建立一个优化问题</p>$$
+\min\rho\\\begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\(C_1X+D_{12}W)&D_{11}&-\rho I\end{bmatrix}<0\\X>0
+$$<p>该问题是一个具有线性矩阵不等式约束和线性目标函数的凸优化问题，可以应用LMI工具箱的求解mincx来求解。如果该问题有解，就可以得到系统的状态反馈最优 $H_\infty$ 控制器。</p></li></ol><h3 id=输出反馈-h_infty-控制>输出反馈 $H_\infty$ 控制</h3><ol><li><p><strong class=chinese>设计思路</strong></p><p>当<strong class=chinese>系统状态难以测量</strong>时，可以选择输出反馈的控制方式，所以就是设计出一个输出反馈控制器 $u=Ky$ 使得原线性定常系统渐进稳定且闭环传递函数 $||T_{WZ}(s)||_\infty<1$。</p><p>首先需要假定 $(A,B_2,C_2)$ 是能稳能检测的， $D_{22}=0$，将 $u=Ky$ 写成状态空间方程的形式</p>$$
+\dot{\hat x}=A_K\hat{x}+B_Ky\\\\
+u=C_K\hat{x}+D_Ky
+$$<p>其中 $\hat{x}$ 是控制器的状态，而 $A_K,B_K,C_K,D_K$ 是<strong class=chinese>待确定的控制器参数矩阵</strong>，将其带入原系统得到新的广义闭环系统</p>$$
+\begin{bmatrix}\dot{x}\\\dot{\hat x}\end{bmatrix}=\begin{bmatrix}A+B_2D_KC_2&B_2C_K\\B_KC_2&A_K\end{bmatrix}\begin{bmatrix}x\\\hat{x}\end{bmatrix}+\begin{bmatrix}B_1+B_2D_KD_{21}\\B_KD_{21}\end{bmatrix}w\\\\
+z=\begin{bmatrix}C_1+D_{12}D_KC_2&D_{12}C_K\end{bmatrix}\begin{bmatrix}x\\\hat{x}\end{bmatrix}+(D_{11}+D_{12}D_KD_{21})w
+$$<p>简化为</p>$$
+\dot{x}_a=A_cx_a+B_cw\\\\
+z=C_cx_a+D_cw
+$$<p>由于 EE 增益定理，可以得到，给定常数 $\gamma=1$，当且仅当存在一个对称正定矩阵 $X_c$，使得</p>$$
+\begin{bmatrix}A_c^TX_c+X_cA_c&X_cB_c&C_c\\B_c^TX_c&-I&D_c^T\\C_c&D_c&-I\end{bmatrix}<0
+    $$<p>但是可以看到，由于 $A_c,B_c,C_c,D_c$ 等的存在，使得上述 LMI 为非线性，MATLAB计算非常困难，所以需要转化成线性矩阵，主要有两种方法：<strong class=chinese>消去法</strong>和<strong class=chinese>变量替代法</strong>。</p></li><li><p><strong class=chinese>消元法设计输出反馈</strong> $H_\infty$ <strong class=chinese>控制器</strong></p><p>定义一个矩阵，这个矩阵将控制器中的待定的参数矩阵集中在一起，这也是输出反馈 $H_\infty$ 控制器设计问题中最终要确定的矩阵</p><p>设计所需要的输出反馈 $H_\infty$ 控制器</p><ul><li>求解满足下面定理的矩阵 X 和 Y</li><li>求解满足 $X-Y^{-1}=X_2X_2^T$ 的矩阵 $X_2\in R^{n\times n_K}$，其中 $n_K$ 可以是矩阵 $X-Y^{-1}$ 的秩</li><li>用 $X$ 和 $X_2$ 构造 $X_{c}=\begin{bmatrix}X&X_2^T\\X_2&I\end{bmatrix}$</li><li>将矩阵 $X_c$ 带入到矩阵不等式 $H_{X_c}+P_{X_c}^TKQ+Q^TK^TP_{X_c}<0$ 中，求解将矩阵变量 K</li></ul><p>其中</p>$$
+A_0=\begin{bmatrix}A&0\\0&0\end{bmatrix},B_0=\begin{bmatrix}B_1\\0\end{bmatrix},C_0=\begin{bmatrix}C_1&0\end{bmatrix}\\\overline{B}=\begin{bmatrix}0&B_2\\I&0\end{bmatrix},\overline{C}=\begin{bmatrix}0&I\\C_2&0\end{bmatrix},\overline{D}_{12}=\begin{bmatrix}0&D_{12}\end{bmatrix},\overline{D}_{21}=\begin{bmatrix}0\\D_{21}\end{bmatrix}\\H_{X_c}=\begin{bmatrix}A_0^TX_{c}+X_cA_0&X_cB_0&C_0^T\\B_0^TX_c&-I&D_{11}^T\\C_0&D_{11}&-I\end{bmatrix}\\P_{X_c}=\begin{bmatrix}\overline{B}^TX_c&0&\overline{D}_{12}^T\end{bmatrix}\\Q=\begin{bmatrix}\overline{C}&\overline{D}_{21}^T&0\end{bmatrix}
+$$<p><strong class=chinese>定理</strong>：原线性定常系统存在一个输出反馈 $H_\infty$控制器，当且仅当存在两个对称正定矩阵 X，Y ，使得</p>$$
+1.~\begin{bmatrix}N_0&0\\0&I\end{bmatrix}^T\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-I&D_{11}^T\\C_1&D_{11}&-I\end{bmatrix}\begin{bmatrix}N_0&0\\0&I\end{bmatrix}<0
     $$$$
-    2.~\begin{bmatrix}N_c&0\\0&I\end{bmatrix}^T\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&- I&D_{11}\\B_1^TC_1&D_{11}^T&- I\end{bmatrix}\begin{bmatrix}N_c&0\\0&I\end{bmatrix}<0
+   2.~\begin{bmatrix}N_c&0\\0&I\end{bmatrix}^T\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&- I&D_{11}\\B_1^TC_1&D_{11}^T&- I\end{bmatrix}\begin{bmatrix}N_c&0\\0&I\end{bmatrix}<0
     $$$$
-    3.~\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
-    $$<p>其中， $N_0,N_c$ 分别是以子空间 $ker([C_2~ D_{21}])$ 和 $ker([B_2^T~ D_{12}^T])$ 中任意一组基向量作为列所构成的矩阵，即满足 $ImN_o=ker([C_2~ D_{21}])$和 $ImN_c=ker([B_2^T~ D_{12}^T])$ 的矩阵 $N_o,N_c$。如果核空间 $ker([C_2~ D_{21}])$ 和 $ker([B_2^T~ D_{12}^T])$ 中有任意一个等于零空间，则在定理条件中可以删去相应的线性矩阵不等式。<strong class=chinese>若系统不存在控制输入和测量输出</strong>，则可以在系统模型中取 $B_2=0,C_2=0,D_{12}=0,D_{21}=0$，因此相应的 $N_o=I,N_c=I$。这种情况下，上述的不等式变作</p>
-$$
-    1.~\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-I&D_{11}^T\\C_1&D_{11}&-I\end{bmatrix}<0
+   3.~\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
+    $$<p>其中， $N_0,N_c$ 分别是以子空间 $ker([C_2~ D_{21}])$ 和 $ker([B_2^T~ D_{12}^T])$ 中任意一组基向量作为列所构成的矩阵，即满足 $ImN_o=ker([C_2~ D_{21}])$和 $ImN_c=ker([B_2^T~ D_{12}^T])$ 的矩阵 $N_o,N_c$。如果核空间 $ker([C_2~ D_{21}])$ 和 $ker([B_2^T~ D_{12}^T])$ 中有任意一个等于零空间，则在定理条件中可以删去相应的线性矩阵不等式。<strong class=chinese>若系统不存在控制输入和测量输出</strong>，则可以在系统模型中取 $B_2=0,C_2=0,D_{12}=0,D_{21}=0$，因此相应的 $N_o=I,N_c=I$。这种情况下，上述的不等式变作</p>$$
+1.~\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-I&D_{11}^T\\C_1&D_{11}&-I\end{bmatrix}<0
     $$$$
-    2.~\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&- I&D_{11}\\B_1^TC_1&D_{11}^T&- I\end{bmatrix}<0
+2.~\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&- I&D_{11}\\B_1^TC_1&D_{11}^T&- I\end{bmatrix}<0
     $$$$
-    3.~\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
-    $$<p>相应的上述的设计步骤也会发生改变</p>
-<p>其中第四步变为</p>
-$$
-    A_0=\begin{bmatrix}A&0\\0&0\end{bmatrix}\\\\
+3.~\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
+    $$<p>相应的上述的设计步骤也会发生改变</p><p>其中第四步变为</p>$$
+A_0=\begin{bmatrix}A&0\\0&0\end{bmatrix}\\\\
     \overline{B}=\begin{bmatrix}0&B_2\\I&0\end{bmatrix}\\\\
     \overline{C}=\begin{bmatrix}0&I\\C_2&0\end{bmatrix}\\\\
     H_{X_c}=\begin{bmatrix}A_0^TX_{c}+X_cA_0&0&0\\0&-I&0\\0&0&-I\end{bmatrix}\\\\
-    P_{X_c}=\begin{bmatrix}\overline{B}^TX_c&0&0\end{bmatrix}\\\\
+P_{X_c}=\begin{bmatrix}\overline{B}^TX_c&0&0\end{bmatrix}\\\\
     Q=\begin{bmatrix}\overline{C}&0&0\end{bmatrix}\\\\
     \Downarrow\\\\
-    H_{X_c}+P_{X_c}^TKQ+Q^TK^TP_{X_c}<0
-    $$<p>控制器 K 便可以获得可以使用 <strong>LMI 工具箱的求解器 feasp 来求解</strong></p>
-</li>
-<li>
-<p><strong class=chinese>变量替代法设计输出反馈</strong> $H_\infty$ <strong class=chinese>控制器</strong></p>
-<p>将矩阵 $X_c$ 和它的逆矩阵进行以下分块</p>
-$$
-    X_c=\begin{bmatrix}Y&N\\N^T&W\end{bmatrix}~X_c^{-1}=\begin{bmatrix}X&M\\M^T&Z\end{bmatrix}
-    $$<p>其中， $X,Y\in R^{n\times n}$ 是对称矩阵。从等式 $X_cX_c^{-1}=I$ 可以得到</p>
-$$
-    X_c\begin{bmatrix}X\\M^T\end{bmatrix}=\begin{bmatrix}I\\0\end{bmatrix}
-    $$<p>进一步得到</p>
-$$
-    X_c\begin{bmatrix}X&I\\M^T&0\end{bmatrix}=\begin{bmatrix}I&Y\\0&N^T\end{bmatrix}
-    $$<p>定义</p>
-$$
-    F_1=\begin{bmatrix}X&I\\M^T&0\end{bmatrix},F_1=\begin{bmatrix}I&Y\\0&N^T\end{bmatrix}
-    $$<p>也就是 $X_cF_1=F_2$，进一步利用矩阵的运算，可以得到</p>
-$$
-    F_1^TX_cA_cF_1=F_2^TA_cF_1\\=\begin{bmatrix}AX+B_2(D_KC_2X+C_KM^T)&A+B_2D_KC_2\\Y(A+B_2D_KC_2)X+NB_KC_2X+YB_2C_KM^T+NA_KM^T&YA+(YB_2D_K+NB_K)C_2\end{bmatrix}\\\\
-    F_1^TX_cB_c=\begin{bmatrix}B_1+B_2D_KD_{21}\\YB_1+(YB_2D_K+NB_K)D_{21}\end{bmatrix}\\\\
-    C_cF_1=\begin{bmatrix}C_1X+D_{12}(D_KC_2X+C_KM^{-1})&C_1+D_{12}D_KC_2\end{bmatrix}\\\\
-    F_1^TX_cF_1=F_2^TF_1=\begin{bmatrix}X&I\\I&Y\end{bmatrix}
-    $$<p>为了找到一个适当的变量替换，能够将矩阵不等式非线性的LMI转化为一个等价的线性矩阵不等式。结合以上得到的关系式，定义以下的变量替换公式</p>
-$$
-    \hat{A}=Y(A+B_2D_KC_2)X+NB_KC_2X+YB_2C_KM^T+NA_KM^T\\\\
-    \hat{B}=YB_2D_K+NB_K\\\\
-    \hat{C}=D_KC_2X+C_KM^T\\\\
-    \hat{D}=D_K
-    $$<p>可以看到，只要在确定矩阵 $M,N$ 的前提下，从定义的变量替换公式可以确定控制器参数。所以非线性 LMI 可以转化为</p>
-$$
-    \begin{bmatrix}AX+XA^T+B_2\hat{C}+(B_2\hat{C})^T&\hat{A}^T+(A+B_2\hat{D}C_2)&B_1+B_2\hat{D}D_{21}&(C_1X+D_{12}\hat{C})^T\\0&A^TY+YA+\hat{B}C_2+(\hat{B}C_2)^T&YB_1+\hat{B}D_{21}&(C_1+D_{12}\hat{D}C_2)^T\\0&0&-I&(D_{11}+D_{12}\hat{D}D_{21})^T\\0&0&0&-I\end{bmatrix}<0
-    $$<p>现在求出矩阵 $M,N$ 就能确定控制器参数。</p>
-<p>根据恒等式 $X_c^TX_c=I$，可得</p>
-$$
-    MN^T=I-XY
-    $$<p>可以通过矩阵 $I-XY$ 的奇异值分解来得到满秩矩阵 $M,N$， $X_c>0$ 保证了</p>
-$$
-    \begin{bmatrix}X&I\\I&Y\end{bmatrix}>0
-    $$<p>由此可以得到 $I-XY>0$，所以 $M,N$ 总是可以通过奇异值分解得到。控制器参数</p>
-$$
-    D_K=\hat{D}\\\\
-    C_K=(\hat{C}-D_KC_2X)(M^T)^{-1}\\\\
-    B_K=N^{-1}(\hat{B}-YB_2D_K)\\\\
-    A_K=N^{-1}[\hat{A}-Y(A+B_2D_KC_2)X](M^T)^{-1}-B_KC_2X(M^T)^{-1}-N^{-1}YB_2C_K
-    $$<p>所以通过变量替代法将上述非线性 LMI 输出反馈问题转化为如下线性 LMI 问题</p>
-$$
-    \begin{bmatrix}AX+XA^T+B_2\hat{C}+(B_2\hat{C})^T&\hat{A}^T+(A+B_2\hat{D}C_2)&B_1+B_2\hat{D}D_{21}&(C_1X+D_{12}\hat{C})^T\\0&A^TY+YA+\hat{B}C_2+(\hat{B}C_2)^T&YB_1+\hat{B}D_{21}&(C_1+D_{12}\hat{D}C_2)^T\\0&0&-I&(D_{11}+D_{12}\hat{D}D_{21})^T\\0&0&0&-I\end{bmatrix}<0\\\begin{bmatrix}X&I\\I&Y\end{bmatrix}>0\\MN^T=I-XY
-    $$<p>可得控制器</p>
-$$
-    D_K=\hat{D}\\\\
-    C_K=(\hat{C}-D_KC_2X)(M^T)^{-1}\\\\
-    B_K=N^{-1}(\hat{B}-YB_2D_K)\\\\
-    A_K=N^{-1}[\hat{A}-Y(A+B_2D_KC_2)X](M^T)^{-1}-B_KC_2X(M^T)^{-1}-N^{-1}YB_2C_K
-    $$<p>如上的控制器是状态空间的实行，实际上可以通过 <code>K = pck(Ak,Bk,Ck,Dk)</code>指令得到一个增益的形式，</p>
-</li>
-<li>
-<p><strong>输出反馈 $\gamma-$次优 $H_\infty$ 控制器</strong></p>
-<p>对于一个给定的标量 $\gamma>0$，为了求解系统的状态反馈 $\gamma-$次优 $H_\infty$ 控制器，当且仅当存在两个对称正定矩阵 $X,Y$，使得崩坏星穷铁道</p>
-$$
-    1.~\begin{bmatrix}N_0&0\\0&I\end{bmatrix}^T\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-\gamma I&D_{11}^T\\C_1&D_{11}&-\gamma I\end{bmatrix}\begin{bmatrix}N_0&0\\0&I\end{bmatrix}<0
+H_{X_c}+P_{X_c}^TKQ+Q^TK^TP_{X_c}<0
+$$<p>控制器 K 便可以获得可以使用 <strong>LMI 工具箱的求解器 feasp 来求解</strong></p></li><li><p><strong class=chinese>变量替代法设计输出反馈</strong> $H_\infty$ <strong class=chinese>控制器</strong></p><p>将矩阵 $X_c$ 和它的逆矩阵进行以下分块</p>$$
+X_c=\begin{bmatrix}Y&N\\N^T&W\end{bmatrix}~X_c^{-1}=\begin{bmatrix}X&M\\M^T&Z\end{bmatrix}
+    $$<p>其中， $X,Y\in R^{n\times n}$ 是对称矩阵。从等式 $X_cX_c^{-1}=I$ 可以得到</p>$$
+X_c\begin{bmatrix}X\\M^T\end{bmatrix}=\begin{bmatrix}I\\0\end{bmatrix}
+$$<p>进一步得到</p>$$
+X_c\begin{bmatrix}X&I\\M^T&0\end{bmatrix}=\begin{bmatrix}I&Y\\0&N^T\end{bmatrix}
+    $$<p>定义</p>$$
+F_1=\begin{bmatrix}X&I\\M^T&0\end{bmatrix},F_1=\begin{bmatrix}I&Y\\0&N^T\end{bmatrix}
+    $$<p>也就是 $X_cF_1=F_2$，进一步利用矩阵的运算，可以得到</p>$$
+F_1^TX_cA_cF_1=F_2^TA_cF_1\\=\begin{bmatrix}AX+B_2(D_KC_2X+C_KM^T)&A+B_2D_KC_2\\Y(A+B_2D_KC_2)X+NB_KC_2X+YB_2C_KM^T+NA_KM^T&YA+(YB_2D_K+NB_K)C_2\end{bmatrix}\\\\
+F_1^TX_cB_c=\begin{bmatrix}B_1+B_2D_KD_{21}\\YB_1+(YB_2D_K+NB_K)D_{21}\end{bmatrix}\\\\
+C_cF_1=\begin{bmatrix}C_1X+D_{12}(D_KC_2X+C_KM^{-1})&C_1+D_{12}D_KC_2\end{bmatrix}\\\\
+F_1^TX_cF_1=F_2^TF_1=\begin{bmatrix}X&I\\I&Y\end{bmatrix}
+    $$<p>为了找到一个适当的变量替换，能够将矩阵不等式非线性的LMI转化为一个等价的线性矩阵不等式。结合以上得到的关系式，定义以下的变量替换公式</p>$$
+\hat{A}=Y(A+B_2D_KC_2)X+NB_KC_2X+YB_2C_KM^T+NA_KM^T\\\\
+\hat{B}=YB_2D_K+NB_K\\\\
+\hat{C}=D_KC_2X+C_KM^T\\\\
+\hat{D}=D_K
+$$<p>可以看到，只要在确定矩阵 $M,N$ 的前提下，从定义的变量替换公式可以确定控制器参数。所以非线性 LMI 可以转化为</p>$$
+\begin{bmatrix}AX+XA^T+B_2\hat{C}+(B_2\hat{C})^T&\hat{A}^T+(A+B_2\hat{D}C_2)&B_1+B_2\hat{D}D_{21}&(C_1X+D_{12}\hat{C})^T\\0&A^TY+YA+\hat{B}C_2+(\hat{B}C_2)^T&YB_1+\hat{B}D_{21}&(C_1+D_{12}\hat{D}C_2)^T\\0&0&-I&(D_{11}+D_{12}\hat{D}D_{21})^T\\0&0&0&-I\end{bmatrix}<0
+    $$<p>现在求出矩阵 $M,N$ 就能确定控制器参数。</p><p>根据恒等式 $X_c^TX_c=I$，可得</p>$$
+MN^T=I-XY
+$$<p>可以通过矩阵 $I-XY$ 的奇异值分解来得到满秩矩阵 $M,N$， $X_c>0$ 保证了</p>$$
+\begin{bmatrix}X&I\\I&Y\end{bmatrix}>0
+    $$<p>由此可以得到 $I-XY>0$，所以 $M,N$ 总是可以通过奇异值分解得到。控制器参数</p>$$
+D_K=\hat{D}\\\\
+C_K=(\hat{C}-D_KC_2X)(M^T)^{-1}\\\\
+B_K=N^{-1}(\hat{B}-YB_2D_K)\\\\
+A_K=N^{-1}[\hat{A}-Y(A+B_2D_KC_2)X](M^T)^{-1}-B_KC_2X(M^T)^{-1}-N^{-1}YB_2C_K
+$$<p>所以通过变量替代法将上述非线性 LMI 输出反馈问题转化为如下线性 LMI 问题</p>$$
+\begin{bmatrix}AX+XA^T+B_2\hat{C}+(B_2\hat{C})^T&\hat{A}^T+(A+B_2\hat{D}C_2)&B_1+B_2\hat{D}D_{21}&(C_1X+D_{12}\hat{C})^T\\0&A^TY+YA+\hat{B}C_2+(\hat{B}C_2)^T&YB_1+\hat{B}D_{21}&(C_1+D_{12}\hat{D}C_2)^T\\0&0&-I&(D_{11}+D_{12}\hat{D}D_{21})^T\\0&0&0&-I\end{bmatrix}<0\\\begin{bmatrix}X&I\\I&Y\end{bmatrix}>0\\MN^T=I-XY
+ $$<p>可得控制器</p>$$
+D_K=\hat{D}\\\\
+C_K=(\hat{C}-D_KC_2X)(M^T)^{-1}\\\\
+B_K=N^{-1}(\hat{B}-YB_2D_K)\\\\
+A_K=N^{-1}[\hat{A}-Y(A+B_2D_KC_2)X](M^T)^{-1}-B_KC_2X(M^T)^{-1}-N^{-1}YB_2C_K
+$$<p>如上的控制器是状态空间的实行，实际上可以通过 <code>K = pck(Ak,Bk,Ck,Dk)</code>指令得到一个增益的形式，</p></li><li><p><strong>输出反馈 $\gamma-$次优 $H_\infty$ 控制器</strong></p><p>对于一个给定的标量 $\gamma>0$，为了求解系统的状态反馈 $\gamma-$次优 $H_\infty$ 控制器，当且仅当存在两个对称正定矩阵 $X,Y$，使得崩坏星穷铁道</p>$$
+1.~\begin{bmatrix}N_0&0\\0&I\end{bmatrix}^T\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-\gamma I&D_{11}^T\\C_1&D_{11}&-\gamma I\end{bmatrix}\begin{bmatrix}N_0&0\\0&I\end{bmatrix}<0
     $$$$
-    2.~\begin{bmatrix}N_c&0\\0&I\end{bmatrix}^T\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&-\gamma I&D_{11}\\B_1^TC_1&D_{11}^T&-\gamma I\end{bmatrix}\begin{bmatrix}N_c&0\\0&I\end{bmatrix}<0
+   2.~\begin{bmatrix}N_c&0\\0&I\end{bmatrix}^T\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&-\gamma I&D_{11}\\B_1^TC_1&D_{11}^T&-\gamma I\end{bmatrix}\begin{bmatrix}N_c&0\\0&I\end{bmatrix}<0
     $$$$
-    3.~\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
-    $$<p>其中， $N_0,N_c$ 分别是以子空间 $ker([C_2~D_{21}])$ 和 $ker([B_2^T~D_{12}^T])$ 中任意一组基向量作为列所构成的矩阵。可以使用 <strong>LMI 工具箱的求解器 feasp 来求解</strong></p>
-</li>
-<li>
-<p><strong class=chinese>输出反馈最优</strong> $H_\infty$ <strong class=chinese>控制器</strong></p>
-<p>基于输出反馈 $\gamma-$次优 $H_\infty$ 控制器存在的条件，建立一个优化问题</p>
-$$
-    \min\rho\\\begin{bmatrix}N_0&0\\0&I\end{bmatrix}^T\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-\rho I&D_{11}^T\\C_1&D_{11}&-\rho I\end{bmatrix}\begin{bmatrix}N_0&0\\0&I\end{bmatrix}<0\\\begin{bmatrix}N_c&0\\0&I\end{bmatrix}^T\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&-\rho I&D_{11}\\B_1^TC_1&D_{11}^T&-\rho I\end{bmatrix}\begin{bmatrix}N_c&0\\0&I\end{bmatrix}<0\\\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
-    $$<p>该问题是一个具有线性矩阵不等式约束和线性目标函数的凸优化问题，可以应用LMI工具箱的求解mincx来求解。如果该问题有解，就可以得到系统的状态反馈最优 $H_\infty$ 控制器。</p>
-</li>
-<li>
-<p><strong class=chinese>连续时间系统</strong> $H_\infty$ <strong>控制器综合问题求解器 <code>hinflmi</code></strong></p>
-<p>在 <code>matlab</code> 中可以使用 <code>ltisys</code> 和 <code>hinflmi</code> 函数来求解</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="n">B</span><span class="p">=[</span><span class="n">B1</span> <span class="n">B2</span><span class="p">];</span><span class="n">C</span><span class="p">=[</span><span class="n">C1</span><span class="p">;</span><span class="n">C2</span><span class="p">];</span><span class="n">D</span><span class="p">=[</span><span class="n">D11</span><span class="p">,</span><span class="n">D12</span><span class="p">;</span><span class="n">D21</span><span class="p">,</span><span class="n">D22</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="nb">gamma</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">G</span><span class="p">=</span><span class="n">ltisys</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">gopt</span><span class="p">,</span><span class="n">K</span><span class="p">]=</span><span class="n">hinflmi</span><span class="p">(</span><span class="n">G</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">],</span><span class="nb">gamma</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">Ak</span><span class="p">,</span><span class="n">Bk</span><span class="p">,</span><span class="n">Ck</span><span class="p">,</span><span class="n">Dk</span><span class="p">]=</span><span class="n">ltiss</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>得到满足 $H_\infty$性能 $\gamma<gamma$ 的一个输出反馈次优 $H_\infty$，如果不填 gamma 参数，获得的是一个最优控制</p>
-<p><code>hinflmi</code> 函数的基本用法是 <code>[gopt,K]=hinflmi(system,[p m])</code>，通过 <code>mincx</code> 来优化系统的 $H_\infty$ 性能指标，其中 <code>p</code> 是系统测量输出的个数， <code>m</code> 是系统控制输入的个数， <code>K</code> 是最优 $H_\infty$ 控制器系统矩阵，可通过 <code>ltiss</code> 函数得到其状态空间实现。</p>
-</li>
-</ol>
-<h2 id="控制器设计">控制器设计</h2>
-<p>图中的 y 是系统观测量，而 u 是对系统的输入值，K 就是对反馈处理的反馈控制器。要使用两个测量量，即系统加速度和系统的行程，u 是控制系统的加速度来控制系统的，也即这个系统是个二阶系统。当然也可以是一阶系统。对于 w 就是来自于系统外部的输入，例如干扰，噪声和参考信号之类的。对于 z 是一些系统输出的错误信号，可以是真实的也可以是虚拟的，在模型中临时使用来设计控制器， $z=\begin{bmatrix}x\\\ddot{x}\\f\end{bmatrix}$，这里使用的是系统的输出和加速度，还有系统驱动力。当干扰输入到系统中之后，在系统 P 种会将干扰放大，而执行器的目标是使干扰的放大最小化，并且在执行过程中使执行力最小，这就是  $H_{\infty}$ 做的，是一种优化，用于计算控制器以最小化 w 和 z 之间得到增益的过程。当然对于系统的控制不一定每一个状态量都重要，所以给 w 和 z 添加加权因子来设置模型的重要性</p>
-<h2 id="例子">例子</h2>
-<h3 id="状态反馈控制">状态反馈控制</h3>
-<p>对于一个滑块弹簧系统</p>
-<p><img src="./1708827448070.png" alt="1708827448070.png"></p>
-<p>可以得到系统状态方程，假设力的最终作用在滑块上存在噪声 w，满足条件，定义噪声 $-0.05\leq w\leq 0.05,random$</p>
-$$
+   3.~\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
+    $$<p>其中， $N_0,N_c$ 分别是以子空间 $ker([C_2~D_{21}])$ 和 $ker([B_2^T~D_{12}^T])$ 中任意一组基向量作为列所构成的矩阵。可以使用 <strong>LMI 工具箱的求解器 feasp 来求解</strong></p></li><li><p><strong class=chinese>输出反馈最优</strong> $H_\infty$ <strong class=chinese>控制器</strong></p><p>基于输出反馈 $\gamma-$次优 $H_\infty$ 控制器存在的条件，建立一个优化问题</p>$$
+\min\rho\\\begin{bmatrix}N_0&0\\0&I\end{bmatrix}^T\begin{bmatrix}A^TX+XA&XB_1&C_1^T\\B_1^TX&-\rho I&D_{11}^T\\C_1&D_{11}&-\rho I\end{bmatrix}\begin{bmatrix}N_0&0\\0&I\end{bmatrix}<0\\\begin{bmatrix}N_c&0\\0&I\end{bmatrix}^T\begin{bmatrix}AY+YA^T&YC_1^T&B_1\\C_1Y&-\rho I&D_{11}\\B_1^TC_1&D_{11}^T&-\rho I\end{bmatrix}\begin{bmatrix}N_c&0\\0&I\end{bmatrix}<0\\\begin{bmatrix}X&I\\I&Y\end{bmatrix}\geq 0
+    $$<p>该问题是一个具有线性矩阵不等式约束和线性目标函数的凸优化问题，可以应用LMI工具箱的求解mincx来求解。如果该问题有解，就可以得到系统的状态反馈最优 $H_\infty$ 控制器。</p></li><li><p><strong class=chinese>连续时间系统</strong> $H_\infty$ <strong>控制器综合问题求解器 <code>hinflmi</code></strong></p><p>在 <code>matlab</code> 中可以使用 <code>ltisys</code> 和 <code>hinflmi</code> 函数来求解</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-matlab data-lang=matlab><span class=line><span class=cl><span class=n>B</span><span class=p>=[</span><span class=n>B1</span> <span class=n>B2</span><span class=p>];</span><span class=n>C</span><span class=p>=[</span><span class=n>C1</span><span class=p>;</span><span class=n>C2</span><span class=p>];</span><span class=n>D</span><span class=p>=[</span><span class=n>D11</span><span class=p>,</span><span class=n>D12</span><span class=p>;</span><span class=n>D21</span><span class=p>,</span><span class=n>D22</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=nb>gamma</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>G</span><span class=p>=</span><span class=n>ltisys</span><span class=p>(</span><span class=n>A</span><span class=p>,</span><span class=n>B</span><span class=p>,</span><span class=n>C</span><span class=p>,</span><span class=n>D</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>gopt</span><span class=p>,</span><span class=n>K</span><span class=p>]=</span><span class=n>hinflmi</span><span class=p>(</span><span class=n>G</span><span class=p>,[</span><span class=mi>1</span> <span class=mi>1</span><span class=p>],</span><span class=nb>gamma</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>Ak</span><span class=p>,</span><span class=n>Bk</span><span class=p>,</span><span class=n>Ck</span><span class=p>,</span><span class=n>Dk</span><span class=p>]=</span><span class=n>ltiss</span><span class=p>(</span><span class=n>K</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>得到满足 $H_\infty$性能 $\gamma<gamma$ 的一个输出反馈次优 $h_\infty$，如果不填 gamma 参数，获得的是一个最优控制</p><p><code>hinflmi</code> 函数的基本用法是 <code>[gopt,K]=hinflmi(system,[p m])</code>，通过 <code>mincx</code> 来优化系统的 $H_\infty$ 性能指标，其中 <code>p</code> 是系统测量输出的个数， <code>m</code> 是系统控制输入的个数， <code>K</code> 是最优 $H_\infty$ 控制器系统矩阵，可通过 <code>ltiss</code> 函数得到其状态空间实现。</p></li></ol><h2 id=控制器设计>控制器设计</h2><p>图中的 y 是系统观测量，而 u 是对系统的输入值，K 就是对反馈处理的反馈控制器。要使用两个测量量，即系统加速度和系统的行程，u 是控制系统的加速度来控制系统的，也即这个系统是个二阶系统。当然也可以是一阶系统。对于 w 就是来自于系统外部的输入，例如干扰，噪声和参考信号之类的。对于 z 是一些系统输出的错误信号，可以是真实的也可以是虚拟的，在模型中临时使用来设计控制器， $z=\begin{bmatrix}x\\\ddot{x}\\f\end{bmatrix}$，这里使用的是系统的输出和加速度，还有系统驱动力。当干扰输入到系统中之后，在系统 P 种会将干扰放大，而执行器的目标是使干扰的放大最小化，并且在执行过程中使执行力最小，这就是 $H_{\infty}$ 做的，是一种优化，用于计算控制器以最小化 w 和 z 之间得到增益的过程。当然对于系统的控制不一定每一个状态量都重要，所以给 w 和 z 添加加权因子来设置模型的重要性</p><h2 id=例子>例子</h2><h3 id=状态反馈控制>状态反馈控制</h3><p>对于一个滑块弹簧系统</p><p><img src=./1708827448070.png alt=1708827448070.png></p><p>可以得到系统状态方程，假设力的最终作用在滑块上存在噪声 w，满足条件，定义噪声 $-0.05\leq w\leq 0.05,random$</p>$$
 \begin{bmatrix}\dot{x_1}\\\dot{x_2}\end{bmatrix}=\begin{bmatrix}0&1\\\frac{k}{m}&0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}+\begin{bmatrix}0\\\frac{1}{m}\end{bmatrix}u+\begin{bmatrix}1\\1\end{bmatrix}w
 $$$$
 z=\begin{bmatrix}1&0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}\\y=\begin{bmatrix}1&0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}+\begin{bmatrix}0\end{bmatrix}w
@@ -582,199 +181,22 @@ $$$$
 z=C_1x
 $$$$
 y=C_2x+D_{21}w
-$$<p>将 $u=Kx$ 带入其中，得到</p>
-$$
+$$<p>将 $u=Kx$ 带入其中，得到</p>$$
 \dot{x}=(A+B_2K)x+B_1w
 $$$$
 z=C_1x
 $$$$
 y=C_2+D_{21}w
-$$<p>得到传递函数</p>
-$$
+$$<p>得到传递函数</p>$$
 T_{WZ}(s)=C_1[sI-(A+B_2K)]^{-1}B_1
-$$<p>根据之前的过程可以得到</p>
-$$
+$$<p>根据之前的过程可以得到</p>$$
 \begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X)^T\\B_1^T&-I&0\\C_1X&0&-I\end{bmatrix}<0
-$$<p>当且仅当存在一个对称正定矩阵X和矩阵W(W不对称正定)，使得上述不等式和 $X>0$ 成立，并且得到控制器 $u=W^\star(X^\star)^{-1}x$ 是系统的一个状态反馈控制器</p>
-$$
+$$<p>当且仅当存在一个对称正定矩阵X和矩阵W(W不对称正定)，使得上述不等式和 $X>0$ 成立，并且得到控制器 $u=W^\star(X^\star)^{-1}x$ 是系统的一个状态反馈控制器</p>$$
 \begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\(C_1X+D_{12}W)&D_{11}&-\gamma^{2}I\end{bmatrix}<0
-$$<p>系统次优 $H_\infty$ 控制器</p>
-$$
+$$<p>系统次优 $H_\infty$ 控制器</p>$$
 \min\rho\\\begin{bmatrix}(AX+B_2W)^T+(AX+B_2W)&B_1&(C_1X+D_{12}W)^T\\B_1^T&-I&D_{11}^T\\(C_1X+D_{12}W)&D_{11}&-\rho I\end{bmatrix}<0\\X>0
-$$<p>系统最优 $H_\infty$ 控制器</p>
-<p>设定 $k=1,m=1$，并将其放入matlab中求解</p>
-<h3 id="参考文章">参考文章</h3>
-<p>鲁棒控制-线性矩阵不等式处理方法——俞立</p>
-<p><a href="https://zhuanlan.zhihu.com/p/385669774">H∞(H无穷)滤波器（H-infinity filter）</a></p>
-<p><a href="https://blog.csdn.net/weixin_45454343/article/details/114443288">H无穷控制学习笔记——H无穷控制-CSDN博客</a></p>
-<p><a href="https://blog.csdn.net/weixin_50892810/article/details/126827871">H∞输出反馈控制器推导(最后含例子及程序)_h无穷控制器-CSDN博客</a></p>
-<!-- # $H_2$ 控制器
-
-最优控制中的线性二次型
-
-[$H_2$ 控制器](https://www.notion.so/H_2-7478fcac2c0d4dfeaf3ddf869bc5727c?pvs=21)
-
--->
-<p>持续更新中&hellip;</p>
-
-    
-  </article>
-  
-
-<div id="sharingbuttons">
-    
-    
-    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="mailto:?subject=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target="_self" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f&amp;resubmit=true&amp;title=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f&amp;t=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-</div>
-
-  <div class="paginator">
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/18/pid%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/">← prev</a>
-    
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/18/wbc%E5%85%A8%E8%BA%AB%E6%8E%A7%E5%88%B6%E5%99%A8/">next →</a>
-    
-  </div>
-  <div class="comment">
-    
-    
-    
-    <script src="https://giscus.app/client.js"
-        data-repo="weastur/hugo-texify2"
-        data-repo-id="R_kgDOJwiYnA"
-        data-category="Comments"
-        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
-        data-mapping="title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
-
-  </div>
-  
-
-</main>
-
-    <footer id="footer">
-  <div>
-    <span>© 2023</span> - <span>2024</span>
-  </div>
-  <div>
-    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
-<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
-</span>
-  </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
-  </div>
-
-  <div class="footnote">
-    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
-</span>
-  </div>
-</footer>
-
-  </div>
-
-  
-  
-
-  
-  
-
-  
-  
-  
-
-
-
-</body>
-
-</html>
+$$<p>系统最优 $H_\infty$ 控制器</p><p>设定 $k=1,m=1$，并将其放入matlab中求解</p><h3 id=参考文章>参考文章</h3><p>鲁棒控制-线性矩阵不等式处理方法——俞立</p><p><a href=https://zhuanlan.zhihu.com/p/385669774>H∞(H无穷)滤波器（H-infinity filter）</a></p><p><a href=https://blog.csdn.net/weixin_45454343/article/details/114443288>H无穷控制学习笔记——H无穷控制-CSDN博客</a></p><p><a href=https://blog.csdn.net/weixin_50892810/article/details/126827871>H∞输出反馈控制器推导(最后含例子及程序)_h无穷控制器-CSDN博客</a></p><p>持续更新中&mldr;</p></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f&amp;resubmit=true&amp;title=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f&amp;t=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=%e9%b2%81%e6%a3%92%e6%8e%a7%e5%88%b6%e7%90%86%e8%ae%ba&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2f%25E9%25B2%2581%25E6%25A3%2592%25E6%258E%25A7%25E5%2588%25B6%25E7%2590%2586%25E8%25AE%25BA%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/18/pid%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/>← prev</a>
+<a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/18/wbc%E5%85%A8%E8%BA%AB%E6%8E%A7%E5%88%B6%E5%99%A8/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2023</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
+<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>

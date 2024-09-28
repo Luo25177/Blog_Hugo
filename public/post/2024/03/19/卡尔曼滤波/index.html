@@ -1,772 +1,172 @@
-<!DOCTYPE html>
-<html lang="en-us" style="font-size: 120%">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  
-  <meta name="author" content="落">
-
-  
-  
-  <meta name="description" content="卡尔曼滤波器理论与实现">
-  
-
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
-
-  
-  
-  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
-  
-
-  
-  
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
-
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
-  onload="renderMathInElement(document.body);"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false }
-      ]
-    });
-  });
-</script>
-
-  
-
-  
-  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-
-
-  
-  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/">
-  <meta property="og:site_name" content="Luo&#39;s Blog">
-  <meta property="og:title" content="卡尔曼滤波">
-  <meta property="og:description" content="卡尔曼滤波器理论与实现">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2024-03-19T00:06:36+00:00">
-    <meta property="article:modified_time" content="2024-03-19T00:06:36+00:00">
-    <meta property="article:tag" content="滤波">
-    <meta property="article:tag" content="Kalman">
-    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-
-
-  
-  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/">
-
-  
-  
-  
-  <meta itemprop="name" content="卡尔曼滤波">
-  <meta itemprop="description" content="卡尔曼滤波器理论与实现">
-  <meta itemprop="datePublished" content="2024-03-19T00:06:36+00:00">
-  <meta itemprop="dateModified" content="2024-03-19T00:06:36+00:00">
-  <meta itemprop="wordCount" content="1549">
-  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta itemprop="keywords" content="滤波,Kalman">
-
-  
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
-
-  
-  
-  <title>卡尔曼滤波 - Luo&#39;s Blog</title>
-  
-
-  
-  
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta name="twitter:title" content="卡尔曼滤波">
-  <meta name="twitter:description" content="卡尔曼滤波器理论与实现">
-
-
-  
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
-
-</head>
-
-<body>
-  <div id="wrapper">
-    
-
-
-<header id="header">
-  <h1>
-    <a href="https://seashore.top/Blog_Hugo/">Luo&#39;s Blog</a>
-  </h1>
-
-  <nav>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="../">Guid</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/">Home</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/post/">Posts</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/about/">About</a>
-    </span>
-    
-  </nav>
-  
-  <div id="searchbox">
-    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
-      <input type="hidden" name="sites" value="seashore.top">
-      <input type="text" name="q" placeholder="Search...">
-    </form>
-  </div>
-  
-</header>
-
-    
-<main id="main" class="post">
-  
-  <h1>卡尔曼滤波</h1>
-  
-  <div>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/%E6%BB%A4%E6%B3%A2'>#滤波</a>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/kalman'>#Kalman</a>
-    
-  </div>
-  
-  
-  
-  <details>
-    <summary>
-      <b>Table of Contents</b>
-    </summary>
-    <div class="toc numbered-subtitles"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#卡尔曼滤波-kf">卡尔曼滤波 KF</a>
-      <ul>
-        <li><a href="#公式">公式</a></li>
-        <li><a href="#基本假设">基本假设</a></li>
-        <li><a href="#预测">预测</a></li>
-        <li><a href="#更新"><strong>更新</strong></a></li>
-        <li><a href="#公式推导">公式推导</a></li>
-      </ul>
-    </li>
-    <li><a href="#自适应卡尔曼滤波-akf">自适应卡尔曼滤波 AKF</a>
-      <ul>
-        <li><a href="#具体过程">具体过程</a></li>
-      </ul>
-    </li>
-    <li><a href="#扩展卡尔曼滤波-ekf">扩展卡尔曼滤波 EKF</a>
-      <ul>
-        <li><a href="#预测-1">预测</a></li>
-        <li><a href="#使用-jacobians-矩阵更新模型">使用 Jacobians 矩阵更新模型</a></li>
-        <li><a href="#更新-1">更新</a></li>
-        <li><a href="#恒定转弯率和速度模型constant-turn-rate-and-velocityctrv">恒定转弯率和速度模型（**Constant Turn Rate and Velocity——**CTRV）</a></li>
-        <li><a href="#恒定转弯率和加速度模型constant-turn-rate-and-velocityctra过于复杂">恒定转弯率和加速度模型（**Constant Turn Rate and Velocity——**CTRA）——过于复杂</a></li>
-      </ul>
-    </li>
-    <li><a href="#无迹卡尔曼滤波-ukf">无迹卡尔曼滤波 UKF</a>
-      <ul>
-        <li><a href="#使用背景">使用背景</a></li>
-        <li><a href="#核心思想">核心思想</a></li>
-        <li><a href="#ukf的原理与实现流程"><strong>UKF的原理与实现流程</strong></a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-  </details>
-  
-  
-  <article class="content numbered-subtitles">
-    
-    <p><a href="https://github.com/Luo25177/modelControl">github仓库</a></p>
-<h2 id="卡尔曼滤波-kf">卡尔曼滤波 KF</h2>
-<p><img src="./v2-87047c7f01f9c404db864dede8052c16_720w.png" alt="v2-87047c7f01f9c404db864dede8052c16_720w.png"></p>
-<h3 id="公式">公式</h3>
-$$
+<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="卡尔曼滤波器理论与实现"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="卡尔曼滤波"><meta property="og:description" content="卡尔曼滤波器理论与实现"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-19T00:06:36+00:00"><meta property="article:modified_time" content="2024-03-19T00:06:36+00:00"><meta property="article:tag" content="滤波"><meta property="article:tag" content="Kalman"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/19/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/><meta itemprop=name content="卡尔曼滤波"><meta itemprop=description content="卡尔曼滤波器理论与实现"><meta itemprop=datePublished content="2024-03-19T00:06:36+00:00"><meta itemprop=dateModified content="2024-03-19T00:06:36+00:00"><meta itemprop=wordCount content="1549"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="滤波,Kalman"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>卡尔曼滤波 - Luo's Blog</title>
+<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="卡尔曼滤波"><meta name=twitter:description content="卡尔曼滤波器理论与实现"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
+<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>卡尔曼滤波</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/%E6%BB%A4%E6%B3%A2>#滤波</a>
+<a class=link href=https://seashore.top/Blog_Hugo/tags/kalman>#Kalman</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><a href=#卡尔曼滤波-kf>卡尔曼滤波 KF</a><ul><li><a href=#公式>公式</a></li><li><a href=#基本假设>基本假设</a></li><li><a href=#预测>预测</a></li><li><a href=#更新><strong>更新</strong></a></li><li><a href=#公式推导>公式推导</a></li></ul></li><li><a href=#自适应卡尔曼滤波-akf>自适应卡尔曼滤波 AKF</a><ul><li><a href=#具体过程>具体过程</a></li></ul></li><li><a href=#扩展卡尔曼滤波-ekf>扩展卡尔曼滤波 EKF</a><ul><li><a href=#预测-1>预测</a></li><li><a href=#使用-jacobians-矩阵更新模型>使用 Jacobians 矩阵更新模型</a></li><li><a href=#更新-1>更新</a></li><li><a href=#恒定转弯率和速度模型constant-turn-rate-and-velocityctrv>恒定转弯率和速度模型（**Constant Turn Rate and Velocity——**CTRV）</a></li><li><a href=#恒定转弯率和加速度模型constant-turn-rate-and-velocityctra过于复杂>恒定转弯率和加速度模型（**Constant Turn Rate and Velocity——**CTRA）——过于复杂</a></li></ul></li><li><a href=#无迹卡尔曼滤波-ukf>无迹卡尔曼滤波 UKF</a><ul><li><a href=#使用背景>使用背景</a></li><li><a href=#核心思想>核心思想</a></li><li><a href=#ukf的原理与实现流程><strong>UKF的原理与实现流程</strong></a></li></ul></li></ul></nav></div></details><article class="content numbered-subtitles"><p><a href=https://github.com/Luo25177/modelControl>github仓库</a></p><h2 id=卡尔曼滤波-kf>卡尔曼滤波 KF</h2><p><img src=./v2-87047c7f01f9c404db864dede8052c16_720w.png alt=v2-87047c7f01f9c404db864dede8052c16_720w.png></p><h3 id=公式>公式</h3>$$
 \hat{x}_{k|k-1}=F_k\hat{x}_{k-1|k-1}\\P_{k|k-1}=F_kP_{k-1|k-1}F_k^T+Q_k\\K_k=P_{k|k-1}H_k^T(H_kP_{k|k-1}H_k^T+R_k)^{-1}\\\hat{x}_{k|k}=\hat{x}_{k|k-1}+K_k(z_k-H_k\hat{x}_{k|k-1})\\P_{k|k}=(I-K_kH_k)P_{k|k-1}
-$$<h3 id="基本假设">基本假设</h3>
-<p>卡尔曼滤波模型假设k时刻的真实状态是从（k − 1）时刻的状态演化而来</p>
-<p><strong class=chinese>状态估计方程</strong></p>
-$$
+$$<h3 id=基本假设>基本假设</h3><p>卡尔曼滤波模型假设k时刻的真实状态是从（k − 1）时刻的状态演化而来</p><p><strong class=chinese>状态估计方程</strong></p>$$
 x_k=F_kx_{k-1}+B_ku_k+w_k
-$$<p>其中</p>
-<ul>
-<li>$F_k$ 是状态变换模型（矩阵/向量），运动学一般是矩阵（状态转移矩阵）</li>
-<li>$B_k$ 是作用在控制器向量 $u_k$ 上的输入-控制模型，一般运动学中没有这一项，因对于检测的目标的是无法测量其内部的控制量的，所以简化为0</li>
-<li>$w_k-N(0,Q_k)$ 是过程噪声。均值为 0， $x_k$ 对应的就是高斯分布的均值，因此这项可以简化为 0</li>
-</ul>
-<p><strong class=chinese>状态估计转移方程</strong></p>
-$$
+$$<p>其中</p><ul><li>$F_k$ 是状态变换模型（矩阵/向量），运动学一般是矩阵（状态转移矩阵）</li><li>$B_k$ 是作用在控制器向量 $u_k$ 上的输入-控制模型，一般运动学中没有这一项，因对于检测的目标的是无法测量其内部的控制量的，所以简化为0</li><li>$w_k-N(0,Q_k)$ 是过程噪声。均值为 0， $x_k$ 对应的就是高斯分布的均值，因此这项可以简化为 0</li></ul><p><strong class=chinese>状态估计转移方程</strong></p>$$
 z_k=H_kx_k+v_k
-$$<p>表示 k 时刻真实 $x_k$ 的一个测量</p>
-<p>其中</p>
-<ul>
-<li>$H_k$ 为观测模型（观测矩阵），它把真实空间状态映射成观测空间状态</li>
-<li>$v_k-N(0,R_k)$ 是观测噪声</li>
-</ul>
-<p>初始状态以及每一时刻的噪声 $x_0,w_1,…,w_k,v_1,…v_k$ 都被认为是相互独立的</p>
-<p><strong class=chinese>小结</strong></p>
-<p>从以上出发，可以计算相应的协方差矩阵，这个也是公式推导的主要部分。</p>
-<h3 id="预测">预测</h3>
-$$
+$$<p>表示 k 时刻真实 $x_k$ 的一个测量</p><p>其中</p><ul><li>$H_k$ 为观测模型（观测矩阵），它把真实空间状态映射成观测空间状态</li><li>$v_k-N(0,R_k)$ 是观测噪声</li></ul><p>初始状态以及每一时刻的噪声 $x_0,w_1,…,w_k,v_1,…v_k$ 都被认为是相互独立的</p><p><strong class=chinese>小结</strong></p><p>从以上出发，可以计算相应的协方差矩阵，这个也是公式推导的主要部分。</p><h3 id=预测>预测</h3>$$
 \hat{x}_{k|k-1}=F_k\hat{x}_{k-1|k-1}
-$$<p><strong class=chinese>估计状态方程</strong>，表示预测下一步状态。</p>
-<p>其中</p>
-<ul>
-<li>$\hat{x}_{k|k-1}$ 表示 k-1 时刻对 k 时刻的状态预测</li>
-<li>$\hat{x}_{k-1|k-1}$ 表示在 k-1 时刻对 k-1 时刻的状态估计</li>
-<li>$F_k$ 为状态估计矩阵</li>
-</ul>
-$$
+$$<p><strong class=chinese>估计状态方程</strong>，表示预测下一步状态。</p><p>其中</p><ul><li>$\hat{x}_{k|k-1}$ 表示 k-1 时刻对 k 时刻的状态预测</li><li>$\hat{x}_{k-1|k-1}$ 表示在 k-1 时刻对 k-1 时刻的状态估计</li><li>$F_k$ 为状态估计矩阵</li></ul>$$
 P_{k|k-1}=F_kP_{k-1|k-1}F_k^T+Q_k
-$$<p><strong class=chinese>预测二估计协方差方程</strong>，预测误差方差，计算先验概率</p>
-<p>其中</p>
-<ul>
-<li>$P_{k-1|k-1}$ 表示 k-1 时刻的后验估计误差协方差矩阵，度量估计值的精确程度</li>
-<li>$P_{k|k-1}$ 表示 k-1 时刻到 k 时刻的估计误差协方差矩阵</li>
-<li>$Q_k$ 表示过程噪声协方差矩阵，越大说明约不相信预测。实际工程中可以自行调参（$Q_k=cov(Z, Z)$），也可以自适应AKF</li>
-</ul>
-<h3 id="更新"><strong class=chinese>更新</strong></h3>
-$$
+$$<p><strong class=chinese>预测二估计协方差方程</strong>，预测误差方差，计算先验概率</p><p>其中</p><ul><li>$P_{k-1|k-1}$ 表示 k-1 时刻的后验估计误差协方差矩阵，度量估计值的精确程度</li><li>$P_{k|k-1}$ 表示 k-1 时刻到 k 时刻的估计误差协方差矩阵</li><li>$Q_k$ 表示过程噪声协方差矩阵，越大说明约不相信预测。实际工程中可以自行调参（$Q_k=cov(Z, Z)$），也可以自适应AKF</li></ul><h3 id=更新><strong class=chinese>更新</strong></h3>$$
 K_k=P_{k|k-1}H_k^T(H_kP_{k|k-1}H_k^T+R_k)^{-1}
-$$<p><strong class=chinese>卡尔曼增益方程</strong></p>
-<p>其中</p>
-<ul>
-<li>$K_k$ 为最优卡尔曼增益</li>
-<li>$R_k$ 为测量噪声协方差矩阵，越大说明越不相信观测。实际测量噪声由厂家提供，或者自己调参，也可自适应AKF</li>
-</ul>
-$$
+$$<p><strong class=chinese>卡尔曼增益方程</strong></p><p>其中</p><ul><li>$K_k$ 为最优卡尔曼增益</li><li>$R_k$ 为测量噪声协方差矩阵，越大说明越不相信观测。实际测量噪声由厂家提供，或者自己调参，也可自适应AKF</li></ul>$$
 \hat{x}_{k|k}=\hat{x}_{k|k-1}+K_k(z_k-H_k\hat{x}_{k|k-1})
-$$<p><strong>更新状态估计方程——最终滤波的效果</strong></p>
-<p>可以使用测量残差来简化表达公式，即</p>
-$$
+$$<p><strong>更新状态估计方程——最终滤波的效果</strong></p><p>可以使用测量残差来简化表达公式，即</p>$$
 \hat{y}=z_k-H_k\hat{x}_{k|k-1}\\S_k=cov(\hat{y})=H_kP_{k|k-1}H_k^T+R_k
-$$<p>即卡尔曼增益可以简化为</p>
-$$
+$$<p>即卡尔曼增益可以简化为</p>$$
 K_k=P_{k|k-1}H_k^TS_k^{-1}
-$$<p>状态估计更新可以简化为</p>
-$$
+$$<p>状态估计更新可以简化为</p>$$
 \hat{x}_{k|k}=\hat{x}_{k|k-1}+K_k\hat{y}
-$$<p>其中 $cov(x)$ 求解矩阵的协方差矩阵，若 X 大小为 $M \times N$<em>，则</em> $cov(X)$ <em>大小 为</em> $N\times N$ **的矩阵。 $cov(X)$ 的第 $(i,j)$ 个元素等于 X 的第 i 列向量与第 j 列向量的方差，即 $C(Xi,Xj)$。</p>
-$$
+$$<p>其中 $cov(x)$ 求解矩阵的协方差矩阵，若 X 大小为 $M \times N$<em>，则</em> $cov(X)$ <em>大小 为</em> $N\times N$ **的矩阵。 $cov(X)$ 的第 $(i,j)$ 个元素等于 X 的第 i 列向量与第 j 列向量的方差，即 $C(Xi,Xj)$。</p>$$
 P_{k|k}=(I-K_kH_k)P_{k|k-1}
-$$<p><strong>更新估计协方差——得到后验概率</strong></p>
-<h3 id="公式推导">公式推导</h3>
-<p>首先 $Q_k$ 和 $R_k$ 一般为固定值，高级卡尔曼滤波可以自适应</p>
-$$
+$$<p><strong>更新估计协方差——得到后验概率</strong></p><h3 id=公式推导>公式推导</h3><p>首先 $Q_k$ 和 $R_k$ 一般为固定值，高级卡尔曼滤波可以自适应</p>$$
 Q_k=cov(w_k)=E(w_kw_k^T)\\R_k=cov(v_k)=E(v_kv^T_k)\\P_{k|k-1}=cov(x_k-\hat{x}_{k|k-1})=E((x_k-\hat{x}_{k|k-1})(x_k-\hat{x}_{k|k-1})^T)\\P_{k|k}=cov(x_k-\hat{x}_{k|k})=E((x_k-\hat{x}_{k|k})(x_k-\hat{x}_{k|k})^T)\\S_k=cov(\hat{y})=cov(z_k-H_k\hat{x}_{k|k-1})
-$$<p>从状态估计方程推导 $P_{k|k-1}$</p>
-$$
+$$<p>从状态估计方程推导 $P_{k|k-1}$</p>$$
 P_{k|k}=cov(x_k-\hat{x}_{k|k})\\=cov(x_k-\hat{x}_{k|k-1}-K_k(z_k-H_k\hat{x}_{k|k-1}))\\=cov(x_k-\hat{x}_{k|k-1}-K_k(H_kx_k+v_k-H_k\hat{x}_{k|k-1}))\\=cov((I-K_kH_k)(x_k-\hat{x}_{k|k-1})-K_kv_k)\\=cov((I-K_kH_k)(x_k-\hat{x}_{k|k-1})+cov(K_kv_k)\\=(I-K_kH_k)cov(x_k-\hat{x}_{k|k-1})(I-K_kH_k)^T+K_kcov(v_k)K_k^T\\=(I-K_kH_k)P_{k|k-1}(I-K_kH_k)^T+K_kR_kK_k^T
-$$<p>这一公式对任何卡尔曼增益 $K_k$ 都成立，如果 $K_k$ 是最优卡尔曼增益，则可以进一步简化</p>
-<p><strong class=chinese>推导最优卡尔曼增益</strong> $K_k$</p>
-<p>可以根据上式推导最优卡尔曼增益</p>
-<p>卡尔曼滤波器是最小均方误差估计器，后验状态误差估计是指 $P_{k|k}=cov(x_k-\hat{x}_{k|k})$，当 $P_{k|k}$ 矩阵的均方误差为最小时，即可求出最优卡尔曼增益</p>
-<p>矩阵的均方误差为矩阵的迹。求矩阵的最小均方误差，即是求矩阵的迹的最小值，对矩阵的迹求导，导数为0时，迹最小。其中协方差 $P_{k|k}$ 是对称矩阵</p>
-$$
+$$<p>这一公式对任何卡尔曼增益 $K_k$ 都成立，如果 $K_k$ 是最优卡尔曼增益，则可以进一步简化</p><p><strong class=chinese>推导最优卡尔曼增益</strong> $K_k$</p><p>可以根据上式推导最优卡尔曼增益</p><p>卡尔曼滤波器是最小均方误差估计器，后验状态误差估计是指 $P_{k|k}=cov(x_k-\hat{x}_{k|k})$，当 $P_{k|k}$ 矩阵的均方误差为最小时，即可求出最优卡尔曼增益</p><p>矩阵的均方误差为矩阵的迹。求矩阵的最小均方误差，即是求矩阵的迹的最小值，对矩阵的迹求导，导数为0时，迹最小。其中协方差 $P_{k|k}$ 是对称矩阵</p>$$
 P_{k|k}=(I-K_kH_k)P_{k|k-1}(I-K_kH_k)^T+K_kR_kK_k^T\\=P_{k|k-1}-K_kH_kP_{k|k-1}-P_{k|k-1}(K_kH_k)^T+K_k(H_kP_{k|k-1}H_k^T+R_k)K_k^T
-$$<p>求解该矩阵的迹</p>
-$$
+$$<p>求解该矩阵的迹</p>$$
 tr(P_{k|k})=tr(P_{k|k-1}-K_kH_kP_{k|k-1}-P_{k|k-1}(K_kH_k)^T+K_k(H_kP_{k|k-1}H_k^T+R_k)K_k^T)\\=tr(P_{k|k-1})-2tr(K_kH_kP_{k|k-1})+tr(K_k(H_kP_{k|k-1}H_k^T+R_k)K_k^T)
-$$<p>上式对 $K_k$ 求导</p>
-$$
+$$<p>上式对 $K_k$ 求导</p>$$
 \frac{d~tr(P_{k|k})}{d~K_k}=\frac{d[tr(P_{k|k-1})-2tr(K_kH_kP_{k|k-1})+tr(K_k(H_kP_{k|k-1}H_k^T+R_k)K_k^T)]}{d~K_k}\\=-2(H_kP_{k|k-1})^T+2K_k(H_kP_{k|k-1}H_k^T+R_k)
-$$<p>当导数为 0 时取极值，即</p>
-$$
+$$<p>当导数为 0 时取极值，即</p>$$
 -2(H_kP_{k|k-1})^T+2K_k(H_kP_{k|k-1}H_k^T+R_k)=0
-$$<p>得</p>
-$$
+$$<p>得</p>$$
 K_k=(H_kP_{k|k-1})^T(H_kP_{k|k-1}H_k^T+R_k)^{-1}
-$$<p>令</p>
-$$
+$$<p>令</p>$$
 S_kH_kP_{k|k-1}H_k^T+R_k
-$$<p>得</p>
-$$
+$$<p>得</p>$$
 K_k=P_{k|k-1}H_k^TS_k^{-1}
-$$<p>对该矩阵的迹求二阶导</p>
-$$
+$$<p>对该矩阵的迹求二阶导</p>$$
 \frac{d~tr^2(P_{k|k})}{d~K_k^2}=2(H_kP_{k|k-1}H_k^{-1}+R_k)^T
-$$<p>由于 $R_k$ 表示 $v_k$ 的协方差矩阵，所以其一定是正定阵，因此该矩阵是正定阵，因此此时求出其迹的最小值</p>
-<p><strong class=chinese>最优卡尔曼增益化简</strong> $P_{k|k}$</p>
-<p>从上式化简得到</p>
-$$
+$$<p>由于 $R_k$ 表示 $v_k$ 的协方差矩阵，所以其一定是正定阵，因此该矩阵是正定阵，因此此时求出其迹的最小值</p><p><strong class=chinese>最优卡尔曼增益化简</strong> $P_{k|k}$</p><p>从上式化简得到</p>$$
 K_kS_k=(H_kP_{k|k-1})^T\\K_kS_kK_k^T=(H_kP_{k|k-1})^TK_k^T=P_{k|k-1}(K_kH_k)^T
-$$<p>带入其中得</p>
-$$
+$$<p>带入其中得</p>$$
 P_{k|k}=P_{k|k-1}-K_kH_kP_{k|k-1}-P_{k|k-1}(K_kH_k)^T+K_k(H_kP_{k|k-1}H_k^T+R_k)K_k^T\\=P_{k|k-1}-K_kH_kP_{k|k-1}-P_{k|k-1}(K_kH_k)^T+K_kS_kK_k^T\\=(I-K_kH_k)P_{k|k-1}
-$$<p>该简化式 $P_{k|k}=(I-K_kH_k)P_{k|k-1}$ 只能在最优卡尔曼增益时才成立。如果算术精度总是很低而导致数值稳定性出现问题，或者特意使用非最优卡尔曼增益，则必须使用上面未简化的后验误差协方差公式 $P_{k|k}=(I-K_kH_k)P_{k|k-1}(I-K_kH_k)^T+K_kR_kK_k^T$</p>
-<h2 id="自适应卡尔曼滤波-akf">自适应卡尔曼滤波 AKF</h2>
-<p>首先列出系统方程</p>
-$$
+$$<p>该简化式 $P_{k|k}=(I-K_kH_k)P_{k|k-1}$ 只能在最优卡尔曼增益时才成立。如果算术精度总是很低而导致数值稳定性出现问题，或者特意使用非最优卡尔曼增益，则必须使用上面未简化的后验误差协方差公式 $P_{k|k}=(I-K_kH_k)P_{k|k-1}(I-K_kH_k)^T+K_kR_kK_k^T$</p><h2 id=自适应卡尔曼滤波-akf>自适应卡尔曼滤波 AKF</h2><p>首先列出系统方程</p>$$
 X_k=AX_{k-1}+Cu_k+Bw_k\\Y_k=CX_k+v_k
-$$<p>其中</p>
-$$
+$$<p>其中</p>$$
 X_k 表示状态量\\Y_k表示输出量\\u_k表示输入量\\w_k，v_k 为噪声
 $$$$
 E[w_k]=q_k\\E[w_kw_k^T]=Q_k\delta_{tp}\\E[v_k]=r_k\\E[v_kv_k^T]=R_k\delta_{tp}
-$$<p>其中 $Q(t),R(t),q(t),r(t)$ 将在后续进行更新</p>
-<h3 id="具体过程">具体过程</h3>
-<ol>
-<li><strong class=chinese>预测方程</strong></li>
-</ol>
-$$
+$$<p>其中 $Q(t),R(t),q(t),r(t)$ 将在后续进行更新</p><h3 id=具体过程>具体过程</h3><ol><li><strong class=chinese>预测方程</strong></li></ol>$$
 \hat{X}_{k|k-1}=A\hat{X}_{k-1|k-1}+Cu_{k-1}+B\overline{q}_{k-1}
-$$<p>其中 $\overline{q}_{k-1}$ 表示预测误差矩阵</p>
-<ol>
-<li><strong class=chinese>预测均方差误差方程</strong></li>
-</ol>
-$$
+$$<p>其中 $\overline{q}_{k-1}$ 表示预测误差矩阵</p><ol><li><strong class=chinese>预测均方差误差方程</strong></li></ol>$$
 P_{k|k-1}=AP_{k-1|k-1}A^T+B\overline{Q}_{k-1}B^T
-$$<p>其中 $\overline{Q}_{k-1}$ 表示过程噪声协方差矩阵，Q越大表示预测的协方差就越大，对预测的不信任</p>
-<ol>
-<li><strong class=chinese>更新滤波增益方程</strong></li>
-</ol>
-$$
+$$<p>其中 $\overline{Q}_{k-1}$ 表示过程噪声协方差矩阵，Q越大表示预测的协方差就越大，对预测的不信任</p><ol><li><strong class=chinese>更新滤波增益方程</strong></li></ol>$$
 K_k=P_{k|k-1}C^T(CP_{k|k-1}C^T+\overline{R}_{k-1})^{-1}
-$$<p>其中 $\overline{R}_{k-1}$ 是测量噪声协方差矩阵，R越大表示观测的协方差就越大，对观测不信任</p>
-<ol>
-<li><strong class=chinese>计算残差</strong></li>
-</ol>
-$$
+$$<p>其中 $\overline{R}_{k-1}$ 是测量噪声协方差矩阵，R越大表示观测的协方差就越大，对观测不信任</p><ol><li><strong class=chinese>计算残差</strong></li></ol>$$
 \varepsilon_k=Y_k-C\hat{X}_{k|k-1}-\overline{r}_{k-1}
-$$<p>其中 $\overline{r}_{k-1}$ 是观测误差矩阵</p>
-<ol>
-<li><strong class=chinese>状态估计</strong></li>
-</ol>
-$$
+$$<p>其中 $\overline{r}_{k-1}$ 是观测误差矩阵</p><ol><li><strong class=chinese>状态估计</strong></li></ol>$$
 \hat{X}_{k|k}=\hat{X}_{k|k-1}+K_k\varepsilon_k
-$$<p>和卡尔曼滤波器的对应公式是一样的</p>
-<ol>
-<li><strong class=chinese>均方差误差方程</strong></li>
-</ol>
-$$
+$$<p>和卡尔曼滤波器的对应公式是一样的</p><ol><li><strong class=chinese>均方差误差方程</strong></li></ol>$$
 P_{k|k}=(I-K_kC)P_{k|k-1}
-$$<p>和卡尔曼滤波器的对应公式是一样的</p>
-<p><strong class=chinese>更新</strong> $q_k, Q_k, r_k, R_k$</p>
-<ol>
-<li><strong class=chinese>计算加权系数</strong></li>
-</ol>
-$$
-d(t)=\frac{1-b}{1-b^{t+1}}~~~0<b<1
-$$<p>随着时间的推移， $d(t)→1-b$</p>
-$$
+$$<p>和卡尔曼滤波器的对应公式是一样的</p><p><strong class=chinese>更新</strong> $q_k, Q_k, r_k, R_k$</p><ol><li><strong class=chinese>计算加权系数</strong></li></ol>$$
+d(t)=\frac{1-b}{1-b^{t+1}}~~~0<b<1 $$<p>随着时间的推移， $d(t)→1-b$</p>$$
 d(t)=\frac{1}{t}
-$$<p>随着时间推移， $d(t)→0$，当 $d(t)=0$ 时，还原为普通的卡尔曼滤波器</p>
-<ol>
-<li><strong class=chinese>更新</strong> $\overline{q}_k, \overline{Q}_k,\overline{r}_k,\overline{R}_k$</li>
-</ol>
-$$
+$$<p>随着时间推移， $d(t)→0$，当 $d(t)=0$ 时，还原为普通的卡尔曼滤波器</p><ol><li><strong class=chinese>更新</strong> $\overline{q}_k, \overline{Q}_k,\overline{r}_k,\overline{R}_k$</li></ol>$$
 \overline{q}_k=(1-d(k-1))\overline{q}_{k-1}+d(k-1)(\hat{X}_{k|k}-A\hat{X}_{k-1|k-1})\\\overline{Q}_k=(1-d(k-1))\overline{Q}_{k-1}+d(k-1)(K_k\varepsilon_k\varepsilon_k^TK_k^T+P_{k|k}-AP_{k-1|k-1}A^T)\\\overline{r}_k=(1-d(k-1))\overline{r}_{k-1}+d(k-1)(Y_k-C\hat{X}_{k|k-1})\\\overline{R}_{k}=(1-d(k-1))\overline{R}_{k-1}-d(k-1)(\varepsilon_k\varepsilon_k^T-CP_{k|k-1}C^T)
-$$<h2 id="扩展卡尔曼滤波-ekf">扩展卡尔曼滤波 EKF</h2>
-<p><img src="./v2-5d08b454b3149ba0500e647d2bea421f_720w.png" alt="v2-5d08b454b3149ba0500e647d2bea421f_720w.png"></p>
-<p>用来解决非线性问题，如极坐标系的雷达，观测到的式径向距离和角度，这是观测矩阵 H 就是非线性的函数。</p>
-<p>EKF 与 KF 最主要的区别就是转换模型和观测模型可以是非线性的，可以使用泰勒展开式替换为线性函数，两个协方差矩阵 P 和 H 要使用雅各比矩阵计算每个状态量的一阶偏导</p>
-<p>因为主要是状态估计方程和状态估计转移方程的两个地方有些区别，所以 EKF 协方差矩阵的公式推导还是跟 KF 一样的</p>
-<h3 id="预测-1">预测</h3>
-$$
+$$<h2 id=扩展卡尔曼滤波-ekf>扩展卡尔曼滤波 EKF</h2><p><img src=./v2-5d08b454b3149ba0500e647d2bea421f_720w.png alt=v2-5d08b454b3149ba0500e647d2bea421f_720w.png></p><p>用来解决非线性问题，如极坐标系的雷达，观测到的式径向距离和角度，这是观测矩阵 H 就是非线性的函数。</p><p>EKF 与 KF 最主要的区别就是转换模型和观测模型可以是非线性的，可以使用泰勒展开式替换为线性函数，两个协方差矩阵 P 和 H 要使用雅各比矩阵计算每个状态量的一阶偏导</p><p>因为主要是状态估计方程和状态估计转移方程的两个地方有些区别，所以 EKF 协方差矩阵的公式推导还是跟 KF 一样的</p><h3 id=预测-1>预测</h3>$$
 \hat{x}_{k|k-1}=f(\hat{x}_{k-1|k-1},u_k,0)\\P_{k|k-1}=J_FP_{k-1|k-1}J_F^T+Q_k
-$$<h3 id="使用-jacobians-矩阵更新模型">使用 Jacobians 矩阵更新模型</h3>
-<p>过程模型(矩阵)和测量模型(矩阵)与 KF 有所区别，需要进行雅各比矩阵求导运算</p>
-$$
+$$<h3 id=使用-jacobians-矩阵更新模型>使用 Jacobians 矩阵更新模型</h3><p>过程模型(矩阵)和测量模型(矩阵)与 KF 有所区别，需要进行雅各比矩阵求导运算</p>$$
 J_F=\frac{\partial f}{\partial x}|_{\hat{x}_{k-1|k-1}, u_k}\\J_H=\frac{\partial h}{\partial x}|_{\hat{x}_{k|k-1}}
-$$<p>其中</p>
-$$
+$$<p>其中</p>$$
 h(x)=H_kx\\f(x,u,v)=F_kx+B_ku+v
-$$<h3 id="更新-1">更新</h3>
-$$
+$$<h3 id=更新-1>更新</h3>$$
 \hat{y}_k=z_k-h(\hat{x}_{k|k-1}, 0)\\S_k=J_HP_{k|k-1}H_k^T+R_k\\K_k=P_{k|k-1}J_H^TS_k^{-1}\\\hat{x}_{k|k}=\hat{x}_{k|k-1}+K_k\hat{y}\\P_{k|k}=(I-K_kJ_H)P_{k|k-1}
-$$<h3 id="恒定转弯率和速度模型constant-turn-rate-and-velocityctrv">恒定转弯率和速度模型（**Constant Turn Rate and Velocity——**CTRV）</h3>
-<p>状态量为</p>
-$$
+$$<h3 id=恒定转弯率和速度模型constant-turn-rate-and-velocityctrv>恒定转弯率和速度模型（**Constant Turn Rate and Velocity——**CTRV）</h3><p>状态量为</p>$$
 X=\begin{bmatrix}x\\y\\v\\\theta\\\omega\end{bmatrix}
-$$<p>状态方程为</p>
-$$
+$$<p>状态方程为</p>$$
 X_{k+1}=X_k+\begin{bmatrix}\int_{t_k}^{t_{k+1}}{v(t)cos(\theta(t))}dt\\\int_{t_k}^{t_{k+1}}{v(t)sin(\theta(t))}dt\\0\\\omega \Delta t\\0\end{bmatrix}
-$$<p>其中在某一时刻将速度近似于常量，同时角速度也近似于常量。</p>
-<p>对上式进行简化</p>
-$$
+$$<p>其中在某一时刻将速度近似于常量，同时角速度也近似于常量。</p><p>对上式进行简化</p>$$
 \int_{t_k}^{t_{k+1}}{v(t)cos(\theta(t))}dt=v_k\int_{t_k}^{t_{k+1}}{cos(\theta_k+\omega (t-t_k))}dt=\frac{v_k}{\omega}[sin(\omega \Delta + \theta)- sin(\theta)]\\\int_{t_k}^{t_{k+1}}{v(t)sin(\theta(t))}dt=v_k\int_{t_k}^{t_{k+1}}{sin(\theta_k+\omega (t-t_k))}dt=\frac{v_k}{\omega}[-cos(\omega \Delta + \theta)+ cos(\theta)]
-$$<p>则，上式的最终状态方程为</p>
-$$
+$$<p>则，上式的最终状态方程为</p>$$
 X_{k+1}=X_k+\begin{bmatrix}\frac{v_k}{\omega}[sin(\omega \Delta + \theta)- sin(\theta)]\\\frac{v_k}{\omega}[-cos(\omega \Delta + \theta)+ cos(\theta)]\\0\\\omega \Delta t\\0\end{bmatrix}=\begin{bmatrix}x_k+\frac{v_k}{\omega}[sin(\omega \Delta + \theta)- sin(\theta)]\\y_k+\frac{v_k}{\omega}[-cos(\omega \Delta + \theta)+ cos(\theta)]\\v_k\\\omega \Delta t+\theta\\\omega\end{bmatrix}
-$$<p>对其中每个状态量求偏导得到雅各比矩阵 $J_F$</p>
-$$
+$$<p>对其中每个状态量求偏导得到雅各比矩阵 $J_F$</p>$$
 J_F=\begin{bmatrix}1&0&\frac{1}{\omega}[sin(\omega \Delta t+\theta)-sin(\theta)&\frac{v_k}{\omega}[cos(\omega \Delta t+\theta)-cos(\theta)&\frac{v_k\Delta t}{\omega}cos(\omega \Delta t+\theta)-\frac{v_k}{\omega^2}[sin(\omega \Delta t+\theta)-sin(\theta)]\\0&1&\frac{1}{\omega}[-cos(\omega \Delta t+\theta)+cos(\theta)&\frac{v_k}{\omega}[sin(\omega \Delta t+\theta)-sin(\theta)&\frac{v_k\Delta t}{\omega}sin(\omega \Delta t+\theta)-\frac{v_k}{\omega^2}[-cos(\omega \Delta t+\theta)+cos(\theta)]\\0&0&1&0&0\\0&0&0&1&0\\0&0&0&0&1\end{bmatrix}
-$$<p>对于观测矩阵，如果是线性的，不用做计算。如果是非线性的，同样可以使用求偏导数的方式计算出雅各比矩阵 $J_H$</p>
-<p>假设传感器是毫米波雷达观，且观测量是</p>
-$$
+$$<p>对于观测矩阵，如果是线性的，不用做计算。如果是非线性的，同样可以使用求偏导数的方式计算出雅各比矩阵 $J_H$</p><p>假设传感器是毫米波雷达观，且观测量是</p>$$
 z_k=\begin{bmatrix}\rho_k\\\theta_k\\\dot{\rho}_k\end{bmatrix}=\begin{bmatrix}\sqrt{x_k^2+y_k^2}\\arctan(\frac{y_k}{x_k})\\\frac{v_xx_k+v_yy_k}{\sqrt{x_k^2+y_k^2}}\end{bmatrix}=\begin{bmatrix}\sqrt{x_k^2+y_k^2}\\arctan(\frac{y_k}{x_k})\\\frac{v_xx_kcos(\theta)+v_yy_ksin(\theta)}{\sqrt{x_k^2+y_k^2}}\end{bmatrix}
-$$<p>上式对状态方程每个状态量求偏导，得到雅各比矩阵，即观测矩阵 $J_H$ 为</p>
-$$
+$$<p>上式对状态方程每个状态量求偏导，得到雅各比矩阵，即观测矩阵 $J_H$ 为</p>$$
 J_H=\begin{bmatrix}\frac{x}{\sqrt{x^2+y^2}}&\frac{y}{\sqrt{x^2+y^2}}&0&0&0\\-\frac{y}{x^2+y^2}&\frac{x}{x^2+y^2}&0&0&0\\\frac{y(vcos(\theta)y-vsin(\theta)x)}{(x^2+y^2)^{\frac{3}{2}}}&\frac{x(vsin(\theta)x-vcos(\theta)y)}{(x^2+y^2)^{\frac{3}{2}}}&\frac{xcos(\theta)+ysin(\theta)}{\sqrt{x^2+y^2}}&\frac{vcos(\theta)y-vsin(\theta)x}{\sqrt{x^2+y^2}}&0\end{bmatrix}
-$$<p><strong>Q矩阵计算</strong></p>
-<p>对于 CTRV，假设直线加速度 $a_a$ 和偏航角加速度 $a_{\omega}$ 为常数，但是实际过程中会有噪声，因此 CTRV 的模型过程噪声主要来自于 $a_a$ 和 $a_\omega$。假设该模型噪声都符合高斯分布，即</p>
-$$
+$$<p><strong>Q矩阵计算</strong></p><p>对于 CTRV，假设直线加速度 $a_a$ 和偏航角加速度 $a_{\omega}$ 为常数，但是实际过程中会有噪声，因此 CTRV 的模型过程噪声主要来自于 $a_a$ 和 $a_\omega$。假设该模型噪声都符合高斯分布，即</p>$$
 a_a\sim N(0,\sigma_a^2)\\a_\omega\sim N(0,\sigma_\omega^2)
-$$<p>则这两个加速度对状态量的预测噪声为</p>
-$$
+$$<p>则这两个加速度对状态量的预测噪声为</p>$$
 w=\begin{bmatrix}\frac{\Delta t^2cos(\theta)a_a}{2}\\\frac{\Delta t^2sin(\theta)a_a}{2}\\\Delta t a_a\\\frac{\Delta t^2a_\omega}{2}\\\Delta t a_\omega\end{bmatrix}=\begin{bmatrix}\frac{\Delta t^2cos(\theta)}{2}&0\\\frac{\Delta t^2sin(\theta)}{2}&0\\\Delta t&0\\0&\frac{\Delta t^2}{2}\\0&\Delta t \end{bmatrix}\begin{bmatrix}a_a\\a_\omega \end{bmatrix}=Gu
-$$<p>则</p>
-$$
+$$<p>则</p>$$
 Q=cov(w)=E(ww^T)=GE(uu^T)G^T=G\begin{bmatrix}\sigma_a^2&0\\0&\sigma_\omega^2 \end{bmatrix}G^T
-$$<p>带入之后得</p>
-$$
+$$<p>带入之后得</p>$$
 Q=\begin{bmatrix}\frac{T^4\sigma_a^2cos^2(\theta)}{4}&\frac{T^4\sigma_a^2cos(\theta)sin(\theta)}{4}&\frac{T^3\sigma_a^2cos(\theta)}{2}&0&0\\\frac{T^4\sigma_a^2sin(\theta)cos(\theta)}{4}&\frac{T^4\sigma_a^2sin^2(\theta)}{4}&\frac{T^3\sigma_a^2sin(\theta)}{2}&0&0\\\frac{T^3\sigma_a^2cos(\theta)}{2}&\frac{T^3\sigma_a^2sin(\theta)}{2}&T^2\sigma_a^2&0&0\\0&0&0&\frac{T^4\sigma_a^2}{4}&\frac{T^3\sigma_\omega^2}{2}\\0&0&0&\frac{T^3\sigma_\omega^2}{2}&T^2\sigma_\omega^2\end{bmatrix}
-$$<p>常用的<strong>CV模型</strong>的状态量为</p>
-$$
+$$<p>常用的<strong>CV模型</strong>的状态量为</p>$$
 X=\begin{bmatrix}x\\y\\v_x\\v_y\end{bmatrix}
-$$<p>其状态方程为</p>
-$$
+$$<p>其状态方程为</p>$$
 X_{k+1}=X_k+\begin{bmatrix}v_x\Delta t\\v_y\Delta t\\0\\0\end{bmatrix}=\begin{bmatrix}x_k+v_x\Delta t\\y_k+v_y\Delta t\\v_x\\v_y\end{bmatrix}
-$$<p>该式子对状态量中的每个参数求偏导，得到 $J_F$</p>
-$$
+$$<p>该式子对状态量中的每个参数求偏导，得到 $J_F$</p>$$
 J_F=\begin{bmatrix}1&0&\Delta t&0\\0&1&0&\Delta t\\0&0&1&0\\0&0&0&1\end{bmatrix}
-$$<p>如果假设观测量为</p>
-$$
+$$<p>如果假设观测量为</p>$$
 z_k=\begin{bmatrix}\rho_k\\\theta_k\\\dot{\rho}_k\end{bmatrix}=\begin{bmatrix}\sqrt{x_k^2+y_k^2}\\arctan(\frac{y_k}{x_k})\\\frac{v_xx_k+v_yy_k}{\sqrt{x_k^2+y_k^2}}\end{bmatrix}
-$$<p>该式子对系统状态量中每个参数求偏导，得到 $J_H$</p>
-$$
+$$<p>该式子对系统状态量中每个参数求偏导，得到 $J_H$</p>$$
 J_H=\begin{bmatrix}\frac{x_k}{\sqrt{x_k^2+y_k^2}}&\frac{y_k}{\sqrt{x_k^2+y_k^2}}&0&0\\-\frac{y_k}{x_k^2+y_K^2}&\frac{x_k}{x_k^2+y_k^2}&0&0\\\frac{y_k(v_xy_k-v_yx_k)}{(x_k^2+y_k^2)^{\frac{3}{2}}}&\frac{x_k(v_yx_k-v_xy_k)}{(x_k^2+y_k^2)^{\frac{3}{2}}}&\frac{x_k}{\sqrt{x_k^2+y_k^2}}&\frac{y_k}{\sqrt{x_k^2+y_k^2}}\end{bmatrix}
-$$<p><strong>Q矩阵计算</strong></p>
-<p>对于 CV，假设直线加速度 $a_x$ 和偏航角加速度 $a_{y}$ 为常数，但是实际过程中会有噪声，因此 CV 的模型过程噪声主要来自于 $a_x$ 和 $a_y$。假设该模型噪声都符合高斯分布，即</p>
-$$
+$$<p><strong>Q矩阵计算</strong></p><p>对于 CV，假设直线加速度 $a_x$ 和偏航角加速度 $a_{y}$ 为常数，但是实际过程中会有噪声，因此 CV 的模型过程噪声主要来自于 $a_x$ 和 $a_y$。假设该模型噪声都符合高斯分布，即</p>$$
 a_x\sim N(0,\sigma_a^2)\\a_y\sim N(0,\sigma_\omega^2)
 $$$$
 w=\begin{bmatrix}\frac{\Delta t^2a_x}{2}\\\frac{\Delta t^2a_y}{2}\\\Delta t a_x\\\Delta t a_y\end{bmatrix}=\begin{bmatrix}\frac{\Delta t^2}{2}&0\\0&\frac{\Delta t^2}{2}\\\Delta t&0\\0&\Delta t \end{bmatrix}\begin{bmatrix}a_x\\a_y\end{bmatrix}=Gu
-$$<p>则</p>
-$$
+$$<p>则</p>$$
 Q=cov(w)=E(ww^T)=GE(uu^T)G^T=G\begin{bmatrix}\sigma_x^2&0\\0&\sigma_y^2 \end{bmatrix}G^T
 $$$$
 Q=\begin{bmatrix}\frac{T^4\sigma_x^2}{4}&0&\frac{T^3\sigma_x^2}{2}&0\\0&\frac{T^4\sigma_y^2}{4}&0&\frac{T^3\sigma_y^2}{2}\\\frac{T^3\sigma_x^2}{2}&0&T^2\sigma_x^2&0\\0&\frac{T^3\sigma_y^2}{2}&0&T^2\sigma_y^2\end{bmatrix}
-$$<h3 id="恒定转弯率和加速度模型constant-turn-rate-and-velocityctra过于复杂">恒定转弯率和加速度模型（**Constant Turn Rate and Velocity——**CTRA）——过于复杂</h3>
-<p>其中的系统状态量为</p>
-$$
+$$<h3 id=恒定转弯率和加速度模型constant-turn-rate-and-velocityctra过于复杂>恒定转弯率和加速度模型（**Constant Turn Rate and Velocity——**CTRA）——过于复杂</h3><p>其中的系统状态量为</p>$$
 X=\begin{bmatrix}x\\y\\\theta\\v\\\omega\\a\end{bmatrix}
-$$<p>系统状态方程为</p>
-$$
+$$<p>系统状态方程为</p>$$
 X_{k+1}=X_k+\begin{bmatrix}\int_{t_k}^{t_{k+1}}{v(t)cos(\theta(t))}dt\\\int_{t_k}^{t_{k+1}}{v(t)sin(\theta(t))}dt\\\omega \Delta t\\a\Delta t\\0\\0\end{bmatrix}
-$$<p>其中 $a$ 和 $\omega$ 为常量，与时间无关，其中 $\Delta t=t_{k+1}-t_k$，其中积分化简为</p>
-$$
+$$<p>其中 $a$ 和 $\omega$ 为常量，与时间无关，其中 $\Delta t=t_{k+1}-t_k$，其中积分化简为</p>$$
 \int_{t_k}^{t_{k+1}}{v(t)cos(\theta(t))}dt=\int_{t_k}^{t_{k+1}}{(v_k+a(t-t_k))cos(\theta_k+\omega(t-t_k))}dt=\frac{1}{\omega^2}[(v_k\omega+a\omega\Delta t)sin(\theta_k+\omega \Delta t)+acos(\theta_k+\omega\Delta t)-v_k\omega sin(\theta_k)-acos(\theta_k)]\\\int_{t_k}^{t_{k+1}}{v(t)sin(\theta(t))}dt=\int_{t_k}^{t_{k+1}}{(v_k+a(t-t_k))sin(\theta_k+\omega(t-t_k))}dt=\frac{1}{\omega^2}[-(v_k\omega+a\omega\Delta t)cos(\theta_k+\omega \Delta t)-asin(\theta_k+\omega\Delta t)+v_k\omega cos(\theta_k)+asin(\theta_k)]
-$$<p>所以上式最终可以表示为</p>
-$$
+$$<p>所以上式最终可以表示为</p>$$
 X_{k+1}=\begin{bmatrix}x_k+\frac{1}{\omega^2}[(v_k\omega+a\omega\Delta t)sin(\theta_k+\omega \Delta t)+acos(\theta_k+\omega\Delta t)-v_k\omega sin(\theta_k)-acos(\theta_k)]\\y+\frac{1}{\omega^2}[-(v_k\omega+a\omega\Delta t)cos(\theta_k+\omega \Delta t)-asin(\theta_k+\omega\Delta t)+v_k\omega cos(\theta_k)+asin(\theta_k)]\\\theta_k+\omega \Delta t\\v_k+a\Delta t\\\omega\\a\end{bmatrix}
-$$<p>对状态方程的每个状态量求偏导，得到雅各比矩阵 $J_F$</p>
-$$
+$$<p>对状态方程的每个状态量求偏导，得到雅各比矩阵 $J_F$</p>$$
 J_F=\begin{bmatrix}1&0&\frac{1}{\omega^2}[(v\omega+a\omega T)cos(\theta+\omega T)-asin(\theta+\omega T)-v\omega cos(\theta)+asin(\theta)]&\frac{1}{\omega^2}[\omega sin(\theta+\omega T)-\omega sin(\theta)]&\frac{-Tasin(T\omega+\theta)+T(T\omega a+\omega v)cos(T\omega +\theta)-vsin(\theta)+(Ta+v)sin(T\omega+\theta)}{\omega^2}-\frac{2(-\omega vsin(\theta)-acos(\theta)+acos(T\omega+a)+(T\omega a+\omega v)sin(T\omega +\theta)}{\omega^3}&\frac{T\omega sin(T\omega +\theta)-cos(\theta)+cos(T\omega +\theta)}{\omega^2}\\0&1&\frac{1}{\omega^2}[(v\omega+a\omega T)sin(\theta+\omega T)+acos(\theta+\omega T)+v\omega sin(\theta)-acos(\theta)]&\frac{1}{\omega^2}[-\omega cos(\theta+\omega T)+\omega cos(\theta)]&\frac{Tacos(T\omega+\theta)+T(T\omega a+\omega v)sin(T\omega +\theta)+vcos(\theta)-(Ta+v)cos(T\omega+\theta)}{\omega^2}-\frac{2(\omega vcos(\theta)-asin(\theta)+asin(T\omega+a)-(T\omega a+\omega v)cos(T\omega +\theta)}{\omega^3}&\frac{-T\omega cos(T\omega +\theta)-sin(\theta)+sin(T\omega +\theta)}{\omega^2}\\0&0&1&0&T&0\\0&0&0&1&0&T\\0&0&0&0&1&0\\0&0&0&0&0&1\end{bmatrix}
-$$<h2 id="无迹卡尔曼滤波-ukf">无迹卡尔曼滤波 UKF</h2>
-<p>卡尔曼滤波（Kalman filtering）是一种利用线性系统状态方程，通过系统输入输出观测数据，对系统状态进行最优估计的算法。由于观测数据中包括系统中的噪声和干扰的影响，所以最优估计也可看作是滤波过程。</p>
-<p>无迹卡尔曼滤波（Unscented Kalman Filter，UKF），是无损变换（Unscented Transform，UT变换）与标准卡尔曼滤波体系的结合，通过无损变换变换使非线性系统方程适用于线性假设下的标准卡尔曼体系，相当于是 KF 基础上加入了 UT 变换</p>
-<p>对于非线性问题的处理，过程模型F和测量模型H是非线性的，EKF是求一阶全导数得到线性模型，来近似非线性模型；而UKF是直接寻找一个与真实分布近似的高斯分布，没有用线性表征。</p>
-<h3 id="使用背景">使用背景</h3>
-<ul>
-<li>对于某个系统，你拥有准确的数学模型（状态方程和观测方程），也就是说，给出这个系统的输入，你必然能算出这个系统的输出；但是，在现实生活中往往拿到的第一手测试数据并不是你想要的最直观的数据（而且数据还有噪声），这时候使用UKF可以依靠相对准确的数值模型和结合测试数据来得到你想要的信息</li>
-<li>数值模型的参数相对不准确，但实测数据可信度更好，这时候使用UKF可以依靠相对准确的实测数据和结合数值模型来还原较真实的参数</li>
-</ul>
-<h3 id="核心思想">核心思想</h3>
-<p><img src="./v2-008fc966f40ba5c834c555c2dd91bac1_720w.webp" alt="v2-008fc966f40ba5c834c555c2dd91bac1_720w.webp"></p>
-<p><strong>该算法的核心思想是：采用UT变换，利用一组Sigma采样点来描述随机变量的高斯分布，然后通过非线性函数的传递，再利用加权统计线性回归技术来近似非x线性函数的后验均值和方差。相比于EKF，UKF的估计精度能够达到泰勒级数展开的二阶精度</strong></p>
-<h3 id="ukf的原理与实现流程"><strong>UKF的原理与实现流程</strong></h3>
-<ol>
-<li>
-<p><strong>UT变换</strong></p>
-<p>例如函数 $y=f(x)$ 是一个非线性函数，x 为 n 维随机变量，它的均值为 $\overline{x}$，方差为 $P_x$。UT变换根据一定的采样策略，获得一组 Sigma 采样点 $\{x_i\},i=0,1,…,L$，并且设定均值权值 $\omega_m^{(i)}$ 和方差权值 $\omega_c^{(i)}$，来近似非线性函数的后验均值和方差，利用选取的 Sigma 采样点集 $\{x_i\},i=0,1,…,L$，进行非线性函数传递可得 $y_i=f(x_i)$，其中 $y_i$ 为 Sigma 采样经过非线性函数传递后对应的点。根据加权统计线性回归技术可以近似得到 y 的统计特性：</p>
-$$
-    \overline{y}=\sum_{i=0}^{L}{\omega_m^{(i)}y_i}\\P_{yy}=\sum_{i=0}^{L}{\omega_c^{(i)}(y_i-\overline{y})(y_i-\overline{y})^T}\\P_{xy}=\sum_{i=0}^{L}{\omega_c^{(i)}(x_i-\overline{x})(y_i-\overline{y})^T}
-    $$</li>
-<li>
-<p><strong class=chinese>采样策略</strong></p>
-<p>根据 Sigma 点采样策略不同，相应的 Sigma 点以及均值权值和方差权值也不尽相同，因此 UT 变换的估计精度也会有差异，但总体来说，其估计精度能够达到泰勒级数展开的二阶精度。为保证随机变量x经过采样之后得到的 Sigma 采样点仍具有原变量的必要特性，所以采样点的选取应满足下列条件：</p>
-$$
-    g(\{x_i,\omega_m^{(i)},\omega_c^{(i)}\},L,P_x(x))=0
-    $$<p>其中</p>
-<ul>
-<li>$\{x_i,\omega_m^{(i)},\omega_c^{(i)}\}$ 为 Sigma 采样点，均值权重和方差权重组合的集合</li>
-<li>L 为采样点个数</li>
-<li>$P_x(x)$ 为随机变量 x 的密度函数</li>
-<li>$g()$ 确定 x 的相关信息。如果密度函数 $P_x(x)$ 只有一二阶矩时可以写成</li>
-</ul>
-$$
-    g(\{x_i,\omega_m^{(i)},\omega_c^{(i)}\},L,P_x(x))=\begin{bmatrix}\sum_{i=0}^{L}\omega_m^{(i)}-1\\\sum_{i=0}^{L}\omega_c^{(i)}-1\\\sum_{i=0}^{L}w_m^{(i)}x_i-\overline{x}\\\sum_{i=0}^{L}{\omega_c^{(i)}(x_i-\overline{x})(x_i-\overline{x})^T}-P_{xx}\end{bmatrix}=0
-    $$<p><strong>采样策略：比例采样</strong></p>
-<p><strong>n 维随机变量 x</strong> 的均值和方差分别为 $\overline{x}$ 和 $P_x$，假设 L=2n，则 Sigma 采样点共有 2n+1 个，对应的采样点和均值权值和方差权值</p>
-$$
-    X^{(i)}=\left\{\begin{aligned}&\overline{X}&&i=0\\&\overline{X}+(\sqrt{(n+\kappa )P})_i&&i=1\sim n\\&\overline{X}-(\sqrt{(n+\kappa) P})_i&&i=n+1\sim 2n\end{aligned}\right.\\\omega_m^{(i)}=\omega_c^{(i)}=\left\{\begin{aligned}&\frac{\kappa }{n+\kappa }&&i=0\\&\frac{\kappa }{2(n+\kappa )}&&i=1\sim 2n\end{aligned}\right.
-    $$<p>其中</p>
-<ul>
-<li>$\kappa$ 定义为随机变量 x 的均值 $\overline{x}$ 和 Sigma 采样点间距离的比例因子，其取值的大小直接反应二阶以上的高阶矩引起的偏差</li>
-<li>$(\sqrt{(n+\kappa) P})_i$ 定义为矩阵 $(n+\kappa) P$ 经过 $Cholesky$ 分解求得的平方根矩阵的第 i 行或列</li>
-</ul>
-<p><strong>采样策略：比例修正对称采样</strong></p>
-<p>为保证协方差的半正定性以及解决采样的非局部效应问题，采用比例修正采样策略来近似非线性函数的后验分布</p>
-<ul>
-<li>
-<p>比例修正算法</p>
-$$
-        x_i'=x_0+\alpha(x_i-x_0)\\(\omega_m^{(i)})'=\left\{\begin{aligned}&\frac{\omega_m^{(i)}}{\alpha^2}+1-\frac{1}{\alpha^2}&&i=0\\&\frac{\omega_m^{(i)}}{\alpha^2}&&i\not=0\end{aligned}\right.\\(\omega_c^{(i)})'=\left\{\begin{aligned}&(\omega_m^{(i)})'+(1+\beta-\alpha^2)&&i=0\\&(\omega_m^{(i)})'&&i\not=0\end{aligned}\right.
-        $$<p>其中 $\alpha$ 为比例缩放因子， $0\leq\alpha\leq 1$，控制 $\alpha$ 的值可以控制 Sigma 点集的范围，通常设置为一个很小的正数。 $\beta$ 反映状态历史信息的高阶特性，对于高斯分布来说 $\beta=2$ 为最优</p>
-</li>
-<li>
-<p>将上述比例修正算法带入对称采样中，得到比例修正对称采样策略</p>
-$$
-        (X^{(i)})'=\left\{\begin{aligned}&\overline{X}&&i=0\\&\overline{X}+(\sqrt{(n+\lambda )P})_i&&i=1\sim n\\&\overline{X}-(\sqrt{(n+\lambda)P})_i&&i=n+1\sim 2n\end{aligned}\right.\\(\omega_m^{(i)})'=\left\{\begin{aligned}&\frac{\lambda}{n+\lambda}&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.\\(\omega_c^{(i)})'=\left\{\begin{aligned}&\frac{\lambda}{n + \lambda}+(1-\alpha^2+\beta)&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.
-        $$<p>其中 $\lambda=\alpha^2(n+\kappa)-n$， $\kappa$ 为比例因子，当 x 为单变量时， $\kappa=0$，当 x 为多变量时 $\kappa = 3 - n$。通常需要保证矩阵 $(n+\lambda)P$ 为半正定矩阵</p>
-</li>
-</ul>
-</li>
-<li>
-<p><strong class=chinese>状态方程与观测方程</strong></p>
-$$
-    X_{k+1}=f(X_k)+w_k\\Z_k=h(X_k)+v_k
-    $$<p>其中，</p>
-<ul>
-<li>$f$ 是系统非线性状态方程函数，即系统在第 k+1 步与第 k 步的数学关系</li>
-<li>$h$ 是非线性观测方程函数，即当前系统状态与实际观测数据之间的关系</li>
-<li>$w,v$ 是状态方程与观测方程的当前噪声</li>
-</ul>
-</li>
-<li>
-<p><strong>获得 2n+1 个采样组合（即Sigma点集）及其权值（n为需要估计的参数数量）</strong></p>
-$$
-    X^{(i)}=\left\{\begin{aligned}&\overline{X}&&i=0\\&\overline{X}+(\sqrt{(n+\lambda )P})_i&&i=1\sim n\\&\overline{X}-(\sqrt{(n+\lambda)P})_i&&i=n+1\sim 2n\end{aligned}\right.
-    $$<p>其中 $(\sqrt{P})^T(\sqrt{P})=P$， $(\sqrt{P})_i$ 表示矩阵方根的第 i 列，其中 P 指的是当前状态的协方差矩阵（每步实时更新）</p>
-<p>对上式进行整理</p>
-$$
-    X^{(i)}_{k|k}=\begin{bmatrix}\hat{X}_{k|k}\\\hat{X}_{k|k}+(\sqrt{(n+\lambda)P_{k|k}})_i\\\hat{X}_{k|k}-(\sqrt{(n+\lambda)P_{k|k}})_i\end{bmatrix}
-    $$</li>
-<li>
-<p><strong>把这2n+1个点代进状态方程，获得了这些点的k+1步预测</strong></p>
-$$
-    X^{(i)}_{k+1|k}=f(k, X^{(i)}_{k|k})
-    $$</li>
-<li>
-<p><strong>根据上式得到的 2n+1 个预测结果，计算系统状态的 k+1 步预测均值和协方差矩阵</strong></p>
-<p>设计计算权重值</p>
-$$
-    \omega_m^{(i)}=\left\{\begin{aligned}&\frac{\lambda}{n+\lambda}&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.\\\omega_c^{(i)}=\left\{\begin{aligned}&\frac{\lambda}{n + \lambda}+(1-\alpha^2+\beta)&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.
-    $$<p>其中 m 表示均值，c 表示协方差，上标为几个采样点，其中</p>
-<ul>
-<li>$\lambda = \alpha^2(n+\kappa)-n$ 是一个缩放比例参数，用来降低总的预测误差</li>
-<li>$\alpha$ 的选取控制了 Sigma点集的范围，比例缩放因子， $0\leq\alpha\leq1$，通常设置一个很小的正数</li>
-<li>$\kappa$ 为一个待选参数，当 x 为单变量时， $\kappa=0$，当 x 为多变量时 $\kappa = 3 - n$。通常需要保证矩阵 $(n+\lambda)P$ 为半正定矩阵</li>
-<li>$\beta$ 是一个非负的权系数，反映状态历史信息的高阶特性，对于高斯分布 $\beta =2$ 最优。可以合并方程中高阶项的动差，这样就可以把高阶项影响包括在内。</li>
-</ul>
-<p><strong>下式的系统状态量的 k+1 步预测均值和协方差矩阵</strong></p>
-$$
-    \hat{X}_{k+1|k}=\sum_{i=0}^{2n}\omega_m^{(i)}X^{(i)}_{k+1|k}\\P_{k+1|k}=\sum_{i=0}^{2n}\omega_c^{(i)}[X^{(i)}_{k+1|k}-\hat{X}_{k+1|k}][X^{(i)}_{k+1|k}-\hat{X}_{k+1|k}]^T+Q
-    $$</li>
-<li>
-<p><strong>根据上式的预测均值 $\hat{X}_{k+1|k}$ 和协方差矩阵 $P_{k+1|k}$，再次使用 UT 变换，产生新的 2n+1 个 Sigma点集</strong></p>
-$$
-    X^{(i)}_{k+1|k}=\begin{bmatrix}\hat{X}_{k+1|k}\\(\hat{X}_{k+1|k}+\sqrt{(n+\lambda)P_{k+1|k}})_i\\\hat{X}_{k+1|k}-(\sqrt{(n+\lambda)P_{k+1|k}})_i\end{bmatrix}
-    $$</li>
-<li>
-<p><strong>将上式的点集带入观测方程，得到 k+1 步预测观测量</strong></p>
-$$
-    Z_{k+1|k}^{(i)}=h(X_{k+1|k}^{(i)})
-    $$</li>
-<li>
-<p><strong>上式能得到 2n+1 个预测结果，计算系统观测量的 k+1 步预测均值和协方差巨家镇，其中权值还是上面之前的权值</strong></p>
-$$
-    \overline{Z}_{k+1|k}=\sum_{i=0}^{2n}\omega_m^{(i)}Z_{k+1|k}^{(i)}\\P_{z_kz_k}=\sum_{i=0}^{2n}\omega_c^{(i)}[Z_{k+1|k}^{(i)}-\overline{Z}_{k+1|k}][Z_{k+1|k}^{(i)}-\overline{Z}_{k+1|k}]^T+R\\P_{x_kz_k}=\sum_{i=0}^{2n}\omega_c^{(i)}[X_{k+1|k}^{(i)}-\hat{X}_{k+1|k}][Z_{k+1|k}^{(i)}-\overline{Z}_{k+1|k}]^T
-    $$</li>
-<li>
-<p><strong>计算Kalman增益矩阵</strong></p>
-$$
-    K_{k+1}=P_{x_kz_k}P_{z_kz_k}^{-1}
-    $$</li>
-<li>
-<p><strong>更新系统状态与协方差 P</strong></p>
-$$
-    \hat{X}_{k+1|k+1}=\hat{X}_{k+1|k}+K_{k+1}[Z_{k+1}-\overline{Z}_{k+1|k}]\\P_{k+1|k+1}=P_{k+1|k}-K_{k+1}P_{z_kz_k}K^T_{k+1}
-    $$<p>其中 $Z_{k+1}$ 是第 k + 1 步实测数据</p>
-</li>
-<li>
-<p><strong class=chinese>最终小结</strong></p>
-<p>UKF 用UT变换近似逼近了系统非线性变换后的分布，得到的 Kalman 增益可以类比成状态变量X的在当前步的线性修正率，有了这个线性修正率再去×修正量（实测-预测均值，即 $Z_{k+1}-\overline{Z}_{k+1|k}$ )，从而更新了 k+1 步的状态量，实现了追踪。</p>
-</li>
-</ol>
-
-    
-  </article>
-  
-
-<div id="sharingbuttons">
-    
-    
-    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="mailto:?subject=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target="_self" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f&amp;resubmit=true&amp;title=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f&amp;t=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-</div>
-
-  <div class="paginator">
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/">← prev</a>
-    
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/pr%E6%AF%94%E4%BE%8B%E8%B0%90%E6%8C%AF%E6%8E%A7%E5%88%B6%E5%99%A8/">next →</a>
-    
-  </div>
-  <div class="comment">
-    
-    
-    
-    <script src="https://giscus.app/client.js"
-        data-repo="weastur/hugo-texify2"
-        data-repo-id="R_kgDOJwiYnA"
-        data-category="Comments"
-        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
-        data-mapping="title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
-
-  </div>
-  
-
-</main>
-
-    <footer id="footer">
-  <div>
-    <span>© 2023</span> - <span>2024</span>
-  </div>
-  <div>
-    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
-<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
-</span>
-  </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
-  </div>
-
-  <div class="footnote">
-    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
-</span>
-  </div>
-</footer>
-
-  </div>
-
-  
-  
-
-  
-  
-
-  
-  
-  
-
-
-
-</body>
-
-</html>
+$$<h2 id=无迹卡尔曼滤波-ukf>无迹卡尔曼滤波 UKF</h2><p>卡尔曼滤波（Kalman filtering）是一种利用线性系统状态方程，通过系统输入输出观测数据，对系统状态进行最优估计的算法。由于观测数据中包括系统中的噪声和干扰的影响，所以最优估计也可看作是滤波过程。</p><p>无迹卡尔曼滤波（Unscented Kalman Filter，UKF），是无损变换（Unscented Transform，UT变换）与标准卡尔曼滤波体系的结合，通过无损变换变换使非线性系统方程适用于线性假设下的标准卡尔曼体系，相当于是 KF 基础上加入了 UT 变换</p><p>对于非线性问题的处理，过程模型F和测量模型H是非线性的，EKF是求一阶全导数得到线性模型，来近似非线性模型；而UKF是直接寻找一个与真实分布近似的高斯分布，没有用线性表征。</p><h3 id=使用背景>使用背景</h3><ul><li>对于某个系统，你拥有准确的数学模型（状态方程和观测方程），也就是说，给出这个系统的输入，你必然能算出这个系统的输出；但是，在现实生活中往往拿到的第一手测试数据并不是你想要的最直观的数据（而且数据还有噪声），这时候使用UKF可以依靠相对准确的数值模型和结合测试数据来得到你想要的信息</li><li>数值模型的参数相对不准确，但实测数据可信度更好，这时候使用UKF可以依靠相对准确的实测数据和结合数值模型来还原较真实的参数</li></ul><h3 id=核心思想>核心思想</h3><p><img src=./v2-008fc966f40ba5c834c555c2dd91bac1_720w.webp alt=v2-008fc966f40ba5c834c555c2dd91bac1_720w.webp></p><p><strong>该算法的核心思想是：采用UT变换，利用一组Sigma采样点来描述随机变量的高斯分布，然后通过非线性函数的传递，再利用加权统计线性回归技术来近似非x线性函数的后验均值和方差。相比于EKF，UKF的估计精度能够达到泰勒级数展开的二阶精度</strong></p><h3 id=ukf的原理与实现流程><strong>UKF的原理与实现流程</strong></h3><ol><li><p><strong>UT变换</strong></p><p>例如函数 $y=f(x)$ 是一个非线性函数，x 为 n 维随机变量，它的均值为 $\overline{x}$，方差为 $P_x$。UT变换根据一定的采样策略，获得一组 Sigma 采样点 $\{x_i\},i=0,1,…,L$，并且设定均值权值 $\omega_m^{(i)}$ 和方差权值 $\omega_c^{(i)}$，来近似非线性函数的后验均值和方差，利用选取的 Sigma 采样点集 $\{x_i\},i=0,1,…,L$，进行非线性函数传递可得 $y_i=f(x_i)$，其中 $y_i$ 为 Sigma 采样经过非线性函数传递后对应的点。根据加权统计线性回归技术可以近似得到 y 的统计特性：</p>$$
+\overline{y}=\sum_{i=0}^{L}{\omega_m^{(i)}y_i}\\P_{yy}=\sum_{i=0}^{L}{\omega_c^{(i)}(y_i-\overline{y})(y_i-\overline{y})^T}\\P_{xy}=\sum_{i=0}^{L}{\omega_c^{(i)}(x_i-\overline{x})(y_i-\overline{y})^T}
+$$</li><li><p><strong class=chinese>采样策略</strong></p><p>根据 Sigma 点采样策略不同，相应的 Sigma 点以及均值权值和方差权值也不尽相同，因此 UT 变换的估计精度也会有差异，但总体来说，其估计精度能够达到泰勒级数展开的二阶精度。为保证随机变量x经过采样之后得到的 Sigma 采样点仍具有原变量的必要特性，所以采样点的选取应满足下列条件：</p>$$
+g(\{x_i,\omega_m^{(i)},\omega_c^{(i)}\},L,P_x(x))=0
+$$<p>其中</p><ul><li>$\{x_i,\omega_m^{(i)},\omega_c^{(i)}\}$ 为 Sigma 采样点，均值权重和方差权重组合的集合</li><li>L 为采样点个数</li><li>$P_x(x)$ 为随机变量 x 的密度函数</li><li>$g()$ 确定 x 的相关信息。如果密度函数 $P_x(x)$ 只有一二阶矩时可以写成</li></ul>$$
+g(\{x_i,\omega_m^{(i)},\omega_c^{(i)}\},L,P_x(x))=\begin{bmatrix}\sum_{i=0}^{L}\omega_m^{(i)}-1\\\sum_{i=0}^{L}\omega_c^{(i)}-1\\\sum_{i=0}^{L}w_m^{(i)}x_i-\overline{x}\\\sum_{i=0}^{L}{\omega_c^{(i)}(x_i-\overline{x})(x_i-\overline{x})^T}-P_{xx}\end{bmatrix}=0
+$$<p><strong>采样策略：比例采样</strong></p><p><strong>n 维随机变量 x</strong> 的均值和方差分别为 $\overline{x}$ 和 $P_x$，假设 L=2n，则 Sigma 采样点共有 2n+1 个，对应的采样点和均值权值和方差权值</p>$$
+X^{(i)}=\left\{\begin{aligned}&\overline{X}&&i=0\\&\overline{X}+(\sqrt{(n+\kappa )P})_i&&i=1\sim n\\&\overline{X}-(\sqrt{(n+\kappa) P})_i&&i=n+1\sim 2n\end{aligned}\right.\\\omega_m^{(i)}=\omega_c^{(i)}=\left\{\begin{aligned}&\frac{\kappa }{n+\kappa }&&i=0\\&\frac{\kappa }{2(n+\kappa )}&&i=1\sim 2n\end{aligned}\right.
+  $$<p>其中</p><ul><li>$\kappa$ 定义为随机变量 x 的均值 $\overline{x}$ 和 Sigma 采样点间距离的比例因子，其取值的大小直接反应二阶以上的高阶矩引起的偏差</li><li>$(\sqrt{(n+\kappa) P})_i$ 定义为矩阵 $(n+\kappa) P$ 经过 $Cholesky$ 分解求得的平方根矩阵的第 i 行或列</li></ul><p><strong>采样策略：比例修正对称采样</strong></p><p>为保证协方差的半正定性以及解决采样的非局部效应问题，采用比例修正采样策略来近似非线性函数的后验分布</p><ul><li><p>比例修正算法</p>$$
+x_i'=x_0+\alpha(x_i-x_0)\\(\omega_m^{(i)})'=\left\{\begin{aligned}&\frac{\omega_m^{(i)}}{\alpha^2}+1-\frac{1}{\alpha^2}&&i=0\\&\frac{\omega_m^{(i)}}{\alpha^2}&&i\not=0\end{aligned}\right.\\(\omega_c^{(i)})'=\left\{\begin{aligned}&(\omega_m^{(i)})'+(1+\beta-\alpha^2)&&i=0\\&(\omega_m^{(i)})'&&i\not=0\end{aligned}\right.
+$$<p>其中 $\alpha$ 为比例缩放因子， $0\leq\alpha\leq 1$，控制 $\alpha$ 的值可以控制 Sigma 点集的范围，通常设置为一个很小的正数。 $\beta$ 反映状态历史信息的高阶特性，对于高斯分布来说 $\beta=2$ 为最优</p></li><li><p>将上述比例修正算法带入对称采样中，得到比例修正对称采样策略</p>$$
+(X^{(i)})'=\left\{\begin{aligned}&\overline{X}&&i=0\\&\overline{X}+(\sqrt{(n+\lambda )P})_i&&i=1\sim n\\&\overline{X}-(\sqrt{(n+\lambda)P})_i&&i=n+1\sim 2n\end{aligned}\right.\\(\omega_m^{(i)})'=\left\{\begin{aligned}&\frac{\lambda}{n+\lambda}&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.\\(\omega_c^{(i)})'=\left\{\begin{aligned}&\frac{\lambda}{n + \lambda}+(1-\alpha^2+\beta)&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.
+  $$<p>其中 $\lambda=\alpha^2(n+\kappa)-n$， $\kappa$ 为比例因子，当 x 为单变量时， $\kappa=0$，当 x 为多变量时 $\kappa = 3 - n$。通常需要保证矩阵 $(n+\lambda)P$ 为半正定矩阵</p></li></ul></li><li><p><strong class=chinese>状态方程与观测方程</strong></p>$$
+X_{k+1}=f(X_k)+w_k\\Z_k=h(X_k)+v_k
+$$<p>其中，</p><ul><li>$f$ 是系统非线性状态方程函数，即系统在第 k+1 步与第 k 步的数学关系</li><li>$h$ 是非线性观测方程函数，即当前系统状态与实际观测数据之间的关系</li><li>$w,v$ 是状态方程与观测方程的当前噪声</li></ul></li><li><p><strong>获得 2n+1 个采样组合（即Sigma点集）及其权值（n为需要估计的参数数量）</strong></p>$$
+X^{(i)}=\left\{\begin{aligned}&\overline{X}&&i=0\\&\overline{X}+(\sqrt{(n+\lambda )P})_i&&i=1\sim n\\&\overline{X}-(\sqrt{(n+\lambda)P})_i&&i=n+1\sim 2n\end{aligned}\right.
+$$<p>其中 $(\sqrt{P})^T(\sqrt{P})=P$， $(\sqrt{P})_i$ 表示矩阵方根的第 i 列，其中 P 指的是当前状态的协方差矩阵（每步实时更新）</p><p>对上式进行整理</p>$$
+X^{(i)}_{k|k}=\begin{bmatrix}\hat{X}_{k|k}\\\hat{X}_{k|k}+(\sqrt{(n+\lambda)P_{k|k}})_i\\\hat{X}_{k|k}-(\sqrt{(n+\lambda)P_{k|k}})_i\end{bmatrix}
+$$</li><li><p><strong>把这2n+1个点代进状态方程，获得了这些点的k+1步预测</strong></p>$$
+X^{(i)}_{k+1|k}=f(k, X^{(i)}_{k|k})
+$$</li><li><p><strong>根据上式得到的 2n+1 个预测结果，计算系统状态的 k+1 步预测均值和协方差矩阵</strong></p><p>设计计算权重值</p>$$
+\omega_m^{(i)}=\left\{\begin{aligned}&\frac{\lambda}{n+\lambda}&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.\\\omega_c^{(i)}=\left\{\begin{aligned}&\frac{\lambda}{n + \lambda}+(1-\alpha^2+\beta)&&i=0\\&\frac{\lambda}{2(n+\lambda)}&&i=1\sim 2n\end{aligned}\right.
+  $$<p>其中 m 表示均值，c 表示协方差，上标为几个采样点，其中</p><ul><li>$\lambda = \alpha^2(n+\kappa)-n$ 是一个缩放比例参数，用来降低总的预测误差</li><li>$\alpha$ 的选取控制了 Sigma点集的范围，比例缩放因子， $0\leq\alpha\leq1$，通常设置一个很小的正数</li><li>$\kappa$ 为一个待选参数，当 x 为单变量时， $\kappa=0$，当 x 为多变量时 $\kappa = 3 - n$。通常需要保证矩阵 $(n+\lambda)P$ 为半正定矩阵</li><li>$\beta$ 是一个非负的权系数，反映状态历史信息的高阶特性，对于高斯分布 $\beta =2$ 最优。可以合并方程中高阶项的动差，这样就可以把高阶项影响包括在内。</li></ul><p><strong>下式的系统状态量的 k+1 步预测均值和协方差矩阵</strong></p>$$
+\hat{X}_{k+1|k}=\sum_{i=0}^{2n}\omega_m^{(i)}X^{(i)}_{k+1|k}\\P_{k+1|k}=\sum_{i=0}^{2n}\omega_c^{(i)}[X^{(i)}_{k+1|k}-\hat{X}_{k+1|k}][X^{(i)}_{k+1|k}-\hat{X}_{k+1|k}]^T+Q
+$$</li><li><p><strong>根据上式的预测均值 $\hat{X}_{k+1|k}$ 和协方差矩阵 $P_{k+1|k}$，再次使用 UT 变换，产生新的 2n+1 个 Sigma点集</strong></p>$$
+X^{(i)}_{k+1|k}=\begin{bmatrix}\hat{X}_{k+1|k}\\(\hat{X}_{k+1|k}+\sqrt{(n+\lambda)P_{k+1|k}})_i\\\hat{X}_{k+1|k}-(\sqrt{(n+\lambda)P_{k+1|k}})_i\end{bmatrix}
+$$</li><li><p><strong>将上式的点集带入观测方程，得到 k+1 步预测观测量</strong></p>$$
+Z_{k+1|k}^{(i)}=h(X_{k+1|k}^{(i)})
+$$</li><li><p><strong>上式能得到 2n+1 个预测结果，计算系统观测量的 k+1 步预测均值和协方差巨家镇，其中权值还是上面之前的权值</strong></p>$$
+\overline{Z}_{k+1|k}=\sum_{i=0}^{2n}\omega_m^{(i)}Z_{k+1|k}^{(i)}\\P_{z_kz_k}=\sum_{i=0}^{2n}\omega_c^{(i)}[Z_{k+1|k}^{(i)}-\overline{Z}_{k+1|k}][Z_{k+1|k}^{(i)}-\overline{Z}_{k+1|k}]^T+R\\P_{x_kz_k}=\sum_{i=0}^{2n}\omega_c^{(i)}[X_{k+1|k}^{(i)}-\hat{X}_{k+1|k}][Z_{k+1|k}^{(i)}-\overline{Z}_{k+1|k}]^T
+$$</li><li><p><strong>计算Kalman增益矩阵</strong></p>$$
+K_{k+1}=P_{x_kz_k}P_{z_kz_k}^{-1}
+$$</li><li><p><strong>更新系统状态与协方差 P</strong></p>$$
+\hat{X}_{k+1|k+1}=\hat{X}_{k+1|k}+K_{k+1}[Z_{k+1}-\overline{Z}_{k+1|k}]\\P_{k+1|k+1}=P_{k+1|k}-K_{k+1}P_{z_kz_k}K^T_{k+1}
+$$<p>其中 $Z_{k+1}$ 是第 k + 1 步实测数据</p></li><li><p><strong class=chinese>最终小结</strong></p><p>UKF 用UT变换近似逼近了系统非线性变换后的分布，得到的 Kalman 增益可以类比成状态变量X的在当前步的线性修正率，有了这个线性修正率再去×修正量（实测-预测均值，即 $Z_{k+1}-\overline{Z}_{k+1|k}$ )，从而更新了 k+1 步的状态量，实现了追踪。</p></li></ol></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f&amp;resubmit=true&amp;title=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f&amp;t=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=%e5%8d%a1%e5%b0%94%e6%9b%bc%e6%bb%a4%e6%b3%a2&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2f%25E5%258D%25A1%25E5%25B0%2594%25E6%259B%25BC%25E6%25BB%25A4%25E6%25B3%25A2%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/>← prev</a>
+<a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/pr%E6%AF%94%E4%BE%8B%E8%B0%90%E6%8C%AF%E6%8E%A7%E5%88%B6%E5%99%A8/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2023</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
+<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>

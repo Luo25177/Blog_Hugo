@@ -1,727 +1,88 @@
-<!DOCTYPE html>
-<html lang="en-us" style="font-size: 120%">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  
-  <meta name="author" content="落">
-
-  
-  
-  <meta name="description" content="ros2 学习记录 Cpp">
-  
-
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
-
-  
-  
-  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
-  
-
-  
-  
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
-
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
-  onload="renderMathInElement(document.body);"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false }
-      ]
-    });
-  });
-</script>
-
-  
-
-  
-  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-
-
-  
-  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/24/ros2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-  <meta property="og:site_name" content="Luo&#39;s Blog">
-  <meta property="og:title" content="ros2学习记录">
-  <meta property="og:description" content="ros2 学习记录 Cpp">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2024-03-24T18:31:17+00:00">
-    <meta property="article:modified_time" content="2024-03-24T18:31:17+00:00">
-    <meta property="article:tag" content="Cpp">
-    <meta property="article:tag" content="Ros2">
-    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-
-
-  
-  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/24/ros2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-
-  
-  
-  
-  <meta itemprop="name" content="ros2学习记录">
-  <meta itemprop="description" content="ros2 学习记录 Cpp">
-  <meta itemprop="datePublished" content="2024-03-24T18:31:17+00:00">
-  <meta itemprop="dateModified" content="2024-03-24T18:31:17+00:00">
-  <meta itemprop="wordCount" content="2603">
-  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta itemprop="keywords" content="Cpp,Ros2">
-
-  
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
-
-  
-  
-  <title>ros2学习记录 - Luo&#39;s Blog</title>
-  
-
-  
-  
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta name="twitter:title" content="ros2学习记录">
-  <meta name="twitter:description" content="ros2 学习记录 Cpp">
-
-
-  
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
-
-</head>
-
-<body>
-  <div id="wrapper">
-    
-
-
-<header id="header">
-  <h1>
-    <a href="https://seashore.top/Blog_Hugo/">Luo&#39;s Blog</a>
-  </h1>
-
-  <nav>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="../">Guid</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/">Home</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/post/">Posts</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/about/">About</a>
-    </span>
-    
-  </nav>
-  
-  <div id="searchbox">
-    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
-      <input type="hidden" name="sites" value="seashore.top">
-      <input type="text" name="q" placeholder="Search...">
-    </form>
-  </div>
-  
-</header>
-
-    
-<main id="main" class="post">
-  
-  <h1>ros2学习记录</h1>
-  
-  <div>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/cpp'>#Cpp</a>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/ros2'>#ros2</a>
-    
-  </div>
-  
-  
-  
-  <details>
-    <summary>
-      <b>Table of Contents</b>
-    </summary>
-    <div class="toc numbered-subtitles"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a>
-      <ul>
-        <li><a href="#github仓库">github仓库</a></li>
-        <li><a href="#注意">注意</a></li>
-      </ul>
-    </li>
-    <li><a href="#安装">安装</a>
-      <ul>
-        <li><a href="#设置编码">设置编码</a></li>
-        <li><a href="#添加源">添加源</a></li>
-        <li><a href="#安装ros2">安装ros2</a></li>
-        <li><a href="#设置环境变量">设置环境变量</a></li>
-        <li><a href="#测试">测试</a></li>
-      </ul>
-    </li>
-    <li><a href="#ros2的一些指令">ros2的一些指令</a>
-      <ul>
-        <li><a href="#运行节点程序">运行节点程序</a></li>
-        <li><a href="#查看节点信息">查看节点信息</a></li>
-        <li><a href="#查看话题信息">查看话题信息</a></li>
-        <li><a href="#发布话题消息">发布话题消息</a></li>
-        <li><a href="#发送服务请求">发送服务请求</a></li>
-        <li><a href="#发送动作目标">发送动作目标</a></li>
-        <li><a href="#录制控制指令">录制控制指令</a></li>
-        <li><a href="#创建工作空间">创建工作空间</a></li>
-        <li><a href="#编译工作空间">编译工作空间</a></li>
-        <li><a href="#设置运行环境变量">设置运行环境变量</a></li>
-        <li><a href="#创建功能包">创建功能包</a></li>
-      </ul>
-    </li>
-    <li><a href="#创建自定义消息和服务">创建自定义消息和服务</a></li>
-    <li><a href="#话题通信">话题通信</a>
-      <ul>
-        <li><a href="#命令行指令">命令行指令</a></li>
-      </ul>
-    </li>
-    <li><a href="#服务通信">服务通信</a>
-      <ul>
-        <li><a href="#命令行指令-1">命令行指令</a></li>
-      </ul>
-    </li>
-    <li><a href="#动作">动作</a>
-      <ul>
-        <li><a href="#自定义action接口">自定义action接口</a></li>
-        <li><a href="#命令行指令-2">命令行指令</a></li>
-      </ul>
-    </li>
-    <li><a href="#参数">参数</a>
-      <ul>
-        <li><a href="#命令行指令-3">命令行指令</a></li>
-      </ul>
-    </li>
-    <li><a href="#launch文件">launch文件</a></li>
-    <li><a href="#通信模型">通信模型</a>
-      <ul>
-        <li><a href="#点对点模型">点对点模型</a></li>
-        <li><a href="#broker模型">Broker模型</a></li>
-        <li><a href="#广播模型">广播模型</a></li>
-        <li><a href="#dds模型">DDS模型</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-  </ul>
-</nav></div>
-  </details>
-  
-  
-  <article class="content numbered-subtitles">
-    
-    <h2 id="前言">前言</h2>
-<p>ros2 跟 ros1 相差并不是非常大，但是毕竟是一个新的机器人操作系统，相比 ros1 来说强大的很多，总结就是</p>
-<ul>
-<li>节点干掉了 Master</li>
-<li>通信换为了 DDS</li>
-<li>核心概念没变化</li>
-<li>编程难度上升</li>
-</ul>
-<h3 id="github仓库">github仓库</h3>
-<p>这是我自己的学习之后写的代码 <a href="https://github.com/Luo25177/ros2Work">github</a></p>
-<h3 id="注意">注意</h3>
-<p>需要注意在 <code>package.xml</code> 和 <code>CMakeLists.txt</code> 中声明所需要的依赖</p>
-<hr>
-<h2 id="安装">安装</h2>
-<h3 id="设置编码">设置编码</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update <span class="o">&amp;&amp;</span> sudo apt install locales
-</span></span><span class="line"><span class="cl">sudo locale-gen en_US en_US.UTF-8
-</span></span><span class="line"><span class="cl">sudo update-locale <span class="nv">LC_ALL</span><span class="o">=</span>en_US.UTF-8 <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="添加源">添加源</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update <span class="o">&amp;&amp;</span> sudo apt install curl gnupg lsb-release
-</span></span><span class="line"><span class="cl">sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu </span><span class="k">$(</span><span class="nb">source</span> /etc/os-release <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nv">$UBUNTU_CODENAME</span><span class="k">)</span><span class="s2"> main&#34;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/ros2.list &gt; /dev/null
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>上述第二条指令可能会报错“无法连接到raw.githubusercontent.com&quot;，解决办法如下</p>
-<ol>
-<li>登录网站<a href="https://www.ipaddress.com/">https://www.ipaddress.com/</a></li>
-<li>将 <code>raw.githubusercontent.com</code> 在查询栏中搜索，可以看到域名对应的 ip 地址信息</li>
-<li>将结果中的 ip 地址和域名拷贝到 <code>/etc/hosts</code> 文件中，（记得sudo）</li>
-<li>保存退出之后就可以重新尝试第二条指令了</li>
-</ol>
-<h3 id="安装ros2">安装ros2</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update
-</span></span><span class="line"><span class="cl">sudo apt upgrade
-</span></span><span class="line"><span class="cl">sudo apt install ros-humble-desktop
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="设置环境变量">设置环境变量</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">source</span> /opt/ros/humble/setup.bash
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34; source /opt/ros/humble/setup.bash&#34;</span> &gt;&gt; ~/.bashrc
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="测试">测试</h3>
-<p>打开两个终端，分别运行如下指令</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 run turtlesim turtlesim_node
-</span></span><span class="line"><span class="cl">ros2 run turtlesim turtle_teleop_key
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="ros2的一些指令">ros2的一些指令</h2>
-<h3 id="运行节点程序">运行节点程序</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 run
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="查看节点信息">查看节点信息</h3>
-<p><strong class=chinese>查看节点列表</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 node list
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong class=chinese>查看具体节点信息</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 node info /turtlesim <span class="c1"># 这里的turtlesim就是海龟节点</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="查看话题信息">查看话题信息</h3>
-<p><strong class=chinese>查看话题列表</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 topic list
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>利用echo指令查看话题中的消息</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 topic <span class="nb">echo</span> /turtle1/pose
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="发布话题消息">发布话题消息</h3>
-<p>在上述小海龟中可以发布话题消息控制小海龟运动</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 topic pub --rate <span class="m">1</span> /turtle1/cmd_vel geometry_msgs/msg/Twist <span class="s2">&#34;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="发送服务请求">发送服务请求</h3>
-<p>还是在上述的小海龟中，其实小海龟里创建了服务器可以在用户端的请求之下可以产生一个新的海龟</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 service call /spawn turtlesim/srv/Spawn <span class="s2">&#34;{x: 2, y: 2, theta: 0.2, name: &#39;&#39;}&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="发送动作目标">发送动作目标</h3>
-<p>想要让海龟完成一个具体动作，比如转到指定角度，仿真器中提供的这个action可以帮上忙，通过命令行发送动作目标</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute <span class="s2">&#34;theta: 3&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="录制控制指令">录制控制指令</h3>
-<p>系统运行中参数太多，通过 <code>rosbag</code> 可以将数据录制与播放</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 bag record /turtle1/cmd_vel <span class="c1"># 保存的具体的指令</span>
-</span></span><span class="line"><span class="cl">ros2 bag play rosbag2_2022_04_11-17_35_40/rosbag2_2022_04_11-17_35_40_0.db3 <span class="c1"># 已经保存的录制的文件</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="创建工作空间">创建工作空间</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir -p ./dev_ws/src
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ./dev_ws/src
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="编译工作空间">编译工作空间</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install python3-colcon-ros
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ..
-</span></span><span class="line"><span class="cl">colcon build
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="设置运行环境变量">设置运行环境变量</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">source</span> install/local_setup.sh <span class="c1"># 仅在当前终端生效</span>
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;source </span><span class="si">${</span><span class="nv">dev</span><span class="p">/install/local_setup.sh</span><span class="s2">&#34; &gt;&gt; ~/.bashrc # 所有终端均生效
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="创建功能包">创建功能包</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 pkg create --build-type &lt;build-type&gt; &lt;package_name&gt;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>其中</p>
-<ul>
-<li>create 表示创建功能包</li>
-<li>build-type 表示新创建的功能包是 C++ 还是 python 的，如果使用 C++，那这里就是 <code>ament_cmake</code> ，对于 python 就是 <code>ament_python</code></li>
-<li>package_name 新建功能包的名字</li>
-</ul>
-<h2 id="创建自定义消息和服务">创建自定义消息和服务</h2>
-<p>很恶心的一点就是,自定义的消息或者是服务的名称编译结束之后会变得不一样，引用的时候就会出现一些奇怪的bug，例如:</p>
-<p>AddTwoInt.srv -&gt; add_two_int.hpp &amp; AddTwoInt</p>
-<p>编译结束之后需要调用的头文件名称会不太一样,变成上面那种格式,但是在函数中调用的时候依旧是原来的定义的文件名的格式</p>
-<p>利用这条指令来查看自己是否创建完成消息或者服务</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ros2 interface list
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>文件名称中必须有大写字母，也就是最好使用<strong class=chinese>驼峰式命名</strong>格式</p>
-<p>文件中的数据类型必须声明位数，例如：<code>int64 int32 float32</code> 等</p>
-<p>使用方需要注意包含特定的包</p>
-<ol>
-<li>CMakeLists.txt 中 <code>find_package</code></li>
-<li>CMakeLists.txt 中 <code>ament_target_dependencies</code></li>
-<li>package.xml 中 <code>&lt;depend&gt;interfaces&lt;/depend&gt;</code></li>
-</ol>
-<hr>
-<h2 id="话题通信">话题通信</h2>
-<p>使用 <code>Publisher</code> 来发布话题消息</p>
-<p>使用 <code>Subscription</code> 接受话题消息</p>
-<p>需要注意的是</p>
-<ol>
-<li><code>publisher</code> 和 <code>subscription</code> 需要有相同的消息类型</li>
-<li><code>publisher</code> 和 <code>subscription</code> 需要有相同的消息名称</li>
-<li>话题通信是一种异步通信</li>
-</ol>
-<h3 id="命令行指令">命令行指令</h3>
-<ul>
-<li><code>ros2 topic list</code> 查看话题列表</li>
-<li><code>ros2 topic info &lt;topic_name&gt;</code> 查看话题信息</li>
-<li><code>ros2 topic hz &lt;topic_name&gt;</code> 查看话题发布频率</li>
-<li><code>ros2 topic bw &lt;topic_name&gt;</code> 查看话题传输带宽</li>
-<li><code>ros2 topic echo &lt;topic_name&gt;</code> 查看话题数据</li>
-<li><code>ros2 topic pub &lt;topic_name&gt; &lt;msg_type&gt; &lt;msg_data&gt;</code> 发布话题消息</li>
-</ul>
-<hr>
-<h2 id="服务通信">服务通信</h2>
-<p>使用 <code>service</code> 作为服务器</p>
-<p>使用 <code>client</code> 作为客户端</p>
-<p>客户端可以向服务器发送请求和数据，需要自己创建自定义的消息类型和服务</p>
-<p>对于同一个服务器可以有多个客户端</p>
-<h3 id="命令行指令-1">命令行指令</h3>
-<ul>
-<li><code>ros2 service list</code> 查看服务列表</li>
-<li><code>ros2 service type &lt;service_name&gt;</code> 查看服务数据类型</li>
-<li><code>ros2 service call &lt;service_name&gt; &lt;service_type&gt; &lt;service_data&gt;</code> 发送服务请求</li>
-</ul>
-<hr>
-<h2 id="动作">动作</h2>
-<p>一定一定要添加依賴 <code>rclcpp_action</code></p>
-<p>其中 <code>actionserver</code> 比较复杂，需要应对多种信号来做处理</p>
-<p><code>actionclient</code> 也比较复杂，需要定义一个 <code>option</code> 绑定多种函数，也不是很建议使用 <code>timer</code>，感觉会有点冲突？</p>
-<div class="mermaid">graph LR
+<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="ros2 学习记录 Cpp"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/24/ros2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="ros2学习记录"><meta property="og:description" content="ros2 学习记录 Cpp"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-24T18:31:17+00:00"><meta property="article:modified_time" content="2024-03-24T18:31:17+00:00"><meta property="article:tag" content="Cpp"><meta property="article:tag" content="Ros2"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/24/ros2%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/><meta itemprop=name content="ros2学习记录"><meta itemprop=description content="ros2 学习记录 Cpp"><meta itemprop=datePublished content="2024-03-24T18:31:17+00:00"><meta itemprop=dateModified content="2024-03-24T18:31:17+00:00"><meta itemprop=wordCount content="2603"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="Cpp,Ros2"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>ros2学习记录 - Luo's Blog</title>
+<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="ros2学习记录"><meta name=twitter:description content="ros2 学习记录 Cpp"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
+<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>ros2学习记录</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/cpp>#Cpp</a>
+<a class=link href=https://seashore.top/Blog_Hugo/tags/ros2>#ros2</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><a href=#前言>前言</a><ul><li><a href=#github仓库>github仓库</a></li><li><a href=#注意>注意</a></li></ul></li><li><a href=#安装>安装</a><ul><li><a href=#设置编码>设置编码</a></li><li><a href=#添加源>添加源</a></li><li><a href=#安装ros2>安装ros2</a></li><li><a href=#设置环境变量>设置环境变量</a></li><li><a href=#测试>测试</a></li></ul></li><li><a href=#ros2的一些指令>ros2的一些指令</a><ul><li><a href=#运行节点程序>运行节点程序</a></li><li><a href=#查看节点信息>查看节点信息</a></li><li><a href=#查看话题信息>查看话题信息</a></li><li><a href=#发布话题消息>发布话题消息</a></li><li><a href=#发送服务请求>发送服务请求</a></li><li><a href=#发送动作目标>发送动作目标</a></li><li><a href=#录制控制指令>录制控制指令</a></li><li><a href=#创建工作空间>创建工作空间</a></li><li><a href=#编译工作空间>编译工作空间</a></li><li><a href=#设置运行环境变量>设置运行环境变量</a></li><li><a href=#创建功能包>创建功能包</a></li></ul></li><li><a href=#创建自定义消息和服务>创建自定义消息和服务</a></li><li><a href=#话题通信>话题通信</a><ul><li><a href=#命令行指令>命令行指令</a></li></ul></li><li><a href=#服务通信>服务通信</a><ul><li><a href=#命令行指令-1>命令行指令</a></li></ul></li><li><a href=#动作>动作</a><ul><li><a href=#自定义action接口>自定义action接口</a></li><li><a href=#命令行指令-2>命令行指令</a></li></ul></li><li><a href=#参数>参数</a><ul><li><a href=#命令行指令-3>命令行指令</a></li></ul></li><li><a href=#launch文件>launch文件</a></li><li><a href=#通信模型>通信模型</a><ul><li><a href=#点对点模型>点对点模型</a></li><li><a href=#broker模型>Broker模型</a></li><li><a href=#广播模型>广播模型</a></li><li><a href=#dds模型>DDS模型</a></li></ul></li><li><a href=#总结>总结</a></li></ul></nav></div></details><article class="content numbered-subtitles"><h2 id=前言>前言</h2><p>ros2 跟 ros1 相差并不是非常大，但是毕竟是一个新的机器人操作系统，相比 ros1 来说强大的很多，总结就是</p><ul><li>节点干掉了 Master</li><li>通信换为了 DDS</li><li>核心概念没变化</li><li>编程难度上升</li></ul><h3 id=github仓库>github仓库</h3><p>这是我自己的学习之后写的代码 <a href=https://github.com/Luo25177/ros2Work>github</a></p><h3 id=注意>注意</h3><p>需要注意在 <code>package.xml</code> 和 <code>CMakeLists.txt</code> 中声明所需要的依赖</p><hr><h2 id=安装>安装</h2><h3 id=设置编码>设置编码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt update <span class=o>&amp;&amp;</span> sudo apt install locales
+</span></span><span class=line><span class=cl>sudo locale-gen en_US en_US.UTF-8
+</span></span><span class=line><span class=cl>sudo update-locale <span class=nv>LC_ALL</span><span class=o>=</span>en_US.UTF-8 <span class=nv>LANG</span><span class=o>=</span>en_US.UTF-8
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>LANG</span><span class=o>=</span>en_US.UTF-8
+</span></span></code></pre></td></tr></table></div></div><h3 id=添加源>添加源</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt update <span class=o>&amp;&amp;</span> sudo apt install curl gnupg lsb-release
+</span></span><span class=line><span class=cl>sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;deb [arch=</span><span class=k>$(</span>dpkg --print-architecture<span class=k>)</span><span class=s2> signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu </span><span class=k>$(</span><span class=nb>source</span> /etc/os-release <span class=o>&amp;&amp;</span> <span class=nb>echo</span> <span class=nv>$UBUNTU_CODENAME</span><span class=k>)</span><span class=s2> main&#34;</span> <span class=p>|</span> sudo tee /etc/apt/sources.list.d/ros2.list &gt; /dev/null
+</span></span></code></pre></td></tr></table></div></div><p>上述第二条指令可能会报错“无法连接到raw.githubusercontent.com"，解决办法如下</p><ol><li>登录网站<a href=https://www.ipaddress.com/>https://www.ipaddress.com/</a></li><li>将 <code>raw.githubusercontent.com</code> 在查询栏中搜索，可以看到域名对应的 ip 地址信息</li><li>将结果中的 ip 地址和域名拷贝到 <code>/etc/hosts</code> 文件中，（记得sudo）</li><li>保存退出之后就可以重新尝试第二条指令了</li></ol><h3 id=安装ros2>安装ros2</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt update
+</span></span><span class=line><span class=cl>sudo apt upgrade
+</span></span><span class=line><span class=cl>sudo apt install ros-humble-desktop
+</span></span></code></pre></td></tr></table></div></div><h3 id=设置环境变量>设置环境变量</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>source</span> /opt/ros/humble/setup.bash
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34; source /opt/ros/humble/setup.bash&#34;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></td></tr></table></div></div><h3 id=测试>测试</h3><p>打开两个终端，分别运行如下指令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 run turtlesim turtlesim_node
+</span></span><span class=line><span class=cl>ros2 run turtlesim turtle_teleop_key
+</span></span></code></pre></td></tr></table></div></div><h2 id=ros2的一些指令>ros2的一些指令</h2><h3 id=运行节点程序>运行节点程序</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 run
+</span></span></code></pre></td></tr></table></div></div><h3 id=查看节点信息>查看节点信息</h3><p><strong class=chinese>查看节点列表</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 node list
+</span></span></code></pre></td></tr></table></div></div><p><strong class=chinese>查看具体节点信息</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 node info /turtlesim <span class=c1># 这里的turtlesim就是海龟节点</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=查看话题信息>查看话题信息</h3><p><strong class=chinese>查看话题列表</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 topic list
+</span></span></code></pre></td></tr></table></div></div><p><strong>利用echo指令查看话题中的消息</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 topic <span class=nb>echo</span> /turtle1/pose
+</span></span></code></pre></td></tr></table></div></div><h3 id=发布话题消息>发布话题消息</h3><p>在上述小海龟中可以发布话题消息控制小海龟运动</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 topic pub --rate <span class=m>1</span> /turtle1/cmd_vel geometry_msgs/msg/Twist <span class=s2>&#34;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=发送服务请求>发送服务请求</h3><p>还是在上述的小海龟中，其实小海龟里创建了服务器可以在用户端的请求之下可以产生一个新的海龟</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 service call /spawn turtlesim/srv/Spawn <span class=s2>&#34;{x: 2, y: 2, theta: 0.2, name: &#39;&#39;}&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=发送动作目标>发送动作目标</h3><p>想要让海龟完成一个具体动作，比如转到指定角度，仿真器中提供的这个action可以帮上忙，通过命令行发送动作目标</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute <span class=s2>&#34;theta: 3&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=录制控制指令>录制控制指令</h3><p>系统运行中参数太多，通过 <code>rosbag</code> 可以将数据录制与播放</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 bag record /turtle1/cmd_vel <span class=c1># 保存的具体的指令</span>
+</span></span><span class=line><span class=cl>ros2 bag play rosbag2_2022_04_11-17_35_40/rosbag2_2022_04_11-17_35_40_0.db3 <span class=c1># 已经保存的录制的文件</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=创建工作空间>创建工作空间</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>mkdir -p ./dev_ws/src
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ./dev_ws/src
+</span></span></code></pre></td></tr></table></div></div><h3 id=编译工作空间>编译工作空间</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt install python3-colcon-ros
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ..
+</span></span><span class=line><span class=cl>colcon build
+</span></span></code></pre></td></tr></table></div></div><h3 id=设置运行环境变量>设置运行环境变量</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>source</span> install/local_setup.sh <span class=c1># 仅在当前终端生效</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;source </span><span class=si>${</span><span class=nv>dev</span><span class=p>/install/local_setup.sh</span><span class=s2>&#34; &gt;&gt; ~/.bashrc # 所有终端均生效
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=创建功能包>创建功能包</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 pkg create --build-type &lt;build-type&gt; &lt;package_name&gt;
+</span></span></code></pre></td></tr></table></div></div><p>其中</p><ul><li>create 表示创建功能包</li><li>build-type 表示新创建的功能包是 C++ 还是 python 的，如果使用 C++，那这里就是 <code>ament_cmake</code> ，对于 python 就是 <code>ament_python</code></li><li>package_name 新建功能包的名字</li></ul><h2 id=创建自定义消息和服务>创建自定义消息和服务</h2><p>很恶心的一点就是,自定义的消息或者是服务的名称编译结束之后会变得不一样，引用的时候就会出现一些奇怪的bug，例如:</p><p>AddTwoInt.srv -> add_two_int.hpp & AddTwoInt</p><p>编译结束之后需要调用的头文件名称会不太一样,变成上面那种格式,但是在函数中调用的时候依旧是原来的定义的文件名的格式</p><p>利用这条指令来查看自己是否创建完成消息或者服务</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ros2 interface list
+</span></span></code></pre></td></tr></table></div></div><p>文件名称中必须有大写字母，也就是最好使用<strong class=chinese>驼峰式命名</strong>格式</p><p>文件中的数据类型必须声明位数，例如：<code>int64 int32 float32</code> 等</p><p>使用方需要注意包含特定的包</p><ol><li>CMakeLists.txt 中 <code>find_package</code></li><li>CMakeLists.txt 中 <code>ament_target_dependencies</code></li><li>package.xml 中 <code>&lt;depend>interfaces&lt;/depend></code></li></ol><hr><h2 id=话题通信>话题通信</h2><p>使用 <code>Publisher</code> 来发布话题消息</p><p>使用 <code>Subscription</code> 接受话题消息</p><p>需要注意的是</p><ol><li><code>publisher</code> 和 <code>subscription</code> 需要有相同的消息类型</li><li><code>publisher</code> 和 <code>subscription</code> 需要有相同的消息名称</li><li>话题通信是一种异步通信</li></ol><h3 id=命令行指令>命令行指令</h3><ul><li><code>ros2 topic list</code> 查看话题列表</li><li><code>ros2 topic info &lt;topic_name></code> 查看话题信息</li><li><code>ros2 topic hz &lt;topic_name></code> 查看话题发布频率</li><li><code>ros2 topic bw &lt;topic_name></code> 查看话题传输带宽</li><li><code>ros2 topic echo &lt;topic_name></code> 查看话题数据</li><li><code>ros2 topic pub &lt;topic_name> &lt;msg_type> &lt;msg_data></code> 发布话题消息</li></ul><hr><h2 id=服务通信>服务通信</h2><p>使用 <code>service</code> 作为服务器</p><p>使用 <code>client</code> 作为客户端</p><p>客户端可以向服务器发送请求和数据，需要自己创建自定义的消息类型和服务</p><p>对于同一个服务器可以有多个客户端</p><h3 id=命令行指令-1>命令行指令</h3><ul><li><code>ros2 service list</code> 查看服务列表</li><li><code>ros2 service type &lt;service_name></code> 查看服务数据类型</li><li><code>ros2 service call &lt;service_name> &lt;service_type> &lt;service_data></code> 发送服务请求</li></ul><hr><h2 id=动作>动作</h2><p>一定一定要添加依賴 <code>rclcpp_action</code></p><p>其中 <code>actionserver</code> 比较复杂，需要应对多种信号来做处理</p><p><code>actionclient</code> 也比较复杂，需要定义一个 <code>option</code> 绑定多种函数，也不是很建议使用 <code>timer</code>，感觉会有点冲突？</p><div class=mermaid>graph LR
 A(接受到消息) --> B[goalhandler自定义判断条件] --> C{judgement} --> |符合条件|acceptedhandler --> D(execute)
 C{judgement} --> |不符合条件|REJECT --> E(cancel)
-C(execute) --> |client终止运行|E(cancel)
-</div>
-
-<p>动作的三个通信模块，有两个是服务，一个是话题，当客户端发送运动目标时，使用的是服务的请求调用，服务器端也会反馈一个应答，表示收到命令。动作的反馈过程，其实就是一个话题的周期发布，服务器端是发布者，客户端是订阅者</p>
-<p>没错，动作是一种应用层的通信机制，其底层就是基于话题和服务来实现的</p>
-<h3 id="自定义action接口">自定义action接口</h3>
-<p>通过在 <code>action</code> 文件夹下定义 <code>xxx.action</code> 文件，内部包含的内容类似于服务通信，例如</p>
-<pre tabindex="0"><code class="language-CODE" data-lang="CODE">bool enable # 定义动作的目标，表示动作开始的指令
+C(execute) --> |client终止运行|E(cancel)</div><p>动作的三个通信模块，有两个是服务，一个是话题，当客户端发送运动目标时，使用的是服务的请求调用，服务器端也会反馈一个应答，表示收到命令。动作的反馈过程，其实就是一个话题的周期发布，服务器端是发布者，客户端是订阅者</p><p>没错，动作是一种应用层的通信机制，其底层就是基于话题和服务来实现的</p><h3 id=自定义action接口>自定义action接口</h3><p>通过在 <code>action</code> 文件夹下定义 <code>xxx.action</code> 文件，内部包含的内容类似于服务通信，例如</p><pre tabindex=0><code class=language-CODE data-lang=CODE>bool enable # 定义动作的目标，表示动作开始的指令
 ---
 bool finish # 定义动作的结果，表示是否成功执行
 ---
 int32 state # 定义动作的反馈，表示当前执行到的位置
-</code></pre><p>在 <code>CMakeLists.txt</code> 的 <code>rosidl_generate_interfaces</code> 添加 <code>xxx.action</code> 的路径，然后编译生成对应的头文件</p>
-<h3 id="命令行指令-2">命令行指令</h3>
-<ul>
-<li><code>ros2 action list</code> 查看服务列表</li>
-<li><code>ros2 action info &lt;action_name&gt;</code> 查看数据服务类型</li>
-<li><code>ros2 action send_goal &lt;action_name&gt; &lt;action_type&gt; &lt;action_data&gt;</code> 发送服务请求</li>
-</ul>
-<h2 id="参数">参数</h2>
-<p>参数实际上就是一个全局字典，相当于是所有 ros 线程公用的全局变量，所有节点都可以访问。如果其中一个节点对参数进行了修改，那其它的节点也会立即知道</p>
-<h3 id="命令行指令-3">命令行指令</h3>
-<ul>
-<li><code>ros2 param list</code> 查看列表参数</li>
-<li><code>ros2 param describe nodename paramname</code> 获取某个参数的描述信息</li>
-<li><code>ros2 param get nodename paramname</code> 查询某个参数的值</li>
-<li><code>ros2 param set nodename paramname value</code> 修改某个参数的值</li>
-</ul>
-<h2 id="launch文件">launch文件</h2>
-<p>launch文件的核心目的就是启动节点，在命令行中输入各种参数，在 <code>launch</code> 文件中，可以进行配置。由于 ros2 中的 <code>launch</code> 文件是由 <code>python</code> 来描述的，所以可以使用 <code>python</code> 原有的编程功能</p>
-<h2 id="通信模型">通信模型</h2>
-<h3 id="点对点模型">点对点模型</h3>
-<p>许多客户端连接到一个服务器，每次通信时，通信双方必须建立一条连接。当通信节点增多时，连接数也会增多。而且每个客户端都需要知道服务器的具体地址和所提供的服务，一旦服务器地址发生变化，所有客户端都会受到影响</p>
-<h3 id="broker模型">Broker模型</h3>
-<p>针对点对点模型进行了优化，由Broker集中处理所有人的请求，并进一步找到真正能响应该服务的角色。这样客户端就不用关心服务器的具体地址了。不过问题也很明显，Broker作为核心，它的处理速度会影响所有节点的效率，当系统规模增长到一定程度，Broker就会成为整个系统的性能瓶颈。更麻烦是，如果Broker发生异常，可能导致整个系统都无法正常运转。之前的ROS1系统，使用的就是类似这样的架构</p>
-<h3 id="广播模型">广播模型</h3>
-<p>所有节点都可以在通道上广播消息，并且节点都可以收到消息。这个模型解决了服务器地址的问题，而且通信双方也不用单独建立连接，但是广播通道上的消息太多了，所有节点都必须关心每条消息，其实很多是和自己没有关系的</p>
-<h3 id="dds模型">DDS模型</h3>
-<p>以数据为中心，这种模型与广播模型有些类似，所有节点都可以在DataBus上发布和订阅消息。但它的先进之处在于，通信中包含了很多并行的通路，每个节点可以只关心自己感兴趣的消息，忽略不感兴趣的消息。</p>
-<h2 id="总结">总结</h2>
-<p>ros2 相比于 ros1 来说，通讯上的实时性更好一点，并且 ros2 系统在应用和性能上只会比 ros1 更加强大</p>
-
-    
-  </article>
-  
-
-<div id="sharingbuttons">
-    
-    
-    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="mailto:?subject=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target="_self" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f&amp;resubmit=true&amp;title=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f&amp;t=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-</div>
-
-  <div class="paginator">
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/23/%E7%BD%91%E7%AB%99%E5%BC%95%E5%AF%BC%E9%A1%B5%E5%92%8C%E5%88%86%E7%AB%99/">← prev</a>
-    
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/24/ros%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">next →</a>
-    
-  </div>
-  <div class="comment">
-    
-    
-    
-    <script src="https://giscus.app/client.js"
-        data-repo="weastur/hugo-texify2"
-        data-repo-id="R_kgDOJwiYnA"
-        data-category="Comments"
-        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
-        data-mapping="title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
-
-  </div>
-  
-
-  <script type="module">
+</code></pre><p>在 <code>CMakeLists.txt</code> 的 <code>rosidl_generate_interfaces</code> 添加 <code>xxx.action</code> 的路径，然后编译生成对应的头文件</p><h3 id=命令行指令-2>命令行指令</h3><ul><li><code>ros2 action list</code> 查看服务列表</li><li><code>ros2 action info &lt;action_name></code> 查看数据服务类型</li><li><code>ros2 action send_goal &lt;action_name> &lt;action_type> &lt;action_data></code> 发送服务请求</li></ul><h2 id=参数>参数</h2><p>参数实际上就是一个全局字典，相当于是所有 ros 线程公用的全局变量，所有节点都可以访问。如果其中一个节点对参数进行了修改，那其它的节点也会立即知道</p><h3 id=命令行指令-3>命令行指令</h3><ul><li><code>ros2 param list</code> 查看列表参数</li><li><code>ros2 param describe nodename paramname</code> 获取某个参数的描述信息</li><li><code>ros2 param get nodename paramname</code> 查询某个参数的值</li><li><code>ros2 param set nodename paramname value</code> 修改某个参数的值</li></ul><h2 id=launch文件>launch文件</h2><p>launch文件的核心目的就是启动节点，在命令行中输入各种参数，在 <code>launch</code> 文件中，可以进行配置。由于 ros2 中的 <code>launch</code> 文件是由 <code>python</code> 来描述的，所以可以使用 <code>python</code> 原有的编程功能</p><h2 id=通信模型>通信模型</h2><h3 id=点对点模型>点对点模型</h3><p>许多客户端连接到一个服务器，每次通信时，通信双方必须建立一条连接。当通信节点增多时，连接数也会增多。而且每个客户端都需要知道服务器的具体地址和所提供的服务，一旦服务器地址发生变化，所有客户端都会受到影响</p><h3 id=broker模型>Broker模型</h3><p>针对点对点模型进行了优化，由Broker集中处理所有人的请求，并进一步找到真正能响应该服务的角色。这样客户端就不用关心服务器的具体地址了。不过问题也很明显，Broker作为核心，它的处理速度会影响所有节点的效率，当系统规模增长到一定程度，Broker就会成为整个系统的性能瓶颈。更麻烦是，如果Broker发生异常，可能导致整个系统都无法正常运转。之前的ROS1系统，使用的就是类似这样的架构</p><h3 id=广播模型>广播模型</h3><p>所有节点都可以在通道上广播消息，并且节点都可以收到消息。这个模型解决了服务器地址的问题，而且通信双方也不用单独建立连接，但是广播通道上的消息太多了，所有节点都必须关心每条消息，其实很多是和自己没有关系的</p><h3 id=dds模型>DDS模型</h3><p>以数据为中心，这种模型与广播模型有些类似，所有节点都可以在DataBus上发布和订阅消息。但它的先进之处在于，通信中包含了很多并行的通路，每个节点可以只关心自己感兴趣的消息，忽略不感兴趣的消息。</p><h2 id=总结>总结</h2><p>ros2 相比于 ros1 来说，通讯上的实时性更好一点，并且 ros2 系统在应用和性能上只会比 ros1 更加强大</p></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f&amp;resubmit=true&amp;title=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f&amp;t=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=ros2%e5%ad%a6%e4%b9%a0%e8%ae%b0%e5%bd%95&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f24%2fros2%25E5%25AD%25A6%25E4%25B9%25A0%25E8%25AE%25B0%25E5%25BD%2595%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/23/%E7%BD%91%E7%AB%99%E5%BC%95%E5%AF%BC%E9%A1%B5%E5%92%8C%E5%88%86%E7%AB%99/>← prev</a>
+<a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/24/ros%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div><script type=module>
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
-  </script>
-
-</main>
-
-    <footer id="footer">
-  <div>
-    <span>© 2023</span> - <span>2024</span>
-  </div>
-  <div>
-    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
-<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
-</span>
-  </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
-  </div>
-
-  <div class="footnote">
-    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
-</span>
-  </div>
-</footer>
-
-  </div>
-
-  
-  
-
-  
-  
-
-  
-  
-  
-
-
-
-</body>
-
-</html>
+  </script></main><footer id=footer><div><span>© 2023</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
+<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>

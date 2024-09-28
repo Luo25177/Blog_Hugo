@@ -1,939 +1,312 @@
-<!DOCTYPE html>
-<html lang="en-us" style="font-size: 120%">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  
-  <meta name="author" content="落">
-
-  
-  
-  <meta name="description" content="我愿称之为神中之神，心目中的最强文本编辑器">
-  
-
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
-
-  
-  
-  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
-  
-
-  
-  
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
-
-<script defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
-  onload="renderMathInElement(document.body);"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false }
-      ]
-    });
-  });
-</script>
-
-  
-
-  
-  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-
-
-  
-  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/">
-  <meta property="og:site_name" content="Luo&#39;s Blog">
-  <meta property="og:title" content="vim使用">
-  <meta property="og:description" content="我愿称之为神中之神，心目中的最强文本编辑器">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2024-03-19T00:43:47+00:00">
-    <meta property="article:modified_time" content="2024-03-19T00:43:47+00:00">
-    <meta property="article:tag" content="Vim">
-    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-
-
-  
-  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/">
-
-  
-  
-  
-  <meta itemprop="name" content="vim使用">
-  <meta itemprop="description" content="我愿称之为神中之神，心目中的最强文本编辑器">
-  <meta itemprop="datePublished" content="2024-03-19T00:43:47+00:00">
-  <meta itemprop="dateModified" content="2024-03-19T00:43:47+00:00">
-  <meta itemprop="wordCount" content="3593">
-  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta itemprop="keywords" content="Vim">
-
-  
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
-  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
-
-  
-  
-  <title>vim使用 - Luo&#39;s Blog</title>
-  
-
-  
-  
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
-  <meta name="twitter:title" content="vim使用">
-  <meta name="twitter:description" content="我愿称之为神中之神，心目中的最强文本编辑器">
-
-
-  
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
-<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
-
-</head>
-
-<body>
-  <div id="wrapper">
-    
-
-
-<header id="header">
-  <h1>
-    <a href="https://seashore.top/Blog_Hugo/">Luo&#39;s Blog</a>
-  </h1>
-
-  <nav>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="../">Guid</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/">Home</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/post/">Posts</a>
-    </span>
-    
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/about/">About</a>
-    </span>
-    
-  </nav>
-  
-  <div id="searchbox">
-    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
-      <input type="hidden" name="sites" value="seashore.top">
-      <input type="text" name="q" placeholder="Search...">
-    </form>
-  </div>
-  
-</header>
-
-    
-<main id="main" class="post">
-  
-  <h1>vim使用</h1>
-  
-  <div>
-    
-    <a class="link" href='https://seashore.top/Blog_Hugo/tags/vim'>#vim</a>
-    
-  </div>
-  
-  
-  
-  <details>
-    <summary>
-      <b>Table of Contents</b>
-    </summary>
-    <div class="toc numbered-subtitles"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#在linux中的安装">在linux中的安装</a></li>
-    <li><a href="#linux-上的配置文件">linux 上的配置文件</a></li>
-    <li><a href="#vim使用">vim使用</a>
-      <ul>
-        <li><a href="#移动光标">移动光标</a></li>
-        <li><a href="#删除复制">删除复制</a></li>
-        <li><a href="#模式转换">模式转换</a></li>
-        <li><a href="#编辑">编辑</a></li>
-        <li><a href="#查找替换">查找替换</a></li>
-        <li><a href="#区域选择">区域选择</a></li>
-        <li><a href="#退出文件">退出文件</a></li>
-        <li><a href="#多文件编辑多窗口操作">多文件编辑（多窗口操作）</a></li>
-        <li><a href="#多标签编辑">多标签编辑</a></li>
-        <li><a href="#buffer操作">buffer操作</a></li>
-        <li><a href="#文件操作">文件操作</a></li>
-        <li><a href="#宏录制">宏录制</a></li>
-        <li><a href="#文件差异对比">文件差异对比</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-  </details>
-  
-  
-  <article class="content numbered-subtitles">
-    
-    <h2 id="前言">前言</h2>
-<p>作为一个历史上最出色的编辑器，拥有自定义按键功能，并且可以大大提高工作效率</p>
-<h2 id="在linux中的安装">在linux中的安装</h2>
-<p>在linux中只需要一行指令安装</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install vim
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="linux-上的配置文件">linux 上的配置文件</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span><span class="lnt">112
-</span><span class="lnt">113
-</span><span class="lnt">114
-</span><span class="lnt">115
-</span><span class="lnt">116
-</span><span class="lnt">117
-</span><span class="lnt">118
-</span><span class="lnt">119
-</span><span class="lnt">120
-</span><span class="lnt">121
-</span><span class="lnt">122
-</span><span class="lnt">123
-</span><span class="lnt">124
-</span><span class="lnt">125
-</span><span class="lnt">126
-</span><span class="lnt">127
-</span><span class="lnt">128
-</span><span class="lnt">129
-</span><span class="lnt">130
-</span><span class="lnt">131
-</span><span class="lnt">132
-</span><span class="lnt">133
-</span><span class="lnt">134
-</span><span class="lnt">135
-</span><span class="lnt">136
-</span><span class="lnt">137
-</span><span class="lnt">138
-</span><span class="lnt">139
-</span><span class="lnt">140
-</span><span class="lnt">141
-</span><span class="lnt">142
-</span><span class="lnt">143
-</span><span class="lnt">144
-</span><span class="lnt">145
-</span><span class="lnt">146
-</span><span class="lnt">147
-</span><span class="lnt">148
-</span><span class="lnt">149
-</span><span class="lnt">150
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="s">&#34; etc/vim/vimrc</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; the call to :runtime you can find below.  If you wish to change any of those</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; settings, you should do it in this file (/etc/vim/vimrc), since debian.vim</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; will be overwritten everytime an upgrade of the vim packages is performed.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; It is recommended to make changes after sourcing debian.vim since it alters</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; the value of the &#39;compatible&#39; option.</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">runtime</span><span class="o">!</span> <span class="n">debian</span><span class="p">.</span><span class="n">vim</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; Vim will load $VIMRUNTIME/defaults.vim if the user does not have a vimrc.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; This happens after /etc/vim/vimrc(.local) are loaded, so it will override</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; any settings in these files.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; If you don&#39;t want that to happen, uncomment the below line to prevent</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; defaults.vim from being loaded.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; let g:skip_defaults_vim = 1</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; Uncomment the next line to make Vim more Vi-compatible</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; NOTE: debian.vim sets &#39;nocompatible&#39;.  Setting &#39;compatible&#39; changes numerous</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; options, so any other options should be set AFTER setting &#39;compatible&#39;.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set compatible</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; Vim5 and later versions support syntax highlighting. Uncommenting the next</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; line enables syntax highlighting by default.</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nf">has</span><span class="p">(</span><span class="s">&#34;syntax&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">syntax</span> <span class="n">on</span>
-</span></span><span class="line"><span class="cl"><span class="n">endif</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; If using a dark background within the editing area and syntax highlighting</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; turn on this option as well</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set background=dark</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; Uncomment the following to have Vim jump to the last position when</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; reopening a file</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;au BufReadPost * if line(&#34;</span><span class="err">&#39;\</span><span class="s">&#34;&#34;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nf">line</span><span class="p">(</span><span class="s">&#34;&#39;</span><span class="se">\&#34;</span><span class="s">&#34;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nf">line</span><span class="p">(</span><span class="s">&#34;$&#34;</span><span class="p">)</span> <span class="o">|</span> <span class="n">exe</span> <span class="s">&#34;normal! g&#39;</span><span class="se">\&#34;</span><span class="s">&#34;</span> <span class="o">|</span> <span class="n">endif</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; Uncomment the following to have Vim load indentation rules and plugins</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; according to the detected filetype.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;filetype plugin indent on</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="s">&#34; The following are commented out as they cause vim to behave a lot</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; differently from regular Vi. They are highly recommended though.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set showcmd		&#34;</span> <span class="nf">Show</span> <span class="p">(</span><span class="n">partial</span><span class="p">)</span> <span class="n">command</span> <span class="n">in</span> <span class="n">status</span> <span class="n">line</span><span class="p">.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set showmatch		&#34;</span> <span class="n">Show</span> <span class="n">matching</span> <span class="n">brackets</span><span class="p">.</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set ignorecase		&#34;</span> <span class="n">Do</span> <span class="k">case</span> <span class="n">insensitive</span> <span class="n">matching</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set smartcase		&#34;</span> <span class="n">Do</span> <span class="n">smart</span> <span class="k">case</span> <span class="n">matching</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set incsearch		&#34;</span> <span class="n">Incremental</span> <span class="n">search</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set autowrite		&#34;</span> <span class="n">Automatically</span> <span class="n">save</span> <span class="n">before</span> <span class="n">commands</span> <span class="nl">like</span> <span class="p">:</span><span class="n">next</span> <span class="nl">and</span> <span class="p">:</span><span class="n">make</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set hidden		&#34;</span> <span class="n">Hide</span> <span class="n">buffers</span> <span class="n">when</span> <span class="n">they</span> <span class="n">are</span> <span class="n">abandoned</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34;set mouse=a		&#34;</span> <span class="n">Enable</span> <span class="n">mouse</span> <span class="nf">usage</span> <span class="p">(</span><span class="n">all</span> <span class="n">modes</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="s">&#34; Source a global configuration file if available</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">autocmd</span> <span class="n">BufNewFile</span> <span class="o">*</span><span class="p">.</span><span class="n">py</span><span class="p">,</span><span class="o">*</span><span class="p">.</span><span class="n">sh</span><span class="p">,</span><span class="o">*</span><span class="p">.</span><span class="n">java</span> <span class="n">exec</span><span class="s">&#34;:call SetTitleJ()&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">func</span> <span class="nf">SetTitleJ</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">setline</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">&#34;\#########################################################################&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">),</span> <span class="s">&#34;\# File Name: &#34;</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="s">&#34;%&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;\# Author: Dragon&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#34;\# mail: [beloved25177@126.com](mailto:beloved25177@126.com)&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#34;\# Created Time: &#34;</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s">&#34;%c&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="s">&#34;\# Description:&#34;</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="s">&#34;\#########################################################################&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">6</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">endfunc</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">autocmd</span> <span class="n">BufNewFile</span> <span class="o">*</span><span class="p">.</span><span class="n">c</span><span class="p">,</span><span class="o">*</span><span class="p">.</span><span class="n">cpp</span><span class="p">,</span><span class="o">*</span><span class="p">.</span><span class="n">h</span> <span class="n">exec</span><span class="s">&#34;:call SetTitleC()&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">func</span> <span class="nf">SetTitleC</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">setline</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">&#34;\//------------------------------------------------------------------------&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">),</span> <span class="s">&#34;\// File Name: &#34;</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="s">&#34;%&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;\// Author: Dragon&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#34;\// mail: [beloved25177@126.com](mailto:beloved25177@126.com)&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#34;\// Created Time: &#34;</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s">&#34;%c&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="s">&#34;\// Description:&#34;</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="s">&#34;\//------------------------------------------------------------------------&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">6</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">endfunc</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">autocmd</span> <span class="n">BufNewFile</span> <span class="o">*</span><span class="p">.</span><span class="n">md</span> <span class="n">exec</span><span class="s">&#34;:call SetTitleM()&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">func</span> <span class="nf">SetTitleM</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">setline</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">&#34;\&lt;!-- ########################################################################&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">),</span> <span class="s">&#34;\File Name: &#34;</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="s">&#34;%&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;\Author: Dragon&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#34;\mail: [beloved25177@126.com](mailto:beloved25177@126.com)&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#34;\Created Time: &#34;</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s">&#34;%c&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="s">&#34;\Description:&#34;</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="s">&#34;\######################################################################### --!&gt;&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">call</span> <span class="nf">append</span><span class="p">(</span><span class="nf">line</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span><span class="o">+</span><span class="mi">6</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">endfunc</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">space</span><span class="o">&gt;</span><span class="nl">w</span> <span class="p">:</span><span class="n">w</span><span class="o">!</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">L</span> <span class="n">g_</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">H</span> <span class="o">^</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">space</span><span class="o">&gt;</span><span class="n">d</span> <span class="n">dd</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">n</span><span class="o">&gt;</span> <span class="o">:</span><span class="n">nohl</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">space</span><span class="o">&gt;</span><span class="nl">s</span> <span class="p">:</span><span class="n">w</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">x</span><span class="o">&gt;</span> <span class="n">gb</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">space</span><span class="o">&gt;</span><span class="nl">q</span> <span class="p">:</span><span class="n">q</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="o">&lt;</span><span class="n">space</span><span class="o">&gt;</span><span class="n">r</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">r</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">gh</span> <span class="n">gt</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">g</span><span class="o">+</span> <span class="o">:!</span><span class="n">g</span><span class="o">++&lt;</span><span class="n">space</span><span class="o">&gt;%</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="nl">gc</span> <span class="p">:</span><span class="o">!</span><span class="n">gcc</span><span class="o">&lt;</span><span class="n">space</span><span class="o">&gt;%</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">K</span> <span class="n">Ojj</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">dL</span> <span class="n">dg_</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">yL</span> <span class="n">yg_</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">cL</span> <span class="n">cg_</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">dH</span> <span class="n">d</span><span class="o">^</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">yH</span> <span class="n">y</span><span class="o">^</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="n">cH</span> <span class="n">c</span><span class="o">^</span>
-</span></span><span class="line"><span class="cl"><span class="n">nmap</span> <span class="nl">nm</span> <span class="p">:</span><span class="n">nohlsearch</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">vmap</span> <span class="n">L</span> <span class="n">g_</span>
-</span></span><span class="line"><span class="cl"><span class="n">vmap</span> <span class="n">H</span> <span class="o">^</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">imap</span> <span class="n">jj</span> <span class="o">&lt;</span><span class="n">Esc</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="n">imap</span> <span class="n">jk</span> <span class="o">&lt;</span><span class="n">Esc</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">map</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">A</span><span class="o">&gt;</span> <span class="n">ggVGY</span>
-</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">!</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">-</span><span class="n">A</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">Esc</span><span class="o">&gt;</span><span class="n">ggVGY</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">vmap</span> <span class="n">L</span> <span class="n">g_</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">autowrite</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">ruler</span>                   <span class="s">&#34; 打开状态栏标尺</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">cursorline</span>              <span class="s">&#34; 突出显示当前行</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">magic</span>                   <span class="s">&#34; 设置魔术</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">guioptions</span><span class="o">-=</span><span class="n">T</span>           <span class="s">&#34; 隐藏工具栏</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">guioptions</span><span class="o">-=</span><span class="n">m</span>           <span class="s">&#34; 隐藏菜单栏</span>
-</span></span><span class="line"><span class="cl"><span class="n">syntax</span> <span class="n">on</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">tabstop</span><span class="o">=</span><span class="mi">2</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">softtabstop</span><span class="o">=</span><span class="mi">2</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">autoindent</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">cindent</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">number</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">hlsearch</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">noexpandtab</span> <span class="s">&#34; 不使用空格代替tab</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">smartindent</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">ignorecase</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">number</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">nocompatible</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">backspace</span><span class="o">=</span><span class="mi">2</span>
-</span></span><span class="line"><span class="cl"><span class="n">setlocal</span> <span class="n">noswapfile</span> <span class="s">&#34; 不要生成swap文件</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">shiftwidth</span><span class="o">=</span><span class="mi">2</span> <span class="s">&#34; 设定 &lt;&lt; 和 &gt;&gt; 命令移动时的宽度为 4</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">bufhidden</span><span class="o">=</span><span class="n">hide</span> <span class="s">&#34; 当buffer被丢弃的时候隐藏它</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">backupcopy</span><span class="o">=</span><span class="n">yes</span> <span class="s">&#34; 设置备份时的行为为覆盖</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">backspace</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span><span class="n">eol</span><span class="p">,</span><span class="n">start</span> <span class="s">&#34; 不设定在插入状态无法用退格键和 Delete 键删除回车符</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">laststatus</span><span class="o">=</span><span class="mi">2</span> <span class="s">&#34; 显示状态栏 (默认值为 1, 无法显示状态栏)</span>
-</span></span><span class="line"><span class="cl"><span class="n">set</span> <span class="n">autochdir</span> <span class="s">&#34; 自动切换当前目录为当前文件所在的目录</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nf">filereadable</span><span class="p">(</span><span class="s">&#34;/etc/vim/vimrc.local&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">source</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">vim</span><span class="o">/</span><span class="n">vimrc</span><span class="p">.</span><span class="n">local</span>
-</span></span><span class="line"><span class="cl"><span class="n">endif</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="vim使用">vim使用</h2>
-<h3 id="移动光标">移动光标</h3>
-<ul>
-<li><code>h j k l</code> 上 下 左 右</li>
-<li><code>ctrl-y1</code> 上移一行</li>
-<li><code>ctrl-e1</code> 下移一行</li>
-<li><code>ctrl-u1</code> 上翻半页</li>
-<li><code>ctrl-d1</code> 下翻半页</li>
-<li><code>ctrl-f1</code> 上翻一页</li>
-<li><code>ctrl-b1</code> 下翻一页</li>
-<li><code>w</code> 跳到下一个词首，按标点或单词分割</li>
-<li><code>W</code> 跳到下一个词首，以空格分割</li>
-<li><code>e</code> 跳到下一个词尾，以标点分割</li>
-<li><code>E</code> 跳到下一个词尾</li>
-<li><code>b</code> 跳到上一个词，以标点分割</li>
-<li><code>B</code> 跳到上一个词首</li>
-<li><code>0</code> 跳至行首，不管有无缩进，就是跳到第0个字符</li>
-<li><code>^</code> 跳至行首的第一个字符</li>
-<li><code>$</code> 跳至行尾</li>
-<li><code>gg</code> 跳至文首</li>
-<li><code>G</code> 调至文尾</li>
-<li><code>ngg/nG</code> 调至第n行</li>
-<li><code>gd</code> 跳至当前光标所在的变量的声明处</li>
-<li><code>fx</code> 在当前行向后找x字符，找到了就跳转到字符位置</li>
-<li><code>;</code> 重复上一个f命令，而不用重复的输入fx</li>
-<li><code>*</code> 查找光标所在处的单词，向下查找</li>
-<li><code>#</code> 查找光标所在处的单词，向上查找</li>
-<li><code>g_</code> 移动到本行最后一个不是 blank 字符的位置</li>
-</ul>
-<h3 id="删除复制">删除复制</h3>
-<ul>
-<li><code>dd</code> 删除光标所在行，应该说是剪切，删除之后 vim 的缓冲区中会存放删除的内容</li>
-<li><code>dw</code> 删除一个字符</li>
-<li><code>diw</code> 删除一个单词</li>
-<li><code>dg_</code> 或 <code>D</code> 从当前位置删除到行末</li>
-<li><code>dta</code> 删除当前行位置之后的所有内容直到遇到字符 <code>a</code></li>
-<li><code>dTa</code> 删除当前行位置之前的所有内容直到遇到字符 <code>a</code></li>
-<li><code>x</code> 删除当前字符</li>
-<li><code>X</code> 删除前一个字符</li>
-<li><code>yy</code> 复制一行，会复制换行符</li>
-<li><code>yw</code> 复制一个字符</li>
-<li><code>yiw</code> 复制一个单词</li>
-<li><code>yg_</code> 或 <code>Y</code> 复制到行末</li>
-<li><code>p</code> 粘贴粘贴板的内容到当前光标之前</li>
-<li><code>P</code> 粘贴粘贴板的内容到当前光标之后</li>
-</ul>
-<h3 id="模式转换">模式转换</h3>
-<ul>
-<li><code>i</code> 从当前光标之前进入插入模式</li>
-<li><code>I</code> 在行首进入插入模式</li>
-<li><code>a</code> 追加模式，当前光标之后进入插入模式</li>
-<li><code>A</code> 在行尾进入插入模式</li>
-<li><code>o</code> 在当前行之下新加一行，并进入插入模式</li>
-<li><code>O</code> 在当前行之上新加一行，并进入插入模式</li>
-<li><code>Esc</code> 退出当前模式</li>
-<li><code>v</code> 进入可视模式 visual mode，进入可视模式之后可以使用在普通模式的按键进行相应的操作</li>
-<li><code>V</code> 进入行可视模式 line visual mode</li>
-<li><code>ctrl-v</code> 进入块可视模式 block visual mode，但是要注意在 windows 中的 ideavim 中，默认是 <code>ctrl-q</code></li>
-</ul>
-<h3 id="编辑">编辑</h3>
-<ul>
-<li><code>J</code> 将下一行和当前行连接为一行</li>
-<li><code>cc</code> 删除当前行并进入编辑模式</li>
-<li><code>cw</code> 删除当前字符，并进入编辑模式</li>
-<li><code>c$</code> 擦除从当前位置至行末的内容，并进入编辑模式</li>
-<li><code>s</code> 删除当前字符并进入编辑模式</li>
-<li><code>S</code> 删除光标所在行并进入编辑模式</li>
-<li><code>xp</code> 交换当前字符和下一个字符</li>
-<li><code>u</code> 撤销</li>
-<li><code>&lt;C-r&gt;</code> 返回撤销</li>
-<li><code>r</code> 替换为输入的字符</li>
-<li><code>R</code> 连续替换</li>
-<li><code>ctrl+r</code> 重做</li>
-<li><code>guw</code> 当前字符切换为小写</li>
-<li><code>gUw</code> 当前字符切换为大写</li>
-<li><code>guiw</code> 当前单词切换为小写</li>
-<li><code>gUiw</code> 当前单词切换为大写</li>
-<li><code>~</code> 切换当前字符的大小写</li>
-<li><code>&gt;&gt;</code> 将当前行右移一个tab</li>
-<li><code>&lt;&lt;</code> 将当前行左移一个tab</li>
-<li><code>==</code> 自动缩进当前行</li>
-<li><code>gg=G</code> 文件缩进</li>
-<li><code>&lt;C-n&gt;</code> 插入模式自动补齐</li>
-<li><code>&lt;C-p&gt;</code> 插入模式自动补齐</li>
-</ul>
-<h3 id="查找替换">查找替换</h3>
-<ul>
-<li><code>/pattern</code> 向后搜索字符串pattern</li>
-<li><code>?pattern</code> 向前搜索字符串pattern</li>
-<li><code>&quot;\c&quot;</code> 忽略大小写</li>
-<li><code>&quot;\C&quot;</code> 大小写敏感</li>
-<li><code>n</code> 下一个匹配(如果是/搜索，则是向下的下一个，?搜索则是向上的下一个)</li>
-<li><code>N</code> 上一个匹配(同上)</li>
-<li><code>:%s/old/new/g</code> 搜索整个文件，将所有的old替换为new</li>
-<li><code>:%s/old/new/gc</code> 搜索整个文件，将所有的old替换为new，每次都要你确认是否替换</li>
-<li><code>fa</code> 查找当前行中下一个为 <code>a</code> 的字符，并且跳到该位置</li>
-<li><code>nfa</code> 查找当前行中下 <code>n</code> 个为 <code>a</code> 的字符，并且跳到该位置</li>
-<li><code>ta</code> 查找当前行中上一个为 <code>a</code> 的字符，并且跳到该位置</li>
-<li><code>nta</code> 查找当前行中上 <code>n</code> 个为 <code>a</code> 的字符，并且跳到该位置</li>
-</ul>
-<h3 id="区域选择">区域选择</h3>
-<ul>
-<li><code>&lt;action&gt;a&lt;object&gt;</code> 区域选择</li>
-<li><code>&lt;action&gt;i&lt;object&gt;</code> 区域选择
-<ul>
-<li><code>action</code> 可以是任何命令
-<ul>
-<li><code>d</code> 删除</li>
-<li><code>v</code> 选中</li>
-<li><code>y</code> 复制</li>
-</ul>
-</li>
-<li><code>object</code> 可以是很多，下面是一部分
-<ul>
-<li><code>w</code> 一个单词</li>
-<li><code>W</code> 一个以空格为分隔的单词</li>
-<li><code>s</code> 一个句子</li>
-<li><code>p</code> 一个段落</li>
-<li><code>&quot;</code> 引号中内容</li>
-<li><code>(</code> 括号中内容</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>viw</code> 选中当前单词</li>
-<li><code>vi&quot;</code> 选中当前在 <code>&quot;</code> 中的内容，不包括 <code>&quot;</code></li>
-<li><code>va&quot;</code> 选中当前在 <code>&quot;</code> 中的内容，包括 <code>&quot;</code></li>
-<li><code>vni(</code> 选中当前在 <code>n</code> 级括号中的内容，不包括括号</li>
-<li><code>vna(</code> 选中当前在 <code>n</code> 级括号中的内容，包括括号</li>
-</ul>
-<h3 id="退出文件">退出文件</h3>
-<ul>
-<li><code>:w</code> 将缓冲区写入文件，即保存修改</li>
-<li><code>:wq</code> 保存修改并退出</li>
-<li><code>:wq!</code> 强制保存修改并退出</li>
-<li><code>:x</code> 保存修改并退出</li>
-<li><code>:q</code> 退出，如果对缓冲区进行过修改，则会提示</li>
-<li><code>:q!</code> 强制退出，放弃修改</li>
-<li><code>ZZ</code> 保存退出</li>
-</ul>
-<h3 id="多文件编辑多窗口操作">多文件编辑（多窗口操作）</h3>
-<ul>
-<li><code>vim file1..</code> 同时打开多个文件</li>
-<li><code>:args</code> 显示当前编辑文件</li>
-<li><code>:next</code> 切换到下个文件</li>
-<li><code>:prev</code> 切换到前个文件</li>
-<li><code>:next!</code> 不保存当前编辑文件并切换到下个文件</li>
-<li><code>:prev!</code> 不保存当前编辑文件并切换到上个文件</li>
-<li><code>:wnext</code> 保存当前编辑文件并切换到下个文件</li>
-<li><code>:wprev</code> 保存当前编辑文件并切换到上个文件</li>
-<li><code>:first</code> 定位首文件</li>
-<li><code>:last</code> 定位尾文件</li>
-<li><code>ctrl+^</code> 快速在最近打开的两个文件间切换</li>
-<li><code>:split</code> 或者 <code>:sp</code> 把当前文件水平分割</li>
-<li><code>:vsplit</code> 或者 <code>:vsp</code> 把当前文件垂直分割</li>
-<li><code>:split file</code> 把当前窗口水平分割，并且打开文件file</li>
-<li><code>:vsplit[vsp] file</code> 把当前窗口垂直分割，并且打开文件file</li>
-<li><code>:new file</code> 同 <code>split file</code></li>
-<li><code>:close</code> 关闭当前窗口</li>
-<li><code>:only</code> 只显示当前窗口, 关闭所有其他的窗口</li>
-<li><code>:all</code> 打开所有的窗口</li>
-<li><code>:vertical all</code> 打开所有的窗口, 垂直打开</li>
-<li><code>:qall</code> 对所有窗口执行：q操作</li>
-<li><code>:qall!</code> 对所有窗口执行：q!操作</li>
-<li><code>:wall</code> 对所有窗口执行：w操作</li>
-<li><code>:wqall</code> 对所有窗口执行：wq操作</li>
-<li><code>ctrl-w h</code> 跳转到左边的窗口</li>
-<li><code>ctrl-w j</code> 跳转到下面的窗口</li>
-<li><code>ctrl-w k</code> 跳转到上面的窗口</li>
-<li><code>ctrl-w l</code> 跳转到右边的窗口</li>
-<li><code>ctrl-w t</code> 跳转到最顶上的窗口</li>
-<li><code>ctrl-w b</code> 跳转到最底下的窗口</li>
-<li><code>ctrl-w +</code> 扩大窗口</li>
-<li><code>ctrl-w -</code> 缩小窗口</li>
-<li><code>ctrl-w H</code> 将窗口移动到最左边</li>
-<li><code>ctrl-w J</code> 将窗口移动到最下边</li>
-<li><code>ctrl-w K</code> 将窗口移动到最上边</li>
-<li><code>ctrl-w L</code> 将窗口移动到最右边</li>
-<li><code>{height}CTRL-W _</code> 将窗口设置成指定高度</li>
-<li><code>:saveas &lt;path/to/file&gt;</code> 另存为 <code>&lt;path/to/file&gt;</code></li>
-<li><code>:bn</code> 下一个文件</li>
-<li><code>:bp</code> 上一个文件</li>
-<li><code>:all</code> 为参数列表中每一个文件打开一个窗户口</li>
-<li><code>:vertical all</code> 以垂直分割的方法打开窗口</li>
-</ul>
-<p><strong>命令行中vim指令的参数</strong></p>
-<ul>
-<li><code>vim -o &lt;file1 file2 ...&gt;</code> 以水平分屏的方式打开多个文件</li>
-<li><code>vim -O &lt;file1 file2 ...&gt;</code> 以垂直分屏的方式打开多个文件</li>
-</ul>
-<h3 id="多标签编辑">多标签编辑</h3>
-<ul>
-<li><code>:tabedit file</code> 在新标签中打开文件file</li>
-<li><code>:tab split file</code> 在新标签中打开文件file</li>
-<li><code>:tabp</code> 切换到前一个标签</li>
-<li><code>:tabn</code> 切换到后一个标签</li>
-<li><code>:tabc</code> 关闭当前标签</li>
-<li><code>:tabo</code> 关闭其他标签</li>
-<li><code>gt</code> 到下一个tab</li>
-<li><code>gT</code> 到上一个tab</li>
-</ul>
-<h3 id="buffer操作">buffer操作</h3>
-<ul>
-<li><code>-</code> 非活动的缓冲区</li>
-<li><code>=</code> 只读缓冲区</li>
-<li><code>a</code> 当前被激活缓冲区</li>
-<li><code>h</code> 隐藏的缓冲区</li>
-<li><code>%</code> 当前的缓冲区</li>
-<li><code>#</code> 交换缓冲区</li>
-<li><code>+</code> 已经更改的缓冲区</li>
-</ul>
-<h3 id="文件操作">文件操作</h3>
-<ul>
-<li><code>vim path/</code> 打开目录</li>
-<li><code>h j k l</code> 左，下，上，右</li>
-<li><code>-</code> 返回上一目录</li>
-<li><code>enter</code> 进入目录或者文件</li>
-<li><code>D</code> 删除目录或文件</li>
-<li><code>R</code> 重命名目录或文件</li>
-<li><code>ctrl+^</code> 回退上次操作</li>
-<li><code>:q</code> 退出vim</li>
-<li><code>c</code> 使当前打开的目录成为当前目录</li>
-<li><code>d</code> 创建目录</li>
-<li><code>%</code> 创建文件</li>
-<li><code>gb</code> 转到上一个标记的文件夹</li>
-<li><code>i</code> 改变目标文件列表方式时</li>
-<li><code>^i</code> 刷新当前打开的目录，更改排列样式</li>
-<li><code>mf</code> 标记文件</li>
-<li><code>mu</code> unmark all marked files</li>
-<li><code>mz</code> compress/decompress marked file</li>
-<li><code>gh</code> 显示/不显示隐藏文件</li>
-<li><code>^h</code> 标记隐藏文件列表</li>
-<li><code>a</code> 转换显示模式，显示所有文件-只显示不隐藏文件-只显示隐藏文件</li>
-<li><code>qf</code> 显示文件信息</li>
-<li><code>qb</code> 列出被标记的文件历史</li>
-<li><code>gi</code> 显示文件信息</li>
-<li><code>md</code> 将标记的文件使用 <code>diff</code> 模式</li>
-<li><code>me</code> 编辑标记的文件，只显示一个，其余放入 <code>buffer</code> 中</li>
-<li><code>mm</code> 移动标记的文件到标记的文件目标路径中</li>
-<li><code>mc</code> copy</li>
-<li><code>mt</code> 移动到的目录</li>
-</ul>
-<p><strong class=chinese>复制移动文件</strong></p>
-<ol>
-<li><code>mt</code> 移动到的目录</li>
-<li><code>mf</code> 标记要移动的文件</li>
-<li><code>mc</code> 移动/复制</li>
-</ol>
-<h3 id="宏录制">宏录制</h3>
-<ul>
-<li><code>qa</code> 把操作记录在寄存器 <code>a</code> 中</li>
-<li><code>@a</code> 从寄存器 <code>a</code> 中读取记录，并且 replay</li>
-<li><code>@@</code> 取出最新的录制记录，并且 replay</li>
-<li><code>n@@</code> 取出最新的录制记录，并且执行 <code>n</code> 次 replay</li>
-</ul>
-<h3 id="文件差异对比">文件差异对比</h3>
-<ul>
-<li><code>vimdiff file1 file2 [file3 [file4]]</code> 文件对比，会以垂直分割的方式打开文件</li>
-<li><code>vim -d file1 file2 [file3 [file4]]</code> 文件对比，会以垂直分割的方式打开文件
-<ul>
-<li>折叠的行用 <code>+ +--n lines: /* a</code> 表示+ +&ndash;123 lines: /* a</li>
-<li>被删除的行用 <code>---</code> 表示</li>
-<li>不同的的行会用高亮显示</li>
-</ul>
-</li>
-<li><code>:diffsplit file</code> 打开文件 <code>file</code> 并且进行差异对比</li>
-<li><code>:diffupdate</code> 把文本从一个窗口移到另一个，并以此来消除差异</li>
-<li><code>:dp</code> 即 <code>:diff put</code> 将把文字从左边拷到右边，从而消除两边的差异</li>
-</ul>
-
-    
-  </article>
-  
-
-<div id="sharingbuttons">
-    
-    
-    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=vim%e4%bd%bf%e7%94%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="mailto:?subject=vim%e4%bd%bf%e7%94%a8&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target="_self" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f&amp;resubmit=true&amp;title=vim%e4%bd%bf%e7%94%a8" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f&amp;t=vim%e4%bd%bf%e7%94%a8" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
-        </div>
-      </div>
-    </a>
-    
-
-    
-    
-    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=vim%e4%bd%bf%e7%94%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target="_blank" rel="noopener" aria-label="">
-      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
-        </div>
-      </div>
-    </a>
-    
-</div>
-
-  <div class="paginator">
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/fish%E4%BD%BF%E7%94%A8/">← prev</a>
-    
-    
-    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/">next →</a>
-    
-  </div>
-  <div class="comment">
-    
-    
-    
-    <script src="https://giscus.app/client.js"
-        data-repo="weastur/hugo-texify2"
-        data-repo-id="R_kgDOJwiYnA"
-        data-category="Comments"
-        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
-        data-mapping="title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
-
-  </div>
-  
-
-</main>
-
-    <footer id="footer">
-  <div>
-    <span>© 2023</span> - <span>2024</span>
-  </div>
-  <div>
-    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
-<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
-</span>
-  </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
-  </div>
-
-  <div class="footnote">
-    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
-</span>
-  </div>
-</footer>
-
-  </div>
-
-  
-  
-
-  
-  
-
-  
-  
-  
-
-
-
-</body>
-
-</html>
+<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="我愿称之为神中之神，心目中的最强文本编辑器"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="vim使用"><meta property="og:description" content="我愿称之为神中之神，心目中的最强文本编辑器"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-19T00:43:47+00:00"><meta property="article:modified_time" content="2024-03-19T00:43:47+00:00"><meta property="article:tag" content="Vim"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/19/vim%E4%BD%BF%E7%94%A8/><meta itemprop=name content="vim使用"><meta itemprop=description content="我愿称之为神中之神，心目中的最强文本编辑器"><meta itemprop=datePublished content="2024-03-19T00:43:47+00:00"><meta itemprop=dateModified content="2024-03-19T00:43:47+00:00"><meta itemprop=wordCount content="3593"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="Vim"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>vim使用 - Luo's Blog</title>
+<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="vim使用"><meta name=twitter:description content="我愿称之为神中之神，心目中的最强文本编辑器"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
+</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
+<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>vim使用</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/vim>#vim</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#在linux中的安装>在linux中的安装</a></li><li><a href=#linux-上的配置文件>linux 上的配置文件</a></li><li><a href=#vim使用>vim使用</a><ul><li><a href=#移动光标>移动光标</a></li><li><a href=#删除复制>删除复制</a></li><li><a href=#模式转换>模式转换</a></li><li><a href=#编辑>编辑</a></li><li><a href=#查找替换>查找替换</a></li><li><a href=#区域选择>区域选择</a></li><li><a href=#退出文件>退出文件</a></li><li><a href=#多文件编辑多窗口操作>多文件编辑（多窗口操作）</a></li><li><a href=#多标签编辑>多标签编辑</a></li><li><a href=#buffer操作>buffer操作</a></li><li><a href=#文件操作>文件操作</a></li><li><a href=#宏录制>宏录制</a></li><li><a href=#文件差异对比>文件差异对比</a></li></ul></li></ul></nav></div></details><article class="content numbered-subtitles"><h2 id=前言>前言</h2><p>作为一个历史上最出色的编辑器，拥有自定义按键功能，并且可以大大提高工作效率</p><h2 id=在linux中的安装>在linux中的安装</h2><p>在linux中只需要一行指令安装</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt install vim
+</span></span></code></pre></td></tr></table></div></div><h2 id=linux-上的配置文件>linux 上的配置文件</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=s>&#34; etc/vim/vimrc</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; the call to :runtime you can find below.  If you wish to change any of those</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; settings, you should do it in this file (/etc/vim/vimrc), since debian.vim</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; will be overwritten everytime an upgrade of the vim packages is performed.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; It is recommended to make changes after sourcing debian.vim since it alters</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; the value of the &#39;compatible&#39; option.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>runtime</span><span class=o>!</span> <span class=n>debian</span><span class=p>.</span><span class=n>vim</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; Vim will load $VIMRUNTIME/defaults.vim if the user does not have a vimrc.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; This happens after /etc/vim/vimrc(.local) are loaded, so it will override</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; any settings in these files.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; If you don&#39;t want that to happen, uncomment the below line to prevent</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; defaults.vim from being loaded.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; let g:skip_defaults_vim = 1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; Uncomment the next line to make Vim more Vi-compatible</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; NOTE: debian.vim sets &#39;nocompatible&#39;.  Setting &#39;compatible&#39; changes numerous</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; options, so any other options should be set AFTER setting &#39;compatible&#39;.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set compatible</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; Vim5 and later versions support syntax highlighting. Uncommenting the next</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; line enables syntax highlighting by default.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nf>has</span><span class=p>(</span><span class=s>&#34;syntax&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>syntax</span> <span class=n>on</span>
+</span></span><span class=line><span class=cl><span class=n>endif</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; If using a dark background within the editing area and syntax highlighting</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; turn on this option as well</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set background=dark</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; Uncomment the following to have Vim jump to the last position when</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; reopening a file</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;au BufReadPost * if line(&#34;</span><span class=err>&#39;\</span><span class=s>&#34;&#34;</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>1</span> <span class=o>&amp;&amp;</span> <span class=nf>line</span><span class=p>(</span><span class=s>&#34;&#39;</span><span class=se>\&#34;</span><span class=s>&#34;</span><span class=p>)</span> <span class=o>&lt;=</span> <span class=nf>line</span><span class=p>(</span><span class=s>&#34;$&#34;</span><span class=p>)</span> <span class=o>|</span> <span class=n>exe</span> <span class=s>&#34;normal! g&#39;</span><span class=se>\&#34;</span><span class=s>&#34;</span> <span class=o>|</span> <span class=n>endif</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; Uncomment the following to have Vim load indentation rules and plugins</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; according to the detected filetype.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;filetype plugin indent on</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s>&#34; The following are commented out as they cause vim to behave a lot</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; differently from regular Vi. They are highly recommended though.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set showcmd		&#34;</span> <span class=nf>Show</span> <span class=p>(</span><span class=n>partial</span><span class=p>)</span> <span class=n>command</span> <span class=n>in</span> <span class=n>status</span> <span class=n>line</span><span class=p>.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set showmatch		&#34;</span> <span class=n>Show</span> <span class=n>matching</span> <span class=n>brackets</span><span class=p>.</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set ignorecase		&#34;</span> <span class=n>Do</span> <span class=k>case</span> <span class=n>insensitive</span> <span class=n>matching</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set smartcase		&#34;</span> <span class=n>Do</span> <span class=n>smart</span> <span class=k>case</span> <span class=n>matching</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set incsearch		&#34;</span> <span class=n>Incremental</span> <span class=n>search</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set autowrite		&#34;</span> <span class=n>Automatically</span> <span class=n>save</span> <span class=n>before</span> <span class=n>commands</span> <span class=nl>like</span> <span class=p>:</span><span class=n>next</span> <span class=nl>and</span> <span class=p>:</span><span class=n>make</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set hidden		&#34;</span> <span class=n>Hide</span> <span class=n>buffers</span> <span class=n>when</span> <span class=n>they</span> <span class=n>are</span> <span class=n>abandoned</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;set mouse=a		&#34;</span> <span class=n>Enable</span> <span class=n>mouse</span> <span class=nf>usage</span> <span class=p>(</span><span class=n>all</span> <span class=n>modes</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s>&#34; Source a global configuration file if available</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>autocmd</span> <span class=n>BufNewFile</span> <span class=o>*</span><span class=p>.</span><span class=n>py</span><span class=p>,</span><span class=o>*</span><span class=p>.</span><span class=n>sh</span><span class=p>,</span><span class=o>*</span><span class=p>.</span><span class=n>java</span> <span class=n>exec</span><span class=s>&#34;:call SetTitleJ()&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>func</span> <span class=nf>SetTitleJ</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>setline</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=s>&#34;\#########################################################################&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>),</span> <span class=s>&#34;\# File Name: &#34;</span><span class=p>.</span><span class=nf>expand</span><span class=p>(</span><span class=s>&#34;%&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=s>&#34;\# Author: Dragon&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>2</span><span class=p>,</span> <span class=s>&#34;\# mail: [beloved25177@126.com](mailto:beloved25177@126.com)&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>3</span><span class=p>,</span> <span class=s>&#34;\# Created Time: &#34;</span><span class=p>.</span><span class=nf>strftime</span><span class=p>(</span><span class=s>&#34;%c&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>4</span><span class=p>,</span> <span class=s>&#34;\# Description:&#34;</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>5</span><span class=p>,</span> <span class=s>&#34;\#########################################################################&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>6</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>endfunc</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>autocmd</span> <span class=n>BufNewFile</span> <span class=o>*</span><span class=p>.</span><span class=n>c</span><span class=p>,</span><span class=o>*</span><span class=p>.</span><span class=n>cpp</span><span class=p>,</span><span class=o>*</span><span class=p>.</span><span class=n>h</span> <span class=n>exec</span><span class=s>&#34;:call SetTitleC()&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>func</span> <span class=nf>SetTitleC</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>setline</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=s>&#34;\//------------------------------------------------------------------------&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>),</span> <span class=s>&#34;\// File Name: &#34;</span><span class=p>.</span><span class=nf>expand</span><span class=p>(</span><span class=s>&#34;%&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=s>&#34;\// Author: Dragon&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>2</span><span class=p>,</span> <span class=s>&#34;\// mail: [beloved25177@126.com](mailto:beloved25177@126.com)&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>3</span><span class=p>,</span> <span class=s>&#34;\// Created Time: &#34;</span><span class=p>.</span><span class=nf>strftime</span><span class=p>(</span><span class=s>&#34;%c&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>4</span><span class=p>,</span> <span class=s>&#34;\// Description:&#34;</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>5</span><span class=p>,</span> <span class=s>&#34;\//------------------------------------------------------------------------&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>6</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>endfunc</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>autocmd</span> <span class=n>BufNewFile</span> <span class=o>*</span><span class=p>.</span><span class=n>md</span> <span class=n>exec</span><span class=s>&#34;:call SetTitleM()&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>func</span> <span class=nf>SetTitleM</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>setline</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=s>&#34;\&lt;!-- ########################################################################&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>),</span> <span class=s>&#34;\File Name: &#34;</span><span class=p>.</span><span class=nf>expand</span><span class=p>(</span><span class=s>&#34;%&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=s>&#34;\Author: Dragon&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>2</span><span class=p>,</span> <span class=s>&#34;\mail: [beloved25177@126.com](mailto:beloved25177@126.com)&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>3</span><span class=p>,</span> <span class=s>&#34;\Created Time: &#34;</span><span class=p>.</span><span class=nf>strftime</span><span class=p>(</span><span class=s>&#34;%c&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>4</span><span class=p>,</span> <span class=s>&#34;\Description:&#34;</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>5</span><span class=p>,</span> <span class=s>&#34;\######################################################################### --!&gt;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=nf>append</span><span class=p>(</span><span class=nf>line</span><span class=p>(</span><span class=s>&#34;.&#34;</span><span class=p>)</span><span class=o>+</span><span class=mi>6</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>endfunc</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>space</span><span class=o>&gt;</span><span class=nl>w</span> <span class=p>:</span><span class=n>w</span><span class=o>!</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>L</span> <span class=n>g_</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>H</span> <span class=o>^</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>space</span><span class=o>&gt;</span><span class=n>d</span> <span class=n>dd</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>n</span><span class=o>&gt;</span> <span class=o>:</span><span class=n>nohl</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>space</span><span class=o>&gt;</span><span class=nl>s</span> <span class=p>:</span><span class=n>w</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>x</span><span class=o>&gt;</span> <span class=n>gb</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>space</span><span class=o>&gt;</span><span class=nl>q</span> <span class=p>:</span><span class=n>q</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=o>&lt;</span><span class=n>space</span><span class=o>&gt;</span><span class=n>r</span> <span class=o>&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>r</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>gh</span> <span class=n>gt</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>g</span><span class=o>+</span> <span class=o>:!</span><span class=n>g</span><span class=o>++&lt;</span><span class=n>space</span><span class=o>&gt;%</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=nl>gc</span> <span class=p>:</span><span class=o>!</span><span class=n>gcc</span><span class=o>&lt;</span><span class=n>space</span><span class=o>&gt;%</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>K</span> <span class=n>Ojj</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>dL</span> <span class=n>dg_</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>yL</span> <span class=n>yg_</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>cL</span> <span class=n>cg_</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>dH</span> <span class=n>d</span><span class=o>^</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>yH</span> <span class=n>y</span><span class=o>^</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=n>cH</span> <span class=n>c</span><span class=o>^</span>
+</span></span><span class=line><span class=cl><span class=n>nmap</span> <span class=nl>nm</span> <span class=p>:</span><span class=n>nohlsearch</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>vmap</span> <span class=n>L</span> <span class=n>g_</span>
+</span></span><span class=line><span class=cl><span class=n>vmap</span> <span class=n>H</span> <span class=o>^</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>imap</span> <span class=n>jj</span> <span class=o>&lt;</span><span class=n>Esc</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>imap</span> <span class=n>jk</span> <span class=o>&lt;</span><span class=n>Esc</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>map</span> <span class=o>&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>A</span><span class=o>&gt;</span> <span class=n>ggVGY</span>
+</span></span><span class=line><span class=cl><span class=n>map</span><span class=o>!</span> <span class=o>&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>A</span><span class=o>&gt;</span> <span class=o>&lt;</span><span class=n>Esc</span><span class=o>&gt;</span><span class=n>ggVGY</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>vmap</span> <span class=n>L</span> <span class=n>g_</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>autowrite</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>ruler</span>                   <span class=s>&#34; 打开状态栏标尺</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>cursorline</span>              <span class=s>&#34; 突出显示当前行</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>magic</span>                   <span class=s>&#34; 设置魔术</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>guioptions</span><span class=o>-=</span><span class=n>T</span>           <span class=s>&#34; 隐藏工具栏</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>guioptions</span><span class=o>-=</span><span class=n>m</span>           <span class=s>&#34; 隐藏菜单栏</span>
+</span></span><span class=line><span class=cl><span class=n>syntax</span> <span class=n>on</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>tabstop</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>softtabstop</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>autoindent</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>cindent</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>number</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>hlsearch</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>noexpandtab</span> <span class=s>&#34; 不使用空格代替tab</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>smartindent</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>ignorecase</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>number</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>nocompatible</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>backspace</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=n>setlocal</span> <span class=n>noswapfile</span> <span class=s>&#34; 不要生成swap文件</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>shiftwidth</span><span class=o>=</span><span class=mi>2</span> <span class=s>&#34; 设定 &lt;&lt; 和 &gt;&gt; 命令移动时的宽度为 4</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>bufhidden</span><span class=o>=</span><span class=n>hide</span> <span class=s>&#34; 当buffer被丢弃的时候隐藏它</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>backupcopy</span><span class=o>=</span><span class=n>yes</span> <span class=s>&#34; 设置备份时的行为为覆盖</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>backspace</span><span class=o>=</span><span class=n>indent</span><span class=p>,</span><span class=n>eol</span><span class=p>,</span><span class=n>start</span> <span class=s>&#34; 不设定在插入状态无法用退格键和 Delete 键删除回车符</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>laststatus</span><span class=o>=</span><span class=mi>2</span> <span class=s>&#34; 显示状态栏 (默认值为 1, 无法显示状态栏)</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>autochdir</span> <span class=s>&#34; 自动切换当前目录为当前文件所在的目录</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nf>filereadable</span><span class=p>(</span><span class=s>&#34;/etc/vim/vimrc.local&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>source</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>vim</span><span class=o>/</span><span class=n>vimrc</span><span class=p>.</span><span class=n>local</span>
+</span></span><span class=line><span class=cl><span class=n>endif</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=vim使用>vim使用</h2><h3 id=移动光标>移动光标</h3><ul><li><code>h j k l</code> 上 下 左 右</li><li><code>ctrl-y1</code> 上移一行</li><li><code>ctrl-e1</code> 下移一行</li><li><code>ctrl-u1</code> 上翻半页</li><li><code>ctrl-d1</code> 下翻半页</li><li><code>ctrl-f1</code> 上翻一页</li><li><code>ctrl-b1</code> 下翻一页</li><li><code>w</code> 跳到下一个词首，按标点或单词分割</li><li><code>W</code> 跳到下一个词首，以空格分割</li><li><code>e</code> 跳到下一个词尾，以标点分割</li><li><code>E</code> 跳到下一个词尾</li><li><code>b</code> 跳到上一个词，以标点分割</li><li><code>B</code> 跳到上一个词首</li><li><code>0</code> 跳至行首，不管有无缩进，就是跳到第0个字符</li><li><code>^</code> 跳至行首的第一个字符</li><li><code>$</code> 跳至行尾</li><li><code>gg</code> 跳至文首</li><li><code>G</code> 调至文尾</li><li><code>ngg/nG</code> 调至第n行</li><li><code>gd</code> 跳至当前光标所在的变量的声明处</li><li><code>fx</code> 在当前行向后找x字符，找到了就跳转到字符位置</li><li><code>;</code> 重复上一个f命令，而不用重复的输入fx</li><li><code>*</code> 查找光标所在处的单词，向下查找</li><li><code>#</code> 查找光标所在处的单词，向上查找</li><li><code>g_</code> 移动到本行最后一个不是 blank 字符的位置</li></ul><h3 id=删除复制>删除复制</h3><ul><li><code>dd</code> 删除光标所在行，应该说是剪切，删除之后 vim 的缓冲区中会存放删除的内容</li><li><code>dw</code> 删除一个字符</li><li><code>diw</code> 删除一个单词</li><li><code>dg_</code> 或 <code>D</code> 从当前位置删除到行末</li><li><code>dta</code> 删除当前行位置之后的所有内容直到遇到字符 <code>a</code></li><li><code>dTa</code> 删除当前行位置之前的所有内容直到遇到字符 <code>a</code></li><li><code>x</code> 删除当前字符</li><li><code>X</code> 删除前一个字符</li><li><code>yy</code> 复制一行，会复制换行符</li><li><code>yw</code> 复制一个字符</li><li><code>yiw</code> 复制一个单词</li><li><code>yg_</code> 或 <code>Y</code> 复制到行末</li><li><code>p</code> 粘贴粘贴板的内容到当前光标之前</li><li><code>P</code> 粘贴粘贴板的内容到当前光标之后</li></ul><h3 id=模式转换>模式转换</h3><ul><li><code>i</code> 从当前光标之前进入插入模式</li><li><code>I</code> 在行首进入插入模式</li><li><code>a</code> 追加模式，当前光标之后进入插入模式</li><li><code>A</code> 在行尾进入插入模式</li><li><code>o</code> 在当前行之下新加一行，并进入插入模式</li><li><code>O</code> 在当前行之上新加一行，并进入插入模式</li><li><code>Esc</code> 退出当前模式</li><li><code>v</code> 进入可视模式 visual mode，进入可视模式之后可以使用在普通模式的按键进行相应的操作</li><li><code>V</code> 进入行可视模式 line visual mode</li><li><code>ctrl-v</code> 进入块可视模式 block visual mode，但是要注意在 windows 中的 ideavim 中，默认是 <code>ctrl-q</code></li></ul><h3 id=编辑>编辑</h3><ul><li><code>J</code> 将下一行和当前行连接为一行</li><li><code>cc</code> 删除当前行并进入编辑模式</li><li><code>cw</code> 删除当前字符，并进入编辑模式</li><li><code>c$</code> 擦除从当前位置至行末的内容，并进入编辑模式</li><li><code>s</code> 删除当前字符并进入编辑模式</li><li><code>S</code> 删除光标所在行并进入编辑模式</li><li><code>xp</code> 交换当前字符和下一个字符</li><li><code>u</code> 撤销</li><li><code>&lt;C-r></code> 返回撤销</li><li><code>r</code> 替换为输入的字符</li><li><code>R</code> 连续替换</li><li><code>ctrl+r</code> 重做</li><li><code>guw</code> 当前字符切换为小写</li><li><code>gUw</code> 当前字符切换为大写</li><li><code>guiw</code> 当前单词切换为小写</li><li><code>gUiw</code> 当前单词切换为大写</li><li><code>~</code> 切换当前字符的大小写</li><li><code>>></code> 将当前行右移一个tab</li><li><code>&lt;&lt;</code> 将当前行左移一个tab</li><li><code>==</code> 自动缩进当前行</li><li><code>gg=G</code> 文件缩进</li><li><code>&lt;C-n></code> 插入模式自动补齐</li><li><code>&lt;C-p></code> 插入模式自动补齐</li></ul><h3 id=查找替换>查找替换</h3><ul><li><code>/pattern</code> 向后搜索字符串pattern</li><li><code>?pattern</code> 向前搜索字符串pattern</li><li><code>"\c"</code> 忽略大小写</li><li><code>"\C"</code> 大小写敏感</li><li><code>n</code> 下一个匹配(如果是/搜索，则是向下的下一个，?搜索则是向上的下一个)</li><li><code>N</code> 上一个匹配(同上)</li><li><code>:%s/old/new/g</code> 搜索整个文件，将所有的old替换为new</li><li><code>:%s/old/new/gc</code> 搜索整个文件，将所有的old替换为new，每次都要你确认是否替换</li><li><code>fa</code> 查找当前行中下一个为 <code>a</code> 的字符，并且跳到该位置</li><li><code>nfa</code> 查找当前行中下 <code>n</code> 个为 <code>a</code> 的字符，并且跳到该位置</li><li><code>ta</code> 查找当前行中上一个为 <code>a</code> 的字符，并且跳到该位置</li><li><code>nta</code> 查找当前行中上 <code>n</code> 个为 <code>a</code> 的字符，并且跳到该位置</li></ul><h3 id=区域选择>区域选择</h3><ul><li><code>&lt;action>a&lt;object></code> 区域选择</li><li><code>&lt;action>i&lt;object></code> 区域选择<ul><li><code>action</code> 可以是任何命令<ul><li><code>d</code> 删除</li><li><code>v</code> 选中</li><li><code>y</code> 复制</li></ul></li><li><code>object</code> 可以是很多，下面是一部分<ul><li><code>w</code> 一个单词</li><li><code>W</code> 一个以空格为分隔的单词</li><li><code>s</code> 一个句子</li><li><code>p</code> 一个段落</li><li><code>"</code> 引号中内容</li><li><code>(</code> 括号中内容</li></ul></li></ul></li><li><code>viw</code> 选中当前单词</li><li><code>vi"</code> 选中当前在 <code>"</code> 中的内容，不包括 <code>"</code></li><li><code>va"</code> 选中当前在 <code>"</code> 中的内容，包括 <code>"</code></li><li><code>vni(</code> 选中当前在 <code>n</code> 级括号中的内容，不包括括号</li><li><code>vna(</code> 选中当前在 <code>n</code> 级括号中的内容，包括括号</li></ul><h3 id=退出文件>退出文件</h3><ul><li><code>:w</code> 将缓冲区写入文件，即保存修改</li><li><code>:wq</code> 保存修改并退出</li><li><code>:wq!</code> 强制保存修改并退出</li><li><code>:x</code> 保存修改并退出</li><li><code>:q</code> 退出，如果对缓冲区进行过修改，则会提示</li><li><code>:q!</code> 强制退出，放弃修改</li><li><code>ZZ</code> 保存退出</li></ul><h3 id=多文件编辑多窗口操作>多文件编辑（多窗口操作）</h3><ul><li><code>vim file1..</code> 同时打开多个文件</li><li><code>:args</code> 显示当前编辑文件</li><li><code>:next</code> 切换到下个文件</li><li><code>:prev</code> 切换到前个文件</li><li><code>:next!</code> 不保存当前编辑文件并切换到下个文件</li><li><code>:prev!</code> 不保存当前编辑文件并切换到上个文件</li><li><code>:wnext</code> 保存当前编辑文件并切换到下个文件</li><li><code>:wprev</code> 保存当前编辑文件并切换到上个文件</li><li><code>:first</code> 定位首文件</li><li><code>:last</code> 定位尾文件</li><li><code>ctrl+^</code> 快速在最近打开的两个文件间切换</li><li><code>:split</code> 或者 <code>:sp</code> 把当前文件水平分割</li><li><code>:vsplit</code> 或者 <code>:vsp</code> 把当前文件垂直分割</li><li><code>:split file</code> 把当前窗口水平分割，并且打开文件file</li><li><code>:vsplit[vsp] file</code> 把当前窗口垂直分割，并且打开文件file</li><li><code>:new file</code> 同 <code>split file</code></li><li><code>:close</code> 关闭当前窗口</li><li><code>:only</code> 只显示当前窗口, 关闭所有其他的窗口</li><li><code>:all</code> 打开所有的窗口</li><li><code>:vertical all</code> 打开所有的窗口, 垂直打开</li><li><code>:qall</code> 对所有窗口执行：q操作</li><li><code>:qall!</code> 对所有窗口执行：q!操作</li><li><code>:wall</code> 对所有窗口执行：w操作</li><li><code>:wqall</code> 对所有窗口执行：wq操作</li><li><code>ctrl-w h</code> 跳转到左边的窗口</li><li><code>ctrl-w j</code> 跳转到下面的窗口</li><li><code>ctrl-w k</code> 跳转到上面的窗口</li><li><code>ctrl-w l</code> 跳转到右边的窗口</li><li><code>ctrl-w t</code> 跳转到最顶上的窗口</li><li><code>ctrl-w b</code> 跳转到最底下的窗口</li><li><code>ctrl-w +</code> 扩大窗口</li><li><code>ctrl-w -</code> 缩小窗口</li><li><code>ctrl-w H</code> 将窗口移动到最左边</li><li><code>ctrl-w J</code> 将窗口移动到最下边</li><li><code>ctrl-w K</code> 将窗口移动到最上边</li><li><code>ctrl-w L</code> 将窗口移动到最右边</li><li><code>{height}CTRL-W _</code> 将窗口设置成指定高度</li><li><code>:saveas &lt;path/to/file></code> 另存为 <code>&lt;path/to/file></code></li><li><code>:bn</code> 下一个文件</li><li><code>:bp</code> 上一个文件</li><li><code>:all</code> 为参数列表中每一个文件打开一个窗户口</li><li><code>:vertical all</code> 以垂直分割的方法打开窗口</li></ul><p><strong>命令行中vim指令的参数</strong></p><ul><li><code>vim -o &lt;file1 file2 ...></code> 以水平分屏的方式打开多个文件</li><li><code>vim -O &lt;file1 file2 ...></code> 以垂直分屏的方式打开多个文件</li></ul><h3 id=多标签编辑>多标签编辑</h3><ul><li><code>:tabedit file</code> 在新标签中打开文件file</li><li><code>:tab split file</code> 在新标签中打开文件file</li><li><code>:tabp</code> 切换到前一个标签</li><li><code>:tabn</code> 切换到后一个标签</li><li><code>:tabc</code> 关闭当前标签</li><li><code>:tabo</code> 关闭其他标签</li><li><code>gt</code> 到下一个tab</li><li><code>gT</code> 到上一个tab</li></ul><h3 id=buffer操作>buffer操作</h3><ul><li><code>-</code> 非活动的缓冲区</li><li><code>=</code> 只读缓冲区</li><li><code>a</code> 当前被激活缓冲区</li><li><code>h</code> 隐藏的缓冲区</li><li><code>%</code> 当前的缓冲区</li><li><code>#</code> 交换缓冲区</li><li><code>+</code> 已经更改的缓冲区</li></ul><h3 id=文件操作>文件操作</h3><ul><li><code>vim path/</code> 打开目录</li><li><code>h j k l</code> 左，下，上，右</li><li><code>-</code> 返回上一目录</li><li><code>enter</code> 进入目录或者文件</li><li><code>D</code> 删除目录或文件</li><li><code>R</code> 重命名目录或文件</li><li><code>ctrl+^</code> 回退上次操作</li><li><code>:q</code> 退出vim</li><li><code>c</code> 使当前打开的目录成为当前目录</li><li><code>d</code> 创建目录</li><li><code>%</code> 创建文件</li><li><code>gb</code> 转到上一个标记的文件夹</li><li><code>i</code> 改变目标文件列表方式时</li><li><code>^i</code> 刷新当前打开的目录，更改排列样式</li><li><code>mf</code> 标记文件</li><li><code>mu</code> unmark all marked files</li><li><code>mz</code> compress/decompress marked file</li><li><code>gh</code> 显示/不显示隐藏文件</li><li><code>^h</code> 标记隐藏文件列表</li><li><code>a</code> 转换显示模式，显示所有文件-只显示不隐藏文件-只显示隐藏文件</li><li><code>qf</code> 显示文件信息</li><li><code>qb</code> 列出被标记的文件历史</li><li><code>gi</code> 显示文件信息</li><li><code>md</code> 将标记的文件使用 <code>diff</code> 模式</li><li><code>me</code> 编辑标记的文件，只显示一个，其余放入 <code>buffer</code> 中</li><li><code>mm</code> 移动标记的文件到标记的文件目标路径中</li><li><code>mc</code> copy</li><li><code>mt</code> 移动到的目录</li></ul><p><strong class=chinese>复制移动文件</strong></p><ol><li><code>mt</code> 移动到的目录</li><li><code>mf</code> 标记要移动的文件</li><li><code>mc</code> 移动/复制</li></ol><h3 id=宏录制>宏录制</h3><ul><li><code>qa</code> 把操作记录在寄存器 <code>a</code> 中</li><li><code>@a</code> 从寄存器 <code>a</code> 中读取记录，并且 replay</li><li><code>@@</code> 取出最新的录制记录，并且 replay</li><li><code>n@@</code> 取出最新的录制记录，并且执行 <code>n</code> 次 replay</li></ul><h3 id=文件差异对比>文件差异对比</h3><ul><li><code>vimdiff file1 file2 [file3 [file4]]</code> 文件对比，会以垂直分割的方式打开文件</li><li><code>vim -d file1 file2 [file3 [file4]]</code> 文件对比，会以垂直分割的方式打开文件<ul><li>折叠的行用 <code>+ +--n lines: /* a</code> 表示+ +&ndash;123 lines: /* a</li><li>被删除的行用 <code>---</code> 表示</li><li>不同的的行会用高亮显示</li></ul></li><li><code>:diffsplit file</code> 打开文件 <code>file</code> 并且进行差异对比</li><li><code>:diffupdate</code> 把文本从一个窗口移到另一个，并以此来消除差异</li><li><code>:dp</code> 即 <code>:diff put</code> 将把文字从左边拷到右边，从而消除两边的差异</li></ul></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=vim%e4%bd%bf%e7%94%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=vim%e4%bd%bf%e7%94%a8&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f&amp;resubmit=true&amp;title=vim%e4%bd%bf%e7%94%a8" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f&amp;t=vim%e4%bd%bf%e7%94%a8" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=vim%e4%bd%bf%e7%94%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fvim%25E4%25BD%25BF%25E7%2594%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/fish%E4%BD%BF%E7%94%A8/>← prev</a>
+<a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/zsh%E4%BD%BF%E7%94%A8/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2023</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
+<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
