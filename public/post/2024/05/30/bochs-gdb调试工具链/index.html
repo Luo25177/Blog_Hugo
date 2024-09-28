@@ -127,10 +127,6 @@
       <a class="link" href="/Blog_Hugo/post/">Posts</a>
     </span>
     
-    <span class="nav-bar-item">
-      <a class="link" href="/Blog_Hugo/about/">About</a>
-    </span>
-    
   </nav>
   
   <div id="searchbox">
@@ -161,7 +157,7 @@
     <summary>
       <b>Table of Contents</b>
     </summary>
-    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+    <div class="toc "><nav id="TableOfContents">
   <ul>
     <li><a href="#前言">前言</a></li>
     <li><a href="#bochs安装与配置">bochs安装与配置</a>
@@ -181,7 +177,7 @@
   </details>
   
   
-  <article class="content numbered-subtitles">
+  <article class="content ">
     
     <h2 id="前言">前言</h2>
 <p><code>bochs</code> 中自带一个反汇编器，这只能查看可执行文件的反汇编之后的指令，但是如果书写 C 语言的话，就使得调试非常麻烦（无计可施），所以利用 <code>bochs</code> 来写操作系统还是挺困难的，同时也没有办法查看各个变量的状态和 <code>cpu</code> 的状态。一旦遇到问题就很被动，所以介绍一个 bochs+gdb 的一个调试工具链</p>

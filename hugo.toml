@@ -65,18 +65,13 @@ identifier = "post"
 name = "Posts"
 url = "/post/"
 weight = 3
-[[menu.main]]
-identifier = "about"
-name = "About"
-url = "/about/"
-weight = 6
 
 [taxonomies]
 tags = "tags"
 categories = "categories"
 
 [params]
-numberedSubtitles = true
+numberedSubtitles = false
 toc = true
 
 [params.commentEngine]
