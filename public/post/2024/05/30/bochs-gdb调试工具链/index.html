@@ -1,97 +1,516 @@
-<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="bochs+gdb 调试工具链，用于操作系统的开发"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/05/30/bochs-gdb%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E9%93%BE/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="bochs+gdb调试工具链"><meta property="og:description" content="bochs+gdb 调试工具链，用于操作系统的开发"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-05-30T14:37:18+00:00"><meta property="article:modified_time" content="2024-05-30T14:37:18+00:00"><meta property="article:tag" content="Bochs"><meta property="article:tag" content="Gdb"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/05/30/bochs-gdb%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E9%93%BE/><meta itemprop=name content="bochs+gdb调试工具链"><meta itemprop=description content="bochs+gdb 调试工具链，用于操作系统的开发"><meta itemprop=datePublished content="2024-05-30T14:37:18+00:00"><meta itemprop=dateModified content="2024-05-30T14:37:18+00:00"><meta itemprop=wordCount content="1268"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="Bochs,Gdb"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>bochs+gdb调试工具链 - Luo's Blog</title>
-<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="bochs+gdb调试工具链"><meta name=twitter:description content="bochs+gdb 调试工具链，用于操作系统的开发"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
-<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>bochs+gdb调试工具链</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/bochs>#bochs</a>
-<a class=link href=https://seashore.top/Blog_Hugo/tags/gdb>#gdb</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#bochs安装与配置>bochs安装与配置</a><ul><li><a href=#安装环境>安装环境</a></li><li><a href=#安装-bochs>安装 <code>bochs</code></a></li><li><a href=#配置>配置</a></li><li><a href=#创建虚拟硬盘>创建虚拟硬盘</a></li><li><a href=#安装编译工具>安装编译工具</a></li><li><a href=#bochs的调试>bochs的调试</a></li></ul></li><li><a href=#编译配置>编译配置</a></li><li><a href=#gdb-配置>gdb 配置</a></li></ul></nav></div></details><article class="content numbered-subtitles"><h2 id=前言>前言</h2><p><code>bochs</code> 中自带一个反汇编器，这只能查看可执行文件的反汇编之后的指令，但是如果书写 C 语言的话，就使得调试非常麻烦（无计可施），所以利用 <code>bochs</code> 来写操作系统还是挺困难的，同时也没有办法查看各个变量的状态和 <code>cpu</code> 的状态。一旦遇到问题就很被动，所以介绍一个 bochs+gdb 的一个调试工具链</p><h2 id=bochs安装与配置>bochs安装与配置</h2><h3 id=安装环境>安装环境</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo apt-get install g++ 
-</span></span><span class=line><span class=cl>sudo apt-get install make
-</span></span><span class=line><span class=cl>sudo apt-get install libx11-dev xserver-xorg-dev xorg-dev
-</span></span></code></pre></td></tr></table></div></div><h3 id=安装-bochs>安装 <code>bochs</code></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>wget https://udomain.dl.sourceforge.net/project/bochs/bochs/2.6.8/bochs-2.6.8.tar.gz
-</span></span><span class=line><span class=cl>tar zxvf bochs-2.6.8.tar.gz
-</span></span><span class=line><span class=cl><span class=nb>cd</span> bochs-2.6.8/
-</span></span><span class=line><span class=cl>./configure --prefix<span class=o>=</span>/your_path/bochs --enable-gdb-stub --enable-disasm --enable-iodebug --enable-x86-debugger --with-x --with-x11 <span class=nv>LDFLAGS</span><span class=o>=</span><span class=s1>&#39;-pthread&#39;</span>
-</span></span><span class=line><span class=cl>make -j12
-</span></span><span class=line><span class=cl>make install
-</span></span></code></pre></td></tr></table></div></div><p>其中</p><ul><li><code>--enable-debugger</code> 将 Bochs 使用内置的反汇编器进行调试</li><li><code>--enable-gdb-stub</code> 开放端口提供 GDB 远程调试</li><li><code>--enable-readline</code> 使用 Bochs 内置调试器时使用 readline 库提供的自动补全和历史命令功能</li></ul><h3 id=配置>配置</h3><p>进入到安装目录中，也就是在 <code>config</code> 中指定的路径 <code>/your_path/bochs</code></p><p>新建一个配置文件 <code>bochsrc.disk</code> ，然后向其中写入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#第一步，首先设置 Bochs 在运行过程中能够使用的内存，本例为 32MB </span>
-</span></span><span class=line><span class=cl>megs: <span class=m>32</span> 
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>#第二步，设置对应真实机器的 BIOS 和 VGA BIOS </span>
-</span></span><span class=line><span class=cl>romimage: <span class=nv>file</span><span class=o>=</span>/your_path/bochs/share/bochs/BIOS-bochs-latest 
-</span></span><span class=line><span class=cl>vgaromimage: <span class=nv>file</span><span class=o>=</span>/your_path/bochs/share/bochs/VGABIOS-lgpl-latest 
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>#第三步，设置 Bochs 所使用的磁盘，软盘的关键字为 floppy。 </span>
-</span></span><span class=line><span class=cl><span class=c1>#若只有一个软盘，则使用 floppya 即可，若有多个，则为 floppya，floppyb… </span>
-</span></span><span class=line><span class=cl><span class=c1>#floppya: 1_44=a.img, status=inserted </span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>#第四步，选择启动盘符 </span>
-</span></span><span class=line><span class=cl><span class=c1>#boot: floppy #默认从软盘启动，将其注释 </span>
-</span></span><span class=line><span class=cl>boot: disk <span class=c1>#改为从硬盘启动。我们的任何代码都将直接写在硬盘上，所以不会再有读写软盘的操作 </span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>#第五步，设置日志文件的输出 </span>
-</span></span><span class=line><span class=cl>log: bochsout.txt 
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>#第六步，开启或关闭某些功能 </span>
-</span></span><span class=line><span class=cl><span class=c1>#下面是关闭鼠标，并打开键盘 </span>
-</span></span><span class=line><span class=cl>mouse: <span class=nv>enabled</span><span class=o>=</span><span class=m>0</span> 
-</span></span><span class=line><span class=cl>keyboard: <span class=nv>keymap</span><span class=o>=</span>/your_path/bochs/share/bochs/keymaps/x11-pc-us.map 
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 硬盘设置 </span>
-</span></span><span class=line><span class=cl>ata0: <span class=nv>enabled</span><span class=o>=</span>1, <span class=nv>ioaddr1</span><span class=o>=</span>0x1f0, <span class=nv>ioaddr2</span><span class=o>=</span>0x3f0, <span class=nv>irq</span><span class=o>=</span><span class=m>14</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 打开 gdb 调试端口 1234</span>
-</span></span><span class=line><span class=cl>gdbstub:enabled<span class=o>=</span>1,port<span class=o>=</span>1234,text_base<span class=o>=</span>0,data_base<span class=o>=</span>0,bss_base<span class=o>=</span><span class=m>0</span>
-</span></span></code></pre></td></tr></table></div></div><p>完成之后在目录下输入 <code>bin/bochs</code> 测试结果，后面会跳出一个选项，已经有一个默认配置 6 了，所以输入 6，可以发现跳出一个 <code>bochs</code> 虚拟机。退出需要在终端输入指令 <code>exit</code></p><h3 id=创建虚拟硬盘>创建虚拟硬盘</h3><p>使用其中的工具 <code>bximage</code> 来创建虚拟硬盘，使用 <code>bin/bximage</code> 来创建</p><ul><li><code>bin/bximage --help</code> 查看各个选项参数的含义</li><li><code>bin/bximage -mode="create" -hd=60 -imgmode="flat" -q hd60M.img</code> 创建虚拟硬盘，将出现的最后依据加入到配置文件 <code>bochsrc</code> 中，把硬盘设置那一句换掉，然后可以运行测试</li></ul><p>之后运行测试都使用 <code>bin/bochs -f bochsrc.disk</code> 来运行，但是应该会出现一些无法读取或者写入的错误，这时候就需要使用 <code>sudo bin/bochs -f bochsrc.disk</code> 执行</p><h3 id=安装编译工具>安装编译工具</h3><p>由于使用的是 <code>nasm</code> ，所以下载对应的工具</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo apt install nasm
-</span></span></code></pre></td></tr></table></div></div><h3 id=bochs的调试>bochs的调试</h3><p>对于要写一个操作系统来说，不能调试可太麻烦了，所以可以使用 bochs 的调试功能，它的调试指令基本和 gdb 类似，但也有不同之处，可以自己上网查一查手册</p><p>其次有个配置在代码里可以实现断点功能的，在 <code>bochsrc.disk</code> 中添加下面这句话</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-nasm data-lang=nasm><span class=line><span class=cl> <span class=nl>magic_break:</span> <span class=nf>enabled</span><span class=err>=</span><span class=mi>1</span>
-</span></span></code></pre></td></tr></table></div></div><p>然后在代码中想要暂停的地方可以写下，就会在这条语句中停止，然后就可以开始调试</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-nasm data-lang=nasm><span class=line><span class=cl><span class=nf>xchg</span> <span class=nb>bx</span><span class=p>,</span> <span class=nb>bx</span>
-</span></span></code></pre></td></tr></table></div></div><p>但是这个很不实用，只能调试汇编语言，所以下面使用 gdb 就可以调试 c 语言</p><h2 id=编译配置>编译配置</h2><p>对于编译方面，需要将所有的编译选项加上 <code>-g</code> ，并且对链接之后得到的可执行目标文件 <code>kernel.bin</code> 提取符号，得到 <code>kernel.sym</code> ，如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> objcopy --only-keep-debug <span class=k>$(</span>KERNEL_BUILD_PATH<span class=k>)</span>/kernel.bin <span class=k>$(</span>KERNEL_BUILD_PATH<span class=k>)</span>/kernel.sym
-</span></span></code></pre></td></tr></table></div></div><h2 id=gdb-配置>gdb 配置</h2><p>上述配置完成之后，使用 <code>bin/bochs -f bochsrc.disk</code> 指令进入运行之后会卡死，会等待 <code>gdb</code> 链接端口进行调试。这时候打开 <code>gdb</code> 输入如下指令之后就可以进行调试了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>target remote localhost:1234
-</span></span><span class=line><span class=cl>symbol-file ./build/kernel/kernel.sym
-</span></span></code></pre></td></tr></table></div></div><p>但是还是有点麻烦，所以这时候可以创建一个 <code>.gdbinit</code> 来做 <code>gdb</code> 的初始化，实际上就是在打开 <code>gdb</code> 时会自动执行其中的指令，从而完成配置。但是需要在 <code>/home/user</code> 之下创建一个 <code>gdbinit</code> 文件来使得将 <code>,gdbinit</code> 链接到期望的 <code>.gdbinit</code> 。具体操作可以在当前文件夹下运行一下 <code>gdb</code> 就可以得到来自于 <code>gdb</code> 的教程了</p><p>配置结束之后就可以使用 <code>gdb</code> 来进行调试了，调试的指令与 <code>gdb</code> 一致</p></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f&amp;resubmit=true&amp;title=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f&amp;t=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/>← prev</a>
-<a class=link href=https://seashore.top/Blog_Hugo/post/2024/06/03/at-t%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2024</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
-<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
-<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="落">
+
+  
+  
+  <meta name="description" content="bochs&#43;gdb 调试工具链，用于操作系统的开发">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/05/30/bochs-gdb%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E9%93%BE/">
+  <meta property="og:site_name" content="Luo&#39;s Blog">
+  <meta property="og:title" content="bochs&#43;gdb调试工具链">
+  <meta property="og:description" content="bochs&#43;gdb 调试工具链，用于操作系统的开发">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-05-30T14:37:18+00:00">
+    <meta property="article:modified_time" content="2024-05-30T14:37:18+00:00">
+    <meta property="article:tag" content="Bochs">
+    <meta property="article:tag" content="Gdb">
+    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+
+
+  
+  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/05/30/bochs-gdb%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E9%93%BE/">
+
+  
+  
+  
+  <meta itemprop="name" content="bochs&#43;gdb调试工具链">
+  <meta itemprop="description" content="bochs&#43;gdb 调试工具链，用于操作系统的开发">
+  <meta itemprop="datePublished" content="2024-05-30T14:37:18+00:00">
+  <meta itemprop="dateModified" content="2024-05-30T14:37:18+00:00">
+  <meta itemprop="wordCount" content="1268">
+  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta itemprop="keywords" content="Bochs,Gdb">
+
+  
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
+
+  
+  
+  <title>bochs&#43;gdb调试工具链 - Luo&#39;s Blog</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta name="twitter:title" content="bochs&#43;gdb调试工具链">
+  <meta name="twitter:description" content="bochs&#43;gdb 调试工具链，用于操作系统的开发">
+
+
+  
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="https://seashore.top/Blog_Hugo/"></a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="seashore.top">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>bochs&#43;gdb调试工具链</h1>
+  
+  <div>
+    
+    <a class="link" href='https://seashore.top/Blog_Hugo/tags/bochs'>#bochs</a>
+    
+    <a class="link" href='https://seashore.top/Blog_Hugo/tags/gdb'>#gdb</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#bochs安装与配置">bochs安装与配置</a>
+      <ul>
+        <li><a href="#安装环境">安装环境</a></li>
+        <li><a href="#安装-bochs">安装 <code>bochs</code></a></li>
+        <li><a href="#配置">配置</a></li>
+        <li><a href="#创建虚拟硬盘">创建虚拟硬盘</a></li>
+        <li><a href="#安装编译工具">安装编译工具</a></li>
+        <li><a href="#bochs的调试">bochs的调试</a></li>
+      </ul>
+    </li>
+    <li><a href="#编译配置">编译配置</a></li>
+    <li><a href="#gdb-配置">gdb 配置</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <h2 id="前言">前言</h2>
+<p><code>bochs</code> 中自带一个反汇编器，这只能查看可执行文件的反汇编之后的指令，但是如果书写 C 语言的话，就使得调试非常麻烦（无计可施），所以利用 <code>bochs</code> 来写操作系统还是挺困难的，同时也没有办法查看各个变量的状态和 <code>cpu</code> 的状态。一旦遇到问题就很被动，所以介绍一个 bochs+gdb 的一个调试工具链</p>
+<h2 id="bochs安装与配置">bochs安装与配置</h2>
+<h3 id="安装环境">安装环境</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install g++ 
+</span></span><span class="line"><span class="cl">sudo apt-get install make
+</span></span><span class="line"><span class="cl">sudo apt-get install libx11-dev xserver-xorg-dev xorg-dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="安装-bochs">安装 <code>bochs</code></h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://udomain.dl.sourceforge.net/project/bochs/bochs/2.6.8/bochs-2.6.8.tar.gz
+</span></span><span class="line"><span class="cl">tar zxvf bochs-2.6.8.tar.gz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> bochs-2.6.8/
+</span></span><span class="line"><span class="cl">./configure --prefix<span class="o">=</span>/your_path/bochs --enable-gdb-stub --enable-disasm --enable-iodebug --enable-x86-debugger --with-x --with-x11 <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s1">&#39;-pthread&#39;</span>
+</span></span><span class="line"><span class="cl">make -j12
+</span></span><span class="line"><span class="cl">make install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中</p>
+<ul>
+<li><code>--enable-debugger</code> 将 Bochs 使用内置的反汇编器进行调试</li>
+<li><code>--enable-gdb-stub</code> 开放端口提供 GDB 远程调试</li>
+<li><code>--enable-readline</code> 使用 Bochs 内置调试器时使用 readline 库提供的自动补全和历史命令功能</li>
+</ul>
+<h3 id="配置">配置</h3>
+<p>进入到安装目录中，也就是在 <code>config</code> 中指定的路径 <code>/your_path/bochs</code></p>
+<p>新建一个配置文件 <code>bochsrc.disk</code> ，然后向其中写入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#第一步，首先设置 Bochs 在运行过程中能够使用的内存，本例为 32MB </span>
+</span></span><span class="line"><span class="cl">megs: <span class="m">32</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#第二步，设置对应真实机器的 BIOS 和 VGA BIOS </span>
+</span></span><span class="line"><span class="cl">romimage: <span class="nv">file</span><span class="o">=</span>/your_path/bochs/share/bochs/BIOS-bochs-latest 
+</span></span><span class="line"><span class="cl">vgaromimage: <span class="nv">file</span><span class="o">=</span>/your_path/bochs/share/bochs/VGABIOS-lgpl-latest 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#第三步，设置 Bochs 所使用的磁盘，软盘的关键字为 floppy。 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#若只有一个软盘，则使用 floppya 即可，若有多个，则为 floppya，floppyb… </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#floppya: 1_44=a.img, status=inserted </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#第四步，选择启动盘符 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#boot: floppy #默认从软盘启动，将其注释 </span>
+</span></span><span class="line"><span class="cl">boot: disk <span class="c1">#改为从硬盘启动。我们的任何代码都将直接写在硬盘上，所以不会再有读写软盘的操作 </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#第五步，设置日志文件的输出 </span>
+</span></span><span class="line"><span class="cl">log: bochsout.txt 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#第六步，开启或关闭某些功能 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#下面是关闭鼠标，并打开键盘 </span>
+</span></span><span class="line"><span class="cl">mouse: <span class="nv">enabled</span><span class="o">=</span><span class="m">0</span> 
+</span></span><span class="line"><span class="cl">keyboard: <span class="nv">keymap</span><span class="o">=</span>/your_path/bochs/share/bochs/keymaps/x11-pc-us.map 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 硬盘设置 </span>
+</span></span><span class="line"><span class="cl">ata0: <span class="nv">enabled</span><span class="o">=</span>1, <span class="nv">ioaddr1</span><span class="o">=</span>0x1f0, <span class="nv">ioaddr2</span><span class="o">=</span>0x3f0, <span class="nv">irq</span><span class="o">=</span><span class="m">14</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 打开 gdb 调试端口 1234</span>
+</span></span><span class="line"><span class="cl">gdbstub:enabled<span class="o">=</span>1,port<span class="o">=</span>1234,text_base<span class="o">=</span>0,data_base<span class="o">=</span>0,bss_base<span class="o">=</span><span class="m">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完成之后在目录下输入 <code>bin/bochs</code> 测试结果，后面会跳出一个选项，已经有一个默认配置 6 了，所以输入 6，可以发现跳出一个 <code>bochs</code> 虚拟机。退出需要在终端输入指令 <code>exit</code></p>
+<h3 id="创建虚拟硬盘">创建虚拟硬盘</h3>
+<p>使用其中的工具 <code>bximage</code> 来创建虚拟硬盘，使用 <code>bin/bximage</code> 来创建</p>
+<ul>
+<li><code>bin/bximage --help</code> 查看各个选项参数的含义</li>
+<li><code>bin/bximage -mode=&quot;create&quot; -hd=60 -imgmode=&quot;flat&quot; -q hd60M.img</code> 创建虚拟硬盘，将出现的最后依据加入到配置文件 <code>bochsrc</code> 中，把硬盘设置那一句换掉，然后可以运行测试</li>
+</ul>
+<p>之后运行测试都使用 <code>bin/bochs -f bochsrc.disk</code> 来运行，但是应该会出现一些无法读取或者写入的错误，这时候就需要使用 <code>sudo bin/bochs -f bochsrc.disk</code> 执行</p>
+<h3 id="安装编译工具">安装编译工具</h3>
+<p>由于使用的是 <code>nasm</code> ，所以下载对应的工具</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install nasm
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="bochs的调试">bochs的调试</h3>
+<p>对于要写一个操作系统来说，不能调试可太麻烦了，所以可以使用 bochs 的调试功能，它的调试指令基本和 gdb 类似，但也有不同之处，可以自己上网查一查手册</p>
+<p>其次有个配置在代码里可以实现断点功能的，在 <code>bochsrc.disk</code> 中添加下面这句话</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nasm" data-lang="nasm"><span class="line"><span class="cl"> <span class="nl">magic_break:</span> <span class="nf">enabled</span><span class="err">=</span><span class="mi">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在代码中想要暂停的地方可以写下，就会在这条语句中停止，然后就可以开始调试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nasm" data-lang="nasm"><span class="line"><span class="cl"><span class="nf">xchg</span> <span class="nb">bx</span><span class="p">,</span> <span class="nb">bx</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是这个很不实用，只能调试汇编语言，所以下面使用 gdb 就可以调试 c 语言</p>
+<h2 id="编译配置">编译配置</h2>
+<p>对于编译方面，需要将所有的编译选项加上 <code>-g</code> ，并且对链接之后得到的可执行目标文件 <code>kernel.bin</code> 提取符号，得到 <code>kernel.sym</code> ，如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> objcopy --only-keep-debug <span class="k">$(</span>KERNEL_BUILD_PATH<span class="k">)</span>/kernel.bin <span class="k">$(</span>KERNEL_BUILD_PATH<span class="k">)</span>/kernel.sym
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="gdb-配置">gdb 配置</h2>
+<p>上述配置完成之后，使用 <code>bin/bochs -f bochsrc.disk</code> 指令进入运行之后会卡死，会等待 <code>gdb</code> 链接端口进行调试。这时候打开 <code>gdb</code> 输入如下指令之后就可以进行调试了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">target remote localhost:1234
+</span></span><span class="line"><span class="cl">symbol-file ./build/kernel/kernel.sym
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是还是有点麻烦，所以这时候可以创建一个 <code>.gdbinit</code> 来做 <code>gdb</code> 的初始化，实际上就是在打开 <code>gdb</code> 时会自动执行其中的指令，从而完成配置。但是需要在 <code>/home/user</code> 之下创建一个 <code>gdbinit</code> 文件来使得将 <code>,gdbinit</code> 链接到期望的 <code>.gdbinit</code> 。具体操作可以在当前文件夹下运行一下 <code>gdb</code> 就可以得到来自于 <code>gdb</code> 的教程了</p>
+<p>配置结束之后就可以使用 <code>gdb</code> 来进行调试了，调试的指令与 <code>gdb</code> 一致</p>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f&amp;resubmit=true&amp;title=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f&amp;t=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=bochs%2bgdb%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7%e9%93%be&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f05%2f30%2fbochs-gdb%25E8%25B0%2583%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/05/27/gcc%E5%86%85%E7%BD%AE%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/">← prev</a>
+    
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/06/03/at-t%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2024</span> - <span>2024</span>
+  </div>
+  <div>
+    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
+<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
+</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

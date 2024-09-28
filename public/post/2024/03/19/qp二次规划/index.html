@@ -1,150 +1,730 @@
-<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="QP二次规划，用于解决一些二次规划的问题(LQR)"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="QP二次规划"><meta property="og:description" content="QP二次规划，用于解决一些二次规划的问题(LQR)"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-19T00:11:46+00:00"><meta property="article:modified_time" content="2024-03-19T00:11:46+00:00"><meta property="article:tag" content="二次规划"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/><meta itemprop=name content="QP二次规划"><meta itemprop=description content="QP二次规划，用于解决一些二次规划的问题(LQR)"><meta itemprop=datePublished content="2024-03-19T00:11:46+00:00"><meta itemprop=dateModified content="2024-03-19T00:11:46+00:00"><meta itemprop=wordCount content="5764"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="二次规划"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>QP二次规划 - Luo's Blog</title>
-<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="QP二次规划"><meta name=twitter:description content="QP二次规划，用于解决一些二次规划的问题(LQR)"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
-<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>QP二次规划</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92>#二次规划</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><a href=#一些定义>一些定义</a><ul><li><a href=#jacobian-矩阵>Jacobian 矩阵</a></li><li><a href=#hessian-矩阵>Hessian 矩阵</a></li></ul></li><li><a href=#二次规划-qp>二次规划 QP</a><ul><li><a href=#language-乘数法>Language 乘数法</a></li><li><a href=#kkt-条件>KKT 条件</a></li></ul></li></ul><ul><li><a href=#一般形式><strong>一般形式</strong></a></li><li><a href=#求解方法>求解方法</a><ul><li><a href=#变量消去法>变量消去法</a></li><li><a href=#language-法>Language <strong>法</strong></a></li><li><a href=#方法对比>方法对比</a></li></ul></li></ul><ul><li><a href=#求解方法-1>求解方法</a><ul><li><a href=#lagrange乘数法与kkt条件><strong>Lagrange乘数法与KKT条件</strong></a></li><li><a href=#内点法><strong>内点法</strong></a></li><li><a href=#积极集法><strong>积极集法</strong></a></li></ul></li></ul></nav></div></details><article class="content numbered-subtitles"><h2 id=一些定义>一些定义</h2><p>对于一个函数 $F:R^n→R^m$ 是一个将欧式 n 维空间的函数，该函数由 m 个实函数构成， $y_1(x_1,…,x_n),…,y_m(x_1,…,x_n)$</p><h3 id=jacobian-矩阵>Jacobian 矩阵</h3><p>函数 F 的偏导数组成一个 m 行 n 列的矩阵，就是 Jacobian 矩阵</p>$$
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="落">
+
+  
+  
+  <meta name="description" content="QP二次规划，用于解决一些二次规划的问题(LQR)">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/">
+  <meta property="og:site_name" content="Luo&#39;s Blog">
+  <meta property="og:title" content="QP二次规划">
+  <meta property="og:description" content="QP二次规划，用于解决一些二次规划的问题(LQR)">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-03-19T00:11:46+00:00">
+    <meta property="article:modified_time" content="2024-03-19T00:11:46+00:00">
+    <meta property="article:tag" content="二次规划">
+    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+
+
+  
+  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/19/qp%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92/">
+
+  
+  
+  
+  <meta itemprop="name" content="QP二次规划">
+  <meta itemprop="description" content="QP二次规划，用于解决一些二次规划的问题(LQR)">
+  <meta itemprop="datePublished" content="2024-03-19T00:11:46+00:00">
+  <meta itemprop="dateModified" content="2024-03-19T00:11:46+00:00">
+  <meta itemprop="wordCount" content="5764">
+  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta itemprop="keywords" content="二次规划">
+
+  
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
+
+  
+  
+  <title>QP二次规划 - Luo&#39;s Blog</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta name="twitter:title" content="QP二次规划">
+  <meta name="twitter:description" content="QP二次规划，用于解决一些二次规划的问题(LQR)">
+
+
+  
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="https://seashore.top/Blog_Hugo/"></a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="seashore.top">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>QP二次规划</h1>
+  
+  <div>
+    
+    <a class="link" href='https://seashore.top/Blog_Hugo/tags/%E4%BA%8C%E6%AC%A1%E8%A7%84%E5%88%92'>#二次规划</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一些定义">一些定义</a>
+      <ul>
+        <li><a href="#jacobian-矩阵">Jacobian 矩阵</a></li>
+        <li><a href="#hessian-矩阵">Hessian 矩阵</a></li>
+      </ul>
+    </li>
+    <li><a href="#二次规划-qp">二次规划 QP</a>
+      <ul>
+        <li><a href="#language-乘数法">Language 乘数法</a></li>
+        <li><a href="#kkt-条件">KKT 条件</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#一般形式"><strong>一般形式</strong></a></li>
+    <li><a href="#求解方法">求解方法</a>
+      <ul>
+        <li><a href="#变量消去法">变量消去法</a></li>
+        <li><a href="#language-法">Language <strong>法</strong></a></li>
+        <li><a href="#方法对比">方法对比</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#求解方法-1">求解方法</a>
+      <ul>
+        <li><a href="#lagrange乘数法与kkt条件"><strong>Lagrange乘数法与KKT条件</strong></a></li>
+        <li><a href="#内点法"><strong>内点法</strong></a></li>
+        <li><a href="#积极集法"><strong>积极集法</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <h2 id="一些定义">一些定义</h2>
+<p>对于一个函数 $F:R^n→R^m$ 是一个将欧式 n 维空间的函数，该函数由 m 个实函数构成， $y_1(x_1,…,x_n),…,y_m(x_1,…,x_n)$</p>
+<h3 id="jacobian-矩阵">Jacobian 矩阵</h3>
+<p>函数 F 的偏导数组成一个 m 行 n 列的矩阵，就是 Jacobian 矩阵</p>
+$$
 J_F(x_1,...,x_n)=\begin{bmatrix}\frac{\partial y_1}{\partial x_1}&...&\frac{\partial y_1}{\partial x_n}\\...&...&...\\\frac{\partial y_m}{\partial x_1}&...&\frac{\partial y_m}{\partial x_n}\end{bmatrix}
-$$<p>也可以表示为 $\frac{\partial(y_1,…,y_m)}{\partial (x_1,…,x_n)}$。如果对于一个 $p\in R^n$ ，函数 F 在 p 点可微，则 F 在这一点的导数由 $J_F(p)$ 给出</p><h3 id=hessian-矩阵>Hessian 矩阵</h3><p>如果 F 的所有二阶导数都存在，则 F 的 Hessian 矩阵为</p>$$
+$$<p>也可以表示为 $\frac{\partial(y_1,…,y_m)}{\partial (x_1,…,x_n)}$。如果对于一个 $p\in R^n$ ，函数 F 在 p 点可微，则 F 在这一点的导数由 $J_F(p)$ 给出</p>
+<h3 id="hessian-矩阵">Hessian 矩阵</h3>
+<p>如果 F 的所有二阶导数都存在，则 F 的 Hessian 矩阵为</p>
+$$
 H_F(x_1,...,x_n)=\begin{bmatrix}\frac{\partial^2 F}{\partial x_1^2}&...&\frac{\partial^2 F}{\partial x_1\partial x_n}\\...&...&...\\\frac{\partial^2 F}{\partial x_n\partial x_1}&...&\frac{\partial^2 F}{\partial x_n^2}\end{bmatrix}
-$$<p>可以利用二阶导数的值判断梯度下降的速度</p><h2 id=二次规划-qp>二次规划 QP</h2><p>二次规划(QP, Quadratic Programming)定义：目标函数为二次函数，约束条件为线性约束，属于最简单的一种非线性规划。说白了就是一种对于控制理论的一种优化，约束条件和线性规划问题的约束条件一样，都是线性等式或线性不等式。即</p>$$
+$$<p>可以利用二阶导数的值判断梯度下降的速度</p>
+<h2 id="二次规划-qp">二次规划 QP</h2>
+<p>二次规划(QP, Quadratic Programming)定义：目标函数为二次函数，约束条件为线性约束，属于最简单的一种非线性规划。说白了就是一种对于控制理论的一种优化，约束条件和线性规划问题的约束条件一样，都是线性等式或线性不等式。即</p>
+$$
 \left\{\begin{aligned}&min\frac{1}{2}x^TGx+H^Tx&&\\&a_i^Tx\leq b_i&&i\in I=\{1...m\}\\&a_i^Tx=b_i&&i\in \varepsilon = \{m+1,...m+l\}\end{aligned}\right.
-$$<p>其中 $\varepsilon$ 表示等式约束的指标集， $I$ 表示不等式约束的指标集</p><p>一般二次规划问题可以分成以下几类</p><ul><li>凸二次规划问题：G半正定，问题有全局解</li><li>严格凸二次规划问题：G正定，问题有唯一全局解</li><li>一般二次规划问题：G不定，问题有稳定点或局部解</li></ul><h3 id=language-乘数法>Language 乘数法</h3><p>求函数 $f(x,y)$ 在条件 $\phi (x,y)=0$ 约束下的可能极值点，构造 language 函数，即</p>$$
+$$<p>其中 $\varepsilon$ 表示等式约束的指标集， $I$ 表示不等式约束的指标集</p>
+<p>一般二次规划问题可以分成以下几类</p>
+<ul>
+<li>凸二次规划问题：G半正定，问题有全局解</li>
+<li>严格凸二次规划问题：G正定，问题有唯一全局解</li>
+<li>一般二次规划问题：G不定，问题有稳定点或局部解</li>
+</ul>
+<h3 id="language-乘数法">Language 乘数法</h3>
+<p>求函数 $f(x,y)$ 在条件 $\phi (x,y)=0$ 约束下的可能极值点，构造 language 函数，即</p>
+$$
 L(x,y,\lambda)=f(x,y)+\lambda \phi(x.y)
-$$<p>求偏导得</p>$$
+$$<p>求偏导得</p>
+$$
 L_x=f_x+\lambda \phi_x\\L_y=f_y+\lambda \phi_y\\L_\lambda = \phi
-$$<p>令上式均为 0 可以解出 $x,y,\lambda$ 的值，其中的 $x,y$ 就是可能的极值点的坐标。对于多个约束条件可以引入多个 $\lambda$ ，求解与上述一致</p><h3 id=kkt-条件>KKT 条件</h3><ol><li><p><strong>KKT 条件核心思想</strong></p><p>对于一个不等式约束的方程</p><p>最小化问题</p>$$
-\min f(x)\\g(x)\leq 0
-$$<p>最大化问题</p>$$
-\max f(x)\\g(x)\geq 0
-$$<p>首先先不考虑约束 $g(x)$，直接对 $f(x)$ 求导，最终能得到一个最优值 $x^\star $，接下来把最优值带入到约束中，会有三种情况</p><ul><li><p>满足 $g(x)$ 约束但是 $g(x)\not =0$</p><p>正好满足约束，最优解为 $x^\star $，但是实际上这个约束并没有起作用，问题实际上转化为无约束优化问题，但是同样的构造 Language 函数</p>$$
-L(x,\lambda)=f(x)+\lambda g(x)
-$$<p>由于此时约束无用，也就可以把 $\lambda=0$，最终实际上是把约束条件给转为 0，也就没有约束</p></li><li><p>$g(x)=0$</p><p>最优解 $x^\star $ 使得约束为等号，正好在约束的边界上，此时就是 Language 乘数法所能解决的，构造函数</p>$$
-L(x,\lambda)=f(x)+\lambda g(x)
-$$</li><li><p>不满足 $g(x)$ 的约束</p><p>显然此时不满足约束，结果被舍弃，最终的结果一定在满足约束条件的范围内</p></li></ul><p>最终满足条件的两种情况中的 Language 方程可以统一为 $\lambda g(x^\star )=0$，这就是 KKT 条件的精髓</p></li><li><p><strong class=chinese>公式</strong></p><p>首先给出一个仅含有不等式约束</p>$$
-\left\{\begin{aligned}\min f(x)\\g(x)\leq 0\end{aligned}\right.\Rightarrow KKT\left\{\begin{aligned}&\triangledown f(x^\star )+\lambda \triangledown g(x^\star )=0\\&\lambda g(x^\star )=0\\&\lambda\geq 0\\&g(x^\star )\leq 0 \end{aligned}\right.
-$$<p>依旧需要引入 Language 函数</p>$$
-L(x,\lambda)=f(x)+\lambda g(x)
-$$<p>对于上述 KKT 条件中</p><ul><li>1式：对拉格朗日函数求梯度(若X一维就是求导)，其中，下三角表示梯度</li><li>2式：核心公式 $\lambda=0$ 或 $g(x^\star )=0$，但是此处要求不能同时为 0</li><li>3式：Language 乘子 $\lambda$ 必须是正的</li><li>4式：原约束</li></ul><p>上述中 1，2式可以求出最优的 $x^\star ,\lambda^\star $，但是由于 2 式需要两种情况，所以存在多个最优解，而3，4 式主要是验证先前的结果是否满足条件。一般问题的解析分为两种情况</p><ul><li>$\lambda=0$ 计算 $x^\star $ 并且验证 4式条件</li><li>$\lambda\not=0$ 计算 $x^\star ,\lambda^\star $，并且验证3，4式条件</li></ul><p>将不等式与等式条件推广，可以得到多个约束的公式</p>$$
-\min f(x)\\g_i(x)\leq 0,i\in[1,m]\Rightarrow m 个不等式约束\\h_j(x)=0,j\in[1,n]\Rightarrow n个等式约束
-$$<p>对应的 Language 函数为</p>$$
-L(x,\{\lambda_i\},\{\mu_j\})=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^n\mu_jh_j(x)
-$$<p>其中的参数 $\{\lambda_i\},\{\mu_j\}$ 表示多个约束</p><p>对应的 KKT 条件为</p>$$
-\left\{\begin{aligned}&\triangledown f(x^\star )+\sum_{i=1}^m\lambda_i \triangledown g_i(x^\star )+\sum_{j=1}^n\mu_j\triangledown h_j(x^\star )=0\\&\lambda_i g_i(x^\star )=0,i\in[1,m]\\&\lambda_i\geq 0,i\in[1,m]\\&g(x^\star )\leq 0,i\in[1,m]\\&h_j(x^\star )=0,j\in [1,n] \end{aligned}\right.
-$$<p>这个实质上是几个不等式与等式约束，与之前的解法一致，利用等式求解，用不等式验证。由于上述公式中有 m 个 Language 乘子，每个都有两种情况，所以就是 $2^m$ 种。但是能解出最优解的一定是等式，而不等式是排除解的方法。</p></li><li><p>充分性必要性说明</p><p><strong>KKT 条件是判断某点是极值点的必要条件，不是充分条件。KKT 的解不一定是最优解，但是最优解一定满足 KKT 条件。</strong></p><p>对于 <strong class=chinese>凸规划</strong>，KKT 条件是<strong class=chinese>充要条件</strong>，只要满足 KKT 条件，则一定极值点，并且得到的一定是全局最优解。</p><p>凸规划是指目标函数为凸函数，不等式约束函数也为凸函数，等式约束函数是仿射的（理解为线性的也可以）。对于凹函数实际上就是凸函数加负号，本质是一样的。</p></li><li><p>Min/Max与 $\leq 0/\geq 0$ 的规定</p><p>也就是</p><ul><li>如果目标为最小化Min问题，那么不等式约束就要整理为 $\leq 0$ 形式</li><li>如果目标为最小化Max问题，那么不等式约束就要整理为 $\geq 0$ 形式</li></ul><p><img src=./v2-052b0104b46e31fa4d7a05e9c6f3d2b5_720w.webp alt=v2-052b0104b46e31fa4d7a05e9c6f3d2b5_720w.webp></p><p>由于梯度指的是函数下降的方向，所以垂直于等值线。如图在最优解点， $f(x^\star )$ 和 $g(x^\star )$ 梯度方向共线方向相反，这在数学上写法是</p>$$
--\triangledown f(x^\star )=\lambda \triangledown g(x^\star )\\\Downarrow\\\triangledown f(x^\star )+\lambda \triangledown g(x^\star )=0
-$$<p>这实际上就是 KKT 条件的第一个等式，而且由于 $g(x)$ 的梯度方向与 $f(x)$ 负梯度方向相同，这就是KKT条件中的一个条件 $\lambda ≥ 0$</p><p>但是如果对于最大化问题，约束为 $g(x)\leq 0$，此时 $g(x^\star )$ 梯度方向与 $f(x^\star )$ 方向相同，所以上述公式就变为 <strong class=chinese>两项做差</strong> 或者 $\lambda<0$，实际上结果是没有变化的。</p><p>对于两个约束来说</p><p><img src=./v2-978615fba2aa975e0f4f7f28fdfbc103_720w.webp alt=v2-978615fba2aa975e0f4f7f28fdfbc103_720w.webp></p><p>那就可以表示为向量相加的结果</p>$$
--\triangledown f(x^\star )=\lambda_1\triangledown g_1(x^\star )+\lambda_2 \triangledown g_2(x^\star )\\\Downarrow \\\triangledown f(x^\star )+\lambda_1\triangledown g_1(x^\star )+\lambda_2 \triangledown g_2(x^\star )=0
-$$<p>这也是 KKT 条件的第一个等式</p></li><li><p><strong>正则性条件/约束规范说明</strong></p><p>KKT 条件对于目标函数和约束函数也是有要求的，目标函数和约束函数均可为连续可微函数。</p><p>正则性条件/约束规范：以下方程组是线性独立的</p>$$
-\triangledown g_i(x^\star ):i\in I(x^\star )\cup \triangledown h_j(x^\star ):j\in[1,n]
-$$<p>其中 $I(x^\star )$ 指的是起作用约束的集合</p></li></ol><p>下面的KKT，以后再来探索吧</p><p><a href=https://zhuanlan.zhihu.com/p/556832103>KKT条件，原来如此简单 | 理论+算例实践 - 知乎 (zhihu.com)</a></p><p><a href="https://www.bilibili.com/video/BV1LF411i768/?spm_id_from=333.788.recommend_more_video.1&amp;vd_source=db5379825ad45958538bdf4749e19b7a">最优化（3）KKT条件为什么用不了了_哔哩哔哩_bilibili</a></p><h1 id=qp等式约束>QP——等式约束</h1><h2 id=一般形式><strong class=chinese>一般形式</strong></h2>$$
+$$<p>令上式均为 0 可以解出 $x,y,\lambda$ 的值，其中的 $x,y$ 就是可能的极值点的坐标。对于多个约束条件可以引入多个 $\lambda$ ，求解与上述一致</p>
+<h3 id="kkt-条件">KKT 条件</h3>
+<ol>
+<li>
+<p><strong>KKT 条件核心思想</strong></p>
+<p>对于一个不等式约束的方程</p>
+<p>最小化问题</p>
+$$
+    \min f(x)\\g(x)\leq 0
+    $$<p>最大化问题</p>
+$$
+    \max f(x)\\g(x)\geq 0
+    $$<p>首先先不考虑约束 $g(x)$，直接对 $f(x)$ 求导，最终能得到一个最优值 $x^\star $，接下来把最优值带入到约束中，会有三种情况</p>
+<ul>
+<li>
+<p>满足 $g(x)$ 约束但是 $g(x)\not =0$</p>
+<p>正好满足约束，最优解为 $x^\star $，但是实际上这个约束并没有起作用，问题实际上转化为无约束优化问题，但是同样的构造 Language 函数</p>
+$$
+        L(x,\lambda)=f(x)+\lambda g(x)
+        $$<p>由于此时约束无用，也就可以把 $\lambda=0$，最终实际上是把约束条件给转为 0，也就没有约束</p>
+</li>
+<li>
+<p>$g(x)=0$</p>
+<p>最优解 $x^\star $ 使得约束为等号，正好在约束的边界上，此时就是 Language 乘数法所能解决的，构造函数</p>
+$$
+        L(x,\lambda)=f(x)+\lambda g(x)
+        $$</li>
+<li>
+<p>不满足 $g(x)$ 的约束</p>
+<p>显然此时不满足约束，结果被舍弃，最终的结果一定在满足约束条件的范围内</p>
+</li>
+</ul>
+<p>最终满足条件的两种情况中的 Language 方程可以统一为 $\lambda g(x^\star )=0$，这就是 KKT 条件的精髓</p>
+</li>
+<li>
+<p><strong class=chinese>公式</strong></p>
+<p>首先给出一个仅含有不等式约束</p>
+$$
+    \left\{\begin{aligned}\min f(x)\\g(x)\leq 0\end{aligned}\right.\Rightarrow KKT\left\{\begin{aligned}&\triangledown f(x^\star )+\lambda \triangledown g(x^\star )=0\\&\lambda g(x^\star )=0\\&\lambda\geq 0\\&g(x^\star )\leq 0 \end{aligned}\right.
+    $$<p>依旧需要引入 Language 函数</p>
+$$
+    L(x,\lambda)=f(x)+\lambda g(x)
+    $$<p>对于上述 KKT 条件中</p>
+<ul>
+<li>1式：对拉格朗日函数求梯度(若X一维就是求导)，其中，下三角表示梯度</li>
+<li>2式：核心公式 $\lambda=0$ 或 $g(x^\star )=0$，但是此处要求不能同时为 0</li>
+<li>3式：Language 乘子 $\lambda$ 必须是正的</li>
+<li>4式：原约束</li>
+</ul>
+<p>上述中 1，2式可以求出最优的 $x^\star ,\lambda^\star $，但是由于 2 式需要两种情况，所以存在多个最优解，而3，4 式主要是验证先前的结果是否满足条件。一般问题的解析分为两种情况</p>
+<ul>
+<li>$\lambda=0$ 计算 $x^\star $ 并且验证 4式条件</li>
+<li>$\lambda\not=0$ 计算 $x^\star ,\lambda^\star $，并且验证3，4式条件</li>
+</ul>
+<p>将不等式与等式条件推广，可以得到多个约束的公式</p>
+$$
+    \min f(x)\\g_i(x)\leq 0,i\in[1,m]\Rightarrow m 个不等式约束\\h_j(x)=0,j\in[1,n]\Rightarrow n个等式约束
+    $$<p>对应的 Language 函数为</p>
+$$
+    L(x,\{\lambda_i\},\{\mu_j\})=f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{j=1}^n\mu_jh_j(x)
+    $$<p>其中的参数 $\{\lambda_i\},\{\mu_j\}$ 表示多个约束</p>
+<p>对应的 KKT 条件为</p>
+$$
+    \left\{\begin{aligned}&\triangledown f(x^\star )+\sum_{i=1}^m\lambda_i \triangledown g_i(x^\star )+\sum_{j=1}^n\mu_j\triangledown h_j(x^\star )=0\\&\lambda_i g_i(x^\star )=0,i\in[1,m]\\&\lambda_i\geq 0,i\in[1,m]\\&g(x^\star )\leq 0,i\in[1,m]\\&h_j(x^\star )=0,j\in [1,n] \end{aligned}\right.
+    $$<p>这个实质上是几个不等式与等式约束，与之前的解法一致，利用等式求解，用不等式验证。由于上述公式中有 m 个 Language 乘子，每个都有两种情况，所以就是 $2^m$ 种。但是能解出最优解的一定是等式，而不等式是排除解的方法。</p>
+</li>
+<li>
+<p>充分性必要性说明</p>
+<p><strong>KKT 条件是判断某点是极值点的必要条件，不是充分条件。KKT 的解不一定是最优解，但是最优解一定满足 KKT 条件。</strong></p>
+<p>对于 <strong class=chinese>凸规划</strong>，KKT 条件是<strong class=chinese>充要条件</strong>，只要满足 KKT 条件，则一定极值点，并且得到的一定是全局最优解。</p>
+<p>凸规划是指目标函数为凸函数，不等式约束函数也为凸函数，等式约束函数是仿射的（理解为线性的也可以）。对于凹函数实际上就是凸函数加负号，本质是一样的。</p>
+</li>
+<li>
+<p>Min/Max与 $\leq 0/\geq 0$ 的规定</p>
+<p>也就是</p>
+<ul>
+<li>如果目标为最小化Min问题，那么不等式约束就要整理为 $\leq 0$ 形式</li>
+<li>如果目标为最小化Max问题，那么不等式约束就要整理为 $\geq 0$ 形式</li>
+</ul>
+<p><img src="./v2-052b0104b46e31fa4d7a05e9c6f3d2b5_720w.webp" alt="v2-052b0104b46e31fa4d7a05e9c6f3d2b5_720w.webp"></p>
+<p>由于梯度指的是函数下降的方向，所以垂直于等值线。如图在最优解点， $f(x^\star )$ 和 $g(x^\star )$ 梯度方向共线方向相反，这在数学上写法是</p>
+$$
+    -\triangledown f(x^\star )=\lambda \triangledown g(x^\star )\\\Downarrow\\\triangledown f(x^\star )+\lambda \triangledown g(x^\star )=0
+    $$<p>这实际上就是 KKT 条件的第一个等式，而且由于 $g(x)$ 的梯度方向与 $f(x)$ 负梯度方向相同，这就是KKT条件中的一个条件 $\lambda ≥ 0$</p>
+<p>但是如果对于最大化问题，约束为 $g(x)\leq 0$，此时 $g(x^\star )$ 梯度方向与 $f(x^\star )$ 方向相同，所以上述公式就变为 <strong class=chinese>两项做差</strong> 或者 $\lambda<0$，实际上结果是没有变化的。</p>
+<p>对于两个约束来说</p>
+<p><img src="./v2-978615fba2aa975e0f4f7f28fdfbc103_720w.webp" alt="v2-978615fba2aa975e0f4f7f28fdfbc103_720w.webp"></p>
+<p>那就可以表示为向量相加的结果</p>
+$$
+    -\triangledown f(x^\star )=\lambda_1\triangledown g_1(x^\star )+\lambda_2 \triangledown g_2(x^\star )\\\Downarrow \\\triangledown f(x^\star )+\lambda_1\triangledown g_1(x^\star )+\lambda_2 \triangledown g_2(x^\star )=0
+    $$<p>这也是 KKT 条件的第一个等式</p>
+</li>
+<li>
+<p><strong>正则性条件/约束规范说明</strong></p>
+<p>KKT 条件对于目标函数和约束函数也是有要求的，目标函数和约束函数均可为连续可微函数。</p>
+<p>正则性条件/约束规范：以下方程组是线性独立的</p>
+$$
+    \triangledown g_i(x^\star ):i\in I(x^\star )\cup \triangledown h_j(x^\star ):j\in[1,n]
+    $$<p>其中 $I(x^\star )$ 指的是起作用约束的集合</p>
+</li>
+</ol>
+<p>下面的KKT，以后再来探索吧</p>
+<p><a href="https://zhuanlan.zhihu.com/p/556832103">KKT条件，原来如此简单 | 理论+算例实践 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.bilibili.com/video/BV1LF411i768/?spm_id_from=333.788.recommend_more_video.1&amp;vd_source=db5379825ad45958538bdf4749e19b7a">最优化（3）KKT条件为什么用不了了_哔哩哔哩_bilibili</a></p>
+<h1 id="qp等式约束">QP——等式约束</h1>
+<h2 id="一般形式"><strong class=chinese>一般形式</strong></h2>
+$$
 \left\{\begin{aligned}min\ \frac{1}{2}x^TGx+h^Tx\\A^Tx=b\end{aligned}\right.
-$$<p>其中 $b\in R^m,A\in R^{n\times m},rank(A)=m, n>m$</p><p>其中 $G$ 是由二阶导构成的 hessian 矩阵</p><h2 id=求解方法>求解方法</h2><h3 id=变量消去法>变量消去法</h3><p><strong class=chinese>步骤</strong></p><ol><li>将 $x$ 分成基本变量 $x_B$与非基本变量 $x_N$ 两部分，利用等式约束将基本变量用非基本变量表示出来</li><li>再将基本变量带入目标函数，从而消去基本变量，把问题化为一个关于非基本变量的无约束最优化问题</li><li>最后求解无约束最优化问题的方法解之</li></ol><p><strong class=chinese>具体步骤</strong></p><p>将 A 分块，使其包含一个 $m \times m$ 非奇异矩阵 $A_B,x,h$ 做对应的分块</p>$$
+$$<p>其中 $b\in R^m,A\in R^{n\times m},rank(A)=m, n>m$</p>
+<p>其中 $G$ 是由二阶导构成的 hessian 矩阵</p>
+<h2 id="求解方法">求解方法</h2>
+<h3 id="变量消去法">变量消去法</h3>
+<p><strong class=chinese>步骤</strong></p>
+<ol>
+<li>将 $x$ 分成基本变量 $x_B$与非基本变量 $x_N$ 两部分，利用等式约束将基本变量用非基本变量表示出来</li>
+<li>再将基本变量带入目标函数，从而消去基本变量，把问题化为一个关于非基本变量的无约束最优化问题</li>
+<li>最后求解无约束最优化问题的方法解之</li>
+</ol>
+<p><strong class=chinese>具体步骤</strong></p>
+<p>将 A 分块，使其包含一个 $m \times m$ 非奇异矩阵 $A_B,x,h$ 做对应的分块</p>
+$$
 x=\begin{bmatrix}x_B\\x_N\end{bmatrix},A=\begin{bmatrix}A_B\\A_N\end{bmatrix},G=\begin{bmatrix}G_{BB}&&G_{BN}\\G_{NB}&&G_{NN}\end{bmatrix},h=\begin{bmatrix}h_B\\h_N\end{bmatrix}
-$$<p>所以等式约束 $A^Tx=b$ 转化为</p>$$
+$$<p>所以等式约束 $A^Tx=b$ 转化为</p>
+$$
 \begin{bmatrix}A_B\\A_N\end{bmatrix}^T\begin{bmatrix}x_B\\x_N\end{bmatrix}=b \rightarrow A_Bx_B+A_Nx_N=b
-$$<p>更换以下变量位置</p>$$
+$$<p>更换以下变量位置</p>
+$$
 x_B=A_B^{-1}b-A_B^{-1}A_Nx_N
-$$<p>则</p>$$
+$$<p>则</p>
+$$
 x=\begin{bmatrix}x_B\\x_N\end{bmatrix}=\begin{bmatrix}A_B^{-1}b-A_B^{-1}A_Nx_N\\x_N\end{bmatrix}=\begin{bmatrix}A_B^{-1}\\0\end{bmatrix}+\begin{bmatrix}-A_B^{-1}A_N\\I\end{bmatrix}x_N=x_0+Zx_N
-$$<p>转变为一个 $x=x_0+Zx_N$ 的形式，将其带入目标函数，消去基本变量，问题变为一个关于非基本变量的无约束最优化问题</p><p>将上式带入目标函数中</p>$$
+$$<p>转变为一个 $x=x_0+Zx_N$ 的形式，将其带入目标函数，消去基本变量，问题变为一个关于非基本变量的无约束最优化问题</p>
+<p>将上式带入目标函数中</p>
+$$
 min\ f(x)=\frac{1}{2}x^TGx+h^Tx=\frac{1}{2}(x_0+Zx_N)^TG(x_0+Zx_N)+h^T(x_0+Zx_N)
-$$<p>其中除了 $x_N$ 其他都是已知的常数项，由于常数项不影响优化结果，所以优化过程中省略常数项。另外找到所有的 $x_N^TPx_N$ 和 $Qx_N$ 的形式的项，可得如下形式：</p>$$
+$$<p>其中除了 $x_N$ 其他都是已知的常数项，由于常数项不影响优化结果，所以优化过程中省略常数项。另外找到所有的 $x_N^TPx_N$ 和 $Qx_N$ 的形式的项，可得如下形式：</p>
+$$
 \left\{\begin{aligned}min\ f(x)&=\frac{1}{2}x_N^TPx_N+\frac{1}{2}Z^Tx_N^TGx_0+\frac{1}{2}x_0^TGZx_N+\frac{1}{2}x_0^TGx_0+Qx_N\\P&=Z^TGZ\\Q&=x_0^TGZ+h^TZ\end{aligned}\right.
-$$<p>求最值实际上求 $\dot{f(x)}=0$ 即可，即</p>$$
+$$<p>求最值实际上求 $\dot{f(x)}=0$ 即可，即</p>
+$$
 \dot{f(x)} = \frac{1}{2}Z^T(G+G^T)Zx_N+\frac{1}{2}Z^T(G+G^T)x_0+Q^T=0
-$$<p>如果想要有唯一最优解，必须满足 $Z^T(G+G^T)Z$ 正定</p><h3 id=language-法>Language <strong class=chinese>法</strong></h3><p><strong class=chinese>步骤</strong></p><p>等式约束的二次规划的 Lagrange 函数为</p>$$
+$$<p>如果想要有唯一最优解，必须满足 $Z^T(G+G^T)Z$ 正定</p>
+<h3 id="language-法">Language <strong class=chinese>法</strong></h3>
+<p><strong class=chinese>步骤</strong></p>
+<p>等式约束的二次规划的 Lagrange 函数为</p>
+$$
 L(x,\lambda)=\frac{1}{2}x^TGx+h^Tx+\lambda (A^Tx-b)
-$$<p>其中 $\lambda$ 称为 Lagrange 乘数，正负都有可能。Lagrange乘数法将原本的约束优化问题转换成等价的无约束优化问题，即</p>$$
+$$<p>其中 $\lambda$ 称为 Lagrange 乘数，正负都有可能。Lagrange乘数法将原本的约束优化问题转换成等价的无约束优化问题，即</p>
+$$
 \underset{x,\lambda}{min} \ L(x,\lambda)
-$$<p>计算 $L$ 对 $x$ 和 $\lambda$ 的偏导，并且设为零，可得最优解的必要条件</p>$$
+$$<p>计算 $L$ 对 $x$ 和 $\lambda$ 的偏导，并且设为零，可得最优解的必要条件</p>
+$$
 \left\{\begin{aligned}\frac{\partial L}{\partial x}&=Gx+h+\lambda =0 && 定常方程式\\\frac{\partial L}{\partial \lambda}&=A^Tx-b=0&&约束条件\end{aligned}\right.
-$$<p>表示为方程组</p>$$
+$$<p>表示为方程组</p>
+$$
 \begin{bmatrix}G&&A\\A^T&&0\end{bmatrix}\begin{bmatrix}x\\\lambda\end{bmatrix}=\begin{bmatrix}-h\\b\end{bmatrix}
-$$<p>求解之后得到最优解</p><h3 id=方法对比>方法对比</h3><p>变量消去法其实是转化成了一个 n - m 维的问题，也就是说求解 n − m 个方程组就能解决这个问题。而 Lagrange法是将其转化成一个 n + m 维的问题，即 n 个变量， m 个乘子。所以可见，如果模型维度太大，建议使用变量消去法，很直观，使用非基数来表示基变量，但是由于需要计算 $A_B^{-1}$ ，当 $A_B$ 接近奇异时会导致误差很大</p><h1 id=qp不等式约束>QP——不等式约束</h1><p>一个标准的等式不等式联合约束 QP 原模型</p>$$
+$$<p>求解之后得到最优解</p>
+<h3 id="方法对比">方法对比</h3>
+<p>变量消去法其实是转化成了一个 n - m 维的问题，也就是说求解 n − m 个方程组就能解决这个问题。而 Lagrange法是将其转化成一个 n + m 维的问题，即 n 个变量， m 个乘子。所以可见，如果模型维度太大，建议使用变量消去法，很直观，使用非基数来表示基变量，但是由于需要计算 $A_B^{-1}$ ，当 $A_B$ 接近奇异时会导致误差很大</p>
+<h1 id="qp不等式约束">QP——不等式约束</h1>
+<p>一个标准的等式不等式联合约束 QP 原模型</p>
+$$
 \min \frac{1}{2}x^THx+g^Tx\\a_i^Tx=b_i,i\in E\\h_j^Tx\leq t_j,j\in I
-$$<p>$i\in E$ 表示的是 m 个等式约束集合， $i\in I$ 表示的是 n 个不等式约束集合。对于不等式约束下的 QP 问题有多种求解方法</p><p>并且由</p>$$
+$$<p>$i\in E$ 表示的是 m 个等式约束集合， $i\in I$ 表示的是 n 个不等式约束集合。对于不等式约束下的 QP 问题有多种求解方法</p>
+<p>并且由</p>
+$$
 f(x)=\frac{1}{2}x^THx+g^Tx\\g_i(x)=ax_i-b_i\\h_i(x)=h_i^Tu-t_i
-$$<h2 id=求解方法-1>求解方法</h2><h3 id=lagrange乘数法与kkt条件><strong>Lagrange乘数法与KKT条件</strong></h3><p><strong class=chinese>一般形式</strong></p>$$
+$$<h2 id="求解方法-1">求解方法</h2>
+<h3 id="lagrange乘数法与kkt条件"><strong>Lagrange乘数法与KKT条件</strong></h3>
+<p><strong class=chinese>一般形式</strong></p>
+$$
 \left\{\begin{aligned}min\ \dot{f(x)}\\g(x)\leq 0\end{aligned}\right.
-$$<p>其中约束不等式 $g(x)\leq 0$ 称为<strong class=chinese>原始可行性</strong>，可以定义可行域</p>$$
+$$<p>其中约束不等式 $g(x)\leq 0$ 称为<strong class=chinese>原始可行性</strong>，可以定义可行域</p>
+$$
 K=\{x\in R^n|g(x)\leq0\}
-$$<p>假设 $x^\star $ 为满足约束条件的最佳解，分两种情况讨论</p><ul><li><p>$g(x^\star )<0$ 最佳解位于 K 的内部，称为内部解(interior solution)，这时<strong class=chinese>约束条件是无效</strong>的 (inactive)</p><p><strong class=chinese>必要条件</strong></p><p>约束条件无效的情况下， $g(x)$ 不起作用，约束优化问题退化为无约束优化问题， 因此驻点 $x^\star $ 满足 $\nabla f=0且\lambda=0$</p></li><li><p>$g(x^\star )=0$ 最佳解位于 K 的边界，称为边界解(boundarysolution)，这时约束条件是有效的 (active)</p><p><strong class=chinese>必要条件</strong></p><p>在约束条件有效的情形下，约束不等式变成等式 $g(x)=0$，这与前述 Lagrange 乘数法的情况相同，可以证明驻点 $x^\star $ 发生于 $\nabla f\in span \nabla g$，其中 span 是生成子空间。即 $\exist \lambda\rightarrow \nabla f=-\lambda \nabla g$，并且这里的正负号有意义。因此我们希望最小化 $f$，梯度 $\nabla f$ （函数 $f$ 在点 x 的最陡上升方向），应该指向可行域 K 的内部，因为最优解是在边界取到的，但同时 $\nabla g$ 指向 K 的外部（ $g(x)>0$ ）的区域，因为约束是 $g(x)\leq 0$，因此 $\lambda \geq 0$ ，称为<strong class=chinese>对偶可行性</strong></p></li></ul><p>因此，不论是内部解或者边界解， $\lambda g(x)=0$ 恒成立，称为<strong class=chinese>互补松弛性</strong>。综合上述两种情况，最佳解的必要条件包括 Lagrange 函数 $L(x,\lambda)$ 的<strong>定常方程式，原始可行性，对偶可行性，互补松弛性</strong></p>$$
+$$<p>假设 $x^\star $ 为满足约束条件的最佳解，分两种情况讨论</p>
+<ul>
+<li>
+<p>$g(x^\star )<0$ 最佳解位于 K 的内部，称为内部解(interior solution)，这时<strong class=chinese>约束条件是无效</strong>的 (inactive)</p>
+<p><strong class=chinese>必要条件</strong></p>
+<p>约束条件无效的情况下， $g(x)$ 不起作用，约束优化问题退化为无约束优化问题， 因此驻点 $x^\star $ 满足 $\nabla f=0且\lambda=0$</p>
+</li>
+<li>
+<p>$g(x^\star )=0$ 最佳解位于 K 的边界，称为边界解(boundarysolution)，这时约束条件是有效的 (active)</p>
+<p><strong class=chinese>必要条件</strong></p>
+<p>在约束条件有效的情形下，约束不等式变成等式 $g(x)=0$，这与前述 Lagrange 乘数法的情况相同，可以证明驻点 $x^\star $ 发生于 $\nabla f\in span \nabla g$，其中 span 是生成子空间。即 $\exist \lambda\rightarrow \nabla f=-\lambda \nabla g$，并且这里的正负号有意义。因此我们希望最小化 $f$，梯度 $\nabla f$ （函数 $f$ 在点 x  的最陡上升方向），应该指向可行域 K 的内部，因为最优解是在边界取到的，但同时 $\nabla g$ 指向 K 的外部（ $g(x)>0$ ）的区域，因为约束是 $g(x)\leq 0$，因此 $\lambda \geq 0$ ，称为<strong class=chinese>对偶可行性</strong></p>
+</li>
+</ul>
+<p>因此，不论是内部解或者边界解， $\lambda g(x)=0$ 恒成立，称为<strong class=chinese>互补松弛性</strong>。综合上述两种情况，最佳解的必要条件包括 Lagrange 函数 $L(x,\lambda)$ 的<strong>定常方程式，原始可行性，对偶可行性，互补松弛性</strong></p>
+$$
 \left\{\begin{aligned}&\nabla_x L=\nabla f+\lambda \nabla g=0\\&g(x)\leq 0\\&\lambda\geq 0\\&\lambda g(x) =0\end{aligned}\right.
-$$<p>这些条件合称为Karush-Kuhn-Tucker (<strong>KKT</strong>)条件。如果我们要最大化 $f(x)$ 且受限于 $g(x)\leq0$，那么对偶可行性要改成 $\lambda \leq 0$</p><p><strong class=chinese>标准约束优化</strong></p><p>考虑标准优化问题，即非线性规则</p>$$
+$$<p>这些条件合称为Karush-Kuhn-Tucker (<strong>KKT</strong>)条件。如果我们要最大化 $f(x)$ 且受限于 $g(x)\leq0$，那么对偶可行性要改成 $\lambda \leq 0$</p>
+<p><strong class=chinese>标准约束优化</strong></p>
+<p>考虑标准优化问题，即非线性规则</p>
+$$
 \left\{\begin{aligned}&min\ f(x)\\&g_j(x)=0&&j=1…m\\&h_k(x)\leq 0&&k=1…p\end{aligned}\right.
-$$<p>定义 Lagrange 函数</p>$$
+$$<p>定义 Lagrange 函数</p>
+$$
 L(x,\{\lambda_j\},\{u_k\})=f(x)+\sum_{j=1}^m{\lambda_j g_j(x)}+\sum_{k=1}^pu_kh_k(x)
-$$<p>其中 $\lambda_j$ 是对应 $g_j(x)=0$ 的 Lagrange 乘数， $u_k$ 是对应 $h_k(x)\leq 0$ 的 Lagrange 乘数，或称为 KKT乘数。KKT条件包括<strong>定常方程式，原始可行性，对偶可行性，互补松弛性</strong></p>$$
+$$<p>其中 $\lambda_j$ 是对应 $g_j(x)=0$ 的 Lagrange 乘数， $u_k$ 是对应 $h_k(x)\leq 0$ 的 Lagrange 乘数，或称为 KKT乘数。KKT条件包括<strong>定常方程式，原始可行性，对偶可行性，互补松弛性</strong></p>
+$$
 \left\{\begin{aligned}&\nabla_x L=0\\&g(x)= 0&&j=1...m\\&h_k(x)\leq0\\&u_k\geq 0\\&u_kh_k(x)=0&&k=1...p\end{aligned}\right.
-$$<p><strong class=chinese>栗子</strong></p><ol><li><p>对于这个问题</p>$$
-\left\{\begin{aligned}min\ x_1^2+x_2^2\\x_1+x_2=1\\x_2\leq \alpha\end{aligned}\right.
-$$<p>其中 $(x_1,x_2)\in R^2$ ， $\alpha$ 为实数，写出 Lagrange 函数</p><p>$L(x_1,x_2,\lambda,\mu)=x_1^2+x_2^2+\lambda (1-x_1-x_2)+\mu (x_2-\alpha)$</p><p>KKT 方程组</p>$$
-\left\{\begin{aligned}&\frac{\partial  L}{\partial x_i}=0&&i=1,2\\&x_1+x_2=1\\&x_2-\alpha\leq0\\&u\geq 0\\&u(x_2-\alpha)=0\end{aligned}\right.
-$$<p>求偏导为</p>$$
-\left\{\begin{aligned}\frac{\partial L}{\partial x_1}&=2x_1-\lambda = 0\\\frac{\partial L}{\partial x_2}&=2x_2-\lambda + \mu=0\end{aligned}\right.
-$$<p>解得</p>$$
-\left\{\begin{aligned}x_1&=\frac{\lambda}{2}\\x_2&=\frac{\lambda-\mu}{2}\end{aligned}\right.
-$$<p>带入约束等式，得</p>$$
-x_1+x_2=\lambda-\frac{\mu}{2}=1
-$$<p>合并结果为</p>$$
-\left\{\begin{aligned}x_1&=\frac{\mu}{4}+\frac{1}{2}\\x_2&=-\frac{\mu}{4}+\frac{1}{2}\end{aligned}\right.
-$$<p>加入约束不等式</p>$$
--\frac{\mu}{4}+\frac{1}{2}\leq \alpha \Rightarrow \mu\geq 2-4\alpha
-$$<p>分3种情况讨论</p><ul><li>$\alpha > \frac{1}{2}$ 则对于 $u=0>2-4\alpha$ 满足所有的KKT条件，约束不等式无效， $x_1^\star =x_2^\star =\frac{1}{2}$ 是内部解，目标函数的极小值为 $\frac{1}{2}$</li><li>$\alpha = \frac{1}{2}$ 则 $u=0=2-4\alpha$ 满足所有的KKT条件， $x_1^\star =x_2^\star =\frac{1}{2}$ 是内部解，因为 $x_2^\star =\alpha$，即满足 $x_2^\star -\alpha=0$</li><li>$\alpha<\frac{1}{2}$ 这时约束不等式是有效的，$u=2-4\alpha>0$，则 $x_1^\star =1-\alpha$ 且 $x_2^\star =alpha$，目标函数的极小值为 $(1-\alpha)^2+\alpha^2$</li></ul></li><li><p>标准约束优化</p>$$
-\left\{\begin{aligned}&min\ f(x)=-2x_1^2-x_1^2\\&x_1^2+x_2^2-x=0\\&-x_1+x_2\geq 0\\&x_1\geq 0,x_2\geq 0\end{aligned}\right.
-$$<p>试验证 $x^\star =(1,1)^T$ 为KKT点，并求出问题的 KKT 对</p>$$
-\left\{\begin{aligned}f(x)&=-2x_1^2-x_1^2\\g(x)&=x_1^2+x_2^2-2\\h_1(x)&=x_1-x_2\\h_2(x)&=-x_1\\h_3(x)&=-x_2\end{aligned}\right.
-$$<p>求梯度，得到</p>$$
-\nabla f(x)=\begin{bmatrix}-4x_1\\-2x_2\end{bmatrix},\nabla g(x)=\begin{bmatrix}2x_1\\2x_2\end{bmatrix}\\\nabla h_1(x)=\begin{bmatrix}1\\-1\end{bmatrix},\nabla h_2(x)=\begin{bmatrix}-1\\0\end{bmatrix},\nabla h_3(x)=\begin{bmatrix}0\\-1\end{bmatrix}
-$$<p>把 $x^\star =(1,1)^T$ 带入以上的式子，由KKT条件得</p>$$
-\left\{\begin{aligned}-4+2\lambda +\mu_1-\mu_2=0\\-2+2\lambda -\mu_1+\mu_3=0\end{aligned}\right.
-$$<p>由于</p>$$
-\left\{\begin{aligned}\mu_2h_2(x)=0\\\mu_3h_3(x)=0\end{aligned}\right.\rightarrow \left\{\begin{aligned}\mu_2^\star =0\\\mu_3^\star =0\end{aligned}\right. \Rightarrow \left\{\begin{aligned}-4+2\lambda +\mu_1=0\\-2+2\lambda -\mu_1=0\end{aligned}\right. \Rightarrow \left\{\begin{aligned}&\lambda^\star =1.5\\&\mu_1^\star =1\end{aligned}\right.
-$$<p>这表明 $x^\star $ 是KKT点， $(x^\star ,(\lambda^\star ,\mu^\star ))$是KKT对，其中</p>$$
-\left\{\begin{aligned}&\lambda^=1.5\\&\mu^\star =\begin{bmatrix}1&0 &0\end{bmatrix}^T\end{aligned}\right.
-$$</li></ol><h3 id=内点法><strong class=chinese>内点法</strong></h3><p><strong class=chinese>基本思想</strong></p><p>将优化问题的可行域视为一个凸集，并通过一个内点序列来逐步接近最优解，而不是像单纯形法那样在顶点上进行搜索。在内点法中，每个内点表示一个可行解，而算法将不断迭代，使内点逐渐接近最优解。通过在内点附近构造一个特定的路径，内点法可以在有限的步数内找到最优解</p><p><strong class=chinese>步骤</strong></p>$$
+$$<p><strong class=chinese>栗子</strong></p>
+<ol>
+<li>
+<p>对于这个问题</p>
+$$
+    \left\{\begin{aligned}min\ x_1^2+x_2^2\\x_1+x_2=1\\x_2\leq \alpha\end{aligned}\right.
+    $$<p>其中 $(x_1,x_2)\in R^2$ ， $\alpha$ 为实数，写出 Lagrange 函数</p>
+<p>$L(x_1,x_2,\lambda,\mu)=x_1^2+x_2^2+\lambda (1-x_1-x_2)+\mu (x_2-\alpha)$</p>
+<p>KKT 方程组</p>
+$$
+    \left\{\begin{aligned}&\frac{\partial  L}{\partial x_i}=0&&i=1,2\\&x_1+x_2=1\\&x_2-\alpha\leq0\\&u\geq 0\\&u(x_2-\alpha)=0\end{aligned}\right.
+    $$<p>求偏导为</p>
+$$
+    \left\{\begin{aligned}\frac{\partial L}{\partial x_1}&=2x_1-\lambda = 0\\\frac{\partial L}{\partial x_2}&=2x_2-\lambda + \mu=0\end{aligned}\right.
+    $$<p>解得</p>
+$$
+    \left\{\begin{aligned}x_1&=\frac{\lambda}{2}\\x_2&=\frac{\lambda-\mu}{2}\end{aligned}\right.
+    $$<p>带入约束等式，得</p>
+$$
+    x_1+x_2=\lambda-\frac{\mu}{2}=1
+    $$<p>合并结果为</p>
+$$
+    \left\{\begin{aligned}x_1&=\frac{\mu}{4}+\frac{1}{2}\\x_2&=-\frac{\mu}{4}+\frac{1}{2}\end{aligned}\right.
+    $$<p>加入约束不等式</p>
+$$
+    -\frac{\mu}{4}+\frac{1}{2}\leq \alpha \Rightarrow \mu\geq 2-4\alpha
+    $$<p>分3种情况讨论</p>
+<ul>
+<li>$\alpha > \frac{1}{2}$ 则对于 $u=0>2-4\alpha$ 满足所有的KKT条件，约束不等式无效， $x_1^\star =x_2^\star =\frac{1}{2}$ 是内部解，目标函数的极小值为  $\frac{1}{2}$</li>
+<li>$\alpha = \frac{1}{2}$ 则 $u=0=2-4\alpha$ 满足所有的KKT条件， $x_1^\star =x_2^\star =\frac{1}{2}$ 是内部解，因为 $x_2^\star =\alpha$，即满足 $x_2^\star -\alpha=0$</li>
+<li>$\alpha<\frac{1}{2}$ 这时约束不等式是有效的，$u=2-4\alpha>0$，则 $x_1^\star =1-\alpha$ 且 $x_2^\star =alpha$，目标函数的极小值为 $(1-\alpha)^2+\alpha^2$</li>
+</ul>
+</li>
+<li>
+<p>标准约束优化</p>
+$$
+    \left\{\begin{aligned}&min\ f(x)=-2x_1^2-x_1^2\\&x_1^2+x_2^2-x=0\\&-x_1+x_2\geq 0\\&x_1\geq 0,x_2\geq 0\end{aligned}\right.
+    $$<p>试验证 $x^\star =(1,1)^T$ 为KKT点，并求出问题的 KKT 对</p>
+$$
+    \left\{\begin{aligned}f(x)&=-2x_1^2-x_1^2\\g(x)&=x_1^2+x_2^2-2\\h_1(x)&=x_1-x_2\\h_2(x)&=-x_1\\h_3(x)&=-x_2\end{aligned}\right.
+    $$<p>求梯度，得到</p>
+$$
+    \nabla f(x)=\begin{bmatrix}-4x_1\\-2x_2\end{bmatrix},\nabla g(x)=\begin{bmatrix}2x_1\\2x_2\end{bmatrix}\\\nabla h_1(x)=\begin{bmatrix}1\\-1\end{bmatrix},\nabla h_2(x)=\begin{bmatrix}-1\\0\end{bmatrix},\nabla h_3(x)=\begin{bmatrix}0\\-1\end{bmatrix}
+    $$<p>把 $x^\star =(1,1)^T$ 带入以上的式子，由KKT条件得</p>
+$$
+    \left\{\begin{aligned}-4+2\lambda +\mu_1-\mu_2=0\\-2+2\lambda -\mu_1+\mu_3=0\end{aligned}\right.
+    $$<p>由于</p>
+$$
+    \left\{\begin{aligned}\mu_2h_2(x)=0\\\mu_3h_3(x)=0\end{aligned}\right.\rightarrow \left\{\begin{aligned}\mu_2^\star =0\\\mu_3^\star =0\end{aligned}\right. \Rightarrow \left\{\begin{aligned}-4+2\lambda +\mu_1=0\\-2+2\lambda -\mu_1=0\end{aligned}\right. \Rightarrow \left\{\begin{aligned}&\lambda^\star =1.5\\&\mu_1^\star =1\end{aligned}\right.
+    $$<p>这表明 $x^\star $ 是KKT点， $(x^\star ,(\lambda^\star ,\mu^\star ))$是KKT对，其中</p>
+$$
+    \left\{\begin{aligned}&\lambda^=1.5\\&\mu^\star =\begin{bmatrix}1&0 &0\end{bmatrix}^T\end{aligned}\right.
+    $$</li>
+</ol>
+<h3 id="内点法"><strong class=chinese>内点法</strong></h3>
+<p><strong class=chinese>基本思想</strong></p>
+<p>将优化问题的可行域视为一个凸集，并通过一个内点序列来逐步接近最优解，而不是像单纯形法那样在顶点上进行搜索。在内点法中，每个内点表示一个可行解，而算法将不断迭代，使内点逐渐接近最优解。通过在内点附近构造一个特定的路径，内点法可以在有限的步数内找到最优解</p>
+<p><strong class=chinese>步骤</strong></p>
+$$
 \left\{\begin{aligned}&min\ f(x)\\&g_j(x)=0&&j=1…m\\&h_(x)\leq 0&&k=1…p\end{aligned}\right.
-$$<p>写出对应的 Lagrange 函数</p>$$
+$$<p>写出对应的 Lagrange 函数</p>
+$$
 L(x,\{\lambda_j\},\{u_k\})=f(x)+\sum_{j=1}^m{\lambda_j g_j(x)}+\sum_{k=1}^pu_kh_k(x)
-$$<p>对应的 KKT 条件为</p>$$
+$$<p>对应的 KKT 条件为</p>
+$$
 \left\{\begin{aligned}&Gx+c-A^T_{\varepsilon}\lambda-A^T_{I}\mu=0\\&a_i^Tx\leq b_i&i\in I\\&a_i^Tx=b_i&i\in \varepsilon\\&\mu_i\geq0&i\in I\\&\mu_i(a_i^Tx-b_i)=0&i\in I\end{aligned}\right.
-$$<p>其中</p>$$
+$$<p>其中</p>
+$$
 \left\{\begin{aligned}A_{\varepsilon}=\{a_i^T\}_{i\in \varepsilon} \in R^{m_1\times n}\\A_I=\{a_i^T\}_{i \in I}\in R^{m_2\times n}\end{aligned}\right.
-$$<p>相当于把两组不同的约束做了拆分。</p><p>可以添加一组松弛变量</p>$$
+$$<p>相当于把两组不同的约束做了拆分。</p>
+<p>可以添加一组松弛变量</p>
+$$
 \left\{\begin{aligned}&Gx+c-A^T_{\varepsilon}\lambda-A^T_{I}\mu=0\\&A_{\varepsilon}-b_{\varepsilon}=0\\&A_Ix-b_I-y=0\\&(\mu,y)\geq0&i\in I\\&\mu_iy_i=0&i\in I\end{aligned}\right.
-$$<p>这里的 $b_{\varepsilon},b_I$ 和之前的意思类似，就是根据不同的指标集把b区分成不同的两个列向量</p><p>写成函数的形式</p>$$
+$$<p>这里的 $b_{\varepsilon},b_I$ 和之前的意思类似，就是根据不同的指标集把b区分成不同的两个列向量</p>
+<p>写成函数的形式</p>
+$$
 F(x,y,\lambda,\mu)=\begin{bmatrix}&Gx+c-A^T_{\varepsilon}\lambda-A^T_{I}\mu\\&A_{\varepsilon}-b_{\varepsilon}\\&A_Ix-b_I-y\\&U Y1\end{bmatrix}
-$$<p>其中 $U, Y\in R^{n_2\times n_2}$，最终的目的就是 $F(x,y,\lambda,\mu)=0$，再加上 $(\mu, y)\geq 0$ 就是完整的KKT条件了</p><p>可以适当添加一个松弛条件，即解方程</p>$$
+$$<p>其中 $U, Y\in R^{n_2\times n_2}$，最终的目的就是 $F(x,y,\lambda,\mu)=0$，再加上 $(\mu, y)\geq 0$ 就是完整的KKT条件了</p>
+<p>可以适当添加一个松弛条件，即解方程</p>
+$$
 F(x,y,\lambda,\mu)=\begin{bmatrix}0\\0\\0\\\tau 1\end{bmatrix}
-$$<p>由于要求 $(\mu,y)>0$ ，所以不断缩小 $\tau \rightarrow 0$，就是最终的解</p><p>求解这个方程的解就需要求解 jacobi 矩阵</p>$$
+$$<p>由于要求 $(\mu,y)>0$ ，所以不断缩小 $\tau \rightarrow 0$，就是最终的解</p>
+<p>求解这个方程的解就需要求解 jacobi 矩阵</p>
+$$
 \begin{bmatrix}G&0&-A_{\varepsilon}^T&-A_I^T\\A_{\varepsilon}&0&0&0\\A_I&-I&0&0\\0&U&0&Y\end{bmatrix}\begin{bmatrix}\Delta x\\\Delta y\\\Delta \lambda\\\Delta\mu\end{bmatrix}=\begin{bmatrix}-r^d\\-r^p\\-r^y\\-UY1+\sigma \beta 1\end{bmatrix}
-$$<p>其中</p>$$
+$$<p>其中</p>
+$$
 \left\{\begin{aligned}&\beta=\frac{y^T\lambda}{m_2}\\&\sigma \in(0,1)作为一个系数\\&r^d=Gx+c-A^T_{\varepsilon}\lambda-A^T_{I}\mu\\&r^p=A_{\varepsilon}-b_{\varepsilon}\\&r^y=A_Ix-b_I-y\end{aligned}\right.
-$$<h3 id=积极集法><strong class=chinese>积极集法</strong></h3><p>积极集法就是一堆active的约束条件的集合。active的定义是：给定任意一个在可行域内的点x，即可行解，在x下，不等式约束条件取到等号。即在 $x=x^\star $ 这个可行解下 $g(x)\geq0⇒g(x^\star )=0$</p><p>active set 里面包括了所有的等式约束以及一些可以取到等号的不等式约束</p><p>方法核心思想：如果我们知道最优点处的active的约束，就可以把那些inactive的约束条件都剔除掉，将带不等式约束的二次规划问题转变为等式约束的二次规划问题，降低搜索解的复杂度。但其有一个前提，给定的迭代的起始点要是一个可行解。</p><p><img src=./v2-c1427e8a1b7aa97c1285db48ff207842_720w.jpg alt=v2-c1427e8a1b7aa97c1285db48ff207842_720w.jpg></p><p><strong class=chinese>算法流程</strong></p><p><img src=./v2-1b214a8477d49125d77f520d8fb972b2_720w.webp alt=v2-1b214a8477d49125d77f520d8fb972b2_720w.webp></p><p>图中的p是一个当前迭代点的改进方向，每次迭代，我们把从约束条件集合中拿出来的约束条件假设为active约束条件进行尝试，加入的集合称为工作集，这个集合是随着迭代不断变化的。如果第k次的迭代点 $x_k$ 不是当前工作集下的最优点，就通过求解当前工作集下的active约束的QP问题来得到一个最优解x，工作集也有可能为空，即求解原QP问题在无约束条件下的最优解，方向 $p=x^\star -x_k$， $x_k$ 朝着p移动可以使得QP目标函数值下降，求出方向p后，如果 $x_{k+1}=x_k+p$ 满足原QP里的所有约束，就将这个点作为下一个迭代点 ，如果不满足所有约束（朝p走的这一步可能会走的太大了，走出了可行域），则将步子迈的小一点，来使得所有约束条件满足，即给p加一个系数α，系数小于1。即</p>$$
+$$<h3 id="积极集法"><strong class=chinese>积极集法</strong></h3>
+<p>积极集法就是一堆active的约束条件的集合。active的定义是：给定任意一个在可行域内的点x，即可行解，在x下，不等式约束条件取到等号。即在 $x=x^\star $ 这个可行解下 $g(x)\geq0⇒g(x^\star )=0$</p>
+<p>active set 里面包括了所有的等式约束以及一些可以取到等号的不等式约束</p>
+<p>方法核心思想：如果我们知道最优点处的active的约束，就可以把那些inactive的约束条件都剔除掉，将带不等式约束的二次规划问题转变为等式约束的二次规划问题，降低搜索解的复杂度。但其有一个前提，给定的迭代的起始点要是一个可行解。</p>
+<p><img src="./v2-c1427e8a1b7aa97c1285db48ff207842_720w.jpg" alt="v2-c1427e8a1b7aa97c1285db48ff207842_720w.jpg"></p>
+<p><strong class=chinese>算法流程</strong></p>
+<p><img src="./v2-1b214a8477d49125d77f520d8fb972b2_720w.webp" alt="v2-1b214a8477d49125d77f520d8fb972b2_720w.webp"></p>
+<p>图中的p是一个当前迭代点的改进方向，每次迭代，我们把从约束条件集合中拿出来的约束条件假设为active约束条件进行尝试，加入的集合称为工作集，这个集合是随着迭代不断变化的。如果第k次的迭代点 $x_k$ 不是当前工作集下的最优点，就通过求解当前工作集下的active约束的QP问题来得到一个最优解x，工作集也有可能为空，即求解原QP问题在无约束条件下的最优解，方向 $p=x^\star -x_k$， $x_k$ 朝着p移动可以使得QP目标函数值下降，求出方向p后，如果 $x_{k+1}=x_k+p$ 满足原QP里的所有约束，就将这个点作为下一个迭代点 ，如果不满足所有约束（朝p走的这一步可能会走的太大了，走出了可行域），则将步子迈的小一点，来使得所有约束条件满足，即给p加一个系数α，系数小于1。即</p>
+$$
 x_{k+1}=x_k+\alpha p \ \left\{\begin{aligned}&\alpha=1&&满足所有约束\\&0<\alpha<1&&有约束不满足\end{aligned}\right.
-$$<p><strong class=chinese>公式</strong></p><p>假设求解的 QP 问题为</p>$$
+$$<p><strong class=chinese>公式</strong></p>
+<p>假设求解的 QP 问题为</p>
+$$
 \min_xf(x)=\frac{1}{2}x^TGx+x^Tc\\A_ix\geq b,i\in I
-$$<p>则在工作集 W 的积极集约束满足的条件下的第 k 次迭代下的最优点为</p>$$
+$$<p>则在工作集 W 的积极集约束满足的条件下的第 k 次迭代下的最优点为</p>
+$$
 f(x^\star )=f(x_k+p)\\=\frac{1}{2}(x_k+p)^TG(x_k+p)+(x_k+p)^Tc\\=\frac{1}{2}p^TGp+(Gx_k+c)^Tp+\frac{1}{2}x_k^TGx_k+x_kc\\subject~to~~A_i(x_k+p)=b_i,i\in W
-$$<p>上式中与 p 无关的变量可以看作是常数，不需要管？也就是优化下列式子</p>$$
+$$<p>上式中与 p 无关的变量可以看作是常数，不需要管？也就是优化下列式子</p>
+$$
 \min \frac{1}{2}p^TGp+(Gx+c)^Tp\\A_ip=0,i\in W
-$$<p>解出 p 后，下一个迭代点</p>$$
+$$<p>解出 p 后，下一个迭代点</p>
+$$
 x_{k+1}=x_k+\alpha p
-$$<p>然后就是考虑工作集之外的约束条件的满足情况，因为工作集内的约束已经考虑过，所有条件满足。首先判断 $A_ip$ 符号，若 $A_ip\geq 0$ 则可以知道它满足所有约束，因为</p>$$
+$$<p>然后就是考虑工作集之外的约束条件的满足情况，因为工作集内的约束已经考虑过，所有条件满足。首先判断 $A_ip$ 符号，若 $A_ip\geq 0$ 则可以知道它满足所有约束，因为</p>
+$$
 A_ix_{k+1}=A_i(x_k+\alpha p)\geq b,\alpha >0
-$$<p>如果 $A_ip\leq 0$ 则为了满足 $A_i(x_k+\alpha p)\geq b$ 条件，可以得到</p>$$
+$$<p>如果 $A_ip\leq 0$ 则为了满足 $A_i(x_k+\alpha p)\geq b$ 条件，可以得到</p>
+$$
 \alpha \leq \frac{b-A_ix_k}{A_ip}
-$$<p>所以可得</p>$$
+$$<p>所以可得</p>
+$$
 \alpha =\min(1,\min\frac{b-A_ix_k}{A_ip})
-$$<p>就是沿着工作集下的active的可行域边界走，如果某次迭代没有约束条件（工作集为空），就朝着无约束下最优点在可行域内走，走到新的边界，然后将新的边界约束加入到工作集中，再沿着新的边界走，不断迭代，直到找到最优解。找到最优解的条件是 <strong>$x_k$满足KKT条件</strong>，即所有的 $\lambda$ 都大于0，则说明当前迭代点为最优解，退出迭代</p><p>其中求 $\lambda$ 的公式为</p>$$
+$$<p>就是沿着工作集下的active的可行域边界走，如果某次迭代没有约束条件（工作集为空），就朝着无约束下最优点在可行域内走，走到新的边界，然后将新的边界约束加入到工作集中，再沿着新的边界走，不断迭代，直到找到最优解。找到最优解的条件是 <strong>$x_k$满足KKT条件</strong>，即所有的 $\lambda$ 都大于0，则说明当前迭代点为最优解，退出迭代</p>
+<p>其中求 $\lambda$ 的公式为</p>
+$$
 \partial f(x)=Gx+c\\A_ix\geq b,i\in I
-$$<p>看作等式约束时，可以使用 lagrange 乘子法</p>$$
+$$<p>看作等式约束时，可以使用 lagrange 乘子法</p>
+$$
 \partial L=Gx+c-\lambda A_i=0,i\in W
-$$<p>则可以得到</p>$$
+$$<p>则可以得到</p>
+$$
 A_i\lambda =Gx+c
-$$<p><a href=https://zhuanlan.zhihu.com/p/50906541>Active set method介绍 - 知乎 (zhihu.com)</a></p><p><a href=https://zhuanlan.zhihu.com/p/38163970>Karush-Kuhn-Tucker (KKT)条件 - 知乎 (zhihu.com)</a></p><p><a href=https://zhuanlan.zhihu.com/p/375762164>优化理论——二次规划 - 知乎 (zhihu.com)</a></p><p><a href=https://zhuanlan.zhihu.com/p/556832103>KKT条件，原来如此简单 | 理论+算例实践 - 知乎 (zhihu.com)</a></p></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f&amp;resubmit=true&amp;title=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f&amp;t=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/>← prev</a>
-<a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%95%B0%E5%AD%97%E6%BB%A4%E6%B3%A2%E5%99%A8/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2024</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
-<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
-<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
+$$<p><a href="https://zhuanlan.zhihu.com/p/50906541">Active set method介绍 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38163970">Karush-Kuhn-Tucker (KKT)条件 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/375762164">优化理论——二次规划 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/556832103">KKT条件，原来如此简单 | 理论+算例实践 - 知乎 (zhihu.com)</a></p>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f&amp;resubmit=true&amp;title=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f&amp;t=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=QP%e4%ba%8c%e6%ac%a1%e8%a7%84%e5%88%92&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fqp%25E4%25BA%258C%25E6%25AC%25A1%25E8%25A7%2584%25E5%2588%2592%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2/">← prev</a>
+    
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%95%B0%E5%AD%97%E6%BB%A4%E6%B3%A2%E5%99%A8/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2024</span> - <span>2024</span>
+  </div>
+  <div>
+    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
+<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
+</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

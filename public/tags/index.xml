@@ -1,1 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tags on Luo's Blog</title><link>https://seashore.top/Blog_Hugo/tags/</link><description>Recent content in Tags on Luo's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>beloved25177@126.com (落)</managingEditor><webMaster>beloved25177@126.com (落)</webMaster><lastBuildDate>Mon, 23 Sep 2024 21:12:40 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Luo&#39;s Blog</title>
+    <link>https://seashore.top/Blog_Hugo/tags/</link>
+    <description>Recent content in Tags on Luo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Mon, 23 Sep 2024 21:12:40 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

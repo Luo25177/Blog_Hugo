@@ -1,179 +1,736 @@
-<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="ADRC自抗扰控制器设计与实现"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="ADRC自抗扰控制器"><meta property="og:description" content="ADRC自抗扰控制器设计与实现"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-19T00:00:58+00:00"><meta property="article:modified_time" content="2024-03-19T00:00:58+00:00"><meta property="article:tag" content="ADRC"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/><meta itemprop=name content="ADRC自抗扰控制器"><meta itemprop=description content="ADRC自抗扰控制器设计与实现"><meta itemprop=datePublished content="2024-03-19T00:00:58+00:00"><meta itemprop=dateModified content="2024-03-19T00:00:58+00:00"><meta itemprop=wordCount content="4187"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="ADRC"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>ADRC自抗扰控制器 - Luo's Blog</title>
-<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="ADRC自抗扰控制器"><meta name=twitter:description content="ADRC自抗扰控制器设计与实现"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
-<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>ADRC自抗扰控制器</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/adrc>#ADRC</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><ul><li><a href=#主要模块><strong>主要模块</strong></a></li></ul></li><li><a href=#ladrc-线性adrc>LADRC 线性ADRC</a><ul><li><a href=#一阶ladrc>一阶LADRC</a></li><li><a href=#二阶ladrc><strong>二阶LADRC</strong></a></li><li><a href=#三阶ladrc><strong>三阶LADRC</strong></a></li><li><a href=#四阶ladrc><strong>四阶LADRC</strong></a></li><li><a href=#其中参数的调整和选择>其中参数的调整和选择</a></li><li><a href=#note>Note</a></li></ul></li><li><a href=#nadrc-非线性adrc><strong>NADRC 非线性ADRC</strong></a><ul><li><a href=#一阶nadrc><strong>一阶NADRC</strong></a></li><li><a href=#二阶nadrc><strong>二阶NADRC</strong></a></li></ul></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></details><article class="content numbered-subtitles"><p><a href=https://github.com/Luo25177/modelControl>github仓库</a></p><p><img src=./Untitled.png alt=Untitled></p><p>为了解决快速性和超调的矛盾，在控制器设计过程中引入了过渡过程，通俗的讲就是输入信号从初始值到目标值并不是阶跃的，而是平滑过渡的，并且这个过渡过程的时间长短是可以调节的。将过渡过程和微分器在一个模块中实现，称为<strong>跟踪-微分器(TD)</strong>，单独的过渡过程和速度规划并没有本质区别。但是TD和速度规划不是一回事，TD将输入过渡和微分器统一为一个模块，它一边尽可能快地跟踪输入信号，同时给出输入信号近似的微分。</p><p>自抗扰控制对扰动和不确定性的处理是自抗扰控制最突出的特征，它把作用于被控对象的所有不确定因素都归结为“未知扰动”，而用被控对象的输入输出数据对它进行估计，并给予补偿。“自抗扰”的名称也来源于此，即主动抵抗干扰，不需要直接测量外扰的作用，也不需要实现知道扰动的规律（能知道更好）。构建观测器，利用被控对象的输入、输出和所施加的控制输入来估计作用于系统的总扰动（包括内扰和外扰，可以粗浅地理解为所有的影响因素），实现这一功能的模块被称为<strong class=chinese>扩展状态观测器</strong>（Extended State Observer，ESO）。这个名字也与观测器的形式十分匹配，因为在设计ESO时，首先构造一个扩张的系统，此系统的阶数比被控对象的阶数高一阶，ESO就是估计扩张系统的状态。观测出系统的总扰动，在设计控制器时首先抵消掉这个扰动，将得到一个标准的串联积分型系统，基于此标准型系统设计控制器时，控制器的形式与PID的形式类型，一般利用误差和误差的微分来构造控制器，这里的误差及其微分是由TD的输出和ESO的输出构造的。韩老师在其专著中给出了常用的几种<strong class=chinese>非线性状态误差反馈控制律</strong>（Nonlinear State Error Feedback，NLSEF）。</p><p>以下的所有形式都是连续型的形式，对于使用离散化的控制，就需要将其离散化</p><p>也比较简单：根据导数来计算</p><p>也比较简单：根据导数来计算 $x_{k+1}= T * \frac{dx_k}{dt} + x_k$</p><h3 id=主要模块><strong class=chinese>主要模块</strong></h3><ul><li>跟踪-微分器 TD</li><li>扩张状态观测器 ESO</li><li>状态误差反馈规律 SEF</li></ul><h2 id=ladrc-线性adrc>LADRC 线性ADRC</h2><p>被控对象可以有时延，可以有右半平面的零点或极点，但不能在右半平面同时有零点和极点。同时有右半平面的零点和极点，意味着有根轨迹从右半平面出发有回到右半平面，可能一直在右半平面，这样控制器设计是十分困难的。</p><p>被控对象的型次要求：对象不含微分器，且型次要求允许控制器含一个积分器。LADRC本身含一个积分器，如果被控对象含微分器，会出现原点的零极点对消。允许控制器含一个积分器是因为LADRC中是一定含有一个积分器的。</p><h3 id=一阶ladrc>一阶LADRC</h3><ul><li><p><strong>LTD</strong></p><p>是由一阶低通滤波器 $\frac{r}{s + r}$ 推导出来的，只需要更改 $r$ 值， $r$ 值越大到达设定值 $v$ 的时间就越短</p><p>令</p>$$
-X=\begin{bmatrix}x_1\end{bmatrix}\\x_1=y
-$$<p>从上式的低通滤波的传递函数可以推导出系统的状态方程</p>$$
-\dot{X}=AX+Bu=\begin{bmatrix}-r\end{bmatrix}X+[r]u\\Y=[1]X+[0]u
-$$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>$$
-x_1(k+1)=h\dot{x_1}(k)+x_1(k) =h(-rx_1(k) + ru)+x_1(k)
-$$</li><li><p><strong>LESO</strong></p><p>从上述LTD中可知，这一步实际上是把扰动合并，将输入输出噪声与模型上的误差合并，从而得到下列式子。其中 $f$ 是总扰动</p>$$
-y'=f(x_1)+bu= f(x_1) + b_0u - b_0u + bu=f+b_0u
-$$<p>在一阶的 ADRC 中，LESO 是二阶的，具体形式为</p><p>令</p>$$
-Z=\begin{bmatrix}z_1\\z_2\end{bmatrix}
-$$<p>并且</p>$$
-z_1\rightarrow x_1=y\\z_2\rightarrow f~扰动
-$$<p>得</p>$$
-\dot{Z}=AZ+Bu+L(x_1-z_1)\\\hat{y}=CZ
-$$<p>其中</p>$$
-L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\end{bmatrix}
-$$<p>带入</p>$$
-\left\{\begin{aligned}\left.\begin{bmatrix}\dot{z_1}\\\dot{z_2}\end{bmatrix}\right.&=&\left.\begin{bmatrix}-\beta_1&1\\-\beta_2&0\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\end{bmatrix}\right.+\left.\begin{bmatrix}b_0&\beta_1\\0&\beta_2\end{bmatrix}\right.\left.\begin{bmatrix}u\\y\end{bmatrix}\right.\\\hat{y}&=&\left.\begin{bmatrix}1&0\\0&1\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\end{bmatrix}\right.\end{aligned}\right.
-$$<p>其中 $\beta$ 存在于特征方程中，如下</p>$$
-L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
-$$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>$$
-L_{ESO}(s)=(s+w_o)^{n+1}=0
-$$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p><p>输入为 $u, y$</p><p>输出为</p>$$
-z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+b_0u+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+\beta_2y)
-$$</li><li><p><strong>LSEF</strong></p><p>令</p>$$
-e_1 = x_1 - z_1\\u_0 = a_1 \times e_1\\u=\frac{u_0-z_2}{b_0}
-$$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>$$
-L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
-$$<p>将特征值统一配置在左半实轴同一位置，得到</p>$$
-L_{SEF}(s)=(s+w_c)^{n}
-$$<p>其中 $w_c$ 是 LSEF 的带宽</p></li></ul><h3 id=二阶ladrc><strong>二阶LADRC</strong></h3><ul><li><p><strong>LTD</strong></p><p>二阶LTD是由二阶低通滤波器传递函数 $\frac{r^2}{s^2+2rs+r^2}$ 得来的，只需要更改 $r$ 值， $r$ 值越大到达设定值 $v$ 的时间就越短</p><p>令</p>$$
-X=\begin{bmatrix}x_1\\x_2\end{bmatrix}\\
-\left\{\begin{aligned}x_1 = y\\x_2=\dot{x_1}\end{aligned}\right.
-$$<p>从上式的低通滤波的传递函数可以推导出系统的状态方程</p>$$
-\dot{X}=AX+Bu=\begin{bmatrix}0&1\\-r^2&-2r\end{bmatrix}X+\begin{bmatrix}0\\r^2\end{bmatrix}u\\Y=\begin{bmatrix}1\\0\end{bmatrix}X+[0]u
-$$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>$$
-x_1(k+1)=hx_2(k)+x_1(k)\\x_2(k+1) =h(-r^2 x_1(k) - 2rx_2(k)+r^2 u)+x_2(k)
-$$</li><li><p><strong>LESO</strong></p><p>从上述LTD中可知，这一步实际上是把扰动合并，将输入输出噪声与模型上的误差合并，从而得到下列式子。其中 $f$ 是总扰动</p>$$
-y''=f(x_1)+bu= f(x_1) + b_0u - b_0u + bu=f+b_0u
-$$<p>在一阶的 ADRC 中，LESO 是二阶的，具体形式为</p><p>令</p>$$
-Z=\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}
-$$<p>并且</p>$$
-z_1\rightarrow x_1=y\\z_2\rightarrow x_2=\dot{y}\\z_3\rightarrow f~扰动
-$$<p>得</p>$$
-\dot{Z}=AZ+Bu+L(x_1-z_1)\\\hat{y}=CZ
-$$<p>其中</p>$$
-L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\end{bmatrix}
-$$<p>带入得</p>$$
-\left\{\begin{aligned}\left.\begin{bmatrix}\dot{z_1}\\\dot{z_2}\\\dot{z_3}\end{bmatrix}\right.&=&\left.\begin{bmatrix}-\beta_1&1&0\\-\beta_2&0&1\\-\beta_3&0&0\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}\right.+\left.\begin{bmatrix}0&\beta_1\\b_0&\beta_2\\0&\beta_3\end{bmatrix}\right.\left.\begin{bmatrix}u\\y\end{bmatrix}\right.\\\hat{y}&=&\left.\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}\right.\end{aligned}\right.
-$$<p>其中 $\beta$ 存在于特征方程中，如下</p>$$
-L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
-$$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>$$
-L_{ESO}(s)=(s+w_o)^{n+1}=0
-$$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p><p>输入为 $u, y$</p><p>输出为</p>$$
-z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+z_3(k)+b_0u+\beta_2y)\\z_3(k+1)=z_3(k)+h\dot{z_3}(k)=z_3(k)+h(-\beta_3z_1(k)+\beta_3y)
-$$</li><li><p><strong>LSEF</strong></p><p>令</p>$$
-e_1 = x_1 - z_1\\e_2=x_2-z_2\\u_0 = a_1 e_1+a_2e_2\\u=\frac{u_0-z_3}{b_0}
-$$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>$$
-L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
-$$<p>将特征值统一配置在左半实轴同一位置，得到</p>$$
-L_{SEF}(s)=(s+w_c)^{n}
-$$<p>其中 $w_c$ 是 LSEF 的带宽</p></li></ul><h3 id=三阶ladrc><strong>三阶LADRC</strong></h3><ul><li><p><strong>LTD</strong></p><p>三阶 LTD 是由三阶低通滤波传递函数 $\frac{r^3}{s^3+3rs^2+3r^2s+r^3}$得来的</p><p>令</p>$$
-X=\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\\left\{\begin{aligned}x_1 = y\\x_2=\dot{x_1}\\x_3=\dot{x_2} \end{aligned}\right.
-$$<p>得</p>$$
-\dot{X}=\begin{bmatrix}0&1&0\\0&0&1\\-r^3&-3r^2&-3r\end{bmatrix}X+\begin{bmatrix}0\\0\\r^3\end{bmatrix}u\\y=\begin{bmatrix}1\\0\\0\end{bmatrix}X+\begin{bmatrix}0\end{bmatrix}u
-$$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>$$
-x_1(k+1)=hx_2(k)+x_1(k)\\x_2(k+1) =hx_3(k)+x_2(k)\\x_3(k+1) =h(-r^3 x_1(k) - 3r^2x_2(k) -3rx_3(k)+r^3 u)+x_3(k)
-$$</li><li><p><strong>LESO</strong></p><p>由上式可以得出</p>$$
-y^{'''}=f(x_1, x_2, x_3) + bu\\=f+b_0u
-$$<p>此时引入 $z$ 跟踪量</p>$$
-\left\{\begin{aligned}z_1\rightarrow x_1\\z_2\rightarrow x_2\\z_3\rightarrow x_3\\z_4\rightarrow f\end{aligned}\right.\\Z=\begin{bmatrix}z_1\\z_2\\z_3\\z_4\end{bmatrix}
-$$<p>可得</p>$$
-\dot{Z}=\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\\0&0&0&0\end{bmatrix}Z+\begin{bmatrix}0\\0\\b_0\\0\end{bmatrix}u+L(x_1-z_1)\\\hat{y}=CZ+Du
-$$<p>其中</p>$$
-L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\\\beta_4\end{bmatrix}
-$$<p>带入得</p>$$
-\dot{Z}=\begin{bmatrix}-\beta_1&1&0&0\\-\beta_2&0&1&0\\-\beta_3&0&0&1\\-\beta_4&0&0&0\end{bmatrix}Z+\begin{bmatrix}0&\beta_1\\0&\beta_2\\b_0&\beta_3\\0&\beta_4\end{bmatrix}\begin{bmatrix}u\\y\end{bmatrix}\\\hat{y}=CZ+Du=\begin{bmatrix}1&0&0&0\end{bmatrix}\begin{bmatrix}z_1\\z_2\\z_3\\z_4\end{bmatrix}
-$$<p>其中 $\beta$ 存在于特征方程中，如下</p>$$
-L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
-$$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>$$
-L_{ESO}(s)=(s+w_o)^{n+1}=0
-$$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p><p>输入为 $u, y$</p><p>输出为</p>$$
-z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+z_3(k)+\beta_2y)\\z_3(k+1)=z_3(k)+h\dot{z_3}(k)=z_3(k)+h(-\beta_3z_1(k)+z_4(k)+b_0u+\beta_3y)\\z_4(k+1)=z_4(k)+h\dot{z_4}(k)=z_4(k)+h(-\beta_4z_1(k)+\beta_4y)
-$$</li><li><p><strong>LSEF</strong></p><p>令</p>$$
-e_1 = x_1 - z_1\\e_2=x_2-z_2\\e_3=x_3-z_3\\u_0 = a_1 e_1+a_2e_2+a_3e_3\\u=\frac{u_0-z_4}{b_0}
-$$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>$$
-L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
-$$<p>将特征值统一配置在左半实轴同一位置，得到</p>$$
-L_{SEF}(s)=(s+w_c)^{n}
-$$<p>其中 $w_c$ 是 LSEF 的带宽</p></li></ul><h3 id=四阶ladrc><strong>四阶LADRC</strong></h3><ul><li><p><strong>LTD</strong></p><p>四阶 LTD 是由三阶低通滤波传递函数 $\frac{r^4}{s^4+4rs^3+6r^2s^2+4r^3s+r^4}$得来的</p><p>令</p>$$
-X=\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}\\\left\{\begin{aligned}x_1 = y\\x_2=\dot{x_1}\\x_3=\dot{x_2}\\x_4 = \dot{x_3}\end{aligned}\right.
-$$<p>得</p>$$
-\dot{X}=\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\\-r^4&-4r^3&-6r^2&-4r\end{bmatrix}X+\begin{bmatrix}0\\0\\0\\r^4\end{bmatrix}u\\y=\begin{bmatrix}1\\0\\0\\0\end{bmatrix}X+\begin{bmatrix}0\end{bmatrix}u
-$$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>$$
-x_1(k+1)=hx_2(k)+x_1(k)\\x_2(k+1) =hx_3(k)+x_2(k)\\x_3(k+1) =hx_4(k)+x_3(k)\\x_4(k+1) =h(-r^4 x_1(k) - 4r^3x_2(k) -6r^2x_3(k)-4rx_4(k)+r^4 u)+x_4(k)
-$$</li><li><p><strong>LESO</strong></p><p>由上式可以得出</p>$$
-y^{''''}=f(x_1, x_2, x_3, x_4) + bu\\=f+b_0u
-$$<p>此时引入 $z$ 跟踪量，相当于是一个预测量</p>$$
-\left\{\begin{aligned}z_1\rightarrow x_1\\z_2\rightarrow x_2\\z_3\rightarrow x_3\\z_4\rightarrow x_4\\z_5\rightarrow f\end{aligned}\right.\\Z=\begin{bmatrix}z_1\\z_2\\z_3\\z_4\\z_5\end{bmatrix}
-$$<p>可得</p>$$
-\dot{Z}=\begin{bmatrix}0&1&0&0&0\\0&0&1&0&0\\0&0&0&1&0\\0&0&0&0&1\\0&0&0&0&0\end{bmatrix}Z+\begin{bmatrix}0\\0\\0\\b_0\\0\end{bmatrix}u+L(x_1-z_1)\\\hat{y}=CZ+Du
-$$<p>其中</p>$$
-L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\\\beta_4\\\beta_5\end{bmatrix}
-$$<p>带入得</p>$$
-\dot{Z}=\begin{bmatrix}-\beta_1&1&0&0&0\\-\beta_2&0&1&0&0\\-\beta_3&0&0&1&0\\-\beta_4&0&0&0&1\\-\beta_5&0&0&0&0 \end{bmatrix}Z+\begin{bmatrix}0&\beta_1\\0&\beta_2\\0&\beta_3\\b_0&\beta_4\\0&\beta_5\end{bmatrix}\begin{bmatrix}u\\y\end{bmatrix}\\\hat{y}=CZ+Du=\begin{bmatrix}1&0&0&0&0\end{bmatrix}\begin{bmatrix}z_1\\z_2\\z_3\\z_4\\z_5\end{bmatrix}
-$$<p>其中 $\beta$ 存在于特征方程中，如下</p>$$
-L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
-$$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>$$
-L_{ESO}(s)=(s+w_o)^{n+1}=0
-$$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p><p>输入为 $u, y$</p><p>输出为</p>$$
-z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+z_3(k)+\beta_2y)\\z_3(k+1)=z_3(k)+h\dot{z_3}(k)=z_3(k)+h(-\beta_3z_1(k)+z_4(k)+\beta_3y)\\z_4(k+1)=z_4(k)+h\dot{z_4}(k)=z_4(k)+h(-\beta_4z_1(k)+z_5(k)+b_0u+\beta_4y)\\z_5(k+1)=z_5(k)+h\dot{z_5}(k)=z_5(k)+h(-\beta_5z_1(k)+\beta_5y)
-$$</li><li><p><strong>LSEF</strong></p><p>令</p>$$
-e_1 = x_1 - z_1\\e_2=x_2-z_2\\e_3=x_3-z_3\\e_4=x_4-z_4\\u_0 = a_1 e_1+a_2e_2+a_3e_3+a_4e_4\\u=\frac{u_0-z_5}{b_0}
-$$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>$$
-L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
-$$<p>将特征值统一配置在左半实轴同一位置，得到</p>$$
-L_{SEF}(s)=(s+w_c)^{n}
-$$<p>其中 $w_c$ 是 LSEF 的带宽</p></li></ul><h3 id=其中参数的调整和选择>其中参数的调整和选择</h3><ul><li>首先是 LTD 中的低通滤波器带宽，r 越大相应的也就会越快趋于目标值</li><li>$b_0$：假设 $K_G=\frac{b_0}{b}$，当 $K_G$ 偏离 1 越远，系统相角裕度越小。当 $K_G=4$ 时，系统不稳定，因此为了改善控制性能， $b_0$ 的选择应当尽可能接近真实参数 $b$</li><li>$w_o$ 表示扩张观测器的带宽，一般选择 $w_o=3\sim5 w_c$（这适用于状态反馈控制系统，其中 $w_0$ 是根据暂态响应要求，特别是稳定时间规范确定的。控制器设计可以使用平滑的瞬态轮廓，而不是阶跃命令，作为期望的轨迹，允许输出更紧密地跟随）。带宽 $w_o$ 增大有益于 LADRC 的稳定性和鲁棒性，但是 $w_o$ 过大导致控制器的输出过大，不利于工程应用，实际调参需要折中一下。带宽 $w_o$ 虽然不会影响超调量的大小，但是会影响 LESO 的跟踪速度， $w_o$ 越大，系统响应越快，但是在实际的系统中， $w_o$ 的提高受观测噪声的限制，增大 $w_o$ 同时高频带增益也随之增加，噪声放大作用明显。</li><li>$w_c$ 表示状态误差反馈控制律的带宽</li></ul><h3 id=note>Note</h3><ul><li>约定当且仅当系统的状态 $x_i$ 和LESO跟踪误差 $\~x$ 都稳定时，称LADRC系统稳定</li><li>增大带宽会导致系统噪声过大，因此可在 LESO 前端设置滤波器来抑制其影响</li><li>LESO 的微分方程的求解，一般依赖初始值（RungeKutta），初值对系统输出的超调量有一定影响</li><li>$w_o$ 和 $w_c$ 的单位都是 rad/s.</li><li>实际调试参数时，首先确定系统阶数，其次确定 $w_c$ 和 $w_o$ 不变，再按照数量级以此调试 $b_0$，直到系统输出满足期望状态</li></ul><h2 id=nadrc-非线性adrc><strong>NADRC 非线性ADRC</strong></h2><h3 id=一阶nadrc><strong>一阶NADRC</strong></h3><ul><li><p><strong>LTD</strong></p><p>形式为：</p>$$
-\left\{\begin{aligned}e_1&=x_1-v\\\frac{dx_1}{dt}&=-r*fal(e_1,\alpha_1,\delta_1)\end{aligned}\right.
-$$<p>离散化处理之后为</p>$$
-\left\{\begin{aligned}e_1(k)&=x_1(k)-v(k)\\x_1(k+1)&=-rTfal(e_1(k),\alpha_1,\delta_1)+x_1(k)\end{aligned}\right.
-$$<p>其中</p>$$
-fal(e, \alpha,\delta)=\left\{\begin{aligned}&{|e|}^{\alpha}sign(e) && |e| > \delta\\&\frac{e}{\delta^{1-\alpha}} && |e| \leq \delta\end{aligned}\right.
-$$<p>其中， $fal$函数中的 $\alpha$ 反映了增益的变化率，当 $\alpha>1$，误差又比较大时，该函数增益可能过大，从而导致系统不稳定，通常 $0<\alpha<1$， $\alpha$ 越大，到达设定值的时间就越短。 $\delta$ 是为了避免函数在原点震荡引入的一个很小的正数，可决定函数增益线性变化的区间大小， $\delta$ 越大，则整个函数在作用区间大部分区间内都是线性的，如果 $\delta$ 越小就会使非线性函数更类似于一个开关函数，在原点附近有高频震荡现象</p></li><li><p><strong>LESO</strong></p><p>形式为：</p>$$
-\left\{\begin{aligned}e_2&=z_{21}-y\\\frac{dz_{21}}{dt}&=z_{22}-\beta_{21}fal(e_2, \alpha_2,\delta_2)+bu\\\frac{dz_{22}}{dt} &= -\beta_{22}fal(e_2, \alpha_2,\delta_2)\end{aligned}\right.
-$$<p>其中</p>$$
-\left\{\begin{aligned}\beta_{21}&=2*\omega_0\\\beta_{22}&=\omega_0^2\end{aligned}\right.
-$$<p>离散化处理之后</p>$$
-\left\{\begin{aligned}e_2(k)&=z_{21}(k)-y(k)\\z_{21}(k+1)&=T(z_{22}(k)-\beta_{21}fal(e_2,\alpha_2,\delta_2)+bu)+z_{21}(k)\\z_{22}(k+1)&=-T\beta_{22}fal(e_2,\alpha_2,\delta_2)+z_{22}(k)\end{aligned}\right.
-$$$$
-\left\{\begin{aligned}z_{21}→y\\z_{22}→f\end{aligned}\right.
-$$<p>输出为</p>$$
-\left\{\begin{aligned}z_{21}(k+1)\\z_{22}(k+1)\end{aligned}\right.
-$$</li><li><p><strong>LSEF</strong></p><p>形式为：</p>$$
-\left\{\begin{aligned}e_3&=x_1-z_{21}\\u_0&=kp*fal(e_3,\alpha_3,\delta_3)\\u&=\frac{u_0-z_{22}}{b}\\u&=u_0-\frac{z_{22}}{b}\end{aligned}\right.
-$$<p>输出 $u$</p><p>离散化处理：这里应当是依据于最新状态来计算的</p>$$
-\left\{\begin{aligned}e_3(k)&=x_1(k)-z_{21}(k)\\u_0(k)&=kp*fal(e_3(k),\alpha_3,\delta_3)\\u(k)&=\frac{u_0(k)-z_{22}(k)}{b}\\u(k)&=u_0(k)-\frac{z_{22}(k)}{b}\end{aligned}\right.
-$$</li></ul><h3 id=二阶nadrc><strong>二阶NADRC</strong></h3><ul><li><p><strong>LTD</strong></p>$$
-\left\{\begin{aligned}\frac{dx_1}{dt}&=x_2\\\frac{dx_2}{dt}&=-r*sign(x_1-v+\frac{x_2|x_2|}{2r})\end{aligned}\right.
-$$<p>为了避免在原点附近的颤振，将符号函数  $sign$ 改为线性饱和函数 $sat$ 就得到有效的二阶跟踪一微分器:</p>$$
-\left\{\begin{aligned}\frac{dx_1}{dt}&=x_2\\\frac{dx_2}{dt}&=-r*sat(x_1-v+\frac{x_2|x_2|}{2r}, \delta)\end{aligned}\right.
-$$<p>其中</p>$$
-sat(x, \delta)=\left\{\begin{aligned}&sign(x)&&|x|\geq\delta\\&\frac{x}{\delta}&&|x|<\delta\end{aligned}\right.
-  $$<p>对应的离散化函数为</p>$$
-\left\{\begin{aligned}x_1(k+1)&=x_1(k)+h*x_2(k)\\x_2(k+1)&=x_2(k)+h*fst(x_1(k)-v(k),x_2(k),r,h1)\end{aligned}\right.
-$$<p>其中 $r$ 决定跟踪速度，称为速度因子， $h_1$ 对噪声有滤波作用，称为滤波因子</p>$$
-\left\{\begin{aligned}d&=r*h_1\\d_0&=h_1*d\\y&=x_1(k)+h_1*x_2(k)-v(k)\\a_0&=\sqrt{d^2+8r|y|}\\a&=\left\{\begin{aligned}x_2(k)+\frac{a_0-d}{2}sign(y)&&|y|>d_0\\x_2(k)+\frac{y}{h_1}&&|y|\leq d_0\end{aligned}\right.\\fst(x_1(k)-v(k),x_2,r,h_1)&=\left\{\begin{aligned}-r*sign(a)&&|a|>d\\-r\frac{a}{d}&&|a|\leq d\end{aligned}\right.\end{aligned}\right.
-$$<p>其中 $r$ 是决定跟踪快慢的参数， $h_1$ 是决定噪声滤波效应的参数</p><p>当 $h_1>h$ 时，对于含有噪声的信号，TD滤波器有较好的滤波功能，在确定滤波器参数时，r和ℎ1需要协调调制。r 越大，跟踪信号越快，噪声放大也越厉害，ℎ1越大，滤波效果越好，跟踪信号的相位也损失越大。离散TD能快速、无超调、无颤振的跟踪信号。实际上上面这种 TD 的形式会导致在到达稳态之后输入产生高频震荡，只能说十分的恶心</p><p>通过查阅资料（自抗扰控制技术）离散化函数也可以写成这样：</p>$$
-\left\{\begin{aligned}x_1(k+1)&=x_1(k)+hx_2(k)\\x_2(k+1)&=x_2(k)+h*fhan(x_1(k)-v(k),x_2(k),r,h1)\end{aligned}\right.
-$$<p>这里的 $h_1$ 就是噪声滤波效应的参数，应当比 $h$ 大一点</p>$$
-fst(x_1(k)-v(k),x_2,r,h_1)=\left\{\begin{aligned}d&=r*h_1^2\\a_0&=h_1*x_2\\y&=x_1(k)-v(k)+a_0\\a_1&=\sqrt{d(d+8|y|)}\\a_2&=a_0+\frac{a_1-d}{2}sign(y)\\a&=(a_0+y)fsg(y,d)+a_2(1-fsg(y,d))\\fhan&=-r\frac{a}{d}fsg(a,d)-r*sign(a)(1-fsg(a,d))\\fsg(x,d)&=\frac{sign(x+d)-sign(x-d)}{2}\end{aligned}\right.
-$$</li><li><p><strong>LESO</strong></p>$$
-\left\{\begin{aligned}e_2&=z_{21}-y\\\frac{dz_{21}}{dt}&=z_{22}-\beta_{21}*e_2\\\frac{dz_{22}}{dt}&=z_{23}-\beta_{22}*fal(e_2,\alpha_2,\delta_2)+b*u\\\frac{dz_{23}}{dt}&=-\beta_{23}*fal(e_2,\alpha_3,\delta_3)\end{aligned}\right.
-$$<p>式中的 $\beta$ 取指方式与二阶的 LESO 相同。同时 $\alpha_3<\alpha_2$， $\delta_2$ 可以取相同值，离散化的时候取 $5T\leq \delta_2\leq 10T$，T 为采样周期</p>$$
-\left\{\begin{aligned}\beta_{21}&=3*\omega_o\\\beta_{22}&=3*\omega_o^2\\\beta_{23}&=\omega_o^3\end{aligned}\right.
-  $$<p>离散化处理</p>$$
-\left\{\begin{aligned}z_{21}(k+1)&=h(z_{22}(k)-\beta_{21}*e_2(k)) + z_{21}(k)\\z_{22}(k+1)&=h(z_{23}(k)-\beta_{22}fal(e_2(k),\alpha_2,\delta_2)+bu(k)) + z_{22}(k)\\z_{23}(k+1)&=h(-\beta_{23}*fal(e_2(k),\alpha_3,\delta_3)) + z_{23}(k)\end{aligned}\right.
-$$<p>其中</p>$$
-fal(e, \alpha,\delta)=\left\{\begin{aligned}&{|e|}^{\alpha}sign(e) && |e| > \delta\\&\frac{e}{\delta^{1-\alpha}} && |e| \leq \delta\end{aligned}\right.
-$$</li><li><p><strong>LSEF</strong></p><p>总共有三种非线性的反馈控制规律</p>$$
-u_0=\left\{\begin{aligned}&\beta_1e_1+\beta_2e_2\\&\sum_{i=1}^n\beta_ifal(x_i-z_i,\alpha_i,d)\\&-fhan(e_1,e_2,r,h)\\&-fhan(e_1,ce_2,r,h)\end{aligned}\right.
-$$<p>其中</p>$$
-e_0=\int^{t}_{0}{e_1(t)dt}
-$$<p>这里的 $u_0$ 有四种形式</p><p>其中</p>$$
-fhan(e_1,e_2,r,h)=\left\{\begin{aligned}d&=r*h^2\\a_0&=h_1*e_2\\y&=e_1+a_0\\a_1&=\sqrt{d*(d+8|y|)}\\a_2&=a_0+\frac{a_1-d}{2}sign(y)\\a&=(a_0+y)fsg(y,d)+a_2(1-fsg(y,d))\\fhan&=-r\frac{a}{d}fsg(a,d)-r*sign(a)(1-fsg(a,d))\\fsg(x,d)&=\frac{sign(x+d)-sign(x-d)}{2}\end{aligned}\right.
-$$<p>$u$ 也有两种形式</p>$$
-u=\left\{\begin{aligned}&\frac{u_0-z_{23}}{b}\\&u_0-\frac{z_{23}}{b}\end{aligned}\right.
-$$<p>离散化处理之后</p>$$
-\left\{\begin{aligned}u_0&=\left\{\begin{aligned}&\beta_1e_1+\beta_2e_2\\&\sum_{i=1}^n\beta_ifal(x_i-z_i,\alpha_i,d)\\&-fhan(e_1,e_2,r,h)\\&-fhan(e_1,ce_2,r,h)\end{aligned}\right.\\u(k)&=\left\{\begin{aligned}&\frac{u_0(k)-z_{23}(k)}{b}\\&u_0(k)-\frac{z_{23}(k)}{b}\end{aligned}\right.\end{aligned}\right.
-$$</li></ul><h2 id=参考资料>参考资料</h2><p>[<a href=https://zhuanlan.zhihu.com/p/585324684>自抗扰控制-低阶LADRC与PID</a>]</p><p>[<a href=https://zhuanlan.zhihu.com/p/664345718>自抗扰控制-ADRC</a>]</p><p>[<a href=https://zhuanlan.zhihu.com/p/115283894>自抗扰控制理论</a>]</p><p>[<a href=https://ieeexplore.ieee.org/document/4796887>From PID to Active Disturbance Rejection Control</a>]</p><p>自抗扰控制技术——韩京清</p></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f&amp;resubmit=true&amp;title=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f&amp;t=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/>← prev</a>
-<a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2024</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
-<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
-<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="落">
+
+  
+  
+  <meta name="description" content="ADRC自抗扰控制器设计与实现">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/">
+  <meta property="og:site_name" content="Luo&#39;s Blog">
+  <meta property="og:title" content="ADRC自抗扰控制器">
+  <meta property="og:description" content="ADRC自抗扰控制器设计与实现">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-03-19T00:00:58+00:00">
+    <meta property="article:modified_time" content="2024-03-19T00:00:58+00:00">
+    <meta property="article:tag" content="ADRC">
+    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+
+
+  
+  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/19/adrc%E8%87%AA%E6%8A%97%E6%89%B0%E6%8E%A7%E5%88%B6%E5%99%A8/">
+
+  
+  
+  
+  <meta itemprop="name" content="ADRC自抗扰控制器">
+  <meta itemprop="description" content="ADRC自抗扰控制器设计与实现">
+  <meta itemprop="datePublished" content="2024-03-19T00:00:58+00:00">
+  <meta itemprop="dateModified" content="2024-03-19T00:00:58+00:00">
+  <meta itemprop="wordCount" content="4187">
+  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta itemprop="keywords" content="ADRC">
+
+  
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
+
+  
+  
+  <title>ADRC自抗扰控制器 - Luo&#39;s Blog</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta name="twitter:title" content="ADRC自抗扰控制器">
+  <meta name="twitter:description" content="ADRC自抗扰控制器设计与实现">
+
+
+  
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="https://seashore.top/Blog_Hugo/"></a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="seashore.top">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>ADRC自抗扰控制器</h1>
+  
+  <div>
+    
+    <a class="link" href='https://seashore.top/Blog_Hugo/tags/adrc'>#ADRC</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#主要模块"><strong>主要模块</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#ladrc-线性adrc">LADRC 线性ADRC</a>
+      <ul>
+        <li><a href="#一阶ladrc">一阶LADRC</a></li>
+        <li><a href="#二阶ladrc"><strong>二阶LADRC</strong></a></li>
+        <li><a href="#三阶ladrc"><strong>三阶LADRC</strong></a></li>
+        <li><a href="#四阶ladrc"><strong>四阶LADRC</strong></a></li>
+        <li><a href="#其中参数的调整和选择">其中参数的调整和选择</a></li>
+        <li><a href="#note">Note</a></li>
+      </ul>
+    </li>
+    <li><a href="#nadrc-非线性adrc"><strong>NADRC 非线性ADRC</strong></a>
+      <ul>
+        <li><a href="#一阶nadrc"><strong>一阶NADRC</strong></a></li>
+        <li><a href="#二阶nadrc"><strong>二阶NADRC</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <p><a href="https://github.com/Luo25177/modelControl">github仓库</a></p>
+<p><img src="./Untitled.png" alt="Untitled"></p>
+<p>为了解决快速性和超调的矛盾，在控制器设计过程中引入了过渡过程，通俗的讲就是输入信号从初始值到目标值并不是阶跃的，而是平滑过渡的，并且这个过渡过程的时间长短是可以调节的。将过渡过程和微分器在一个模块中实现，称为<strong>跟踪-微分器(TD)</strong>，单独的过渡过程和速度规划并没有本质区别。但是TD和速度规划不是一回事，TD将输入过渡和微分器统一为一个模块，它一边尽可能快地跟踪输入信号，同时给出输入信号近似的微分。</p>
+<p>自抗扰控制对扰动和不确定性的处理是自抗扰控制最突出的特征，它把作用于被控对象的所有不确定因素都归结为“未知扰动”，而用被控对象的输入输出数据对它进行估计，并给予补偿。“自抗扰”的名称也来源于此，即主动抵抗干扰，不需要直接测量外扰的作用，也不需要实现知道扰动的规律（能知道更好）。构建观测器，利用被控对象的输入、输出和所施加的控制输入来估计作用于系统的总扰动（包括内扰和外扰，可以粗浅地理解为所有的影响因素），实现这一功能的模块被称为<strong class=chinese>扩展状态观测器</strong>（Extended State Observer，ESO）。这个名字也与观测器的形式十分匹配，因为在设计ESO时，首先构造一个扩张的系统，此系统的阶数比被控对象的阶数高一阶，ESO就是估计扩张系统的状态。观测出系统的总扰动，在设计控制器时首先抵消掉这个扰动，将得到一个标准的串联积分型系统，基于此标准型系统设计控制器时，控制器的形式与PID的形式类型，一般利用误差和误差的微分来构造控制器，这里的误差及其微分是由TD的输出和ESO的输出构造的。韩老师在其专著中给出了常用的几种<strong class=chinese>非线性状态误差反馈控制律</strong>（Nonlinear State Error Feedback，NLSEF）。</p>
+<p>以下的所有形式都是连续型的形式，对于使用离散化的控制，就需要将其离散化</p>
+<p>也比较简单：根据导数来计算</p>
+<p>也比较简单：根据导数来计算 $x_{k+1}= T * \frac{dx_k}{dt} + x_k$</p>
+<h3 id="主要模块"><strong class=chinese>主要模块</strong></h3>
+<ul>
+<li>跟踪-微分器 TD</li>
+<li>扩张状态观测器 ESO</li>
+<li>状态误差反馈规律 SEF</li>
+</ul>
+<h2 id="ladrc-线性adrc">LADRC 线性ADRC</h2>
+<p>被控对象可以有时延，可以有右半平面的零点或极点，但不能在右半平面同时有零点和极点。同时有右半平面的零点和极点，意味着有根轨迹从右半平面出发有回到右半平面，可能一直在右半平面，这样控制器设计是十分困难的。</p>
+<p>被控对象的型次要求：对象不含微分器，且型次要求允许控制器含一个积分器。LADRC本身含一个积分器，如果被控对象含微分器，会出现原点的零极点对消。允许控制器含一个积分器是因为LADRC中是一定含有一个积分器的。</p>
+<h3 id="一阶ladrc">一阶LADRC</h3>
+<ul>
+<li>
+<p><strong>LTD</strong></p>
+<p>是由一阶低通滤波器 $\frac{r}{s + r}$ 推导出来的，只需要更改 $r$ 值， $r$ 值越大到达设定值 $v$ 的时间就越短</p>
+<p>令</p>
+$$
+    X=\begin{bmatrix}x_1\end{bmatrix}\\x_1=y
+    $$<p>从上式的低通滤波的传递函数可以推导出系统的状态方程</p>
+$$
+    \dot{X}=AX+Bu=\begin{bmatrix}-r\end{bmatrix}X+[r]u\\Y=[1]X+[0]u
+    $$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>
+$$
+    x_1(k+1)=h\dot{x_1}(k)+x_1(k) =h(-rx_1(k) + ru)+x_1(k)
+    $$</li>
+<li>
+<p><strong>LESO</strong></p>
+<p>从上述LTD中可知，这一步实际上是把扰动合并，将输入输出噪声与模型上的误差合并，从而得到下列式子。其中 $f$ 是总扰动</p>
+$$
+    y'=f(x_1)+bu= f(x_1) + b_0u - b_0u + bu=f+b_0u
+    $$<p>在一阶的 ADRC 中，LESO 是二阶的，具体形式为</p>
+<p>令</p>
+$$
+    Z=\begin{bmatrix}z_1\\z_2\end{bmatrix}
+    $$<p>并且</p>
+$$
+    z_1\rightarrow x_1=y\\z_2\rightarrow f~扰动
+    $$<p>得</p>
+$$
+    \dot{Z}=AZ+Bu+L(x_1-z_1)\\\hat{y}=CZ
+    $$<p>其中</p>
+$$
+    L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\end{bmatrix}
+    $$<p>带入</p>
+$$
+    \left\{\begin{aligned}\left.\begin{bmatrix}\dot{z_1}\\\dot{z_2}\end{bmatrix}\right.&=&\left.\begin{bmatrix}-\beta_1&1\\-\beta_2&0\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\end{bmatrix}\right.+\left.\begin{bmatrix}b_0&\beta_1\\0&\beta_2\end{bmatrix}\right.\left.\begin{bmatrix}u\\y\end{bmatrix}\right.\\\hat{y}&=&\left.\begin{bmatrix}1&0\\0&1\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\end{bmatrix}\right.\end{aligned}\right.
+    $$<p>其中 $\beta$ 存在于特征方程中，如下</p>
+$$
+    L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
+    $$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>
+$$
+    L_{ESO}(s)=(s+w_o)^{n+1}=0
+    $$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p>
+<p>输入为 $u, y$</p>
+<p>输出为</p>
+$$
+    z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+b_0u+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+\beta_2y)
+    $$</li>
+<li>
+<p><strong>LSEF</strong></p>
+<p>令</p>
+$$
+    e_1 = x_1 - z_1\\u_0 = a_1 \times e_1\\u=\frac{u_0-z_2}{b_0}
+    $$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>
+$$
+    L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
+    $$<p>将特征值统一配置在左半实轴同一位置，得到</p>
+$$
+    L_{SEF}(s)=(s+w_c)^{n}
+    $$<p>其中 $w_c$ 是 LSEF 的带宽</p>
+</li>
+</ul>
+<h3 id="二阶ladrc"><strong>二阶LADRC</strong></h3>
+<ul>
+<li>
+<p><strong>LTD</strong></p>
+<p>二阶LTD是由二阶低通滤波器传递函数 $\frac{r^2}{s^2+2rs+r^2}$ 得来的，只需要更改 $r$ 值， $r$ 值越大到达设定值 $v$ 的时间就越短</p>
+<p>令</p>
+$$
+    X=\begin{bmatrix}x_1\\x_2\end{bmatrix}\\
+    \left\{\begin{aligned}x_1 = y\\x_2=\dot{x_1}\end{aligned}\right.
+    $$<p>从上式的低通滤波的传递函数可以推导出系统的状态方程</p>
+$$
+    \dot{X}=AX+Bu=\begin{bmatrix}0&1\\-r^2&-2r\end{bmatrix}X+\begin{bmatrix}0\\r^2\end{bmatrix}u\\Y=\begin{bmatrix}1\\0\end{bmatrix}X+[0]u
+    $$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>
+$$
+    x_1(k+1)=hx_2(k)+x_1(k)\\x_2(k+1) =h(-r^2 x_1(k) - 2rx_2(k)+r^2 u)+x_2(k)
+    $$</li>
+<li>
+<p><strong>LESO</strong></p>
+<p>从上述LTD中可知，这一步实际上是把扰动合并，将输入输出噪声与模型上的误差合并，从而得到下列式子。其中 $f$ 是总扰动</p>
+$$
+    y''=f(x_1)+bu= f(x_1) + b_0u - b_0u + bu=f+b_0u
+    $$<p>在一阶的 ADRC 中，LESO 是二阶的，具体形式为</p>
+<p>令</p>
+$$
+    Z=\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}
+    $$<p>并且</p>
+$$
+    z_1\rightarrow x_1=y\\z_2\rightarrow x_2=\dot{y}\\z_3\rightarrow f~扰动
+    $$<p>得</p>
+$$
+    \dot{Z}=AZ+Bu+L(x_1-z_1)\\\hat{y}=CZ
+    $$<p>其中</p>
+$$
+    L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\end{bmatrix}
+    $$<p>带入得</p>
+$$
+    \left\{\begin{aligned}\left.\begin{bmatrix}\dot{z_1}\\\dot{z_2}\\\dot{z_3}\end{bmatrix}\right.&=&\left.\begin{bmatrix}-\beta_1&1&0\\-\beta_2&0&1\\-\beta_3&0&0\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}\right.+\left.\begin{bmatrix}0&\beta_1\\b_0&\beta_2\\0&\beta_3\end{bmatrix}\right.\left.\begin{bmatrix}u\\y\end{bmatrix}\right.\\\hat{y}&=&\left.\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix}\right.\left.\begin{bmatrix}z_1\\z_2\\z_3\end{bmatrix}\right.\end{aligned}\right.
+    $$<p>其中 $\beta$ 存在于特征方程中，如下</p>
+$$
+    L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
+    $$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>
+$$
+    L_{ESO}(s)=(s+w_o)^{n+1}=0
+    $$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p>
+<p>输入为 $u, y$</p>
+<p>输出为</p>
+$$
+    z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+z_3(k)+b_0u+\beta_2y)\\z_3(k+1)=z_3(k)+h\dot{z_3}(k)=z_3(k)+h(-\beta_3z_1(k)+\beta_3y)
+    $$</li>
+<li>
+<p><strong>LSEF</strong></p>
+<p>令</p>
+$$
+    e_1 = x_1 - z_1\\e_2=x_2-z_2\\u_0 = a_1 e_1+a_2e_2\\u=\frac{u_0-z_3}{b_0}
+    $$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>
+$$
+    L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
+    $$<p>将特征值统一配置在左半实轴同一位置，得到</p>
+$$
+    L_{SEF}(s)=(s+w_c)^{n}
+    $$<p>其中 $w_c$ 是 LSEF 的带宽</p>
+</li>
+</ul>
+<h3 id="三阶ladrc"><strong>三阶LADRC</strong></h3>
+<ul>
+<li>
+<p><strong>LTD</strong></p>
+<p>三阶 LTD 是由三阶低通滤波传递函数 $\frac{r^3}{s^3+3rs^2+3r^2s+r^3}$得来的</p>
+<p>令</p>
+$$
+    X=\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\\left\{\begin{aligned}x_1 = y\\x_2=\dot{x_1}\\x_3=\dot{x_2} \end{aligned}\right.
+    $$<p>得</p>
+$$
+    \dot{X}=\begin{bmatrix}0&1&0\\0&0&1\\-r^3&-3r^2&-3r\end{bmatrix}X+\begin{bmatrix}0\\0\\r^3\end{bmatrix}u\\y=\begin{bmatrix}1\\0\\0\end{bmatrix}X+\begin{bmatrix}0\end{bmatrix}u
+    $$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>
+$$
+    x_1(k+1)=hx_2(k)+x_1(k)\\x_2(k+1) =hx_3(k)+x_2(k)\\x_3(k+1) =h(-r^3 x_1(k) - 3r^2x_2(k) -3rx_3(k)+r^3 u)+x_3(k)
+    $$</li>
+<li>
+<p><strong>LESO</strong></p>
+<p>由上式可以得出</p>
+$$
+    y^{'''}=f(x_1, x_2, x_3) + bu\\=f+b_0u
+    $$<p>此时引入 $z$ 跟踪量</p>
+$$
+    \left\{\begin{aligned}z_1\rightarrow x_1\\z_2\rightarrow x_2\\z_3\rightarrow x_3\\z_4\rightarrow f\end{aligned}\right.\\Z=\begin{bmatrix}z_1\\z_2\\z_3\\z_4\end{bmatrix}
+    $$<p>可得</p>
+$$
+    \dot{Z}=\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\\0&0&0&0\end{bmatrix}Z+\begin{bmatrix}0\\0\\b_0\\0\end{bmatrix}u+L(x_1-z_1)\\\hat{y}=CZ+Du
+    $$<p>其中</p>
+$$
+    L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\\\beta_4\end{bmatrix}
+    $$<p>带入得</p>
+$$
+    \dot{Z}=\begin{bmatrix}-\beta_1&1&0&0\\-\beta_2&0&1&0\\-\beta_3&0&0&1\\-\beta_4&0&0&0\end{bmatrix}Z+\begin{bmatrix}0&\beta_1\\0&\beta_2\\b_0&\beta_3\\0&\beta_4\end{bmatrix}\begin{bmatrix}u\\y\end{bmatrix}\\\hat{y}=CZ+Du=\begin{bmatrix}1&0&0&0\end{bmatrix}\begin{bmatrix}z_1\\z_2\\z_3\\z_4\end{bmatrix}
+    $$<p>其中 $\beta$ 存在于特征方程中，如下</p>
+$$
+    L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
+    $$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>
+$$
+    L_{ESO}(s)=(s+w_o)^{n+1}=0
+    $$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p>
+<p>输入为 $u, y$</p>
+<p>输出为</p>
+$$
+    z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+z_3(k)+\beta_2y)\\z_3(k+1)=z_3(k)+h\dot{z_3}(k)=z_3(k)+h(-\beta_3z_1(k)+z_4(k)+b_0u+\beta_3y)\\z_4(k+1)=z_4(k)+h\dot{z_4}(k)=z_4(k)+h(-\beta_4z_1(k)+\beta_4y)
+    $$</li>
+<li>
+<p><strong>LSEF</strong></p>
+<p>令</p>
+$$
+    e_1 = x_1 - z_1\\e_2=x_2-z_2\\e_3=x_3-z_3\\u_0 = a_1 e_1+a_2e_2+a_3e_3\\u=\frac{u_0-z_4}{b_0}
+    $$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>
+$$
+    L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
+    $$<p>将特征值统一配置在左半实轴同一位置，得到</p>
+$$
+    L_{SEF}(s)=(s+w_c)^{n}
+    $$<p>其中 $w_c$ 是 LSEF 的带宽</p>
+</li>
+</ul>
+<h3 id="四阶ladrc"><strong>四阶LADRC</strong></h3>
+<ul>
+<li>
+<p><strong>LTD</strong></p>
+<p>四阶 LTD 是由三阶低通滤波传递函数 $\frac{r^4}{s^4+4rs^3+6r^2s^2+4r^3s+r^4}$得来的</p>
+<p>令</p>
+$$
+    X=\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}\\\left\{\begin{aligned}x_1 = y\\x_2=\dot{x_1}\\x_3=\dot{x_2}\\x_4 = \dot{x_3}\end{aligned}\right.
+    $$<p>得</p>
+$$
+    \dot{X}=\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\\-r^4&-4r^3&-6r^2&-4r\end{bmatrix}X+\begin{bmatrix}0\\0\\0\\r^4\end{bmatrix}u\\y=\begin{bmatrix}1\\0\\0\\0\end{bmatrix}X+\begin{bmatrix}0\end{bmatrix}u
+    $$<p>输出，这里的 u 表示输入的期望值，LTD 是对期望值进行处理的</p>
+$$
+    x_1(k+1)=hx_2(k)+x_1(k)\\x_2(k+1) =hx_3(k)+x_2(k)\\x_3(k+1) =hx_4(k)+x_3(k)\\x_4(k+1) =h(-r^4 x_1(k) - 4r^3x_2(k) -6r^2x_3(k)-4rx_4(k)+r^4 u)+x_4(k)
+    $$</li>
+<li>
+<p><strong>LESO</strong></p>
+<p>由上式可以得出</p>
+$$
+    y^{''''}=f(x_1, x_2, x_3, x_4) + bu\\=f+b_0u
+    $$<p>此时引入 $z$ 跟踪量，相当于是一个预测量</p>
+$$
+    \left\{\begin{aligned}z_1\rightarrow x_1\\z_2\rightarrow x_2\\z_3\rightarrow x_3\\z_4\rightarrow x_4\\z_5\rightarrow f\end{aligned}\right.\\Z=\begin{bmatrix}z_1\\z_2\\z_3\\z_4\\z_5\end{bmatrix}
+    $$<p>可得</p>
+$$
+    \dot{Z}=\begin{bmatrix}0&1&0&0&0\\0&0&1&0&0\\0&0&0&1&0\\0&0&0&0&1\\0&0&0&0&0\end{bmatrix}Z+\begin{bmatrix}0\\0\\0\\b_0\\0\end{bmatrix}u+L(x_1-z_1)\\\hat{y}=CZ+Du
+    $$<p>其中</p>
+$$
+    L=\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\\\beta_4\\\beta_5\end{bmatrix}
+    $$<p>带入得</p>
+$$
+    \dot{Z}=\begin{bmatrix}-\beta_1&1&0&0&0\\-\beta_2&0&1&0&0\\-\beta_3&0&0&1&0\\-\beta_4&0&0&0&1\\-\beta_5&0&0&0&0 \end{bmatrix}Z+\begin{bmatrix}0&\beta_1\\0&\beta_2\\0&\beta_3\\b_0&\beta_4\\0&\beta_5\end{bmatrix}\begin{bmatrix}u\\y\end{bmatrix}\\\hat{y}=CZ+Du=\begin{bmatrix}1&0&0&0&0\end{bmatrix}\begin{bmatrix}z_1\\z_2\\z_3\\z_4\\z_5\end{bmatrix}
+    $$<p>其中 $\beta$ 存在于特征方程中，如下</p>
+$$
+    L_{ESO}(s)=s^{n+1}+\beta_1 s^n + \beta_2 s^{n-1}+…+\beta_{n-1}
+    $$<p>将极点都配置到左半轴同一位置，可以将调节参数缩减为</p>
+$$
+    L_{ESO}(s)=(s+w_o)^{n+1}=0
+    $$<p>其中 $w_o$ 表示扩张观测器的带宽，而 $\beta$ 对应着相应的系数</p>
+<p>输入为 $u, y$</p>
+<p>输出为</p>
+$$
+    z_1(k+1)=z_1(k)+h\dot{z_1}(k)=z_1(k)+h(-\beta_1z_1(k)+z_2(k)+\beta_1y)\\z_2(k+1)=z_2(k)+h\dot{z_2}(k)=z_2(k)+h(-\beta_2z_1(k)+z_3(k)+\beta_2y)\\z_3(k+1)=z_3(k)+h\dot{z_3}(k)=z_3(k)+h(-\beta_3z_1(k)+z_4(k)+\beta_3y)\\z_4(k+1)=z_4(k)+h\dot{z_4}(k)=z_4(k)+h(-\beta_4z_1(k)+z_5(k)+b_0u+\beta_4y)\\z_5(k+1)=z_5(k)+h\dot{z_5}(k)=z_5(k)+h(-\beta_5z_1(k)+\beta_5y)
+    $$</li>
+<li>
+<p><strong>LSEF</strong></p>
+<p>令</p>
+$$
+    e_1 = x_1 - z_1\\e_2=x_2-z_2\\e_3=x_3-z_3\\e_4=x_4-z_4\\u_0 = a_1 e_1+a_2e_2+a_3e_3+a_4e_4\\u=\frac{u_0-z_5}{b_0}
+    $$<p>其中 $a_1$ 存在于 SEF 特征方程中</p>
+$$
+    L_{SEF}(s)=s^n+a_ns^{n-1}+…+a_2s+a_1
+    $$<p>将特征值统一配置在左半实轴同一位置，得到</p>
+$$
+    L_{SEF}(s)=(s+w_c)^{n}
+    $$<p>其中 $w_c$ 是 LSEF 的带宽</p>
+</li>
+</ul>
+<h3 id="其中参数的调整和选择">其中参数的调整和选择</h3>
+<ul>
+<li>首先是 LTD 中的低通滤波器带宽，r 越大相应的也就会越快趋于目标值</li>
+<li>$b_0$：假设 $K_G=\frac{b_0}{b}$，当 $K_G$ 偏离 1 越远，系统相角裕度越小。当 $K_G=4$ 时，系统不稳定，因此为了改善控制性能， $b_0$ 的选择应当尽可能接近真实参数 $b$</li>
+<li>$w_o$ 表示扩张观测器的带宽，一般选择 $w_o=3\sim5 w_c$（这适用于状态反馈控制系统，其中 $w_0$ 是根据暂态响应要求，特别是稳定时间规范确定的。控制器设计可以使用平滑的瞬态轮廓，而不是阶跃命令，作为期望的轨迹，允许输出更紧密地跟随）。带宽 $w_o$ 增大有益于 LADRC 的稳定性和鲁棒性，但是 $w_o$ 过大导致控制器的输出过大，不利于工程应用，实际调参需要折中一下。带宽 $w_o$ 虽然不会影响超调量的大小，但是会影响 LESO 的跟踪速度， $w_o$ 越大，系统响应越快，但是在实际的系统中， $w_o$ 的提高受观测噪声的限制，增大 $w_o$ 同时高频带增益也随之增加，噪声放大作用明显。</li>
+<li>$w_c$ 表示状态误差反馈控制律的带宽</li>
+</ul>
+<h3 id="note">Note</h3>
+<ul>
+<li>约定当且仅当系统的状态 $x_i$ 和LESO跟踪误差 $\~x$ 都稳定时，称LADRC系统稳定</li>
+<li>增大带宽会导致系统噪声过大，因此可在 LESO 前端设置滤波器来抑制其影响</li>
+<li>LESO 的微分方程的求解，一般依赖初始值（RungeKutta），初值对系统输出的超调量有一定影响</li>
+<li>$w_o$ 和 $w_c$ 的单位都是 rad/s.</li>
+<li>实际调试参数时，首先确定系统阶数，其次确定 $w_c$ 和 $w_o$ 不变，再按照数量级以此调试 $b_0$，直到系统输出满足期望状态</li>
+</ul>
+<h2 id="nadrc-非线性adrc"><strong>NADRC 非线性ADRC</strong></h2>
+<h3 id="一阶nadrc"><strong>一阶NADRC</strong></h3>
+<ul>
+<li>
+<p><strong>LTD</strong></p>
+<p>形式为：</p>
+$$
+    \left\{\begin{aligned}e_1&=x_1-v\\\frac{dx_1}{dt}&=-r*fal(e_1,\alpha_1,\delta_1)\end{aligned}\right.
+    $$<p>离散化处理之后为</p>
+$$
+    \left\{\begin{aligned}e_1(k)&=x_1(k)-v(k)\\x_1(k+1)&=-rTfal(e_1(k),\alpha_1,\delta_1)+x_1(k)\end{aligned}\right.
+    $$<p>其中</p>
+$$
+    fal(e, \alpha,\delta)=\left\{\begin{aligned}&{|e|}^{\alpha}sign(e) && |e| > \delta\\&\frac{e}{\delta^{1-\alpha}} && |e| \leq \delta\end{aligned}\right.
+    $$<p>其中， $fal$函数中的 $\alpha$ 反映了增益的变化率，当 $\alpha>1$，误差又比较大时，该函数增益可能过大，从而导致系统不稳定，通常 $0<\alpha<1$， $\alpha$ 越大，到达设定值的时间就越短。 $\delta$ 是为了避免函数在原点震荡引入的一个很小的正数，可决定函数增益线性变化的区间大小， $\delta$ 越大，则整个函数在作用区间大部分区间内都是线性的，如果 $\delta$ 越小就会使非线性函数更类似于一个开关函数，在原点附近有高频震荡现象</p>
+</li>
+<li>
+<p><strong>LESO</strong></p>
+<p>形式为：</p>
+$$
+    \left\{\begin{aligned}e_2&=z_{21}-y\\\frac{dz_{21}}{dt}&=z_{22}-\beta_{21}fal(e_2, \alpha_2,\delta_2)+bu\\\frac{dz_{22}}{dt} &= -\beta_{22}fal(e_2, \alpha_2,\delta_2)\end{aligned}\right.
+    $$<p>其中</p>
+$$
+    \left\{\begin{aligned}\beta_{21}&=2*\omega_0\\\beta_{22}&=\omega_0^2\end{aligned}\right.
+    $$<p>离散化处理之后</p>
+$$
+    \left\{\begin{aligned}e_2(k)&=z_{21}(k)-y(k)\\z_{21}(k+1)&=T(z_{22}(k)-\beta_{21}fal(e_2,\alpha_2,\delta_2)+bu)+z_{21}(k)\\z_{22}(k+1)&=-T\beta_{22}fal(e_2,\alpha_2,\delta_2)+z_{22}(k)\end{aligned}\right.
+    $$$$
+    \left\{\begin{aligned}z_{21}→y\\z_{22}→f\end{aligned}\right.
+    $$<p>输出为</p>
+$$
+     \left\{\begin{aligned}z_{21}(k+1)\\z_{22}(k+1)\end{aligned}\right.
+    $$</li>
+<li>
+<p><strong>LSEF</strong></p>
+<p>形式为：</p>
+$$
+    \left\{\begin{aligned}e_3&=x_1-z_{21}\\u_0&=kp*fal(e_3,\alpha_3,\delta_3)\\u&=\frac{u_0-z_{22}}{b}\\u&=u_0-\frac{z_{22}}{b}\end{aligned}\right.
+    $$<p>输出 $u$</p>
+<p>离散化处理：这里应当是依据于最新状态来计算的</p>
+$$
+    \left\{\begin{aligned}e_3(k)&=x_1(k)-z_{21}(k)\\u_0(k)&=kp*fal(e_3(k),\alpha_3,\delta_3)\\u(k)&=\frac{u_0(k)-z_{22}(k)}{b}\\u(k)&=u_0(k)-\frac{z_{22}(k)}{b}\end{aligned}\right.
+    $$</li>
+</ul>
+<h3 id="二阶nadrc"><strong>二阶NADRC</strong></h3>
+<ul>
+<li>
+<p><strong>LTD</strong></p>
+$$
+    \left\{\begin{aligned}\frac{dx_1}{dt}&=x_2\\\frac{dx_2}{dt}&=-r*sign(x_1-v+\frac{x_2|x_2|}{2r})\end{aligned}\right.
+    $$<p>为了避免在原点附近的颤振，将符号函数  $sign$ 改为线性饱和函数 $sat$ 就得到有效的二阶跟踪一微分器:</p>
+$$
+    \left\{\begin{aligned}\frac{dx_1}{dt}&=x_2\\\frac{dx_2}{dt}&=-r*sat(x_1-v+\frac{x_2|x_2|}{2r}, \delta)\end{aligned}\right.
+    $$<p>其中</p>
+$$
+    sat(x, \delta)=\left\{\begin{aligned}&sign(x)&&|x|\geq\delta\\&\frac{x}{\delta}&&|x|<\delta\end{aligned}\right.
+    $$<p>对应的离散化函数为</p>
+$$
+    \left\{\begin{aligned}x_1(k+1)&=x_1(k)+h*x_2(k)\\x_2(k+1)&=x_2(k)+h*fst(x_1(k)-v(k),x_2(k),r,h1)\end{aligned}\right.
+    $$<p>其中 $r$ 决定跟踪速度，称为速度因子， $h_1$ 对噪声有滤波作用，称为滤波因子</p>
+$$
+    \left\{\begin{aligned}d&=r*h_1\\d_0&=h_1*d\\y&=x_1(k)+h_1*x_2(k)-v(k)\\a_0&=\sqrt{d^2+8r|y|}\\a&=\left\{\begin{aligned}x_2(k)+\frac{a_0-d}{2}sign(y)&&|y|>d_0\\x_2(k)+\frac{y}{h_1}&&|y|\leq d_0\end{aligned}\right.\\fst(x_1(k)-v(k),x_2,r,h_1)&=\left\{\begin{aligned}-r*sign(a)&&|a|>d\\-r\frac{a}{d}&&|a|\leq d\end{aligned}\right.\end{aligned}\right.
+    $$<p>其中 $r$ 是决定跟踪快慢的参数， $h_1$ 是决定噪声滤波效应的参数</p>
+<p>当 $h_1>h$ 时，对于含有噪声的信号，TD滤波器有较好的滤波功能，在确定滤波器参数时，r和ℎ1需要协调调制。r 越大，跟踪信号越快，噪声放大也越厉害，ℎ1越大，滤波效果越好，跟踪信号的相位也损失越大。离散TD能快速、无超调、无颤振的跟踪信号。实际上上面这种 TD 的形式会导致在到达稳态之后输入产生高频震荡，只能说十分的恶心</p>
+<p>通过查阅资料（自抗扰控制技术）离散化函数也可以写成这样：</p>
+$$
+    \left\{\begin{aligned}x_1(k+1)&=x_1(k)+hx_2(k)\\x_2(k+1)&=x_2(k)+h*fhan(x_1(k)-v(k),x_2(k),r,h1)\end{aligned}\right.
+    $$<p>这里的 $h_1$ 就是噪声滤波效应的参数，应当比 $h$ 大一点</p>
+$$
+    fst(x_1(k)-v(k),x_2,r,h_1)=\left\{\begin{aligned}d&=r*h_1^2\\a_0&=h_1*x_2\\y&=x_1(k)-v(k)+a_0\\a_1&=\sqrt{d(d+8|y|)}\\a_2&=a_0+\frac{a_1-d}{2}sign(y)\\a&=(a_0+y)fsg(y,d)+a_2(1-fsg(y,d))\\fhan&=-r\frac{a}{d}fsg(a,d)-r*sign(a)(1-fsg(a,d))\\fsg(x,d)&=\frac{sign(x+d)-sign(x-d)}{2}\end{aligned}\right.
+    $$</li>
+<li>
+<p><strong>LESO</strong></p>
+$$
+    \left\{\begin{aligned}e_2&=z_{21}-y\\\frac{dz_{21}}{dt}&=z_{22}-\beta_{21}*e_2\\\frac{dz_{22}}{dt}&=z_{23}-\beta_{22}*fal(e_2,\alpha_2,\delta_2)+b*u\\\frac{dz_{23}}{dt}&=-\beta_{23}*fal(e_2,\alpha_3,\delta_3)\end{aligned}\right.
+    $$<p>式中的 $\beta$ 取指方式与二阶的 LESO 相同。同时 $\alpha_3<\alpha_2$， $\delta_2$ 可以取相同值，离散化的时候取 $5T\leq \delta_2\leq 10T$，T 为采样周期</p>
+$$
+    \left\{\begin{aligned}\beta_{21}&=3*\omega_o\\\beta_{22}&=3*\omega_o^2\\\beta_{23}&=\omega_o^3\end{aligned}\right.
+    $$<p>离散化处理</p>
+$$
+    \left\{\begin{aligned}z_{21}(k+1)&=h(z_{22}(k)-\beta_{21}*e_2(k)) + z_{21}(k)\\z_{22}(k+1)&=h(z_{23}(k)-\beta_{22}fal(e_2(k),\alpha_2,\delta_2)+bu(k)) + z_{22}(k)\\z_{23}(k+1)&=h(-\beta_{23}*fal(e_2(k),\alpha_3,\delta_3)) + z_{23}(k)\end{aligned}\right.
+    $$<p>其中</p>
+$$
+     fal(e, \alpha,\delta)=\left\{\begin{aligned}&{|e|}^{\alpha}sign(e) && |e| > \delta\\&\frac{e}{\delta^{1-\alpha}} && |e| \leq \delta\end{aligned}\right.
+    $$</li>
+<li>
+<p><strong>LSEF</strong></p>
+<p>总共有三种非线性的反馈控制规律</p>
+$$
+    u_0=\left\{\begin{aligned}&\beta_1e_1+\beta_2e_2\\&\sum_{i=1}^n\beta_ifal(x_i-z_i,\alpha_i,d)\\&-fhan(e_1,e_2,r,h)\\&-fhan(e_1,ce_2,r,h)\end{aligned}\right.
+    $$<p>其中</p>
+$$
+    e_0=\int^{t}_{0}{e_1(t)dt}
+    $$<p>这里的 $u_0$ 有四种形式</p>
+<p>其中</p>
+$$
+    fhan(e_1,e_2,r,h)=\left\{\begin{aligned}d&=r*h^2\\a_0&=h_1*e_2\\y&=e_1+a_0\\a_1&=\sqrt{d*(d+8|y|)}\\a_2&=a_0+\frac{a_1-d}{2}sign(y)\\a&=(a_0+y)fsg(y,d)+a_2(1-fsg(y,d))\\fhan&=-r\frac{a}{d}fsg(a,d)-r*sign(a)(1-fsg(a,d))\\fsg(x,d)&=\frac{sign(x+d)-sign(x-d)}{2}\end{aligned}\right.
+    $$<p>$u$ 也有两种形式</p>
+$$
+    u=\left\{\begin{aligned}&\frac{u_0-z_{23}}{b}\\&u_0-\frac{z_{23}}{b}\end{aligned}\right.
+    $$<p>离散化处理之后</p>
+$$
+    \left\{\begin{aligned}u_0&=\left\{\begin{aligned}&\beta_1e_1+\beta_2e_2\\&\sum_{i=1}^n\beta_ifal(x_i-z_i,\alpha_i,d)\\&-fhan(e_1,e_2,r,h)\\&-fhan(e_1,ce_2,r,h)\end{aligned}\right.\\u(k)&=\left\{\begin{aligned}&\frac{u_0(k)-z_{23}(k)}{b}\\&u_0(k)-\frac{z_{23}(k)}{b}\end{aligned}\right.\end{aligned}\right.
+    $$</li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<p>[<a href="https://zhuanlan.zhihu.com/p/585324684">自抗扰控制-低阶LADRC与PID</a>]</p>
+<p>[<a href="https://zhuanlan.zhihu.com/p/664345718">自抗扰控制-ADRC</a>]</p>
+<p>[<a href="https://zhuanlan.zhihu.com/p/115283894">自抗扰控制理论</a>]</p>
+<p>[<a href="https://ieeexplore.ieee.org/document/4796887">From PID to Active Disturbance Rejection Control</a>]</p>
+<p>自抗扰控制技术——韩京清</p>
+
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f&amp;resubmit=true&amp;title=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f&amp;t=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=ADRC%e8%87%aa%e6%8a%97%e6%89%b0%e6%8e%a7%e5%88%b6%e5%99%a8&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f19%2fadrc%25E8%2587%25AA%25E6%258A%2597%25E6%2589%25B0%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/">← prev</a>
+    
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/19/%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2024</span> - <span>2024</span>
+  </div>
+  <div>
+    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
+<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
+</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

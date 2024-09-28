@@ -3,13 +3,13 @@
 {{ $domainWithoutWWW := replace $domain "www." "" }}
 <header id="header">
   <h1>
-    <a href="{{ .Site.BaseURL }}">{{ .Site.Params.title | default .Site.Title }}</a>
+    <a href="{{ .Site.BaseURL }}">{{ .Site.Params.title }}</a>
   </h1>
 
   <nav>
     {{ range .Site.Menus.main }}
     <span class="nav-bar-item">
-      <a class="link" href="{{ .URL | safeURL }}">{{ .Name }}</a>
+      <a class="link" href="{{ .URL }}">{{ .Name }}</a>
     </span>
     {{ end }}
   </nav>

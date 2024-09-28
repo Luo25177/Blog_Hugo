@@ -1,231 +1,665 @@
-<!doctype html><html lang=en-us style=font-size:120%><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="落"><meta name=description content="MPC模型预测控制器设计"><link rel=apple-touch-icon sizes=180x180 href=/Blog_Hugo/logo180x180.ico><link rel=icon type=image/png sizes=32x32 href=/Blog_Hugo/logo32x32.ico><link rel=icon type=image/png sizes=16x16 href=/Blog_Hugo/logo16x16.ico><meta name=keywords content="hugo latex theme blog texify texify2 weastur"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script><script data-name=BMC-Widget data-cfasync=false src=https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js data-id=weastur data-description="Support me on Buy me a coffee!" data-message data-color=#FF5F5F data-position=Right data-x_margin=18 data-y_margin=18></script><meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/"><meta property="og:site_name" content="Luo's Blog"><meta property="og:title" content="MPC模型预测控制"><meta property="og:description" content="MPC模型预测控制器设计"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2024-03-18T15:42:26+00:00"><meta property="article:modified_time" content="2024-03-18T15:42:26+00:00"><meta property="article:tag" content="MPC"><meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png"><link rel=canonical href=https://seashore.top/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/><meta itemprop=name content="MPC模型预测控制"><meta itemprop=description content="MPC模型预测控制器设计"><meta itemprop=datePublished content="2024-03-18T15:42:26+00:00"><meta itemprop=dateModified content="2024-03-18T15:42:26+00:00"><meta itemprop=wordCount content="2064"><meta itemprop=image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta itemprop=keywords content="MPC"><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/common.css><link media=screen rel=stylesheet href=https://seashore.top/Blog_Hugo/css/content.css><title>MPC模型预测控制 - Luo's Blog</title>
-<meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://seashore.top/Blog_Hugo/images/logo3.png"><meta name=twitter:title content="MPC模型预测控制"><meta name=twitter:description content="MPC模型预测控制器设计"><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/single.css><link rel=stylesheet href=https://seashore.top/Blog_Hugo/css/sharingbuttons.css></head><body><div id=wrapper><header id=header><h1><a href=https://seashore.top/Blog_Hugo/>Luo's Blog</a></h1><nav><span class=nav-bar-item><a class=link href=../>Guid</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/>Home</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/post/>Posts</a>
-</span><span class=nav-bar-item><a class=link href=/Blog_Hugo/about/>About</a></span></nav><div id=searchbox><form method=get id=search target=_blank action=https://duckduckgo.com/><input type=hidden name=sites value=seashore.top>
-<input type=text name=q placeholder=Search...></form></div></header><main id=main class=post><h1>MPC模型预测控制</h1><div><a class=link href=https://seashore.top/Blog_Hugo/tags/mpc>#MPC</a></div><details><summary><b>Table of Contents</b></summary><div class="toc numbered-subtitles"><nav id=TableOfContents><ul><li><ul><li><a href=#最优化控制>最优化控制</a></li><li><a href=#mpc>MPC</a></li><li><a href=#二次规划>二次规划</a></li></ul></li></ul></nav></div></details><article class="content numbered-subtitles"><p><a href=https://github.com/Luo25177/modelControl>github仓库</a></p><h3 id=最优化控制>最优化控制</h3><p><strong class=chinese>研究动机</strong></p><p>在一定的约束条件下达到最优的系统表现，最优是综合分析的最优</p><p><strong class=chinese>代价函数与评判标准</strong></p><ul><li><p>对于单输入单输出系统控制，e(t)为误差， u(t)为输入</p><p>当 $\int_0^te^2dt$ 最小时，就可以保证系统的追踪性很好</p><p>当 $\int_1^tu^2dt$ 最小时，可以保证系统的输入最小，能耗最低</p><p>控制过程的代价函数</p>$$
-J = \int_1^t(qe^2+ru^2)dt
-$$<p>目的就是设计一个u使J达到最小值</p><p>q和r就是我们可以调节的参数，如果 $q>>r$ 那么就是设计过程更加注重误差，如果 $r>>q$的话，就是设计过程更加注重能耗最低</p></li><li><p>对于多输入多输出的系统控制中</p><p>$\frac{dx}{dt} = Ax +Bu$ x是系统的状态变量</p><p>$Y=Cx$ Y就是系统的输出</p><p>代价方程就是</p>$$
-J = \int_0^t(E^TQE + u^TRu)dt
-$$<p>一个栗子：</p><p>$\begin{bmatrix} y_1 \\ y_2\\ \end{bmatrix} = \begin{bmatrix} x_1 \\ x_2 \\ \end{bmatrix}$</p><p>$R = \begin{bmatrix}r_1\\r_2\\ \end{bmatrix} = \begin{bmatrix}0\\0\\ \end{bmatrix}$</p><p>$⇒E = \begin{bmatrix}e_1\\e_2\\\end{bmatrix} = \begin{bmatrix}y_1-r_1\\y_2-r_2\\\end{bmatrix} = \begin{bmatrix}x_1\\x_2\\\end{bmatrix}$</p><p>$⇒E^TQE=\begin{bmatrix}x_1&x_2\\\end{bmatrix}\begin{bmatrix}q_1&0\\0&q_2\\\end{bmatrix}\begin{bmatrix}x_1\\x_2\\\end{bmatrix} = q_1x_1^2+q_2x_2^2$</p><p>$⇒u^TRu = r_1u_1^2+r_2u_2^2$</p><p>Q和R都是调节矩阵， $q_1,q_2,r_1,r_2$都是权重系数，如果过多的关注 $x_1$的话，可以适当的将 $q_1,r_1$加大，加重权重系数</p></li></ul><h3 id=mpc>MPC</h3><p>通过模型来预测系统在某一时间段内的表现来进行最优化控制，多用于数位控制，多采用离散型状态空间的表达形式 $X_{k+1} = AX_k+Bu_k$</p><p><strong class=chinese>分析步骤</strong></p><p>在当前时刻，即k时刻</p><ol><li><p>测量/估计当前状态，输出为 $Y_k$</p></li><li><p>基于 $u_k,u_{k+1},….u_{k+N}$ 来进行最优化， N为预测出空间，N-1为控制范围</p><p>代价函数</p>$$
-X_k=\begin{bmatrix}x(k+1|k)\\x(k+2|k)\\\dots\\x(k+N|k)\end{bmatrix}\\U_k=\begin{bmatrix}u(k|k)\\u(k+1|k)\\\dots\\u(k+N-1|k)\end{bmatrix}\\output:Y=X\\reference:R\\E=Y-R=X-R
-$$$$
-J = ∑_k^{N-1}E_k^TQE_k+U_k^TRU_k+E_N^TFE_N
-$$<p>其中 $E_N^TFE_N$ 代表了最终的结果，就是期望值，也就是最末一点，终端误差，预测区间最后时刻的误差的代价函数，目的就是找到 $J$ 的最小值</p><p>并且 Q 与 R 都是对角矩阵</p></li><li><p>需要找到 $u_k,u_{k+1},….u_{k+N}$ 并非要使用所有的 $u_k$，只实施第一个也就是 $u_k$，当时间到达k+1的时候，就要把窗口，也就是预测区间向右移动，每一步都需要去求解一个最优化问题——滚动优化问题</p></li></ol><p>mpc在预测的过程中会考虑到系统的约束</p><h3 id=二次规划>二次规划</h3><p><strong class=chinese>一般形式</strong></p>$$
+<!DOCTYPE html>
+<html lang="en-us" style="font-size: 120%">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <meta name="author" content="落">
+
+  
+  
+  <meta name="description" content="MPC模型预测控制器设计">
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/Blog_Hugo/logo180x180.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Blog_Hugo/logo32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Blog_Hugo/logo16x16.ico">
+
+  
+  
+  <meta name="keywords" content="hugo latex theme blog texify texify2 weastur">
+  
+
+  
+  
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+  
+
+  
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="weastur" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FF5F5F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+  
+  <meta property="og:url" content="https://seashore.top/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/">
+  <meta property="og:site_name" content="Luo&#39;s Blog">
+  <meta property="og:title" content="MPC模型预测控制">
+  <meta property="og:description" content="MPC模型预测控制器设计">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-03-18T15:42:26+00:00">
+    <meta property="article:modified_time" content="2024-03-18T15:42:26+00:00">
+    <meta property="article:tag" content="MPC">
+    <meta property="og:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+
+
+  
+  <link rel="canonical" href="https://seashore.top/Blog_Hugo/post/2024/03/18/mpc%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B%E6%8E%A7%E5%88%B6/">
+
+  
+  
+  
+  <meta itemprop="name" content="MPC模型预测控制">
+  <meta itemprop="description" content="MPC模型预测控制器设计">
+  <meta itemprop="datePublished" content="2024-03-18T15:42:26+00:00">
+  <meta itemprop="dateModified" content="2024-03-18T15:42:26+00:00">
+  <meta itemprop="wordCount" content="2064">
+  <meta itemprop="image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta itemprop="keywords" content="MPC">
+
+  
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/content.css'>
+
+  
+  
+  <title>MPC模型预测控制 - Luo&#39;s Blog</title>
+  
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://seashore.top/Blog_Hugo/images/logo3.png">
+  <meta name="twitter:title" content="MPC模型预测控制">
+  <meta name="twitter:description" content="MPC模型预测控制器设计">
+
+
+  
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/single.css'>
+<link rel="stylesheet" href='https://seashore.top/Blog_Hugo/css/sharingbuttons.css'>
+
+</head>
+
+<body>
+  <div id="wrapper">
+    
+
+
+<header id="header">
+  <h1>
+    <a href="https://seashore.top/Blog_Hugo/"></a>
+  </h1>
+
+  <nav>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="../">Guid</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/">Home</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/post/">Posts</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/Blog_Hugo/about/">About</a>
+    </span>
+    
+  </nav>
+  
+  <div id="searchbox">
+    <form method="get" id="search" target="_blank" action="https://duckduckgo.com/">
+      <input type="hidden" name="sites" value="seashore.top">
+      <input type="text" name="q" placeholder="Search...">
+    </form>
+  </div>
+  
+</header>
+
+    
+<main id="main" class="post">
+  
+  <h1>MPC模型预测控制</h1>
+  
+  <div>
+    
+    <a class="link" href='https://seashore.top/Blog_Hugo/tags/mpc'>#MPC</a>
+    
+  </div>
+  
+  
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc numbered-subtitles"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#最优化控制">最优化控制</a></li>
+        <li><a href="#mpc">MPC</a></li>
+        <li><a href="#二次规划">二次规划</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
+  <article class="content numbered-subtitles">
+    
+    <p><a href="https://github.com/Luo25177/modelControl">github仓库</a></p>
+<h3 id="最优化控制">最优化控制</h3>
+<p><strong class=chinese>研究动机</strong></p>
+<p>在一定的约束条件下达到最优的系统表现，最优是综合分析的最优</p>
+<p><strong class=chinese>代价函数与评判标准</strong></p>
+<ul>
+<li>
+<p>对于单输入单输出系统控制，e(t)为误差， u(t)为输入</p>
+<p>当 $\int_0^te^2dt$ 最小时，就可以保证系统的追踪性很好</p>
+<p>当 $\int_1^tu^2dt$ 最小时，可以保证系统的输入最小，能耗最低</p>
+<p>控制过程的代价函数</p>
+$$
+    J = \int_1^t(qe^2+ru^2)dt
+    $$<p>目的就是设计一个u使J达到最小值</p>
+<p>q和r就是我们可以调节的参数，如果 $q>>r$ 那么就是设计过程更加注重误差，如果 $r>>q$的话，就是设计过程更加注重能耗最低</p>
+</li>
+<li>
+<p>对于多输入多输出的系统控制中</p>
+<p>$\frac{dx}{dt} = Ax +Bu$     x是系统的状态变量</p>
+<p>$Y=Cx$       Y就是系统的输出</p>
+<p>代价方程就是</p>
+$$
+    J = \int_0^t(E^TQE + u^TRu)dt
+    $$<p>一个栗子：</p>
+<p>$\begin{bmatrix} y_1 \\ y_2\\ \end{bmatrix} = \begin{bmatrix} x_1 \\ x_2 \\ \end{bmatrix}$</p>
+<p>$R = \begin{bmatrix}r_1\\r_2\\ \end{bmatrix} = \begin{bmatrix}0\\0\\ \end{bmatrix}$</p>
+<p>$⇒E = \begin{bmatrix}e_1\\e_2\\\end{bmatrix} = \begin{bmatrix}y_1-r_1\\y_2-r_2\\\end{bmatrix} = \begin{bmatrix}x_1\\x_2\\\end{bmatrix}$</p>
+<p>$⇒E^TQE=\begin{bmatrix}x_1&x_2\\\end{bmatrix}\begin{bmatrix}q_1&0\\0&q_2\\\end{bmatrix}\begin{bmatrix}x_1\\x_2\\\end{bmatrix} = q_1x_1^2+q_2x_2^2$</p>
+<p>$⇒u^TRu = r_1u_1^2+r_2u_2^2$</p>
+<p>Q和R都是调节矩阵， $q_1,q_2,r_1,r_2$都是权重系数，如果过多的关注 $x_1$的话，可以适当的将 $q_1,r_1$加大，加重权重系数</p>
+</li>
+</ul>
+<h3 id="mpc">MPC</h3>
+<p>通过模型来预测系统在某一时间段内的表现来进行最优化控制，多用于数位控制，多采用离散型状态空间的表达形式  $X_{k+1} = AX_k+Bu_k$</p>
+<p><strong class=chinese>分析步骤</strong></p>
+<p>在当前时刻，即k时刻</p>
+<ol>
+<li>
+<p>测量/估计当前状态，输出为 $Y_k$</p>
+</li>
+<li>
+<p>基于 $u_k,u_{k+1},….u_{k+N}$ 来进行最优化， N为预测出空间，N-1为控制范围</p>
+<p>代价函数</p>
+$$
+    X_k=\begin{bmatrix}x(k+1|k)\\x(k+2|k)\\\dots\\x(k+N|k)\end{bmatrix}\\U_k=\begin{bmatrix}u(k|k)\\u(k+1|k)\\\dots\\u(k+N-1|k)\end{bmatrix}\\output:Y=X\\reference:R\\E=Y-R=X-R
+    $$$$
+    J = ∑_k^{N-1}E_k^TQE_k+U_k^TRU_k+E_N^TFE_N
+    $$<p>其中 $E_N^TFE_N$ 代表了最终的结果，就是期望值，也就是最末一点，终端误差，预测区间最后时刻的误差的代价函数，目的就是找到 $J$ 的最小值</p>
+<p>并且 Q 与 R 都是对角矩阵</p>
+</li>
+<li>
+<p>需要找到 $u_k,u_{k+1},….u_{k+N}$ 并非要使用所有的 $u_k$，只实施第一个也就是 $u_k$，当时间到达k+1的时候，就要把窗口，也就是预测区间向右移动，每一步都需要去求解一个最优化问题——滚动优化问题</p>
+</li>
+</ol>
+<p>mpc在预测的过程中会考虑到系统的约束</p>
+<h3 id="二次规划">二次规划</h3>
+<p><strong class=chinese>一般形式</strong></p>
+$$
 min\ Z^TQZ+C^TZ
-$$<p>当Q为对角矩阵时，这个式子为</p>$$
+$$<p>当Q为对角矩阵时，这个式子为</p>
+$$
 \sum_{i=1}^n q_iz_i^2
-$$<p>就变成了一个最小二乘的形式</p><p>对于一个系统状态方程</p>$$
+$$<p>就变成了一个最小二乘的形式</p>
+<p>对于一个系统状态方程</p>
+$$
 x(k+1)=Ax(k)+Bu(k)\\state:x=\begin{bmatrix}x_1\\x_2\\\dots\\x_n\end{bmatrix}\\input:u=\begin{bmatrix}u_1\\u_2\\\dots\\u_n\end{bmatrix}
-$$<p>利用增广矩阵来表示k时刻的预测的结果</p>$$
+$$<p>利用增广矩阵来表示k时刻的预测的结果</p>
+$$
 x(k+1|k)~~~u(k|k)\\x(k+2|k)~~~u(k+1|k)\\\dots\\x(k+N|k)~~~u(k+N-1|k)
-$$<p>其中 N 表示预测的区间</p><p>定义</p>$$
+$$<p>其中 N 表示预测的区间</p>
+<p>定义</p>
+$$
 X_k=\begin{bmatrix}x(k|k)\\x(k+1|k)\\\dots\\x(k+N|k)\end{bmatrix}\\U_k=\begin{bmatrix}u(k|k)\\u(k+1|k)\\\dots\\u(k+N-1|k)\end{bmatrix}\\output:Y=X\\reference:R=0\\E=Y-R=X-0=X
-$$<p>代价函数为</p>$$
+$$<p>代价函数为</p>
+$$
 J_{k\rightarrow k+N}=∑_{i=0}^{N-1} \{x(k+i|k)^TQx(k+i|k)+u(k+i|k)^TRu(k+i|k)\} + x(k+N)^TFx(k+N)
-$$<p>其中</p><ul><li>$X(k+i|k)^TQX(k+i|k)$ 误差加权和</li><li>$u(k+i|k)^TRu(k+i|k)$ 输入加权和</li><li>$x(k+N)^TFx(k+N)$ 终端误差</li></ul><p>在k时刻时</p>$$
+$$<p>其中</p>
+<ul>
+<li>$X(k+i|k)^TQX(k+i|k)$ 误差加权和</li>
+<li>$u(k+i|k)^TRu(k+i|k)$ 输入加权和</li>
+<li>$x(k+N)^TFx(k+N)$ 终端误差</li>
+</ul>
+<p>在k时刻时</p>
+$$
 x(k|k)=x_k~~~该时刻的初始条件\\x(k+1|k)=Ax(k|k)+Bu(k|k)=Ax_k+Bu(k|k)\\x(k+2|k)=Ax(k+1|k)+Bu(k+1|k)=A^2x(k|k)+ABu(k|k)+Bu(k+1|k)\\x(k+N|k)=A^Nx_k+\sum_{i=0}^{N-1}{A^{N-1-i}Bu(k+i|k)}
-$$<p>根据之前定义简化方程</p>$$
+$$<p>根据之前定义简化方程</p>
+$$
 X_k=\begin{bmatrix}I\\A\\A^2\\\dots\\A^N\end{bmatrix}x_k+\begin{bmatrix}0&0&...&0\\B&0&...&0\\AB&B&...&0\\\dots\\A^{N-1}B&A^{N-2}B&...&B\end{bmatrix}U_k
-$$<p>可令</p>$$
+$$<p>可令</p>
+$$
 M=\begin{bmatrix}I\\A\\A^2\\\dots\\A^N\end{bmatrix}\\C=\begin{bmatrix}0&0&...&0\\B&0&...&0\\AB&B&...&0\\\dots\\A^{N-1}B&A^{N-2}B&...&B\end{bmatrix}
-$$<p>其中 $M$ 为 $(N+1)\times 1$， $C$ 为 $(N+1)\times N$ 矩阵</p><p>则简化为</p>$$
+$$<p>其中 $M$ 为 $(N+1)\times 1$， $C$ 为 $(N+1)\times N$ 矩阵</p>
+<p>则简化为</p>
+$$
 X_k=Mx_k+CU_k
-$$<p>代价函数为</p>$$
+$$<p>代价函数为</p>
+$$
 J_{k\rightarrow k+N}=∑_{i=0}^{N-1} \{x(k+i|k)^TQx(k+i|k)+u(k+i|k)^TRu(k+i|k)\} + x(k+N)^TFx(k+N)
-$$<p>其中第一项与最后一项为</p>$$
+$$<p>其中第一项与最后一项为</p>
+$$
 x(k|k)^TQx(k|k)+...+x(k+N-1|k)^TQx(k+N-1|k)+x(k+N|k)^TQx(k+N|k)\\\Rightarrow \begin{bmatrix}x(k|k)\\x(k+1|k)\\\dots\\x(k+N|k)\end{bmatrix}^T\begin{bmatrix}Q&0&...&0\\0&Q&...&0\\\dots\\0&0&...&F\end{bmatrix}\begin{bmatrix}x(k|k)\\x(k+1|k)\\\dots\\x(k+N|k)\end{bmatrix}
-$$<p>令</p>$$
+$$<p>令</p>
+$$
 \overline{Q}=\begin{bmatrix}Q&0&...&0\\0&Q&...&0\\\dots\\0&0&...&F\end{bmatrix}
-$$<p>则上式为</p>$$
+$$<p>则上式为</p>
+$$
 X_k^T\overline{Q}X_k
-$$<p>中间一项为</p>$$
+$$<p>中间一项为</p>
+$$
 u(k|k)^TRu(k|k)+...+u(k+N-1|k)^TRu(k+N-1|k)\\\Rightarrow \begin{bmatrix}u(k|k)\\u(k+1|k)\\\dots\\u(k+N-1|k)\end{bmatrix}^T\begin{bmatrix}R&0&...&0\\0&R&...&0\\\dots\\0&0&...&R\end{bmatrix}\begin{bmatrix}u(k|k)\\u(k+1|k)\\\dots\\u(k+N-1|k)\end{bmatrix}
-$$<p>令</p>$$
+$$<p>令</p>
+$$
 \overline{R}=\begin{bmatrix}R&0&...&0\\0&R&...&0\\\dots\\0&0&...&R\end{bmatrix}
-$$<p>上式化简为</p>$$
+$$<p>上式化简为</p>
+$$
 U_k^T\overline{R}U_k
-$$<p>故而代价函数为</p>$$
+$$<p>故而代价函数为</p>
+$$
 J_{k\rightarrow k+N}=X_k^T\overline{Q}X_k+U_k^T\overline{R}U_k
-$$<p>由于</p>$$
+$$<p>由于</p>
+$$
 X_k=Mx_k+CU_k
-$$<p>则</p>$$
+$$<p>则</p>
+$$
 J_{k\rightarrow k+N}=(Mx_k+CU_k)^T\overline{Q}(Mx_k+CU_k)+U_k^T\overline{R}U_k
-$$<p>分开之后为</p>$$
+$$<p>分开之后为</p>
+$$
 J_{k\rightarrow k+N}=x_k^TM^T\overline{Q}Mx_k+x_k^TM^T\overline{Q}CU_k+U_k^TC^T\overline{Q}Mx_k+U_k^TC^T\overline{Q}CU_k+U_k^T\overline{R}U_k
-$$<p>对于第2项和第3项，它们互为转置，并且 $\overline{Q}$ 是对称的，所以可以简化合并为</p>$$
+$$<p>对于第2项和第3项，它们互为转置，并且 $\overline{Q}$ 是对称的，所以可以简化合并为</p>
+$$
 2x_k^TM^T\overline{Q}CU_k
-$$<p>对于第4项和第5项，也可以化简为</p>$$
+$$<p>对于第4项和第5项，也可以化简为</p>
+$$
 U_k^T(C^T\overline{Q}C+\overline{R})U_k
-$$<p>可令</p>$$
+$$<p>可令</p>
+$$
 G=M^T\overline{Q}M\\E=M^T\overline{Q}C\\H=C^T\overline{Q}C+\overline{R}
-$$<p>最终，代价函数写作</p>$$
+$$<p>最终，代价函数写作</p>
+$$
 J_{k\rightarrow k+N}=x_k^TGx_k+2x_k^TEU_k+U_k^THU_k
-$$<p>求解最优解，先求导数为0处，即</p>$$
+$$<p>求解最优解，先求导数为0处，即</p>
+$$
 \frac{\partial J}{\partial U_k}=0
 $$$$
 first~part:0\\second~part:2E^Tx_k\\second~part:(H+H^T)U_k
-$$<p>即</p>$$
+$$<p>即</p>
+$$
 \frac{\partial J_{k\rightarrow k+N}}{\partial U_k}=2E^Tx_k+(H+H^T)U_k=0
-$$<p>求得</p>$$
+$$<p>求得</p>
+$$
 U_k=-2(H+H^T)^{-1}E^Tx_k
-$$<p>验证是否为极小值</p>$$
+$$<p>验证是否为极小值</p>
+$$
 \frac{\partial^2 J_{k\rightarrow k+N}}{\partial U_k^2}=(H+H^T)^T=H^T+H
-$$<p>由于H中的 $\overline{Q}$, $C$, $\overline{R}$ 都为正定阵，所以结果一定是正定的，故得证</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-matlab data-lang=matlab><span class=line><span class=cl><span class=c>% 这是一个通用的 MPC 模型预测算法的代码</span>
-</span></span><span class=line><span class=cl><span class=n>clear</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=n>clear</span> <span class=n>all</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=n>clc</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c>%%%%%系统矩阵</span>
-</span></span><span class=line><span class=cl><span class=n>A</span> <span class=p>=</span> <span class=p>[</span><span class=mi>1</span> <span class=mf>0.1</span><span class=p>;</span> <span class=mi>0</span> <span class=mi>2</span><span class=p>];</span>
-</span></span><span class=line><span class=cl><span class=n>n</span> <span class=p>=</span> <span class=nb>size</span><span class=p>(</span><span class=n>A</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=n>B</span> <span class=p>=</span> <span class=p>[</span><span class=mf>0.2</span> <span class=mi>1</span><span class=p>;</span> <span class=mf>0.5</span> <span class=mi>2</span><span class=p>];</span> <span class=c>% 大小取决于输入量的数目</span>
-</span></span><span class=line><span class=cl><span class=n>p</span> <span class=p>=</span> <span class=nb>size</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c>%%%%% 权重矩阵</span>
-</span></span><span class=line><span class=cl><span class=n>Q</span> <span class=p>=</span> <span class=p>[</span><span class=mi>100</span> <span class=mi>0</span><span class=p>;</span> <span class=mi>0</span> <span class=mi>1</span><span class=p>];</span>
-</span></span><span class=line><span class=cl><span class=n>F</span> <span class=p>=</span> <span class=p>[</span><span class=mi>100</span> <span class=mi>0</span><span class=p>;</span> <span class=mi>0</span> <span class=mi>1</span><span class=p>];</span>
-</span></span><span class=line><span class=cl><span class=n>R</span> <span class=p>=</span> <span class=p>[</span><span class=mi>1</span> <span class=mi>0</span><span class=p>;</span> <span class=mi>0</span> <span class=mf>0.1</span><span class=p>];</span> <span class=c>% 大小取决于输入量</span>
-</span></span><span class=line><span class=cl><span class=n>k_step</span> <span class=p>=</span> <span class=mi>100</span><span class=p>;</span> <span class=c>% 走100步</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=n>x_k</span> <span class=p>=</span> <span class=nb>zeros</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>k_step</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=n>x_k</span><span class=p>(:,</span> <span class=mi>1</span><span class=p>)</span> <span class=p>=</span> <span class=p>[</span><span class=mi>20</span><span class=p>;</span> <span class=o>-</span><span class=mi>20</span><span class=p>];</span>
-</span></span><span class=line><span class=cl><span class=n>u_k</span> <span class=p>=</span> <span class=nb>zeros</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>k_step</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=n>N</span> <span class=p>=</span> <span class=mi>5</span><span class=p>;</span> <span class=c>% 预测区间</span>
-</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>E</span><span class=p>,</span> <span class=n>H</span><span class=p>]</span> <span class=p>=</span> <span class=n>MPC_Matrices</span><span class=p>(</span><span class=n>A</span><span class=p>,</span> <span class=n>B</span><span class=p>,</span><span class=n>Q</span><span class=p>,</span> <span class=n>R</span><span class=p>,</span> <span class=n>F</span><span class=p>,</span> <span class=n>N</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>k</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span> <span class=n>k_step</span>
-</span></span><span class=line><span class=cl>    <span class=n>u_k</span><span class=p>(:,</span> <span class=n>k</span><span class=p>)</span> <span class=p>=</span> <span class=n>Prediction</span><span class=p>(</span><span class=n>x_k</span><span class=p>(:,</span> <span class=n>k</span><span class=p>),</span> <span class=n>E</span><span class=p>,</span> <span class=n>H</span><span class=p>,</span> <span class=n>N</span><span class=p>,</span> <span class=n>p</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=n>x_k</span><span class=p>(:,</span> <span class=n>k</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span> <span class=p>=</span> <span class=p>(</span><span class=n>A</span> <span class=o>*</span> <span class=n>x_k</span><span class=p>(:,</span> <span class=n>k</span><span class=p>)</span> <span class=o>+</span> <span class=n>B</span> <span class=o>*</span> <span class=n>u_k</span><span class=p>(:,</span> <span class=n>k</span><span class=p>));</span>
-</span></span><span class=line><span class=cl><span class=k>end</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=n>subplot</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=n>hold</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span> <span class=nb>size</span><span class=p>(</span><span class=n>x_k</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>plot</span><span class=p>(</span><span class=n>x_k</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=p>:));</span>
-</span></span><span class=line><span class=cl>    <span class=n>plot</span><span class=p>(</span><span class=n>x_k</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=p>:));</span>
-</span></span><span class=line><span class=cl><span class=k>end</span>
-</span></span><span class=line><span class=cl><span class=n>legend</span><span class=p>(</span>&#34;<span class=n>x1</span>&#34;<span class=p>,</span> &#34;<span class=n>x2</span>&#34;<span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=n>hold</span> <span class=n>off</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=n>subplot</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=n>hold</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span> <span class=nb>size</span><span class=p>(</span><span class=n>x_k</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>plot</span><span class=p>(</span><span class=n>u_k</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=p>:));</span>    
-</span></span><span class=line><span class=cl>    <span class=n>plot</span><span class=p>(</span><span class=n>u_k</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=p>:));</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>end</span>
-</span></span><span class=line><span class=cl><span class=n>legend</span><span class=p>(</span>&#34;<span class=n>u1</span>&#34;<span class=p>,</span> &#34;<span class=n>u2</span>&#34;<span class=p>);</span>
-</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-matlab data-lang=matlab><span class=line><span class=cl><span class=k>function</span><span class=w>  </span>[E , H]<span class=p>=</span><span class=nf>MPC_Matrices</span><span class=p>(</span>A,B,Q,R,F,N<span class=p>)</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>n</span><span class=p>=</span><span class=nb>size</span><span class=p>(</span><span class=n>A</span><span class=p>,</span><span class=mi>1</span><span class=p>);</span>   <span class=c>% A 是 n x n 矩阵, 得到 n</span>
-</span></span><span class=line><span class=cl>    <span class=n>p</span><span class=p>=</span><span class=nb>size</span><span class=p>(</span><span class=n>B</span><span class=p>,</span><span class=mi>2</span><span class=p>);</span>   <span class=c>% B 是 n x p 矩阵, 得到 p</span>
-</span></span><span class=line><span class=cl>    <span class=c>%%%%%%%%%%%%</span>
-</span></span><span class=line><span class=cl>    <span class=n>M</span><span class=p>=[</span><span class=nb>eye</span><span class=p>(</span><span class=n>n</span><span class=p>);</span><span class=nb>zeros</span><span class=p>(</span><span class=n>N</span><span class=o>*</span><span class=n>n</span><span class=p>,</span><span class=n>n</span><span class=p>)];</span> <span class=c>% 初始化 M 矩阵. M 矩阵是 (N+1)n x n的， </span>
-</span></span><span class=line><span class=cl>                             <span class=c>% 它上面是 n x n 个 &#34;I&#34;, 这一步先把下半部</span>
-</span></span><span class=line><span class=cl>                             <span class=c>% 分写成 0 </span>
-</span></span><span class=line><span class=cl>    <span class=n>C</span><span class=p>=</span><span class=nb>zeros</span><span class=p>((</span><span class=n>N</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=n>n</span><span class=p>,</span><span class=n>N</span><span class=o>*</span><span class=n>p</span><span class=p>);</span> <span class=c>% 初始化 C 矩阵, 这一步令它有 (N+1)n x NP 个 0</span>
-</span></span><span class=line><span class=cl>    <span class=c>% 定义M 和 C </span>
-</span></span><span class=line><span class=cl>    <span class=n>tmp</span><span class=p>=</span><span class=nb>eye</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>  <span class=c>%定义一个n x n 的 I 矩阵</span>
-</span></span><span class=line><span class=cl>    <span class=c>%　更新Ｍ和C</span>
-</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nb>i</span><span class=p>=</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span> <span class=c>% 循环，i 从 1到 N</span>
-</span></span><span class=line><span class=cl>        <span class=n>rows</span> <span class=p>=</span><span class=nb>i</span><span class=o>*</span><span class=n>n</span><span class=o>+</span><span class=p>(</span><span class=mi>1</span><span class=p>:</span><span class=n>n</span><span class=p>);</span> <span class=c>%定义当前行数，从i x n开始，共n行 </span>
-</span></span><span class=line><span class=cl>        <span class=n>C</span><span class=p>(</span><span class=n>rows</span><span class=p>,:)=[</span><span class=n>tmp</span><span class=o>*</span><span class=n>B</span><span class=p>,</span><span class=n>C</span><span class=p>(</span><span class=n>rows</span><span class=o>-</span><span class=n>n</span><span class=p>,</span> <span class=mi>1</span><span class=p>:</span><span class=k>end</span><span class=o>-</span><span class=n>p</span><span class=p>)];</span> <span class=c>%将c矩阵填满</span>
-</span></span><span class=line><span class=cl>        <span class=n>tmp</span><span class=p>=</span> <span class=n>A</span><span class=o>*</span><span class=n>tmp</span><span class=p>;</span> <span class=c>%每一次将tmp左乘一次A</span>
-</span></span><span class=line><span class=cl>        <span class=n>M</span><span class=p>(</span><span class=n>rows</span><span class=p>,:)=</span><span class=n>tmp</span><span class=p>;</span> <span class=c>%将M矩阵写满</span>
-</span></span><span class=line><span class=cl>    <span class=k>end</span>
-</span></span><span class=line><span class=cl>    <span class=c>% 定义Q_bar和R_bar</span>
-</span></span><span class=line><span class=cl>    <span class=n>Q_bar</span> <span class=p>=</span> <span class=n>kron</span><span class=p>(</span><span class=nb>eye</span><span class=p>(</span><span class=n>N</span><span class=p>),</span><span class=n>Q</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=n>Q_bar</span> <span class=p>=</span> <span class=nb>blkdiag</span><span class=p>(</span><span class=n>Q_bar</span><span class=p>,</span><span class=n>F</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=n>R_bar</span> <span class=p>=</span> <span class=n>kron</span><span class=p>(</span><span class=nb>eye</span><span class=p>(</span><span class=n>N</span><span class=p>),</span><span class=n>R</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=c>% 计算G, E, H</span>
-</span></span><span class=line><span class=cl>    <span class=n>G</span><span class=p>=</span><span class=n>M</span><span class=o>&#39;*</span><span class=n>Q_bar</span><span class=o>*</span><span class=n>M</span><span class=p>;</span> <span class=c>% G: n x n</span>
-</span></span><span class=line><span class=cl>    <span class=n>E</span><span class=p>=</span><span class=n>C</span><span class=o>&#39;*</span><span class=n>Q_bar</span><span class=o>*</span><span class=n>M</span><span class=p>;</span> <span class=c>% E: NP x n</span>
-</span></span><span class=line><span class=cl>    <span class=n>H</span><span class=p>=</span><span class=n>C</span><span class=o>&#39;*</span><span class=n>Q_bar</span><span class=o>*</span><span class=n>C</span><span class=o>+</span><span class=n>R_bar</span><span class=p>;</span> <span class=c>% NP x NP</span>
-</span></span><span class=line><span class=cl><span class=k>end</span>
-</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-matlab data-lang=matlab><span class=line><span class=cl><span class=k>function</span><span class=w> </span>u_k<span class=p>=</span><span class=w> </span><span class=nf>Prediction</span><span class=p>(</span>x_k,E,H,N,p<span class=p>)</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>U_k</span> <span class=p>=</span> <span class=nb>zeros</span><span class=p>(</span><span class=n>N</span><span class=o>*</span><span class=n>p</span><span class=p>,</span><span class=mi>1</span><span class=p>);</span> <span class=c>% NP x 1</span>
-</span></span><span class=line><span class=cl>    <span class=n>U_k</span> <span class=p>=</span> <span class=n>quadprog</span><span class=p>(</span><span class=n>H</span><span class=p>,</span><span class=n>E</span><span class=o>*</span><span class=n>x_k</span><span class=p>);</span> <span class=c>% MPC预测控制函数</span>
-</span></span><span class=line><span class=cl>    <span class=n>u_k</span> <span class=p>=</span> <span class=n>U_k</span><span class=p>(</span><span class=mi>1</span><span class=p>:</span><span class=n>p</span><span class=p>,</span><span class=mi>1</span><span class=p>);</span> <span class=c>% 取第一个结果</span>
-</span></span><span class=line><span class=cl><span class=k>end</span>
-</span></span></code></pre></td></tr></table></div></div></article><div id=sharingbuttons><a class=resp-sharing-button__link href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://twitter.com/intent/tweet/?text=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5.0-4.55 2.04-4.55 4.54.0.36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3.0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35.0 12.92-6.92 12.92-12.93.0-.2.0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg></div></div></a><a class=resp-sharing-button__link href="mailto:?subject=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target=_self rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9.0 6v12c0 1.1.9 2 2 2h20c1.1.0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17.0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1.0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08.0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6.0 2.5 1 2.6 2.5.0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f&amp;resubmit=true&amp;title=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96.0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65.0 3-1.35 3-3s-1.35-3-3-3c-1.38.0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65.0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66.0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64.0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4.0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6.0.23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1.0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1.0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg></div></div></a><a class=resp-sharing-button__link href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3.0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7.0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1.0-5.2 4.2-9.4 9.4-9.4 2.5.0 4.9 1 6.7 2.8s2.8 4.2 2.8 6.7c-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2s0-.5.1-.6.3-.3.4-.5c.2-.1.3-.3.4-.5s0-.4.0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f&amp;t=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314 17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258s2.552-5.27 3.877-8.052L103.49.0h18.69L77.84 83.308v53.087h-16.9v-54.08z"/></svg></div></div></a><a class=resp-sharing-button__link href="https://telegram.me/share/url?text=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target=_blank rel=noopener aria-label><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden=true class="resp-sharing-button__icon resp-sharing-button__icon--solid"><svg viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64.0 9.508.0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102.0 001.75.527l2.96-2.41a.405.405.0 01.494-.013l5.34 3.87a1.1 1.1.0 001.046.135 1.1 1.1.0 00.682-.803l3.91-18.795A1.102 1.102.0 0022.5.075L.706 8.475z"/></svg></div></div></a></div><div class=paginator><a></a><a class=link href=https://seashore.top/Blog_Hugo/post/2024/03/18/%E5%8F%8C%E8%BD%AE%E8%B6%B3%E5%BC%8F%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6%E5%99%A8%E8%AE%BE%E8%AE%A1/>next →</a></div><div class=comment><script src=https://giscus.app/client.js data-repo=weastur/hugo-texify2 data-repo-id=R_kgDOJwiYnA data-category=Comments data-category-id=DIC_kwDOJwiYnM4CXVgQ data-mapping=title data-strict=1 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></main><footer id=footer><div><span>© 2024</span> - <span>2024</span></div><div><span><img src=https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png>
-<a href=https://beian.miit.gov.cn/ target=_blank>豫ICP备2024056598号-1</a></span></div><div><span>Powered by </span><a class=link target=_blank href=https://gohugo.io/>Hugo</a>
-<span>🍦 Theme </span><a class=link target=_blank href=https://texify2.io>TeXify2</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
-<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
+$$<p>由于H中的 $\overline{Q}$, $C$, $\overline{R}$ 都为正定阵，所以结果一定是正定的，故得证</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="c">% 这是一个通用的 MPC 模型预测算法的代码</span>
+</span></span><span class="line"><span class="cl"><span class="n">clear</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">clear</span> <span class="n">all</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">clc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">%%%%%系统矩阵</span>
+</span></span><span class="line"><span class="cl"><span class="n">A</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mf">0.1</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="p">=</span> <span class="p">[</span><span class="mf">0.2</span> <span class="mi">1</span><span class="p">;</span> <span class="mf">0.5</span> <span class="mi">2</span><span class="p">];</span> <span class="c">% 大小取决于输入量的数目</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">%%%%% 权重矩阵</span>
+</span></span><span class="line"><span class="cl"><span class="n">Q</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">F</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">R</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mf">0.1</span><span class="p">];</span> <span class="c">% 大小取决于输入量</span>
+</span></span><span class="line"><span class="cl"><span class="n">k_step</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c">% 走100步</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x_k</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k_step</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_k</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">;</span> <span class="o">-</span><span class="mi">20</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">u_k</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">k_step</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">N</span> <span class="p">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c">% 预测区间</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">E</span><span class="p">,</span> <span class="n">H</span><span class="p">]</span> <span class="p">=</span> <span class="n">MPC_Matrices</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span><span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">k</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span> <span class="n">k_step</span>
+</span></span><span class="line"><span class="cl">    <span class="n">u_k</span><span class="p">(:,</span> <span class="n">k</span><span class="p">)</span> <span class="p">=</span> <span class="n">Prediction</span><span class="p">(</span><span class="n">x_k</span><span class="p">(:,</span> <span class="n">k</span><span class="p">),</span> <span class="n">E</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_k</span><span class="p">(:,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">x_k</span><span class="p">(:,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u_k</span><span class="p">(:,</span> <span class="n">k</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">hold</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">x_k</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plot</span><span class="p">(</span><span class="n">x_k</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">:));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plot</span><span class="p">(</span><span class="n">x_k</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">:));</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">legend</span><span class="p">(</span>&#34;<span class="n">x1</span>&#34;<span class="p">,</span> &#34;<span class="n">x2</span>&#34;<span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">hold</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">hold</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">x_k</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plot</span><span class="p">(</span><span class="n">u_k</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">:));</span>    
+</span></span><span class="line"><span class="cl">    <span class="n">plot</span><span class="p">(</span><span class="n">u_k</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">:));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">legend</span><span class="p">(</span>&#34;<span class="n">u1</span>&#34;<span class="p">,</span> &#34;<span class="n">u2</span>&#34;<span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="k">function</span><span class="w">  </span>[E , H]<span class="p">=</span><span class="nf">MPC_Matrices</span><span class="p">(</span>A,B,Q,R,F,N<span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">n</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>   <span class="c">% A 是 n x n 矩阵, 得到 n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>   <span class="c">% B 是 n x p 矩阵, 得到 p</span>
+</span></span><span class="line"><span class="cl">    <span class="c">%%%%%%%%%%%%</span>
+</span></span><span class="line"><span class="cl">    <span class="n">M</span><span class="p">=[</span><span class="nb">eye</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="nb">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">)];</span> <span class="c">% 初始化 M 矩阵. M 矩阵是 (N+1)n x n的， </span>
+</span></span><span class="line"><span class="cl">                             <span class="c">% 它上面是 n x n 个 &#34;I&#34;, 这一步先把下半部</span>
+</span></span><span class="line"><span class="cl">                             <span class="c">% 分写成 0 </span>
+</span></span><span class="line"><span class="cl">    <span class="n">C</span><span class="p">=</span><span class="nb">zeros</span><span class="p">((</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="n">N</span><span class="o">*</span><span class="n">p</span><span class="p">);</span> <span class="c">% 初始化 C 矩阵, 这一步令它有 (N+1)n x NP 个 0</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% 定义M 和 C </span>
+</span></span><span class="line"><span class="cl">    <span class="n">tmp</span><span class="p">=</span><span class="nb">eye</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>  <span class="c">%定义一个n x n 的 I 矩阵</span>
+</span></span><span class="line"><span class="cl">    <span class="c">%　更新Ｍ和C</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N</span> <span class="c">% 循环，i 从 1到 N</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rows</span> <span class="p">=</span><span class="nb">i</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">);</span> <span class="c">%定义当前行数，从i x n开始，共n行 </span>
+</span></span><span class="line"><span class="cl">        <span class="n">C</span><span class="p">(</span><span class="n">rows</span><span class="p">,:)=[</span><span class="n">tmp</span><span class="o">*</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">(</span><span class="n">rows</span><span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="n">p</span><span class="p">)];</span> <span class="c">%将c矩阵填满</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tmp</span><span class="p">=</span> <span class="n">A</span><span class="o">*</span><span class="n">tmp</span><span class="p">;</span> <span class="c">%每一次将tmp左乘一次A</span>
+</span></span><span class="line"><span class="cl">        <span class="n">M</span><span class="p">(</span><span class="n">rows</span><span class="p">,:)=</span><span class="n">tmp</span><span class="p">;</span> <span class="c">%将M矩阵写满</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% 定义Q_bar和R_bar</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Q_bar</span> <span class="p">=</span> <span class="n">kron</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">N</span><span class="p">),</span><span class="n">Q</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Q_bar</span> <span class="p">=</span> <span class="nb">blkdiag</span><span class="p">(</span><span class="n">Q_bar</span><span class="p">,</span><span class="n">F</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">R_bar</span> <span class="p">=</span> <span class="n">kron</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">N</span><span class="p">),</span><span class="n">R</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c">% 计算G, E, H</span>
+</span></span><span class="line"><span class="cl">    <span class="n">G</span><span class="p">=</span><span class="n">M</span><span class="o">&#39;*</span><span class="n">Q_bar</span><span class="o">*</span><span class="n">M</span><span class="p">;</span> <span class="c">% G: n x n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E</span><span class="p">=</span><span class="n">C</span><span class="o">&#39;*</span><span class="n">Q_bar</span><span class="o">*</span><span class="n">M</span><span class="p">;</span> <span class="c">% E: NP x n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span><span class="p">=</span><span class="n">C</span><span class="o">&#39;*</span><span class="n">Q_bar</span><span class="o">*</span><span class="n">C</span><span class="o">+</span><span class="n">R_bar</span><span class="p">;</span> <span class="c">% NP x NP</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-matlab" data-lang="matlab"><span class="line"><span class="cl"><span class="k">function</span><span class="w"> </span>u_k<span class="p">=</span><span class="w"> </span><span class="nf">Prediction</span><span class="p">(</span>x_k,E,H,N,p<span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">U_k</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="c">% NP x 1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">U_k</span> <span class="p">=</span> <span class="n">quadprog</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">E</span><span class="o">*</span><span class="n">x_k</span><span class="p">);</span> <span class="c">% MPC预测控制函数</span>
+</span></span><span class="line"><span class="cl">    <span class="n">u_k</span> <span class="p">=</span> <span class="n">U_k</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="c">% 取第一个结果</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+    
+  </article>
+  
+
+<div id="sharingbuttons">
+    
+    
+    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="mailto:?subject=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6&amp;body=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target="_self" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f&amp;resubmit=true&amp;title=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="whatsapp://send?text=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f&amp;t=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><path fill-rule="evenodd" d="M60.94 82.314L17 0h20.08l25.85 52.093c.397.927.86 1.888 1.39 2.883.53.994.995 2.02 1.393 3.08.265.4.463.764.596 1.095.13.334.262.63.395.898.662 1.325 1.26 2.618 1.79 3.877.53 1.26.993 2.42 1.39 3.48 1.06-2.254 2.22-4.673 3.48-7.258 1.26-2.585 2.552-5.27 3.877-8.052L103.49 0h18.69L77.84 83.308v53.087h-16.9v-54.08z"></path></svg>
+        </div>
+      </div>
+    </a>
+    
+
+    
+    
+    <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=MPC%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b%e6%8e%a7%e5%88%b6&amp;url=https%3a%2f%2fseashore.top%2fBlog_Hugo%2fpost%2f2024%2f03%2f18%2fmpc%25E6%25A8%25A1%25E5%259E%258B%25E9%25A2%2584%25E6%25B5%258B%25E6%258E%25A7%25E5%2588%25B6%2f" target="_blank" rel="noopener" aria-label="">
+      <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z"/></svg>
+        </div>
+      </div>
+    </a>
+    
+</div>
+
+  <div class="paginator">
+    
+    <a></a>
+    
+    
+    <a class="link" href="https://seashore.top/Blog_Hugo/post/2024/03/18/%E5%8F%8C%E8%BD%AE%E8%B6%B3%E5%BC%8F%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6%E5%99%A8%E8%AE%BE%E8%AE%A1/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="weastur/hugo-texify2"
+        data-repo-id="R_kgDOJwiYnA"
+        data-category="Comments"
+        data-category-id="DIC_kwDOJwiYnM4CXVgQ"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  
+
+</main>
+
+    <footer id="footer">
+  <div>
+    <span>© 2024</span> - <span>2024</span>
+  </div>
+  <div>
+    <span><img src="https://gcore.jsdelivr.net/gh/CNhuazhu/TuChuang4/blog/备案图标.png">
+<a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备2024056598号-1</a>
+</span>
+  </div>
+
+  <div>
+    <span>Powered by </span>
+    <a class="link" target="_blank" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" target="_blank" href="https://texify2.io">TeXify2</a>
+  </div>
+
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/Luo25177 target=_blank rel=noopener>GitHub</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
+
+  </div>
+
+  
+  
+
+  
+  
+
+  
+  
+  
+
+
+
+</body>
+
+</html>

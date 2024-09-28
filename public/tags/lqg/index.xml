@@ -1,1 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LQG on Luo's Blog</title><link>https://seashore.top/Blog_Hugo/tags/lqg/</link><description>Recent content in LQG on Luo's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>beloved25177@126.com (落)</managingEditor><webMaster>beloved25177@126.com (落)</webMaster><lastBuildDate>Mon, 18 Mar 2024 17:46:34 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/lqg/index.xml" rel="self" type="application/rss+xml"/><item><title>LQG线性二次高斯</title><link>https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</link><pubDate>Mon, 18 Mar 2024 17:46:34 +0000</pubDate><author>beloved25177@126.com (落)</author><guid>https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</guid><description>LQG线性二次高斯控制器设计</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LQG on Luo&#39;s Blog</title>
+    <link>https://seashore.top/Blog_Hugo/tags/lqg/</link>
+    <description>Recent content in LQG on Luo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>beloved25177@126.com (落)</managingEditor>
+    <webMaster>beloved25177@126.com (落)</webMaster>
+    <lastBuildDate>Mon, 18 Mar 2024 17:46:34 +0000</lastBuildDate><atom:link href="https://seashore.top/Blog_Hugo/tags/lqg/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LQG线性二次高斯</title>
+      <link>https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</link>
+      <pubDate>Mon, 18 Mar 2024 17:46:34 +0000</pubDate>
+      <author>beloved25177@126.com (落)</author>
+      <guid>https://seashore.top/Blog_Hugo/post/2024/03/18/lqg%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E9%AB%98%E6%96%AF/</guid>
+      <description>LQG线性二次高斯控制器设计</description>
+    </item>
+    
+  </channel>
+</rss>
